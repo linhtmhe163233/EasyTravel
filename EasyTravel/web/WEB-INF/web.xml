@@ -2,7 +2,7 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <filter>
         <filter-name>AccessFilter</filter-name>
-        <filter-class>Filter.AccessFilter</filter-class>
+        <filter-class>filter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AccessFilter</filter-name>
@@ -10,27 +10,27 @@
     </filter-mapping>
     <servlet>
         <servlet-name>LoginController</servlet-name>
-        <servlet-class>Controllers.LoginController</servlet-class>
+        <servlet-class>controllers.LoginController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>RegisterController</servlet-name>
-        <servlet-class>Controllers.RegisterController</servlet-class>
+        <servlet-class>controllers.RegisterController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>HomeController</servlet-name>
-        <servlet-class>Controllers.HomeController</servlet-class>
+        <servlet-class>controllers.HomeController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>HotelController</servlet-name>
-        <servlet-class>Controllers.HotelController</servlet-class>
+        <servlet-class>controllers.HotelController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>StaffController</servlet-name>
-        <servlet-class>Controllers.StaffController</servlet-class>
+        <servlet-class>controllers.StaffController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>TourController</servlet-name>
-        <servlet-class>Controllers.TourController</servlet-class>
+        <servlet-class>controllers.TourController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>

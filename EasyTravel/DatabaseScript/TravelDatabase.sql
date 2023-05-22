@@ -38,6 +38,9 @@ agent_id int,
 constraint tours_to_users foreign key(agent_id) references users(id)
 )
 
+alter table tours
+add image varchar(150) not null
+
 create table staff(
 id int identity(1,1) primary key,
 name nvarchar(80) not null,
