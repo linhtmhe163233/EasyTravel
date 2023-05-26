@@ -53,7 +53,7 @@ public class StaffController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("Views/TravelAgent/StaffList.jsp").forward(request, response);
+        request.getRequestDispatcher("views/TravelAgent/StaffList.jsp").forward(request, response);
     } 
 
     /** 
