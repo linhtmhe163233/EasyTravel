@@ -4,6 +4,7 @@ import java.sql.Date;
 
 public class User {
 
+    private int id;
     private String userame;
     private String password;
     private String fullname;
@@ -11,11 +12,13 @@ public class User {
     private String phonenumber;
     private int role;
     private Date dob;
+    private String status;
 
     public User() {
     }
 
-    public User(String userame, String password, String fullname, String email, String phonenumber, int role, Date dob) {
+    public User(int id, String userame, String password, String fullname, String email, String phonenumber, int role, Date dob, String status) {
+        this.id = id;
         this.userame = userame;
         this.password = password;
         this.fullname = fullname;
@@ -23,6 +26,11 @@ public class User {
         this.phonenumber = phonenumber;
         this.role = role;
         this.dob = dob;
+        this.status = status;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getUserame() {
@@ -53,6 +61,14 @@ public class User {
         return dob;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setUserame(String userame) {
         this.userame = userame;
     }
@@ -81,9 +97,8 @@ public class User {
         this.dob = dob;
     }
 
-    @Override
-    public String toString() {
-        return "User{" + "userame=" + userame + ", password=" + password + ", fullname=" + fullname + ", email=" + email + ", phonenumber=" + phonenumber + ", role=" + role + ", dob=" + dob + '}';
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 }
