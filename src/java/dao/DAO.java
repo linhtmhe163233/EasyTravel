@@ -6,6 +6,7 @@
  * Record of change:
  * DATE            Version             AUTHOR           DESCRIPTION
  * 21-05-2023      1.0                 DucTM           First Implement
+ * 26-05-2023      1.0                 DucTM           Add search() method
  */
 package dao;
 

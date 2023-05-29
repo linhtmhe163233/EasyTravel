@@ -55,7 +55,7 @@ public class VehicleController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("Views/TravelAgent/VehiclesList.jsp").forward(request, response);
+        request.getRequestDispatcher("views/TravelAgent/VehiclesList.jsp").forward(request, response);
     } 
 
     /** 

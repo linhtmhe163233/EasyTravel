@@ -16,6 +16,7 @@ import java.sql.Date;
  * @author DucTM
  */
 public class Tour {
+
     private int ID;
     private String name;
     private String type;
@@ -28,8 +29,15 @@ public class Tour {
     private float price;
     private String description;
     private int agentID;
+    private String image;
 
-    public Tour(int ID, String name, String type, boolean isEnabled, String destination, int tripLength, Date availableFrom, Date availableTo, int maxQuantity, float price, String description, int agentID) {
+    public Tour(int ID) {
+        this.ID = ID;
+    }
+    
+    public Tour(int ID, String name, String type, boolean isEnabled, String destination,
+            int tripLength, Date availableFrom, Date availableTo, int maxQuantity,
+            float price, String description, int agentID, String image) {
         this.ID = ID;
         this.name = name;
         this.type = type;
@@ -42,9 +50,12 @@ public class Tour {
         this.price = price;
         this.description = description;
         this.agentID = agentID;
+        this.image = image;
     }
 
-    public Tour(String name, String type, boolean isEnabled, String destination, int tripLength, Date availableFrom, Date availableTo, int maxQuantity, float price, String description, int agentID) {
+    public Tour(String name, String type, boolean isEnabled, String destination,
+            int tripLength, Date availableFrom, Date availableTo, int maxQuantity,
+            float price, String description, int agentID, String image) {
         this.name = name;
         this.type = type;
         this.isEnabled = isEnabled;
@@ -56,6 +67,7 @@ public class Tour {
         this.price = price;
         this.description = description;
         this.agentID = agentID;
+        this.image = image;
     }
 
     public int getID() {
@@ -70,7 +82,7 @@ public class Tour {
         return type;
     }
 
-    public boolean isIsEnabled() {
+    public boolean isEnabled() {
         return isEnabled;
     }
 
@@ -104,6 +116,10 @@ public class Tour {
 
     public int getAgentID() {
         return agentID;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public void setID(int ID) {
@@ -153,5 +169,10 @@ public class Tour {
     public void setAgentID(int agentID) {
         this.agentID = agentID;
     }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
     
+
 }

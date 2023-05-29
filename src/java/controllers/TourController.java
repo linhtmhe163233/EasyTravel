@@ -53,7 +53,7 @@ public class TourController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("Views/TravelAgent/AddNewTour.jsp").forward(request, response);
+        request.getRequestDispatcher("views/TravelAgent/AddNewTour.jsp").forward(request, response);
         processRequest(request, response);
     } 
 

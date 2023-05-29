@@ -1,19 +1,21 @@
-
 package models;
 
+import java.sql.Date;
+
 public class User {
+
     private String userame;
     private String password;
     private String fullname;
     private String email;
     private String phonenumber;
     private int role;
-    private int dob;
+    private Date dob;
 
     public User() {
     }
 
-    public User(String userame, String password, String fullname, String email, String phonenumber, int role, int dob) {
+    public User(String userame, String password, String fullname, String email, String phonenumber, int role, Date dob) {
         this.userame = userame;
         this.password = password;
         this.fullname = fullname;
@@ -47,7 +49,7 @@ public class User {
         return role;
     }
 
-    public int getDob() {
+    public Date getDob() {
         return dob;
     }
 
@@ -75,7 +77,7 @@ public class User {
         this.role = role;
     }
 
-    public void setDob(int dob) {
+    public void setDob(Date dob) {
         this.dob = dob;
     }
 
@@ -83,7 +85,5 @@ public class User {
     public String toString() {
         return "User{" + "userame=" + userame + ", password=" + password + ", fullname=" + fullname + ", email=" + email + ", phonenumber=" + phonenumber + ", role=" + role + ", dob=" + dob + '}';
     }
-   
-     
 
 }
