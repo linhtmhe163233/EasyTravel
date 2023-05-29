@@ -1,20 +1,31 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ * ISP392-IS1701-Group6
+ * EasyTravel
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 27-05-2023      1.0                 DucTM           First Implement
  */
 
 package controllers;
 
+import dao.DAO;
+import dao.TourDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import models.Tour;
 
-/**
- *
- * @author tranm
+/*
+ * This class controls the home page of the website
+ * 
+ * @author DucTM
  */
 public class HomeController extends HttpServlet {
    
@@ -53,6 +64,14 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        DAO dao;
+        try {
+            dao = new TourDAO();
+            List<Tour> list = dao.getAll();
+            request.setAttribute("list", list);
+        } catch (Exception ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         request.getRequestDispatcher("views/HomePage.jsp").forward(request, response);
     } 
 
