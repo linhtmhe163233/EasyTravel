@@ -13,6 +13,11 @@
     </head>
     <body>
         <h1>Login</h1>
-        <a href="/EasyTravel/register"><button>Register</button></a>
+        <form action="/login" method="post">
+            Username: <input type="text" name ="username"/><br><!-- comment -->
+            Password: <input type="text" name ="password"/><br>
+            <input type="submit" value="Login"/><br>
+            <a href="/EasyTravel/register">Register</a><br>
+            <a href="/EasyTravel/register">Forgot password</a>
     </body>
 </html>
