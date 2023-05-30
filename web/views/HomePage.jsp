@@ -29,8 +29,8 @@
         <div class="d-flex flex-wrap flex-row justify-content-start w-75 mx-auto mt-4" style="column-gap: 8.5rem; row-gap: 2rem">
             <c:forEach items="${list}" var="tour">
                 <div class="card rounded" style="width: 18rem;">
-                    <img class="card-img-top border-bottom border-dark pb-4 text-truncate rounded-top" 
-                         src="./images/sapa.png" alt="${tour.name}">
+                    <img class="card-img-top border-bottom border-dark pb-4 text-truncate rounded-top img-fluid" 
+                         src="./images/${tour.image}" alt="${tour.name}" style="max-height: 216px">
                     <div class="card-body">
                         <h6 class="card-title text-truncate" title="${tour.name}">${tour.name}</h6>
                         <p class="card-text border-bottom border-dark pb-2 text-truncate">${tour.destination}</p>

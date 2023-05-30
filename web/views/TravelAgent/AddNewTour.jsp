@@ -21,7 +21,7 @@
     </head>
     <body>
         <h1 class="text-center mb-4">Add a new tour</h1>
-        <form method="POST" action="/EasyTravel/tours" class="w-75 mx-auto" enctype="multipart/data-form">
+        <form method="POST" action="/EasyTravel/tours" class="w-75 mx-auto" enctype="multipart/form-data">
             <div class="form-row">
                 <div class="form-group col-6">
                     <label for="name">Tour name</label>
@@ -71,7 +71,7 @@
             <p class="mt-3 mb-0">Image</p>
             <div class="custom-file mb-3">
                 <input type="file" class="custom-file-input" id="image" name="image" required  
-                       accept="image/gif, image/*">
+                       accept="image/*">
                 <label class="custom-file-label" for="image">Choose image</label>
             </div>
             <img id="imageDisplay" class="img-fluid">
