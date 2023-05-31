@@ -3,6 +3,7 @@
     Created on : 17/05/2023
     Author     : DucTM
     Update on  : 29/05/2023, implements some elements
+    Update on  : 31/05/2023, add date constraints
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -84,5 +85,5 @@
             <a href="/EasyTravel/home" class="btn btn-danger">Cancel</a>
         </form>
     </body>
-    <script src="js/AddNewTour.js" type="text/javascript"></script>
+    <script src="./js/AddNewTour.js"></script>
 </html>
