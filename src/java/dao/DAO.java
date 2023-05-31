@@ -7,6 +7,7 @@
  * DATE            Version             AUTHOR           DESCRIPTION
  * 21-05-2023      1.0                 DucTM           First Implement
  * 26-05-2023      1.0                 DucTM           Add search() method
+ * 31-05-2023      1.0                 DucTM           Add getBy(int agentid) method
  */
 package dao;
 
@@ -24,7 +25,7 @@ public interface DAO<T> {
 
     List<T> getAll();
 
-    T get(int id);
+    List<T> get(int id);
 
     void save(T t);
 
@@ -32,5 +33,5 @@ public interface DAO<T> {
 
     void delete(T t);
     
-    void search(T t);
+    List<T> search(String keyword);
 }
