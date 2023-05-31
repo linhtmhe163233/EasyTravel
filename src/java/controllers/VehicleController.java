@@ -7,13 +7,10 @@ package controllers;
 
 import dao.VehicleDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +20,6 @@ import models.Vehicle;
  *
  * @author tranm
  */
-@WebServlet(name="VehicleController", urlPatterns={"/vehicles"})
 public class VehicleController extends HttpServlet {
    
     

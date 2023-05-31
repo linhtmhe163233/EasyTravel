@@ -23,7 +23,7 @@ public class UserDao extends DBContext implements DAO<User> {
     }
 
     @Override
-    public User get(int id) {
+    public List<User> get(int id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -43,7 +43,7 @@ public class UserDao extends DBContext implements DAO<User> {
     }
 
     @Override
-    public void search(User t) {
+    public List<User> search(String keyword) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
