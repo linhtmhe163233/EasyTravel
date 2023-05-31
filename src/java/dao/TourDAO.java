@@ -68,9 +68,9 @@ public class TourDAO extends DBContext implements DAO<Tour> {
                 price = rs.getFloat("price");
                 description = rs.getString("description");
                 agentID = rs.getInt("agent_id");
-                image=rs.getString("image");
+                image = rs.getString("image");
 
-                tour = new Tour(ID, name, type, isEnabled, destination, tripLength, availableFrom, 
+                tour = new Tour(ID, name, type, isEnabled, destination, tripLength, availableFrom,
                         availableTo, maxQuantity, price, description, agentID, image);
                 list.add(tour);
             }
@@ -83,42 +83,43 @@ public class TourDAO extends DBContext implements DAO<Tour> {
     }
 
     @Override
-    public Tour get(int id) {
-        String query = "select * from tours where id=?";
-        
-        Tour tour = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, id);
-
-            rs = ps.executeQuery();
-            rs.next();
-
-            String name = rs.getString("name");
-            String type = rs.getString("type");
-            boolean isEnabled = rs.getBoolean("is_enabled");
-            String destination = rs.getString("destination");
-            int tripLength = rs.getInt("trip_length");
-            Date availableFrom = rs.getDate("available_from");
-            Date availableTo = rs.getDate("available_to");
-            int maxQuantity = rs.getInt("max_quantity");
-            float price = rs.getFloat("price");
-            String description = rs.getString("description");
-            int agentID = rs.getInt("agent_id");
-            String image=rs.getString("image");
-
-            tour = new Tour(id, name, type, isEnabled, destination, tripLength, availableFrom, 
-                    availableTo, maxQuantity, price, description, agentID, image);
-
-        } catch (SQLException ex) {
-            Logger.getLogger(TourDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            super.close(conn, ps, rs);
-        }
-        return tour;
+    public List<Tour> get(int id) {
+        throw new UnsupportedOperationException("Not supported yet.");
+//        String query = "select * from tours where id=?";
+//        
+//        Tour tour = null;
+//        PreparedStatement ps = null;
+//        ResultSet rs = null;
+//
+//        try {
+//            ps = conn.prepareStatement(query);
+//            ps.setInt(1, id);
+//
+//            rs = ps.executeQuery();
+//            rs.next();
+//
+//            String name = rs.getString("name");
+//            String type = rs.getString("type");
+//            boolean isEnabled = rs.getBoolean("is_enabled");
+//            String destination = rs.getString("destination");
+//            int tripLength = rs.getInt("trip_length");
+//            Date availableFrom = rs.getDate("available_from");
+//            Date availableTo = rs.getDate("available_to");
+//            int maxQuantity = rs.getInt("max_quantity");
+//            float price = rs.getFloat("price");
+//            String description = rs.getString("description");
+//            int agentID = rs.getInt("agent_id");
+//            String image=rs.getString("image");
+//
+//            tour = new Tour(id, name, type, isEnabled, destination, tripLength, availableFrom, 
+//                    availableTo, maxQuantity, price, description, agentID, image);
+//
+//        } catch (SQLException ex) {
+//            Logger.getLogger(TourDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        } finally {
+//            super.close(conn, ps, rs);
+//        }
+//        return tour;
     }
 
     @Override
@@ -163,7 +164,7 @@ public class TourDAO extends DBContext implements DAO<Tour> {
     }
 
     @Override
-    public void search(Tour t) {
+    public List<Tour> search(String keyword) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

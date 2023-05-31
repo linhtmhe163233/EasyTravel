@@ -1,20 +1,32 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ * ISP392-IS1701-Group6
+ * EasyTravel
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 31-05-2023      1.0                 DucTM           First Implement
  */
 
 package controllers;
 
+import dao.DAO;
+import dao.StaffDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import models.Staff;
 
-/**
- *
- * @author tranm
+
+/*
+ * This class controls the staff list and perform CRUD functions
+ * 
+ * @author DucTM
  */
 public class StaffController extends HttpServlet {
    
@@ -53,6 +65,14 @@ public class StaffController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        try {
+            DAO dao = new StaffDAO();
+            int agentID = 3; //((User)session.getAttribute("user")).getID();
+            List<Staff> list = dao.get(agentID);
+            request.setAttribute("list", list);
+        } catch (Exception ex) {
+            Logger.getLogger(StaffController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         request.getRequestDispatcher("views/TravelAgent/StaffList.jsp").forward(request, response);
     } 
 
