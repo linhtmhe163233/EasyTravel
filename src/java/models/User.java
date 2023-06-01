@@ -29,6 +29,10 @@ public class User {
         this.status = status;
     }
 
+    public User(int id, String fullname, String username, String password, Date dob, String email, String phone, String role, String status) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     public int getId() {
         return id;
     }
