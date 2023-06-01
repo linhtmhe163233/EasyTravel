@@ -58,7 +58,7 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
     }
 
     @Override
-    public Hotel get(int id) {
+    public List<Hotel> get(int id) {
         String query = "select * from hotels where id=?";
         Hotel hotel = null;
         PreparedStatement ps = null;
@@ -82,7 +82,7 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
         } finally {
             super.close(conn, ps, rs);
         }
-        return hotel;
+        return null;
     }
 
     @Override
@@ -147,11 +147,7 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
         }
     }
 
-    @Override
-    public void search(Hotel t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
+  
     @Override
     public List<Hotel> search(String keyword) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
