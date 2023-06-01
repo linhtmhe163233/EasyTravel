@@ -15,12 +15,18 @@
         <meta name="author" content="Group6">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link href="css/fontawesome.min.css" rel="stylesheet"/>
+        <link href="css/all.css" rel="stylesheet" type="text/css"/>
         <title>EasyTravel | Staff</title>
     </head>
     <body>
-        <h1>Staff</h1>
-        <table class="table table-hover table-bordered w-75 mx-auto">
+        <div class="">
+            <h1 class="text-center">Staff</h1>
+            <button class="btn btn-primary btn-rounded mr-4 float-right" 
+                    data-toggle="modal" data-target="#modalAddStaff">
+                Add
+            </button>
+        </div>
+        <table class="table table-hover table-bordered w-75 mx-auto" id="staffTable">
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -38,12 +44,85 @@
                         <td>${staff.name}</td>
                         <td>${staff.phone}</td>
                         <td>${staff.DOB}</td>
-                        <td>${staff.gender}</td>
+                        <td>${staff.gender?"Male":"Female"}</td>
                         <td><a href="#" class="badge badge-info">Edit</a></td>
                         <td><a href="#" class="badge badge-danger">Delete</a></td>
                     </tr> 
                 </c:forEach>
             </tbody>
         </table>
+        <div class="modal fade" id="modalAddStaff" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Add a new staff</h4>
+                        <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="/staff" method="POST" novalidate id="form" class="needs-validation">
+                        <div class="modal-body mx-3">
+                            <div class="md-form mb-5">
+                                <label data-error="wrong" data-success="right" for="name">Staff name</label>
+                                <input type="text" id="name" class="form-control validate" name="name" required maxlength="80">
+                            </div>
+                            <div class="md-form mb-5">
+                                <label data-error="wrong" data-success="right" for="phone">Phone number</label>
+                                <input type="text" id="phone" class="form-control validate" name="phone" required>
+                            </div>
+                            <div class="md-form mb-5">
+                                <label data-error="wrong" data-success="right" for="dob">Date of birth</label>
+                                <input type="date" id="dob" class="form-control" name="DOB" required>
+                                <div class="valid-feedback">Looks good!</div>
+                                <div class="invalid-feedback">Age must be over 18.</div>
+                            </div>
+                            <div class="md-form mb-5">
+                                <label data-error="wrong" data-success="right" for="gender">Gender</label>
+                                <select name="gender" class="form-control" id="gender" required>
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-center">
+                            <button class="btn btn-primary" type="submit">Confirm</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </body>
+    <script src="js/jquery-3.7.0.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        let dob = document.getElementById("dob");
+                
+        function checkDOB(dob){
+            let birthDate = new Date(dob.value);
+            birthDate.setFullYear(birthDate.getFullYear() + 18);
+            if (birthDate > new Date()) {
+                dob.classList.add("is-invalid");
+            } else {
+                dob.classList.remove("is-invalid");
+            }
+        }
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                let forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                let validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+
+    </script>
 </html>

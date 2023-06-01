@@ -5,7 +5,7 @@
 
 package controllers;
 
-import dao.VehicleDAO;
+//import dao.VehicleDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -35,14 +35,14 @@ public class VehicleController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        VehicleDAO dao;
-        try {
-            dao = new VehicleDAO();
-            List<Vehicle> list = dao.getAll();
-            request.setAttribute("list", list);
-        } catch (Exception ex) {
-            Logger.getLogger(VehicleController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+////        VehicleDAO dao;
+//        try {
+//            dao = new VehicleDAO();
+//            List<Vehicle> list = dao.getAll();
+//            request.setAttribute("list", list);
+//        } catch (Exception ex) {
+//            Logger.getLogger(VehicleController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         request.getRequestDispatcher("views/TravelAgent/VehiclesList.jsp").forward(request, response);
         
     } 
