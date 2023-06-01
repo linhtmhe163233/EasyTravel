@@ -18,6 +18,9 @@ import models.Hotel;
  * @author Ngan Ha
  */
 public class HotelDAO extends DBContext implements DAO<Hotel> {
+    
+     public HotelDAO() throws Exception {
+    }
 
     public List<Hotel> getAll() {
         List<Hotel> list = new ArrayList<>();
@@ -29,6 +32,8 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
         int agent_id;
         Hotel hotel;
 
+        
+        
         PreparedStatement ps = null;
         ResultSet rs = null;
 
