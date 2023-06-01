@@ -29,6 +29,10 @@
         <servlet-name>VehicleController</servlet-name>
         <servlet-class>controllers.VehicleController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateVehicle</servlet-name>
+        <servlet-class>controllers.CreateVehicle</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -56,6 +60,10 @@
     <servlet-mapping>
         <servlet-name>VehicleController</servlet-name>
         <url-pattern>/vehicles</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateVehicle</servlet-name>
+        <url-pattern>/create-vehicle</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
