@@ -1,5 +1,6 @@
 package models;
 
+
 public class Hotel {
 
     private int id;
