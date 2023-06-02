@@ -5,6 +5,7 @@
         <servlet-class>controllers.HomeController</servlet-class>
     </servlet>
     <servlet>
+        <description>EasyTravel/hotels</description>
         <servlet-name>HotelController</servlet-name>
         <servlet-class>controllers.HotelController</servlet-class>
     </servlet>
@@ -69,4 +70,7 @@
             30
         </session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>EasyTravel/hotels</welcome-file>
+    </welcome-file-list>
 </web-app>
