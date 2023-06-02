@@ -10,14 +10,14 @@ public class User {
     private String fullname;
     private String email;
     private String phonenumber;
-    private int role;
+    private String role;
     private Date dob;
     private String status;
 
     public User() {
     }
 
-    public User(int id, String userame, String password, String fullname, String email, String phonenumber, int role, Date dob, String status) {
+    public User(int id, String userame, String password, String fullname, String email, String phonenumber, String role, Date dob, String status) {
         this.id = id;
         this.userame = userame;
         this.password = password;
@@ -27,10 +27,6 @@ public class User {
         this.role = role;
         this.dob = dob;
         this.status = status;
-    }
-
-    public User(int id, String fullname, String username, String password, Date dob, String email, String phone, String role, String status) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public int getId() {
@@ -57,7 +53,7 @@ public class User {
         return phonenumber;
     }
 
-    public int getRole() {
+    public String getRole() {
         return role;
     }
 
@@ -93,7 +89,7 @@ public class User {
         this.phonenumber = phonenumber;
     }
 
-    public void setRole(int role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
@@ -104,5 +100,14 @@ public class User {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", userame=" + userame + ", password=" + password + ", fullname=" + fullname + ", email=" + email + ", phonenumber=" + phonenumber + ", role=" + role + ", dob=" + dob + ", status=" + status + '}';
+    }
+
+    
+ 
+    
 
 }

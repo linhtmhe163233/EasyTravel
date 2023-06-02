@@ -27,53 +27,51 @@ public class UserDao extends DBContext implements DAO<User> {
 
     public User checkLogin(String username, String password) {
 
-        int id;
-        username = null;
-        password = null;
-        String fullname;
-        Date dob;
-        String email;
-        String phone;
-        String role;
-        String status;
-
-        User user;
+//        int id;
+////        username = null;
+////        password = null;
+////        String fullname;
+////        Date dob;
+////        String email;
+////        String phone;
+////        String role;
+////        String status;
+//
+////        User user;
+////        PreparedStatement ps ;
+////        ResultSet rs ;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String login = "SELECT * FROM Accounts WHERE account_name=? AND password=?";
+        String login = "SELECT * FROM users WHERE account_name=? AND password=?";
 
         try {
             ps = conn.prepareStatement(login);
             ps.setString(1, username);
             ps.setString(2, password);
             rs = ps.executeQuery();
-
-            if (rs.next()) {
-                id = rs.getInt("id");
-                username = rs.getString("account_name");
-                fullname = rs.getString("full_name");
-                password = rs.getString("password");
-                dob = rs.getDate("DOB");
-                email = rs.getString("email");
-                phone = rs.getString("phone");
-                role = rs.getString("role");
-                status = rs.getString("status");
-
-                user = new User(id, fullname, username, password, dob, email, phone, role, status);
-
+            while (rs.next()) {
+                return new User(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getDate(8),
+                        rs.getString(9));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         return null;
     }
 
     public boolean insertUser(String newUsername, String newEmail, String newPassword, String newFullname, String newPhone, String newStatus, String newRole, Date newDob) {
 
         PreparedStatement ps = null;
-        String sql = "INSERT INTO Accounts(username,email, password, fullname, phone, status, role,dob) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users(username,email, password, fullname, phone, status, role,dob) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
 
         try {
 
@@ -130,7 +128,7 @@ public class UserDao extends DBContext implements DAO<User> {
                 role = rs.getString("role");
                 status = rs.getString("status");
 
-                user = new User(id, fullname, username, password, dob, email, phone, role, status);
+                user = new User(id, username, password, fullname, email, phone, role, dob, status);
                 list.add(user);
             }
         } catch (SQLException ex) {
@@ -164,7 +162,7 @@ public class UserDao extends DBContext implements DAO<User> {
     @Override
     public List<User> search(String keyword) {
         List<User> list = new ArrayList<>();
-        String sql = "SELECT * FROM Accounts WHERE full_name like ?";
+        String sql = "SELECT * FROM users WHERE full_name like ?";
 
         int id;
         String username;
@@ -195,7 +193,7 @@ public class UserDao extends DBContext implements DAO<User> {
                 role = rs.getString("role");
                 status = rs.getString("status");
 
-                user = new User(id, fullname, username, password, dob, email, phone, role, status);
+                user = new User(id, username, password, fullname, email, phone, role, dob, status);
                 list.add(user);
             }
         } catch (SQLException e) {
