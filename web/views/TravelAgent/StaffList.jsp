@@ -65,7 +65,7 @@
                             <div class="md-form mb-5">
                                 <label data-error="wrong" data-success="right" for="name">Staff name</label>
                                 <input type="text" id="name" class="form-control validate" name="name" required maxlength="80"
-                                       pattern="^[a-zA-Z\s]*$" value="${staff.name}">
+                                       pattern="^\s*\p{L}+(\s\p{L}+)*\s*$" value="${staff.name}">
                                 <div class="valid-feedback">Looks good!</div>
                                 <div class="invalid-feedback">Name must be fewer than 80 letters and spaces and not empty!</div>
                             </div>
