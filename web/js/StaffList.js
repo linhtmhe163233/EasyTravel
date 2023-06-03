@@ -7,8 +7,6 @@
  * 03-06-2023      1.0                 DucTM           First Implement
  */
 
-
-
 let dob = document.getElementById("dob");
 
 Date.prototype.addYears = function (years) {

@@ -1,4 +1,4 @@
-+<%-- 
+<%-- 
     Document   : LandingPage
     Created on : 17/05/2023
     Author     : DucTM
@@ -85,5 +85,5 @@
             <a href="/EasyTravel/home" class="btn btn-danger">Cancel</a>
         </form>
     </body>
-    <script src="./js/AddNewTour.js"></script>
+    <script src="js/AddNewTour.js"></script>
 </html>
