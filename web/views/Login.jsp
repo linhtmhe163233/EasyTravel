@@ -10,7 +10,19 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Easy Travel | Login</title>
-    </head>
+        <style>
+        h1{
+            text-transform: uppercase;
+            text-align: center;
+            color: black;
+            font-family: arial;
+        }
+        form{
+            text-align: center;
+        }
+    </style>
+    </head
+    
     <body>
         <h1>Login</h1>
         <form action="/EasyTravel/login" method="post">
@@ -20,5 +32,6 @@
             <a href="/EasyTravel/register">Register</a><br>
             <a href="/EasyTravel/register">Forgot password</a>
         </form>
+       
     </body>
 </html>

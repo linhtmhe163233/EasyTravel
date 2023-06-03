@@ -75,24 +75,31 @@ public class RegisterController extends HttpServlet {
         String email = request.getParameter("email");
         String fullname = request.getParameter("fullname");
         String password = request.getParameter("password");
+        String cfpassword = request.getParameter("cfpassword");
         String phone = request.getParameter("phone");
         String role = request.getParameter("role");
         String dob = request.getParameter("dob");
         SendMail mail = new SendMail();
         String pass = mail.createCaptcha();
         int status = 1;
-        
-
-        try ( PrintWriter out = response.getWriter()) {
-            out.println("<h1>Servlet Full name: " + fullname + "</h1>");
-            out.println("<h1>Servlet Username: " + username + "</h1>");
-            out.println("<h1>Servlet Password: " + password + "</h1>");
-            out.println("<h1>Servlet Phone: " + phone + "</h1>");
-            out.println("<h1>Servlet Email: " + email + "</h1>");
-            out.println("<h1>Servlet Role: " + role + "</h1>");
-            out.println("<h1>Servlet DOB: " + dob + "</h1>");
-
+        String messpass = "";
+        if (!password.equals(cfpassword)) {
+            messpass = "Password and confirm password is incorrect";
         }
+//        try ( PrintWriter out = response.getWriter()) {
+//            out.println("<h1>Servlet Full name: " + fullname + "</h1>");
+//            out.println("<h1>Servlet Username: " + username + "</h1>");
+//            out.println("<h1>Servlet Password: " + password + "</h1>");
+//            out.println("<h1>Servlet Phone: " + phone + "</h1>");
+//            out.println("<h1>Servlet Email: " + email + "</h1>");
+//            out.println("<h1>Servlet Role: " + role + "</h1>");
+//            out.println("<h1>Servlet DOB: " + dob + "</h1>");
+//
+//        }
+        request.setAttribute("messpass",messpass);
+        request.setAttribute("username",username);
+        request.getRequestDispatcher("views/Register.jsp").forward(request, response);
+        
     }
 
     /**

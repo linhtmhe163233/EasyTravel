@@ -29,7 +29,17 @@ public class User {
         this.status = status;
     }
 
-    
+    public User(String userame, String password, String fullname, Date dob, String email, String phonenumber, String role, String status) {
+        this.userame = userame;
+        this.password = password;
+        this.fullname = fullname;
+        this.dob = dob;
+        this.email = email;
+        this.phonenumber = phonenumber;
+        this.role = role;
+        this.status = status;
+    }
+       
 
     public int getId() {
         return id;

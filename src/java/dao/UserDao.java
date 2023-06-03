@@ -107,19 +107,19 @@ public class UserDao extends DBContext implements DAO<User> {
     @Override
     public void save(User t) {
         PreparedStatement ps = null;
-        String sql = "INSERT INTO users(id,username,email, password, fullname, phone, status, role,dob) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users(username,email, password, fullname, phone, status, role,dob) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
             ps = conn.prepareStatement(sql);
-            ps.setInt(1, t.getId());
-            ps.setString(2, t.getUserame());
-            ps.setString(3, t.getEmail());
-            ps.setString(4, t.getPassword());
-            ps.setString(5, t.getFullname());
-            ps.setString(6, t.getPhonenumber());
-            ps.setString(7, t.getStatus());
-            ps.setString(8, t.getRole());
-            ps.setDate(9, t.getDob());
+           
+            ps.setString(1, t.getUserame());
+            ps.setString(2, t.getEmail());
+            ps.setString(3, t.getPassword());
+            ps.setString(4, t.getFullname());
+            ps.setString(5, t.getPhonenumber());
+            ps.setString(6, t.getStatus());
+            ps.setString(7, t.getRole());
+            ps.setDate(8, t.getDob());
 
         ps.execute();
         } catch (SQLException ex) {
