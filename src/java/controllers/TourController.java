@@ -89,9 +89,9 @@ public class TourController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String name = request.getParameter("name");
-        String destination = request.getParameter("destination");
-        String type = request.getParameter("type");
+        String name = request.getParameter("name").trim();
+        String destination = request.getParameter("destination").trim();
+        String type = request.getParameter("type").trim();
         float price = Float.parseFloat(request.getParameter("price"));
         Date availableFrom = Date.valueOf(request.getParameter("available_from"));
         Date availableTo = Date.valueOf(request.getParameter("available_to"));
@@ -104,7 +104,7 @@ public class TourController extends HttpServlet {
         String realPath = request.getServletContext().getRealPath("images");
         file.write(realPath + "/" + image);
 
-        String description = request.getParameter("description");
+        String description = request.getParameter("description").trim();
         try {
             DAO dao = new TourDAO();
             dao.save(new Tour(name, type, true, destination, tripLength,
