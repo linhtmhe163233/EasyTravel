@@ -73,8 +73,8 @@ public class StaffDAO extends DBContext implements DAO<Staff> {
     }
 
     @Override
-    public void save(Staff t) {
-        String query = "insert into staff(name, DOB, phone, gender, agent_id"
+    public void save(Staff t) throws Exception{
+        String query = "insert into staff(name, DOB, phone, gender, agent_id)"
                 + "values(?,?,?,?,?)";
 
         PreparedStatement ps = null;
@@ -87,14 +87,16 @@ public class StaffDAO extends DBContext implements DAO<Staff> {
             ps.setBoolean(4, t.isGender());
             ps.setInt(5, t.getAgentID());
             ps.execute();
-
         } catch (SQLException ex) {
-            Logger.getLogger(StaffDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception("Duplicate phone");
         } finally {
             super.close(conn, ps, null);
         }
     }
-
+    public static void main(String[] args) throws Exception {
+        StaffDAO dao = new StaffDAO();
+        dao.save(new Staff("abc", Date.valueOf("2003-01-01"), "0123456786", true, 3));
+    }
     @Override
     public void update(Staff t) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

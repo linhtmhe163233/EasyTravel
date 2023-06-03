@@ -22,7 +22,7 @@
         <div class="">
             <h1 class="text-center">Staff</h1>
             <button class="btn btn-primary btn-rounded mr-4 float-right" 
-                    data-toggle="modal" data-target="#modalAddStaff">
+                    data-toggle="modal" data-target="#modalAddStaff" id="add">
                 Add
             </button>
         </div>
@@ -65,28 +65,31 @@
                             <div class="md-form mb-5">
                                 <label data-error="wrong" data-success="right" for="name">Staff name</label>
                                 <input type="text" id="name" class="form-control validate" name="name" required maxlength="80"
-                                       pattern="^[a-zA-Z\s]*$">
+                                       pattern="^[a-zA-Z\s]*$" value="${staff.name}">
                                 <div class="valid-feedback">Looks good!</div>
                                 <div class="invalid-feedback">Name must be fewer than 80 letters and spaces and not empty!</div>
                             </div>
                             <div class="md-form mb-5">
                                 <label data-error="wrong" data-success="right" for="phone">Phone number</label>
                                 <input type="text" id="phone" class="form-control validate" name="phone" required 
-                                       pattern="^0[0-9]{9}$">
+                                       pattern="^0[0-9]{9}$" value="${staff.phone}">
                                 <div class="valid-feedback">Looks good!</div>
                                 <div class="invalid-feedback">Phone number can only contain 10 digits! Ex:0123456789</div>
+                                <c:if test="${message!=null}">
+                                    <div class="text-danger">Phone must be unique!</div>
+                                </c:if>
                             </div>
                             <div class="md-form mb-5">
                                 <label data-error="wrong" data-success="right" for="dob">Date of birth</label>
-                                <input type="date" id="dob" class="form-control" name="DOB" required>
+                                <input type="date" id="dob" class="form-control" name="DOB" required value="${staff.DOB}">
                                 <div class="valid-feedback">Looks good!</div>
                                 <div class="invalid-feedback">Staff must be over 18 years old</div>
                             </div>
                             <div class="md-form mb-5">
                                 <label data-error="wrong" data-success="right" for="gender">Gender</label>
                                 <select name="gender" class="form-control" id="gender" required>
-                                    <option>Male</option>
-                                    <option>Female</option>
+                                    <option ${staff.gender?"selected":""}>Male</option>
+                                    <option ${staff.gender?"":"selected"}>Female</option>
                                 </select>
                             </div>
                         </div>
@@ -101,4 +104,10 @@
     <script src="js/jquery-3.7.0.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/StaffList.js"></script>
+    <script>
+        let message = '${requestScope.message}';
+        if (message !== '') {
+            document.getElementById("add").click();
+        }
+    </script>
 </html>

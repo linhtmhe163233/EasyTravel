@@ -6,9 +6,10 @@
  * DATE            Version             AUTHOR           DESCRIPTION
  * 03-06-2023      1.0                 DucTM           First Implement
  */
+
+
+
 let dob = document.getElementById("dob");
-let phone = document.getElementById("phone");
-let name = document.getElementById("name");
 
 Date.prototype.addYears = function (years) {
     let date = new Date(this);
