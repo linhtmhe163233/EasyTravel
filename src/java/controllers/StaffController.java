@@ -90,9 +90,9 @@ public class StaffController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String name=request.getParameter("name");
+        String name=request.getParameter("name").trim();
         Date DOB=Date.valueOf(request.getParameter("DOB"));
-        String phone=request.getParameter("phone");
+        String phone=request.getParameter("phone").trim();
         boolean gender=request.getParameter("gender").equals("Male");
         int agentID = 3;//((User)session.getAttribute("user")).getID();
         try {

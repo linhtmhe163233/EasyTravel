@@ -18,10 +18,11 @@ import models.Hotel;
  * @author Ngan Ha
  */
 public class HotelDAO extends DBContext implements DAO<Hotel> {
-    
-     public HotelDAO() throws Exception {
+
+    public HotelDAO() throws Exception {
     }
 
+    @Override
     public List<Hotel> getAll() {
         List<Hotel> list = new ArrayList<>();
         String query = "select * from hotels";
@@ -32,8 +33,6 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
         int agent_id;
         Hotel hotel;
 
-        
-        
         PreparedStatement ps = null;
         ResultSet rs = null;
 
@@ -97,7 +96,7 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
             ps.setString(3, t.getPhone());
             ps.setInt(4, t.getRoom_available());
             ps.setInt(5, t.getAgent_id());
-           
+
             ps.execute();
 
         } catch (SQLException ex) {
@@ -114,13 +113,13 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
                 + "WHERE id = ?";
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement(query); 
+            ps = conn.prepareStatement(query);
             ps.setInt(1, t.getId());
             ps.setInt(2, t.getStars());
             ps.setString(3, t.getPhone());
             ps.setInt(4, t.getRoom_available());
             ps.setInt(5, t.getAgent_id());
-           
+
             ps.execute();
 
         } catch (SQLException ex) {
@@ -134,20 +133,19 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
     public void delete(Hotel t) {
         String query = "DELETE FROM hotels WHERE id = ?";
         PreparedStatement ps = null;
-         try {
-            ps = conn.prepareStatement(query); 
+        try {
+            ps = conn.prepareStatement(query);
             ps.setInt(1, t.getId());
-              
+
             ps.execute();
-            
-         }catch (SQLException ex) {
+
+        } catch (SQLException ex) {
             Logger.getLogger(HotelDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             super.close(conn, ps, null);
         }
     }
 
-  
     @Override
     public List<Hotel> search(String keyword) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

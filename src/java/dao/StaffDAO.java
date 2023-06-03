@@ -93,10 +93,6 @@ public class StaffDAO extends DBContext implements DAO<Staff> {
             super.close(conn, ps, null);
         }
     }
-    public static void main(String[] args) throws Exception {
-        StaffDAO dao = new StaffDAO();
-        dao.save(new Staff("abc", Date.valueOf("2003-01-01"), "0123456786", true, 3));
-    }
     @Override
     public void update(Staff t) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
