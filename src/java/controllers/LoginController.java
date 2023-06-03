@@ -71,14 +71,11 @@ public class LoginController extends HttpServlet {
 //            User u = dao.checkLogin(username,password);
             UserDao dao = new UserDao();
             User u = dao.checkLogin(username, password);
-            System.out.println(1);
             if (u == null) {
-//                response.sendRedirect("Login.jsp");
                 System.out.println(2);
                 request.getRequestDispatcher("views/Login.jsp").forward(request, response);
             } else {
                 response.sendRedirect(request.getContextPath()+"/home");
-                System.out.println("3");
                 
             }
         } catch (Exception ex) {

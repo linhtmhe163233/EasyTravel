@@ -26,24 +26,9 @@ public class UserDao extends DBContext implements DAO<User> {
     }
 
     public User checkLogin(String username, String password) {
-
-//        int id;
-////        username = null;
-////        password = null;
-////        String fullname;
-////        Date dob;
-////        String email;
-////        String phone;
-////        String role;
-////        String status;
-//
-////        User user;
-////        PreparedStatement ps ;
-////        ResultSet rs ;
         PreparedStatement ps = null;
         ResultSet rs = null;
         String login = "SELECT * FROM users WHERE account_name=? AND password=?";
-
         try {
             ps = conn.prepareStatement(login);
             ps.setString(1, username);
@@ -66,35 +51,9 @@ public class UserDao extends DBContext implements DAO<User> {
         } finally {
             super.close(conn, ps, rs);
         }
-
         return null;
     }
-
-//    public boolean insertUser(String newUsername, String newEmail, String newPassword, String newFullname, String newPhone, String newStatus, String newRole, Date newDob) {
-//
-//        PreparedStatement ps = null;
-//        String sql = "INSERT INTO users(username,email, password, fullname, phone, status, role,dob) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
-//
-//        try {
-//
-//            ps = conn.prepareStatement(sql);
-//            ps.setString(1, newUsername);
-//            ps.setString(2, newEmail);
-//            ps.setString(3, newPassword);
-//            ps.setString(4, newFullname);
-//            ps.setString(5, newPhone);
-//            ps.setString(6, newStatus);
-//            ps.setString(7, newRole);
-//            ps.setDate(8, newDob);
-//
-//            int rowsAffected = ps.executeUpdate();
-//            return rowsAffected > 0;
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
+    
     @Override
     public List<User> getAll() {
         List<User> list = new ArrayList();
