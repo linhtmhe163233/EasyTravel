@@ -68,32 +68,31 @@ public class UserDao extends DBContext implements DAO<User> {
         return null;
     }
 
-    public boolean insertUser(String newUsername, String newEmail, String newPassword, String newFullname, String newPhone, String newStatus, String newRole, Date newDob) {
-
-        PreparedStatement ps = null;
-        String sql = "INSERT INTO users(username,email, password, fullname, phone, status, role,dob) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
-
-        try {
-
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, newUsername);
-            ps.setString(2, newEmail);
-            ps.setString(3, newPassword);
-            ps.setString(4, newFullname);
-            ps.setString(5, newPhone);
-            ps.setString(6, newStatus);
-            ps.setString(7, newRole);
-            ps.setDate(8, newDob);
-
-            int rowsAffected = ps.executeUpdate();
-            return rowsAffected > 0;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
+//    public boolean insertUser(String newUsername, String newEmail, String newPassword, String newFullname, String newPhone, String newStatus, String newRole, Date newDob) {
+//
+//        PreparedStatement ps = null;
+//        String sql = "INSERT INTO users(username,email, password, fullname, phone, status, role,dob) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
+//
+//        try {
+//
+//            ps = conn.prepareStatement(sql);
+//            ps.setString(1, newUsername);
+//            ps.setString(2, newEmail);
+//            ps.setString(3, newPassword);
+//            ps.setString(4, newFullname);
+//            ps.setString(5, newPhone);
+//            ps.setString(6, newStatus);
+//            ps.setString(7, newRole);
+//            ps.setDate(8, newDob);
+//
+//            int rowsAffected = ps.executeUpdate();
+//            return rowsAffected > 0;
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return false;
+//    }
     @Override
     public List<User> getAll() {
         List<User> list = new ArrayList();
@@ -146,7 +145,27 @@ public class UserDao extends DBContext implements DAO<User> {
 
     @Override
     public void save(User t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        PreparedStatement ps = null;
+        String sql = "INSERT INTO users(id,username,email, password, fullname, phone, status, role,dob) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, t.getId());
+            ps.setString(2, t.getUserame());
+            ps.setString(3, t.getEmail());
+            ps.setString(4, t.getPassword());
+            ps.setString(5, t.getFullname());
+            ps.setString(6, t.getPhonenumber());
+            ps.setString(7, t.getStatus());
+            ps.setString(8, t.getRole());
+            ps.setDate(9, t.getDob());
+
+        ps.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(StaffDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            super.close(conn, ps, null);
+        }
     }
 
     @Override

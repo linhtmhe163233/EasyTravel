@@ -17,6 +17,7 @@
             Username: <input type="text" name ="username"/><br><!-- comment -->
             Password: <input type="text" name ="password"/><br>
             <input type="submit" value="Login"/><br>
+            <% request.getContextPath()%>/login
             <a href="/EasyTravel/register">Register</a><br>
             <a href="/EasyTravel/register">Forgot password</a>
     </body>
