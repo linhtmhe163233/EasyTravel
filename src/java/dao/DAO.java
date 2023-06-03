@@ -27,7 +27,7 @@ public interface DAO<T> {
 
     List<T> get(int id);
 
-    void save(T t);
+    void save(T t) throws Exception;
 
     void update(T t);
 

@@ -27,7 +27,7 @@ public class TourDAO extends DBContext implements DAO<Tour> {
 
     public TourDAO() throws Exception {
     }
-
+    
     @Override
     public List<Tour> getAll() {
         List<Tour> list = new ArrayList<>();
