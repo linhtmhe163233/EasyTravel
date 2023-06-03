@@ -60,19 +60,21 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="/staff" method="POST" novalidate id="form" class="needs-validation">
+                    <form action="/EasyTravel/staff" method="POST" novalidate id="form" class="needs-validation">
                         <div class="modal-body mx-3">
                             <div class="md-form mb-5">
                                 <label data-error="wrong" data-success="right" for="name">Staff name</label>
-                                <input type="text" id="name" class="form-control validate" name="name" required maxlength="80">
+                                <input type="text" id="name" class="form-control validate" name="name" required maxlength="80"
+                                       pattern="^[a-zA-Z\s]*$">
                                 <div class="valid-feedback">Looks good!</div>
-                                <div class="invalid-feedback">Name must be fewer than 80 characters and not empty!</div>
+                                <div class="invalid-feedback">Name must be fewer than 80 letters and spaces and not empty!</div>
                             </div>
                             <div class="md-form mb-5">
                                 <label data-error="wrong" data-success="right" for="phone">Phone number</label>
-                                <input type="text" id="phone" class="form-control validate" name="phone" required>
+                                <input type="text" id="phone" class="form-control validate" name="phone" required 
+                                       pattern="^0[0-9]{9}$">
                                 <div class="valid-feedback">Looks good!</div>
-                                <div class="invalid-feedback">Phone number can only contain 10 digits! ex:0123456789</div>
+                                <div class="invalid-feedback">Phone number can only contain 10 digits! Ex:0123456789</div>
                             </div>
                             <div class="md-form mb-5">
                                 <label data-error="wrong" data-success="right" for="dob">Date of birth</label>
@@ -98,40 +100,5 @@
     </body>
     <script src="js/jquery-3.7.0.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script>
-        let dob = document.getElementById("dob");
-                
-        function checkDOB(dob){
-            let birthDate = new Date(dob.value);
-            birthDate.setFullYear(birthDate.getFullYear() + 18);
-//            if (birthDate > new Date()) {
-//                dob.classList.add("is-invalid");
-//            } else {
-//                dob.classList.remove("is-invalid");
-//            }
-            return birthDate > new Date();
-        }
-        function checkPhone(phone){
-            
-            return birthDate > new Date();
-        }
-        (function () {
-            'use strict';
-            window.addEventListener('load', function () {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                let forms = document.getElementsByClassName('needs-validation');
-                // Loop over them and prevent submission
-                let validation = Array.prototype.filter.call(forms, function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
-        })();
-
-    </script>
+    <script src="js/StaffList.js"></script>
 </html>

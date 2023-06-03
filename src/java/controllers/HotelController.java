@@ -91,10 +91,8 @@ public class HotelController extends HttpServlet {
 
         try {
             DAO dao = new HotelDAO();
-              List<Hotel> list = dao.getAll();
+            List<Hotel> list = dao.getAll();
             request.setAttribute("list", list);
-
-
         } catch (Exception ex) {
             Logger.getLogger(HotelController.class.getName()).log(Level.SEVERE, null, ex);
         }
