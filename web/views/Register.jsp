@@ -25,10 +25,13 @@
         table{
             text-align: center;
         }
+        p{
+            text-align: center;
+        }
     </style>
     <body>
         <h1>Register</h1>
-        <form action="register" method="post">
+<!--        <form action="register" method="post">
         <table >
 
             <tbody>
@@ -46,7 +49,8 @@
                 </tr>
                 <tr>
                     <td>Confirm password:</td>
-                    <td><input type="password" name="cfpassword"/></td>
+                    <td><input type="password" name="cfpassword"/></td
+                   
                 </tr>
                 <tr>
                     <td>Email:</td>
@@ -71,9 +75,9 @@
                 </tr>
             </tbody>
         </table>
-            <input type="submit" name="submit">
-        </form>
-<!--        <form action="register" method="post">
+            <input type="submit" value="Register">
+        </form>-->
+        <form action="register" method="post">
             Full name: <input type="text" name="fullname"><br>
             Username: <input type="text" name="username"><br>
             Password: <input type="password" name="password"/><br>
@@ -85,8 +89,8 @@
                 <option value="travel agent">Travel agent</option>
             </select><br>
             Date of birth: <input type="date" name="dob"><br>
-            <input type="submit" name="submit">
-        </form>-->
+            <input type="submit" value="Register">
+        </form>
 
 
 <p style="color:red">${messpass}</p>

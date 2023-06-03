@@ -26,8 +26,9 @@
     <body>
         <h1>Login</h1>
         <form action="/EasyTravel/login" method="post">
-            Username: <input type="text" name ="username"/><br><!-- comment -->
+            Username: <input type="text" name ="username" ><br><!-- comment -->
             Password: <input type="password" name ="password"/><br>
+            <p style="color:red">${mess}</p>            
             <input type="submit" value="Login"/><br>
             <a href="/EasyTravel/register">Register</a><br>
             <a href="/EasyTravel/register">Forgot password</a>
