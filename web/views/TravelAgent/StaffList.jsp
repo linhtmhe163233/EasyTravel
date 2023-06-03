@@ -65,16 +65,20 @@
                             <div class="md-form mb-5">
                                 <label data-error="wrong" data-success="right" for="name">Staff name</label>
                                 <input type="text" id="name" class="form-control validate" name="name" required maxlength="80">
+                                <div class="valid-feedback">Looks good!</div>
+                                <div class="invalid-feedback">Name must be fewer than 80 characters and not empty!</div>
                             </div>
                             <div class="md-form mb-5">
                                 <label data-error="wrong" data-success="right" for="phone">Phone number</label>
                                 <input type="text" id="phone" class="form-control validate" name="phone" required>
+                                <div class="valid-feedback">Looks good!</div>
+                                <div class="invalid-feedback">Phone number can only contain 10 digits! ex:0123456789</div>
                             </div>
                             <div class="md-form mb-5">
                                 <label data-error="wrong" data-success="right" for="dob">Date of birth</label>
                                 <input type="date" id="dob" class="form-control" name="DOB" required>
                                 <div class="valid-feedback">Looks good!</div>
-                                <div class="invalid-feedback">Age must be over 18.</div>
+                                <div class="invalid-feedback">Staff must be over 18 years old</div>
                             </div>
                             <div class="md-form mb-5">
                                 <label data-error="wrong" data-success="right" for="gender">Gender</label>
@@ -100,11 +104,16 @@
         function checkDOB(dob){
             let birthDate = new Date(dob.value);
             birthDate.setFullYear(birthDate.getFullYear() + 18);
-            if (birthDate > new Date()) {
-                dob.classList.add("is-invalid");
-            } else {
-                dob.classList.remove("is-invalid");
-            }
+//            if (birthDate > new Date()) {
+//                dob.classList.add("is-invalid");
+//            } else {
+//                dob.classList.remove("is-invalid");
+//            }
+            return birthDate > new Date();
+        }
+        function checkPhone(phone){
+            
+            return birthDate > new Date();
         }
         (function () {
             'use strict';
