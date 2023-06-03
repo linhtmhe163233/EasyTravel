@@ -8,26 +8,28 @@ public class User {
     private String userame;
     private String password;
     private String fullname;
+    private Date dob;
     private String email;
     private String phonenumber;
     private String role;
-    private Date dob;
     private String status;
 
     public User() {
     }
 
-    public User(int id, String userame, String password, String fullname, String email, String phonenumber, String role, Date dob, String status) {
+    public User(int id, String userame, String password, String fullname, Date dob, String email, String phonenumber, String role, String status) {
         this.id = id;
         this.userame = userame;
         this.password = password;
         this.fullname = fullname;
+        this.dob = dob;
         this.email = email;
         this.phonenumber = phonenumber;
         this.role = role;
-        this.dob = dob;
         this.status = status;
     }
+
+    
 
     public int getId() {
         return id;
@@ -105,9 +107,5 @@ public class User {
     public String toString() {
         return "User{" + "id=" + id + ", userame=" + userame + ", password=" + password + ", fullname=" + fullname + ", email=" + email + ", phonenumber=" + phonenumber + ", role=" + role + ", dob=" + dob + ", status=" + status + '}';
     }
-
-    
- 
-    
 
 }
