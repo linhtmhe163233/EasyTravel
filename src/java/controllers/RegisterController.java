@@ -86,7 +86,7 @@ public class RegisterController extends HttpServlet {
         
         try{
         UserDao dao = new UserDao();
-        dao.save(new User(username, password, fullname, dob, email, phone, role, email));
+//        dao.save(new User(username, password, fullname, dob, email, phone, role, email));
         
         SendMail mail = new SendMail();
         String pass = mail.createCaptcha();
