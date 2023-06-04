@@ -18,6 +18,7 @@
         <title>Easy Travel | Hotels</title>
     </head>
     <body>
+        <c:import url="../Layout/Header.jsp"></c:import>
         <div class="">
             <h1 class="text-center">Hotels</h1>
             <button class="btn btn-primary btn-rounded mr-4 float-right" 
