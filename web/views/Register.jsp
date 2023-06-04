@@ -24,40 +24,40 @@
         <link href="https://use.fontawesome.com/releases/v5.0.11/css/all.css" rel="stylesheet">
     </head>
     <style>
-/*        h1{
-            text-transform: uppercase;
-            text-align: center;
-            color: black;
-            font-family: arial;
-        }
-        form{
-            text-align: center;
-
-        }
-        table{
-            text-align: center;
-        }
-        p{
-            text-align: center;
-        }*/
+        /*        h1{
+                    text-transform: uppercase;
+                    text-align: center;
+                    color: black;
+                    font-family: arial;
+                }
+                form{
+                    text-align: center;
+        
+                }
+                table{
+                    text-align: center;
+                }
+                p{
+                    text-align: center;
+                }*/
     </style>
     <body>
-<!--        <h1>Register</h1>
-       
-        <form action="register" method="post">
-            Full name: <input type="text" name="fullname"><br>
-            Username: <input type="text" name="username"><br>
-            Password: <input type="password" name="password"/><br>
-            Confirm password: <input type="password" name="cfpassword"/><br>
-            Email:<input type="text" name="email"/><br>
-            Phone number: <input type="text" name="phone" /><br>
-            Role: <select name="role">
-                <option value="tourist">Tourist</option>
-                <option value="travel agent">Travel agent</option>
-            </select><br>
-            Date of birth: <input type="date" name="dob"><br>
-            <input type="submit" value="Register">
-        </form>-->
+        <!--        <h1>Register</h1>
+               
+                <form action="register" method="post">
+                    Full name: <input type="text" name="fullname"><br>
+                    Username: <input type="text" name="username"><br>
+                    Password: <input type="password" name="password"/><br>
+                    Confirm password: <input type="password" name="cfpassword"/><br>
+                    Email:<input type="text" name="email"/><br>
+                    Phone number: <input type="text" name="phone" /><br>
+                    Role: <select name="role">
+                        <option value="tourist">Tourist</option>
+                        <option value="travel agent">Travel agent</option>
+                    </select><br>
+                    Date of birth: <input type="date" name="dob"><br>
+                    <input type="submit" value="Register">
+                </form>-->
 
 
         <div class="container">
@@ -112,7 +112,7 @@
                                         </div>
                                         <input type="password" class="form-control" id="cfpassword" name="cfpassword" placeholder="Confirm password" required th:field="*{cfpassword}"></input>
                                     </div>
-                                     <p style="color:red">${messpass}</p>
+                                    <p style="color:red">${messpass}</p>
                                 </div>
 
                                 <div class="form-group">
@@ -123,8 +123,8 @@
                                         <input type="email" class="form-control" id="email" name="email" placeholder="example@gmail.com" required th:field="*{email}"></input>
                                     </div>
                                 </div>
-                                
-                                  <div class="form-group">
+
+                                <div class="form-group">
                                     <div class="input-group mb-2">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
@@ -139,9 +139,9 @@
                                             <div class="input-group-text">Role</div>
                                         </div>
                                         <select class="form-control"  name="role">
-                <option value="tourist">Tourist</option>
-                <option value="travel agent">Travel agent</option>
-            </select>
+                                            <option value="tourist">Tourist</option>
+                                            <option value="travel agent">Travel agent</option>
+                                        </select>
                                     </div>
                                 </div>
 
@@ -157,6 +157,9 @@
                                 <div class="text-center">
                                     <input type="submit" value="Register" class="btn btn-info btn-block rounded-0 py-2"></input>
                                 </div>
+                                <div class="text-center">
+                                    <a href="/EasyTravel/login" class="text-info">Sign in</a>
+                                </div>
                             </div>
 
                         </div>
@@ -168,6 +171,6 @@
             </div>
         </div>
 
-       
+
     </body>
 </html>
