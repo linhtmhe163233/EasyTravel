@@ -78,6 +78,7 @@ public class HotelController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("id");
+        String name = request.getParameter("name");
         String stars = request.getParameter("stars");
         String room_available = request.getParameter("room_available");
         String phone = request.getParameter("phone");

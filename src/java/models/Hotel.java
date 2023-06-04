@@ -9,18 +9,19 @@ public class Hotel {
     private String phone;
     private int agent_id;
     private int location;
+    private String name;
 
     public Hotel() {
     }
-        
 
-    public Hotel(int id, int stars, int room_available, String phone, int agent_id, int location) {
+    public Hotel(int id, int stars, int room_available, String phone, int agent_id, int location, String name) {
         this.id = id;
         this.stars = stars;
         this.room_available = room_available;
         this.phone = phone;
         this.agent_id = agent_id;
         this.location = location;
+        this.name = name;
     }
 
     public int getId() {
@@ -67,9 +68,21 @@ public class Hotel {
         return location;
     }
 
-    public void setLocation(int loclocation) {
+    public void setLocation(int location) {
         this.location = location;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+        
+
+   
+    
 
     
 }
