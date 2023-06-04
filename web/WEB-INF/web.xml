@@ -5,7 +5,6 @@
         <servlet-class>controllers.HomeController</servlet-class>
     </servlet>
     <servlet>
-        <description>EasyTravel/hotels</description>
         <servlet-name>HotelController</servlet-name>
         <servlet-class>controllers.HotelController</servlet-class>
     </servlet>
@@ -30,12 +29,12 @@
         <servlet-class>controllers.VehicleController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CreateVehicle</servlet-name>
-        <servlet-class>controllers.CreateVehicle</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>LogoutController</servlet-name>
         <servlet-class>controllers.LogoutController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MainController</servlet-name>
+        <servlet-class>controllers.MainController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
@@ -66,19 +65,16 @@
         <url-pattern>/vehicles</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>CreateVehicle</servlet-name>
-        <url-pattern>/create-vehicle</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>LogoutController</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MainController</servlet-name>
+        <url-pattern>/landing</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-    <welcome-file-list>
-        <welcome-file>EasyTravel/hotels</welcome-file>
-    </welcome-file-list>
 </web-app>

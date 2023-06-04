@@ -10,10 +10,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <title>Easy Travel</title>
     </head>
     <body>
-    <h1>Landing Page</h1> 
-    <a href="/EasyTravel/login"><button>LOGIN</button></a>
-</body>
+        <h1 class="text-center">Landing Page</h1> 
+        <a href="/EasyTravel/login"><button>LOGIN</button></a>
+    </body>
 </html>
