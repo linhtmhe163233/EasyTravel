@@ -41,7 +41,7 @@
             <c:forEach items="${list}" var="hotel">
                 <tr>
                     <th scope="row">${hotel.ID}</th>
-                    <td>${hotel.name}</td>
+                    <td>${staff.name}</td>
                     <td>${hotel.Stars}</td>
                     <td>${hotel.Room_available}</td>
                     <td>${hotel.phone}</td>
