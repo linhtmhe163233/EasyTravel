@@ -1,32 +1,48 @@
-
+/*
+ * ISP392-IS1701-Group6
+ * EasyTravel
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * ??-??-2023      1.0                 DungMQ           First Implement
+ * 03-06-2023      1.0                 DucTM            Change variables name
+ */
 package models;
 
 public class Vehicle {
-    private int id;
+    private int ID;
     private String type;
-    private String driver_name;
-    private String driver_phone;
-    private int max_passenger;
-    private int agent_id;
+    private String driverName;
+    private String driverPhone;
+    private int maxPassenger;
+    private int agentID;
 
     public Vehicle() {
     }
 
-    public Vehicle(int id, String type, String driver_name, String driver_phone, int max_passenger, int agent_id) {
-        this.id = id;
+    public Vehicle(int ID, String type, String driverName, String driverPhone, int maxPassenger, int agentID) {
+        this.ID = ID;
         this.type = type;
-        this.driver_name = driver_name;
-        this.driver_phone = driver_phone;
-        this.max_passenger = max_passenger;
-        this.agent_id = agent_id;
+        this.driverName = driverName;
+        this.driverPhone = driverPhone;
+        this.maxPassenger = maxPassenger;
+        this.agentID = agentID;
     }
 
-    public int getId() {
-        return id;
+    public Vehicle(String type, String driverName, String driverPhone, int maxPassenger, int agentID) {
+        this.type = type;
+        this.driverName = driverName;
+        this.driverPhone = driverPhone;
+        this.maxPassenger = maxPassenger;
+        this.agentID = agentID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getType() {
@@ -37,36 +53,36 @@ public class Vehicle {
         this.type = type;
     }
 
-    public String getDriver_name() {
-        return driver_name;
+    public String getDriverName() {
+        return driverName;
     }
 
-    public void setDriver_name(String driver_name) {
-        this.driver_name = driver_name;
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
     }
 
-    public String getDriver_phone() {
-        return driver_phone;
+    public String getDriverPhone() {
+        return driverPhone;
     }
 
-    public void setDriver_phone(String driver_phone) {
-        this.driver_phone = driver_phone;
+    public void setDriverPhone(String driverPhone) {
+        this.driverPhone = driverPhone;
     }
 
-    public int getMax_passenger() {
-        return max_passenger;
+    public int getMaxPassenger() {
+        return maxPassenger;
     }
 
-    public void setMax_passenger(int max_passenger) {
-        this.max_passenger = max_passenger;
+    public void setMaxPassenger(int maxPassenger) {
+        this.maxPassenger = maxPassenger;
     }
 
-    public int getAgent_id() {
-        return agent_id;
+    public int getAgentID() {
+        return agentID;
     }
 
-    public void setAgent_id(int agent_id) {
-        this.agent_id = agent_id;
+    public void setAgentID(int agentID) {
+        this.agentID = agentID;
     }
     
 }
