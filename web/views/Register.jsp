@@ -129,6 +129,9 @@
 
                                     </input>
                                 </div>
+                                <div class="text-center">
+                                    <a href="/EasyTravel/login" class="text-info">Sign in</a>
+                                </div>
                             </div>
 
                         </div>
