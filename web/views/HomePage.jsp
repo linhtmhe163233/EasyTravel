@@ -21,12 +21,7 @@
         <title>Easy Travel | Home</title>
     </head>
     <body>
-        <h1>Home</h1>
-        <a href="/EasyTravel/logout"><button>logout</button></a>
-        <a href="/EasyTravel/tours"><button>Create tour</button></a>
-        <a href="/EasyTravel/hotels"><button>Hotels list</button></a>
-        <a href="/EasyTravel/vehicles"><button>Vehicles list</button></a>
-        <a href="/EasyTravel/staff"><button>Staff list</button></a>
+        <c:import url="./Layout/Header.jsp"></c:import>
         <div class="d-flex flex-wrap flex-row justify-content-start w-75 mx-auto mt-4" style="column-gap: 8.5rem; row-gap: 2rem">
             <c:forEach items="${list}" var="tour">
                 <div class="card rounded" style="width: 18rem;">
