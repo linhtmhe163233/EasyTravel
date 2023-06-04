@@ -48,7 +48,6 @@ public class VehicleController extends HttpServlet {
             Logger.getLogger(VehicleController.class.getName()).log(Level.SEVERE, null, ex);
         }
         request.getRequestDispatcher("views/TravelAgent/VehiclesList.jsp").forward(request, response);
-
     }
 
     /**

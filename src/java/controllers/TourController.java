@@ -75,7 +75,6 @@ public class TourController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getRequestDispatcher("views/TravelAgent/AddNewTour.jsp").forward(request, response);
-        processRequest(request, response);
     }
 
     /**

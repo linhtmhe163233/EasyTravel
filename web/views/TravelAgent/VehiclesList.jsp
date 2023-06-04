@@ -18,6 +18,7 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
+        <c:import url="../Layout/Header.jsp"></c:import>
         <div class="text-center mt-5">
             <h1>View a list vehicle</h1>
         </div>

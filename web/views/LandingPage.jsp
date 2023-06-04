@@ -4,6 +4,7 @@
     Author     : tranm
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,7 +13,7 @@
         <title>Easy Travel</title>
     </head>
     <body>
-        <h1>Landing Page</h1> 
-        <a href="/EasyTravel/login"><button>LOGIN</button></a>
-    </body>
+    <h1>Landing Page</h1> 
+    <a href="/EasyTravel/login"><button>LOGIN</button></a>
+</body>
 </html>

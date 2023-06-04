@@ -6,6 +6,7 @@
     Update on  : 31/05/2023, add date constraints
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -21,6 +22,7 @@
         <title>Easy Travel | Add tour</title>
     </head>
     <body>
+        <c:import url="../Layout/Header.jsp"></c:import>
         <h1 class="text-center mb-4">Add a new tour</h1>
         <form method="POST" action="/EasyTravel/tours" class="w-75 mx-auto needs-validation" 
               enctype="multipart/form-data" novalidate>

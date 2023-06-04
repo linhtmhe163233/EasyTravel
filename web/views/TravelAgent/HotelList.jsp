@@ -4,6 +4,7 @@
     Author     : tranm
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,6 +18,7 @@
         <title>Easy Travel | Hotels</title>
     </head>
     <body>
+        <c:import url="../Layout/Header.jsp"></c:import>
         <h1 class="text-center mb-4">Add hotel info</h1>
         <form method="POST" action="/EasyTravel/hotel" class="w-75 mx-auto" enctype="multipart/form-data">
             <div class="form-row">
