@@ -4,7 +4,7 @@
  */
 package controllers;
 
-import dao.DAO;
+//import dao.DAO;
 import dao.UserDao;
 import java.io.IOException;
 
@@ -83,7 +83,7 @@ public class LoginController extends HttpServlet {
 
             } else {
                 HttpSession session = request.getSession();
-                session.setAttribute("USER", user);
+                session.setAttribute("user", user);
                 response.sendRedirect(request.getContextPath() + "/home");
 
             }

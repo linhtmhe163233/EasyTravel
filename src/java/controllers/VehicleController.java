@@ -16,9 +16,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.User;
 import models.Vehicle;
 
 /**
@@ -41,7 +43,8 @@ public class VehicleController extends HttpServlet {
             throws ServletException, IOException {
         try {
             DAO dao = new VehicleDAO();
-            int agentID=3; //((User)session.getAttribute("user")).getID();
+            HttpSession session = request.getSession();
+            int agentID=((User)session.getAttribute("user")).getId();
             List<Vehicle> list = dao.get(agentID);
             request.setAttribute("list", list);
         } catch (Exception ex) {
@@ -65,7 +68,8 @@ public class VehicleController extends HttpServlet {
         String driverName=request.getParameter("driverName").trim();
         String driverPhone=request.getParameter("driverPhone").trim();
         int maxPassenger = Integer.parseInt(request.getParameter("maxPassenger"));
-        int agentID = 3;//((User)session.getAttribute("user")).getID();
+        HttpSession session = request.getSession();
+        int agentID = ((User)session.getAttribute("user")).getId();
         try {
             DAO dao = new VehicleDAO();
             dao.save(new Vehicle(type, driverName, driverPhone, maxPassenger, agentID));

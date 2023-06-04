@@ -18,11 +18,13 @@ import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.Tour;
+import models.User;
 
 /**
  * This controller is responsible for the adding tour function
@@ -96,7 +98,8 @@ public class TourController extends HttpServlet {
         Date availableTo = Date.valueOf(request.getParameter("available_to"));
         int tripLength = Integer.parseInt(request.getParameter("trip_length"));
         int maxQuantity = Integer.parseInt(request.getParameter("max_quantity"));
-        int agentID = 3;//((User)session.getAttribute("user")).getID();
+        HttpSession session = request.getSession();
+        int agentID = ((User)session.getAttribute("user")).getId();
 
         Part file = request.getPart("image");
         String image = file.getSubmittedFileName()+System.currentTimeMillis();

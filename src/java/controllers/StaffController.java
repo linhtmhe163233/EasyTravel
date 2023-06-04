@@ -16,11 +16,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.Staff;
+import models.User;
 
 
 /*
@@ -70,7 +72,8 @@ public class StaffController extends HttpServlet {
             throws ServletException, IOException {
         try {
             DAO dao = new StaffDAO();
-            int agentID = 3; //((User)session.getAttribute("user")).getID();
+            HttpSession session = request.getSession();
+            int agentID = ((User)session.getAttribute("user")).getId();
             List<Staff> list = dao.get(agentID);
             request.setAttribute("list", list);
         } catch (Exception ex) {
@@ -94,7 +97,8 @@ public class StaffController extends HttpServlet {
         Date DOB=Date.valueOf(request.getParameter("DOB"));
         String phone=request.getParameter("phone").trim();
         boolean gender=request.getParameter("gender").equals("Male");
-        int agentID = 3;//((User)session.getAttribute("user")).getID();
+        HttpSession session = request.getSession();
+        int agentID = ((User)session.getAttribute("user")).getId();
         try {
             DAO dao = new StaffDAO();
             dao.save(new Staff(name, DOB, phone, gender, agentID));
