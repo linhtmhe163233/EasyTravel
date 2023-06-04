@@ -44,7 +44,8 @@ public class UserDao extends DBContext implements DAO<User> {
                         rs.getString(6),
                         rs.getString(7),
                         rs.getString(8),
-                        rs.getString(9));
+                        rs.getString(9),
+                        rs.getString(10));
             }
         } catch (SQLException e) {
             Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, e);
@@ -53,7 +54,7 @@ public class UserDao extends DBContext implements DAO<User> {
         }
         return null;
     }
-    
+
     @Override
     public List<User> getAll() {
         List<User> list = new ArrayList();
@@ -68,6 +69,7 @@ public class UserDao extends DBContext implements DAO<User> {
         String phone;
         String role;
         String status;
+        String key;
 
         User user;
 
@@ -87,8 +89,9 @@ public class UserDao extends DBContext implements DAO<User> {
                 phone = rs.getString("phone");
                 role = rs.getString("role");
                 status = rs.getString("status");
+                key = rs.getString("key");
 
-                user = new User(id, username, password, fullname, dob, email, phone, role, status);
+                user = new User(id, username, password, fullname, dob, email, phone, role, status, key);
                 list.add(user);
             }
         } catch (SQLException ex) {
@@ -107,27 +110,39 @@ public class UserDao extends DBContext implements DAO<User> {
     @Override
     public void save(User t) {
         PreparedStatement ps = null;
-        String sql = "INSERT INTO users(username,email, password, fullname, phone, status, role,dob) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        
+        String sql = "INSERT INTO users(account_name, email, password, full_name, phone, status, role, DOB, [key])"
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         try {
             ps = conn.prepareStatement(sql);
-           
-            ps.setString(1, t.getUserame());
+
+            ps.setString(1, t.getUsername());
             ps.setString(2, t.getEmail());
             ps.setString(3, t.getPassword());
             ps.setString(4, t.getFullname());
-            ps.setString(5, t.getPhonenumber());
+            ps.setString(5, t.getPhone());
             ps.setString(6, t.getStatus());
             ps.setString(7, t.getRole());
             ps.setDate(8, t.getDob());
+            ps.setString(9, t.getKey());
 
-        ps.execute();
+            ps.execute();
         } catch (SQLException ex) {
             Logger.getLogger(StaffDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             super.close(conn, ps, null);
         }
     }
+//    public static void main(String[] args) {
+//        UserDao dao;
+//        try {
+//            dao = new UserDao();
+//            dao.save(new User("abc", "12345678", "Duc", Date.valueOf("2003-01-01"), 
+//                    "anv@gmail.com", "0345678891", "Tourist", "Inactive", "123456"));
+//        } catch (Exception ex) {
+//            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 
     @Override
     public void update(User t) {
@@ -153,6 +168,7 @@ public class UserDao extends DBContext implements DAO<User> {
         String phone;
         String role;
         String status;
+        String key;
 
         User user;
         PreparedStatement ps = null;
@@ -172,8 +188,9 @@ public class UserDao extends DBContext implements DAO<User> {
                 phone = rs.getString("phone");
                 role = rs.getString("role");
                 status = rs.getString("status");
+                key = rs.getString("key");
 
-                user = new User(id, username, password, fullname, dob, email, phone, role, status);
+                user = new User(id, username, password, fullname, dob, email, phone, role, status, key);
                 list.add(user);
             }
         } catch (SQLException e) {

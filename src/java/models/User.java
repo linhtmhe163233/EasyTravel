@@ -5,50 +5,51 @@ import java.sql.Date;
 public class User {
 
     private int id;
-    private String userame;
+    private String username;
     private String password;
     private String fullname;
     private Date dob;
     private String email;
-    private String phonenumber;
+    private String phone;
     private String role;
     private String status;
-
+    private String key;
     public User() {
     }
 
-    public User(int id, String userame, String password, String fullname, Date dob, String email, String phonenumber, String role, String status) {
+    public User(int id, String username, String password, String fullname, Date dob, 
+            String email, String phone, String role, String status, String key) {
         this.id = id;
-        this.userame = userame;
+        this.username = username;
         this.password = password;
         this.fullname = fullname;
         this.dob = dob;
         this.email = email;
-        this.phonenumber = phonenumber;
+        this.phone = phone;
         this.role = role;
         this.status = status;
+        this.key=key;
     }
 
-    public User(String userame, String password, String fullname, Date dob, String email, String phonenumber, String role, String status) {
-        this.userame = userame;
+    public User(String username, String password, String fullname, Date dob, 
+            String email, String phone, String role, String status, String key) {
+        this.username = username;
         this.password = password;
         this.fullname = fullname;
         this.dob = dob;
         this.email = email;
-        this.phonenumber = phonenumber;
+        this.phone = phone;
         this.role = role;
         this.status = status;
+        this.key=key;
     }
-
-
-       
 
     public int getId() {
         return id;
     }
 
-    public String getUserame() {
-        return userame;
+    public String getUsername() {
+        return username;
     }
 
     public String getPassword() {
@@ -63,8 +64,8 @@ public class User {
         return email;
     }
 
-    public String getPhonenumber() {
-        return phonenumber;
+    public String getPhone() {
+        return phone;
     }
 
     public String getRole() {
@@ -83,8 +84,8 @@ public class User {
         this.id = id;
     }
 
-    public void setUserame(String userame) {
-        this.userame = userame;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setPassword(String password) {
@@ -99,8 +100,8 @@ public class User {
         this.email = email;
     }
 
-    public void setPhonenumber(String phonenumber) {
-        this.phonenumber = phonenumber;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public void setRole(String role) {
@@ -115,9 +116,14 @@ public class User {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "User{" + "id=" + id + ", userame=" + userame + ", password=" + password + ", fullname=" + fullname + ", email=" + email + ", phonenumber=" + phonenumber + ", role=" + role + ", dob=" + dob + ", status=" + status + '}';
+    public String getKey() {
+        return key;
     }
 
+    public void setKey(String key) {
+        this.key = key;
+    }
+    
+    
+   
 }
