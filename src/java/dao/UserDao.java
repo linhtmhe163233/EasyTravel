@@ -103,8 +103,51 @@ public class UserDao extends DBContext implements DAO<User> {
     }
 
     @Override
-    public List<User> get(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<User> get(int key) {
+//        String query = "select * from users where key=?";
+//
+//        int id;
+//        String username;
+//        String password;
+//        String fullname;
+//        Date dob;
+//        String email;
+//        String phone;
+//        String role;
+//        String status;
+//        
+//        List<User> list = new ArrayList();
+//        User user;
+//        PreparedStatement ps = null;
+//        ResultSet rs = null;
+//        
+//        try {
+//            ps = conn.prepareStatement(query);
+//            ps.setInt(1, key);
+//
+//            rs = ps.executeQuery();
+//            while (rs.next()) {
+//
+//                id = rs.getInt("id");
+//                username = rs.getString("account_name");
+//                fullname = rs.getString("full_name");
+//                password = rs.getString("password");
+//                dob = rs.getDate("DOB");
+//                email = rs.getString("email");
+//                phone = rs.getString("phone");
+//                role = rs.getString("role");
+//                status = rs.getString("status");
+//                
+//                user = new User(id, username, password, fullname, dob, email, phone, role, status, "");
+//                list.add(user);
+//            }
+//
+//        } catch (SQLException ex) {
+//            Logger.getLogger(TourDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        } finally {
+//            super.close(conn, ps, rs);
+//        }
+        return null;
     }
 
     @Override
@@ -137,7 +180,7 @@ public class UserDao extends DBContext implements DAO<User> {
 //        UserDao dao;
 //        try {
 //            dao = new UserDao();
-//            dao.save(new User("abc", "12345678", "Duc", Date.valueOf("2003-01-01"), 
+//            dao.update(new User(18, "abc", "12345678", "Duc", Date.valueOf("2003-01-01"), 
 //                    "anv@gmail.com", "0345678891", "Tourist", "Inactive", "123456"));
 //        } catch (Exception ex) {
 //            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -146,7 +189,19 @@ public class UserDao extends DBContext implements DAO<User> {
 
     @Override
     public void update(User t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String query = "update users set [key]=? where id=?";
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement(query);
+            ps.setString(1, t.getKey());
+            ps.setInt(2, t.getId());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            super.close(conn, ps, null);
+        }
+
     }
 
     @Override
@@ -157,7 +212,7 @@ public class UserDao extends DBContext implements DAO<User> {
     @Override
     public List<User> search(String keyword) {
         List<User> list = new ArrayList<>();
-        String sql = "SELECT * FROM users WHERE full_name like ?";
+        String sql = "SELECT * FROM users WHERE full_name like ? or [key]=?";
 
         int id;
         String username;
@@ -176,6 +231,7 @@ public class UserDao extends DBContext implements DAO<User> {
         try {
             ps = conn.prepareStatement(sql);
             ps.setString(1, "%" + keyword + "%");
+            ps.setString(2, keyword);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -196,8 +252,7 @@ public class UserDao extends DBContext implements DAO<User> {
         } catch (SQLException e) {
             Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, e);
         } finally {
-            super.close(conn, ps, rs);
-
+//            super.close(conn, ps, rs);
         }
         return list;
 

@@ -91,7 +91,6 @@ public class RegisterController extends HttpServlet {
             SendMail mail = new SendMail();
 
             String contextPath = "http://localhost:9999/EasyTravel/"; //request.getContextPath()
-            System.out.println(request.getContextPath());
             mail.sentEmail(email, "Easy Travel verification mail", contextPath + "home?key=" + key);
             request.setAttribute("registered", true);
             doGet(request, response);

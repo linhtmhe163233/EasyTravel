@@ -63,13 +63,6 @@
                 </div>
                 <form action="/EasyTravel/hotel" method="POST" novalidate id="form" class="needs-validation">
                     <div class="modal-body mx-3">
-                        <div class="md-form mb-5">
-                            <label data-error="wrong" data-success="right" for="name">Id</label>
-                            <input type="text" id="id" class="form-control validate" name="id" 
-                                   pattern="^\s*\p{L}+(\s\p{L}+)*\s*$" value="${hotel.id}">
-                            <div class="valid-feedback">Looks good!</div>
-                            <div class="invalid-feedback">Invalid ID, please check again!</div>
-                        </div>
                         <div class="modal-body mx-3">
                             <div class="md-form mb-5">
                                 <label data-error="wrong" data-success="right" for="name">Hotel name</label>
