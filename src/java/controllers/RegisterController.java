@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.User;
@@ -82,11 +83,11 @@ public class RegisterController extends HttpServlet {
         String cfpassword = request.getParameter("cfpassword");
         String phone = request.getParameter("phone");
         String role = request.getParameter("role");
-        String dob = request.getParameter("dob");
+        Date dob = Date.valueOf(request.getParameter("dob"));
         
         try{
         UserDao dao = new UserDao();
-//        dao.save(new User(username, password, fullname, dob, email, phone, role, email));
+        dao.save(new User(username, password, fullname, dob, email, phone, role, email));
         
         SendMail mail = new SendMail();
         String pass = mail.createCaptcha();
@@ -94,6 +95,25 @@ public class RegisterController extends HttpServlet {
         String messpass = "";
         if (!password.equals(cfpassword)) {
             messpass = "Password and confirm password is incorrect";
+//        }else{
+//            Users u = d.checkUserExist(email);
+//            if (u != null) {
+//                request.setAttribute("notif", "<div class=\"alert alert-danger\" role=\"alert\">\n"
+//                        + "Email taken!\n"
+//                        + "</div>");
+//                request.getRequestDispatcher("register.jsp").forward(request, response);
+//            } else {
+//
+//                String encryptedpw = d.encryptPassword(password);
+////                Users a = new Users(encryptedpw, email, timeNow, cfToken, timeNow, false, false, isRole);
+//                d.register(encryptedpw, email, timeNow, timeNow, Integer.parseInt(isRoleString));
+//                
+//                //Send data to register.jsp
+//                request.setAttribute("notif", "<div class=\"alert alert-danger\" role=\"alert\">\n"
+//                        + "Confirmation link has been send to your email. Please check it!\n"
+//                        + "</div>");
+//                request.getRequestDispatcher("register.jsp").forward(request, response);
+//        }
         }
 
         request.setAttribute("messpass",messpass);
