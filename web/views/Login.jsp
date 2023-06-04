@@ -11,29 +11,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Easy Travel | Login</title>
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<!--        <style>
-            /*            h1{
-                            text-transform: uppercase;
-                            text-align: center;
-                            color: black;
-                            font-family: arial;
-                        }*/
-        
-        </style>-->
     </head
 
     <body>
-        <!--            <h1>Login</h1>
-                    <form action="/EasyTravel/login" method="post">
-                        Username: <input type="text" name ="username" ><br> comment 
-                        Password: <input type="password" name ="password"/><br>
-                        <p style="color:red">${mess}</p>            
-                            <input type="submit" value="Login"/><br>
-                            <a href="/EasyTravel/register">Register</a><br>
-                            <a href="/EasyTravel/register">Forgot password</a>
-                        </form>-->
-
-        <div id="login">
+          <div id="login">
             <h3 class="text-center text-white pt-5">Login form</h3>
             <div class="container">
                 <div id="login-row" class="row justify-content-center align-items-center">
@@ -56,7 +37,7 @@
                                 </div>
                                 <div id="register-link" class="text-right">
                                     <a href="/EasyTravel/register" class="text-info">Register</a><br>
-                                    <a href="/EasyTravel/register" class="text-info">Forgot password</a>
+                                    <a href="#" class="text-info">Forgot password</a>
                                 </div>
                             </form>
                         </div>

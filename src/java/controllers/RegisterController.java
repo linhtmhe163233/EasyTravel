@@ -80,47 +80,22 @@ public class RegisterController extends HttpServlet {
         String email = request.getParameter("email");
         String fullname = request.getParameter("fullname");
         String password = request.getParameter("password");
-        String cfpassword = request.getParameter("cfpassword");
         String phone = request.getParameter("phone");
         String role = request.getParameter("role");
         Date dob = Date.valueOf(request.getParameter("dob"));
-        
-        try{
-        UserDao dao = new UserDao();
-        dao.save(new User(username, password, fullname, dob, email, phone, role, email));
-        
-        SendMail mail = new SendMail();
-        String pass = mail.createCaptcha();
-        int status = 1;
-        String messpass = "";
-        if (!password.equals(cfpassword)) {
-            messpass = "Password and confirm password is incorrect";
-//        }else{
-//            Users u = d.checkUserExist(email);
-//            if (u != null) {
-//                request.setAttribute("notif", "<div class=\"alert alert-danger\" role=\"alert\">\n"
-//                        + "Email taken!\n"
-//                        + "</div>");
-//                request.getRequestDispatcher("register.jsp").forward(request, response);
-//            } else {
-//
-//                String encryptedpw = d.encryptPassword(password);
-////                Users a = new Users(encryptedpw, email, timeNow, cfToken, timeNow, false, false, isRole);
-//                d.register(encryptedpw, email, timeNow, timeNow, Integer.parseInt(isRoleString));
-//                
-//                //Send data to register.jsp
-//                request.setAttribute("notif", "<div class=\"alert alert-danger\" role=\"alert\">\n"
-//                        + "Confirmation link has been send to your email. Please check it!\n"
-//                        + "</div>");
-//                request.getRequestDispatcher("register.jsp").forward(request, response);
-//        }
-        }
+        String key = String.valueOf(System.currentTimeMillis()) + Math.random() % 1000 + String.valueOf(System.currentTimeMillis());
+        try {
+            UserDao dao = new UserDao();
+            dao.save(new User(username, password, fullname, dob, email, phone, role, "Inactive", key));
 
-        request.setAttribute("messpass",messpass);
-        request.setAttribute("username",username);
-        request.getRequestDispatcher("views/Register.jsp").forward(request, response);
-        
-         } catch (Exception ex) {
+            SendMail mail = new SendMail();
+
+            String contextPath = "http://localhost:9999/EasyTravel/"; //request.getContextPath()
+            System.out.println(request.getContextPath());
+            mail.sentEmail(email, "Easy Travel verification mail", contextPath + "home?key=" + key);
+            request.setAttribute("registered", true);
+            doGet(request, response);
+        } catch (Exception ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
