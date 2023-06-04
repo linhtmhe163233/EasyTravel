@@ -6,17 +6,21 @@ package controllers;
 
 import dao.DAO;
 import dao.HotelDAO;
+import dao.VehicleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.Hotel;
+import models.User;
+import models.Vehicle;
 
 /**
  *
@@ -62,6 +66,15 @@ public class HotelController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        try {
+            DAO dao = new HotelDAO();
+            HttpSession session = request.getSession();
+            int agentID = ((User) session.getAttribute("user")).getId();
+            List<Hotel> list = dao.get(agentID);
+            request.setAttribute("list", list);
+        } catch (Exception ex) {
+            Logger.getLogger(VehicleController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         request.getRequestDispatcher("views/TravelAgent/HotelList.jsp").forward(request, response);
     }
 
@@ -76,27 +89,21 @@ public class HotelController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String name = request.getParameter("name");
-        String stars = request.getParameter("stars");
-        String room_available = request.getParameter("room_available");
-        String phone = request.getParameter("phone");
-        String agent_id = request.getParameter("agent_id");
+        String name = request.getParameter("name").trim();
+        int stars = Integer.parseInt(request.getParameter("stars"));
+        int room_available = Integer.parseInt(request.getParameter("room_available"));
+        String phone = request.getParameter("phone").trim();
+        HttpSession session = request.getSession();
+        int agentID = ((User) session.getAttribute("user")).getId();
         String location = request.getParameter("location");
-        Part file = request.getPart("image");
-        String image = file.getSubmittedFileName() + System.currentTimeMillis();
-        String realPath = request.getServletContext().getRealPath("images");
-        file.write(realPath + "/" + image);
-
-        String description = request.getParameter("description");
-
         try {
             DAO dao = new HotelDAO();
-            List<Hotel> list = dao.getAll();
-            request.setAttribute("list", list);
+            dao.save(new Hotel(name, stars, room_available, phone, agentID, location));
         } catch (Exception ex) {
-            Logger.getLogger(HotelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("message", ex.getMessage());
+            request.setAttribute("hotel", new Hotel(name, stars, room_available, phone, agentID, location));
         }
-        processRequest(request, response);
+        doGet(request, response);
     }
 
     /**

@@ -6,6 +6,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,50 +20,47 @@
     </head>
     <body>
         <c:import url="../Layout/Header.jsp"></c:import>
-        <div class="">
-            <h1 class="text-center">Hotels</h1>
-            <button class="btn btn-primary btn-rounded mr-4 float-right" 
-                    data-toggle="modal" data-target="#modalAddStaff" id="add">
-                Add
-            </button>
-        </div>
-        <table class="table table-hover table-bordered w-75 mx-auto" id="hotelTable">
-            <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Stars</th>
-                    <th scope="col">Room_available</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Agent_id</th>
-                    <th scope="col">Location</th>
-                    <th scope="col" colspan="2"></th>
-                </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${list}" var="hotel">
-                <tr>
-                    <th scope="row">${hotel.ID}</th>
-                    <td>${staff.name}</td>
-                    <td>${hotel.Stars}</td>
-                    <td>${hotel.Room_available}</td>
-                    <td>${hotel.phone}</td>
-                    <td>${hotel.Agent_id}</td>
-                    <td>${hotel.Location}</td>
-            </c:forEach>
-        </tbody>
-    </table>
-    <div class="modal fade" id="modalAddStaff" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-bold">Add Hotel Info</h4>
-                    <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="/EasyTravel/hotel" method="POST" novalidate id="form" class="needs-validation">
-                    <div class="modal-body mx-3">
+            <div class="">
+                <h1 class="text-center">Hotels</h1>
+                <button class="btn btn-primary btn-rounded mr-4 float-right" 
+                        data-toggle="modal" data-target="#modalAddHotel" id="add">
+                    Add
+                </button>
+            </div>
+            <table class="table table-hover table-bordered w-75 mx-auto" id="hotelTable">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Stars</th>
+                        <th scope="col">Room available</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${list}" var="hotel">
+                    <tr>
+                        <th scope="row">${hotel.id}</th>
+                        <td>${hotel.name}</td>
+                        <td>${hotel.stars}</td>
+                        <td>${hotel.room_available}</td>
+                        <td>${hotel.phone}</td>
+                        <td>${hotel.location}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+        <div class="modal fade" id="modalAddHotel" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Add Hotel Info</h4>
+                        <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="/EasyTravel/hotels" method="POST" novalidate id="form" class="needs-validation">
                         <div class="modal-body mx-3">
                             <div class="md-form mb-5">
                                 <label data-error="wrong" data-success="right" for="name">Hotel name</label>
@@ -71,56 +69,53 @@
                                 <div class="valid-feedback">Looks good!</div>
                                 <div class="invalid-feedback">Name must be fewer than 80 letters and spaces and not empty!</div>
                             </div>
-                            <div class="modal-body mx-3">
-                                <div class="md-form mb-5">
-                                    <label data-error="wrong" data-success="right" for="name">Stars</label>
-                                    <input type="text" id="stars" class="form-control validate" name="stars"
-                                           pattern="^\s*\p{L}+(\s\p{L}+)*\s*$" value="${hotel.stars}">
-                                    <div class="valid-feedback">Looks good!</div>
-                                    <div class="invalid-feedback">Please enter the number of stars from 1 to 5!</div>
-                                </div>
-                                <div class="modal-body mx-3">
-                                    <div class="md-form mb-5">
-                                        <label data-error="wrong" data-success="right" for="name">Room_available</label>
-                                        <input type="text" id="room_available" class="form-control validate" name="room_available"
-                                               pattern="^\s*\p{L}+(\s\p{L}+)*\s*$" value="${hotel.room_available}">
-                                        <div class="valid-feedback">Looks good!</div>
-                                        <div class="invalid-feedback">Please enter a valid room number!</div>
-                                    </div>
-                                    <div class="md-form mb-5">
-                                        <label data-error="wrong" data-success="right" for="phone">Phone number</label>
-                                        <input type="text" id="phone" class="form-control validate" name="phone" required 
-                                               pattern="^0[0-9]{9}$" value="${hotel.phone}">
-                                        <div class="valid-feedback">Looks good!</div>
-                                        <div class="invalid-feedback">Phone number can only contain 10 digits! Ex:0123456789</div>
-                                        <c:if test="${message!=null}">
-                                            <div class="text-danger">Phone must be unique!</div>
-                                        </c:if>
-                                    </div>
-                                    <div class="modal-body mx-3">
-                                        <div class="md-form mb-5">
-                                            <label data-error="wrong" data-success="right" for="name">Location</label>
-                                            <input type="text" id="location" class="form-control validate" name="location" required maxlength="50"
-                                                   pattern="^\s*\p{L}+(\s\p{L}+)*\s*$" value="${hotel.location}">
-                                            <div class="valid-feedback">Looks good!</div>
-                                            <div class="invalid-feedback">Location must be fewer than 50 letters !</div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer d-flex justify-content-center">
-                                        <button class="btn btn-primary" type="submit">Confirm</button>
-                                    </div>
-                                    </form>
-                                </div>
+                            <div class="md-form mb-5">
+                                <label data-error="wrong" data-success="right" for="name">Stars</label>
+                                <input type="number" id="stars" class="form-control validate" name="stars" required 
+                                       min="1" max="5" value="${hotel.stars}">
+                                <div class="valid-feedback">Looks good!</div>
+                                <div class="invalid-feedback">Please enter the number of stars from 1 to 5!</div>
+                            </div>
+                            <div class="md-form mb-5">
+                                <label data-error="wrong" data-success="right" for="name">Room available</label>
+                                <input type="number" id="room_available" class="form-control validate" name="room_available" required
+                                       min="10" max="100" value="${hotel.room_available}">
+                                <div class="valid-feedback">Looks good!</div>
+                                <div class="invalid-feedback">Please enter a valid room number (10-100)!</div>
+                            </div>
+                            <div class="md-form mb-5">
+                                <label data-error="wrong" data-success="right" for="phone">Phone number</label>
+                                <input type="text" id="phone" class="form-control validate" name="phone" required 
+                                       pattern="^0[0-9]{9}$" value="${hotel.phone}">
+                                <div class="valid-feedback">Looks good!</div>
+                                <div class="invalid-feedback">Phone number can only contain 10 digits! Ex:0123456789</div>
+                                <c:if test="${message!=null}">
+                                    <div class="text-danger">Phone must be unique!</div>
+                                </c:if>
+                            </div>
+                            <div class="md-form mb-5">
+                                <label data-error="wrong" data-success="right" for="name">Location</label>
+                                <input type="text" id="location" class="form-control validate" name="location" required maxlength="50"
+                                       pattern="^\s*\p{L}+(\s\p{L}+)*\s*$" value="${hotel.location}">
+                                <div class="valid-feedback">Looks good!</div>
+                                <div class="invalid-feedback">Location must be fewer than 50 letters !</div>
+                            </div>
+                            <div class="modal-footer d-flex justify-content-center">
+                                <button class="btn btn-primary" type="submit">Confirm</button>
                             </div>
                         </div>
-                        </body>
-                        <script src="js/jquery-3.7.0.js"></script>
-                        <script src="js/bootstrap.min.js"></script>
-                        <script src="js/StaffList.js"></script>
-                        <script>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="js/jquery-3.7.0.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/HotelList.js"></script>
+    <script>
         let message = '${requestScope.message}';
         if (message !== '') {
             document.getElementById("add").click();
         }
-                        </script>
-                        </html>
+    </script>
+</html>
