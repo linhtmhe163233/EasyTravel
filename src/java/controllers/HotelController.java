@@ -82,6 +82,7 @@ public class HotelController extends HttpServlet {
         String room_available = request.getParameter("room_available");
         String phone = request.getParameter("phone");
         String agent_id = request.getParameter("agent_id");
+        String location = request.getParameter("location");
         Part file = request.getPart("image");
         String image = file.getSubmittedFileName() + System.currentTimeMillis();
         String realPath = request.getServletContext().getRealPath("images");

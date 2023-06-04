@@ -31,6 +31,7 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
         int room_available;
         String phone;
         int agent_id;
+        int location;
         Hotel hotel;
 
         PreparedStatement ps = null;
@@ -45,7 +46,8 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
                 room_available = rs.getInt("room_available");
                 phone = rs.getString("phone");
                 agent_id = rs.getInt("agent_id");
-                hotel = new Hotel(id, stars, room_available, phone, agent_id);
+                location = rs.getInt("location");
+                hotel = new Hotel(id, stars, room_available, phone, agent_id, location);
                 list.add(hotel);
             }
         } catch (SQLException ex) {
@@ -73,8 +75,9 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
             int room_available = rs.getInt("room_available");
             String phone = rs.getString("phone");
             int agent_id = rs.getInt("agent_id");
+            int location = rs.getInt("location");
 
-            hotel = new Hotel(id, stars, room_available, phone, agent_id);
+            hotel = new Hotel(id, stars, room_available, phone, agent_id, location);
 
         } catch (SQLException ex) {
             Logger.getLogger(HotelDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -86,7 +89,7 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
 
     @Override
     public void save(Hotel t) {
-        String query = "INSERT INTO hotels (id, stars, room_available, phone, agent_id) "
+        String query = "INSERT INTO hotels (id, stars, room_available, phone, agent_id, location) "
                 + "VALUES (?, ?, ?, ?, ?)";
         PreparedStatement ps = null;
         try {
@@ -96,6 +99,7 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
             ps.setString(3, t.getPhone());
             ps.setInt(4, t.getRoom_available());
             ps.setInt(5, t.getAgent_id());
+            ps.setInt(6, t.getLocation());
 
             ps.execute();
 
@@ -109,7 +113,7 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
     @Override
     public void update(Hotel t) {
         String query = "UPDATE hotels "
-                + "SET stars = ?, room_available = ?, phone = ?, agent_id = ? "
+                + "SET stars = ?, room_available = ?, phone = ?, agent_id = ?, location = ? "
                 + "WHERE id = ?";
         PreparedStatement ps = null;
         try {
@@ -119,7 +123,7 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
             ps.setString(3, t.getPhone());
             ps.setInt(4, t.getRoom_available());
             ps.setInt(5, t.getAgent_id());
-
+            ps.setInt(6, t.getLocation());
             ps.execute();
 
         } catch (SQLException ex) {
