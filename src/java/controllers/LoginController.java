@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.User;
@@ -66,17 +67,25 @@ public class LoginController extends HttpServlet {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String mess = "";
+        
         try {
 //            DAO dao = new UserDao(); 
 //            User u = dao.checkLogin(username,password);
             UserDao dao = new UserDao();
-            User u = dao.checkLogin(username, password);
-            if (u == null) {
+            User user = dao.checkLogin(username, password);
+            
+            if (user == null) {
                 System.out.println(2);
-                request.getRequestDispatcher("views/Login.jsp").forward(request, response);
+                mess = "Wrong account or password !!! Please re-enter.";
+                request.setAttribute("mess", mess);
+                doGet(request, response);
+
             } else {
-                response.sendRedirect(request.getContextPath()+"/home");
-                
+                HttpSession session = request.getSession();
+                session.setAttribute("USER", user);
+                response.sendRedirect(request.getContextPath() + "/home");
+
             }
         } catch (Exception ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);

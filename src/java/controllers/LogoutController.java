@@ -4,23 +4,19 @@
  */
 package controllers;
 
-import commonutils.SendMail;
-import dao.UserDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import models.User;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
- * @author linhtm
+ * @author My Laptop
  */
-public class RegisterController extends HttpServlet {
+public class LogoutController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +35,10 @@ public class RegisterController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RegisterController</title>");
+            out.println("<title>Servlet LogoutController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RegisterController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LogoutController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,7 +56,10 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("views/Register.jsp").forward(request, response);
+//        processRequest(request, response);
+        HttpSession session = request.getSession();
+        session.invalidate();
+        response.sendRedirect("login");
     }
 
     /**
@@ -75,34 +74,6 @@ public class RegisterController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
-        String username = request.getParameter("username");
-        String email = request.getParameter("email");
-        String fullname = request.getParameter("fullname");
-        String password = request.getParameter("password");
-        String cfpassword = request.getParameter("cfpassword");
-        String phone = request.getParameter("phone");
-        String role = request.getParameter("role");
-        String dob = request.getParameter("dob");
-        
-        try{
-        UserDao dao = new UserDao();
-//        dao.save(new User(username, password, fullname, dob, email, phone, role, email));
-        
-        SendMail mail = new SendMail();
-        String pass = mail.createCaptcha();
-        int status = 1;
-        String messpass = "";
-        if (!password.equals(cfpassword)) {
-            messpass = "Password and confirm password is incorrect";
-        }
-
-        request.setAttribute("messpass",messpass);
-        request.setAttribute("username",username);
-        request.getRequestDispatcher("views/Register.jsp").forward(request, response);
-        
-         } catch (Exception ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**
