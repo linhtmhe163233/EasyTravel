@@ -1,10 +1,15 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ * ISP392-IS1701-Group6
+ * EasyTravel
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * ??-??-2023      1.0                 DungMQ           First Implement
+ * 03-06-2023      1.0                 DucTM            
  */
 package controllers;
 
-//import dao.VehicleDAO;
+import dao.DAO;
 import dao.VehicleDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -34,10 +39,10 @@ public class VehicleController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        VehicleDAO dao;
         try {
-            dao = new VehicleDAO();
-            List<Vehicle> list = dao.getAll();
+            DAO dao = new VehicleDAO();
+            int agentID=3; //((User)session.getAttribute("user")).getID();
+            List<Vehicle> list = dao.get(agentID);
             request.setAttribute("list", list);
         } catch (Exception ex) {
             Logger.getLogger(VehicleController.class.getName()).log(Level.SEVERE, null, ex);
@@ -57,7 +62,19 @@ public class VehicleController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        String type=request.getParameter("type").trim();
+        String driverName=request.getParameter("driverName").trim();
+        String driverPhone=request.getParameter("driverPhone").trim();
+        int maxPassenger = Integer.parseInt(request.getParameter("maxPassenger"));
+        int agentID = 3;//((User)session.getAttribute("user")).getID();
+        try {
+            DAO dao = new VehicleDAO();
+            dao.save(new Vehicle(type, driverName, driverPhone, maxPassenger, agentID));
+        } catch (Exception ex) {
+            request.setAttribute("message", ex.getMessage());
+            request.setAttribute("vehicle", new Vehicle(type, driverName, driverPhone, maxPassenger, agentID));
+        }
+        doGet(request, response);
     }
 
     /**
