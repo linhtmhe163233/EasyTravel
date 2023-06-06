@@ -5,17 +5,17 @@
  * Record of change:
  * DATE            Version             AUTHOR           DESCRIPTION
  * 27-05-2023      1.0                 DucTM           First Implement
+ * 06-06-2023      1.0                 DucTM           Fix database connection
  */
 package dao;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import models.Tour;
 
 /*
@@ -29,10 +29,11 @@ public class TourDAO extends DBContext implements DAO<Tour> {
     }
     
     @Override
-    public List<Tour> getAll() {
+    public List<Tour> getAll() throws Exception {
+        Connection conn = super.getConnection();
         List<Tour> list = new ArrayList<>();
         String query = "select * from tours";
-
+        
         int ID;
         String name;
         String type;
@@ -75,7 +76,7 @@ public class TourDAO extends DBContext implements DAO<Tour> {
                 list.add(tour);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(TourDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception("Unable to get data from database");
         } finally {
             super.close(conn, ps, rs);
         }
@@ -123,7 +124,8 @@ public class TourDAO extends DBContext implements DAO<Tour> {
     }
 
     @Override
-    public void save(Tour t) {
+    public void save(Tour t) throws Exception {
+        Connection conn = super.getConnection();
         String query = "insert into tours(name, type, is_enabled, destination, trip_length, available_from, available_to,"
                 + "max_quantity, price, description, agent_id, image)"
                 + "values(?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -146,9 +148,8 @@ public class TourDAO extends DBContext implements DAO<Tour> {
             ps.setString(12, t.getImage());
 
             ps.execute();
-
         } catch (SQLException ex) {
-            Logger.getLogger(TourDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception("Unable to save data to database");
         } finally {
             super.close(conn, ps, null);
         }

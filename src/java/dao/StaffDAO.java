@@ -5,17 +5,17 @@
  * Record of change:
  * DATE            Version             AUTHOR           DESCRIPTION
  * 31-05-2023      1.0                 DucTM           First Implement
+ * 06-06-2023      1.0                 DucTM           Fix database connection
  */
 package dao;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import models.Staff;
 
 /*
@@ -34,7 +34,8 @@ public class StaffDAO extends DBContext implements DAO<Staff> {
     }
 
     @Override
-    public List<Staff> get(int agentid) {
+    public List<Staff> get(int agentid) throws Exception {
+        Connection conn = super.getConnection();
         List<Staff> list = new ArrayList<>();
         String query = "select * from staff where agent_id=?";
 
@@ -65,7 +66,7 @@ public class StaffDAO extends DBContext implements DAO<Staff> {
                 list.add(staff);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(StaffDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception("Unable to get data from database");
         } finally {
             super.close(conn, ps, rs);
         }
@@ -74,6 +75,7 @@ public class StaffDAO extends DBContext implements DAO<Staff> {
 
     @Override
     public void save(Staff t) throws Exception{
+        Connection conn = super.getConnection();
         String query = "insert into staff(name, DOB, phone, gender, agent_id)"
                 + "values(?,?,?,?,?)";
 
@@ -86,9 +88,10 @@ public class StaffDAO extends DBContext implements DAO<Staff> {
             ps.setString(3, t.getPhone());
             ps.setBoolean(4, t.isGender());
             ps.setInt(5, t.getAgentID());
+            
             ps.execute();
         } catch (SQLException ex) {
-            throw new Exception("Duplicate phone");
+            throw new Exception("Unable to save data to database");
         } finally {
             super.close(conn, ps, null);
         }

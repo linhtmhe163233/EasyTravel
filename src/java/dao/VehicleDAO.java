@@ -6,9 +6,11 @@
  * DATE            Version             AUTHOR           DESCRIPTION
  * ??-??-2023      1.0                 DungMQ           First Implement
  * 03-06-2023      1.0                 DucTM            Fix getAll(), get(), save() method
+ * 06-06-2023      1.0                 DucTM            Fix database connection
  */
 package dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,7 +30,8 @@ public class VehicleDAO extends DBContext implements DAO<Vehicle> {
     }
 
     @Override
-    public List<Vehicle> getAll() {
+    public List<Vehicle> getAll() throws Exception {
+        Connection conn = super.getConnection();
         List<Vehicle> list = new ArrayList<>();
         String query = "select * from vehicles";
 
@@ -43,7 +46,7 @@ public class VehicleDAO extends DBContext implements DAO<Vehicle> {
                 list.add(v);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Vehicle.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception("Unable to get data from database");
         } finally {
             super.close(conn, ps, rs);
         }
@@ -52,6 +55,7 @@ public class VehicleDAO extends DBContext implements DAO<Vehicle> {
 
     @Override
     public void save(Vehicle vehicle) throws Exception {
+        Connection conn = super.getConnection();
         String query = "INSERT INTO [dbo].[vehicles]([type],[driver_name],[driver_phone],[max_passengers],[agent_id])"
                 + "VALUES (?,?,?,?,?)";
 
@@ -66,16 +70,16 @@ public class VehicleDAO extends DBContext implements DAO<Vehicle> {
             ps.setInt(5, vehicle.getAgentID());
 
             ps.executeUpdate();
-
         } catch (SQLException ex) {
-            throw new Exception("Duplicate phone");
+            throw new Exception("Unable to get data from database");
         } finally {
             super.close(conn, ps, null);
         }
     }
 
     @Override
-    public List<Vehicle> get(int agentid) {
+    public List<Vehicle> get(int agentid) throws Exception {
+        Connection conn = super.getConnection();
         List<Vehicle> list = new ArrayList<>();
         String query = "select * from vehicles where agent_id=?";
 
@@ -85,13 +89,14 @@ public class VehicleDAO extends DBContext implements DAO<Vehicle> {
         try {
             ps = conn.prepareStatement(query);
             ps.setInt(1, agentid);
+            
             rs = ps.executeQuery();
             while (rs.next()) {
                 Vehicle v = new Vehicle(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6));
                 list.add(v);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Vehicle.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception("Unable to get data from database");
         } finally {
             super.close(conn, ps, rs);
         }

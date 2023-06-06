@@ -23,15 +23,15 @@ import java.util.List;
  */
 public interface DAO<T> {
 
-    List<T> getAll();
+    List<T> getAll() throws Exception;
 
-    List<T> get(int id);
+    List<T> get(int id) throws Exception;
 
     void save(T t) throws Exception;
 
-    void update(T t);
+    void update(T t) throws Exception;
 
-    void delete(T t);
+    void delete(T t) throws Exception;
     
-    List<T> search(String keyword);
+    List<T> search(String keyword) throws Exception;
 }
