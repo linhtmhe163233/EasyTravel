@@ -1,16 +1,21 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * ISP392-IS1701-Group6
+ * EasyTravel
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * ??-??-2023      1.0                 HaPN            First Implement
+ * 04-06-2023      1.0                 DucTM           Implement get() and save() 
+ * 06-06-2023      1.0                 DucTM           Fix database connection
  */
 package dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import models.Hotel;
 
 /**
@@ -23,9 +28,11 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
     }
 
     @Override
-    public List<Hotel> getAll() {
+    public List<Hotel> getAll() throws Exception {
+        Connection conn = super.getConnection();
         List<Hotel> list = new ArrayList<>();
         String query = "select * from hotels";
+        
         String name;
         int stars;
         int room_available;
@@ -52,7 +59,7 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
                 list.add(hotel);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(HotelDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception("Unable to get data from database");
         } finally {
             super.close(conn, ps, rs);
         }
@@ -60,30 +67,39 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
     }
 
     @Override
-    public List<Hotel> get(int agentID) {
-        String query = "select * from hotels where agent_id=?";
+    public List<Hotel> get(int agentID) throws Exception {
+        Connection conn = super.getConnection();
         List<Hotel> list = new ArrayList();
+        String query = "select * from hotels where agent_id=?";
+        
+        String name;
+        int stars;
+        int room_available;
+        String phone;
+        int agent_id;
+        String location;
+        
         Hotel hotel;
+        
         PreparedStatement ps = null;
         ResultSet rs = null;
+        
         try {
             ps = conn.prepareStatement(query);
             ps.setInt(1, agentID);
-
             rs = ps.executeQuery();
             while (rs.next()) {
-                String name = rs.getString("name");
-                int stars = rs.getInt("stars");
-                int room_available = rs.getInt("room_available");
-                String phone = rs.getString("phone");
-                int agent_id = rs.getInt("agent_id");
-                String location = rs.getString("location");
-
+                name = rs.getString("name");
+                stars = rs.getInt("stars");
+                room_available = rs.getInt("room_available");
+                phone = rs.getString("phone");
+                agent_id = rs.getInt("agent_id");
+                location = rs.getString("location");
                 hotel = new Hotel(name, stars, room_available, phone, agent_id, location);
                 list.add(hotel);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(HotelDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception("Unable to get data from database");
         } finally {
             super.close(conn, ps, rs);
         }
@@ -91,10 +107,13 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
     }
 
     @Override
-    public void save(Hotel t) {
+    public void save(Hotel t) throws Exception {
+        Connection conn = super.getConnection();
         String query = "INSERT INTO hotels (name, stars, room_available, phone, agent_id, location) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
+        
         PreparedStatement ps = null;
+        
         try {
             ps = conn.prepareStatement(query);
             ps.setString(1, t.getName());
@@ -105,16 +124,16 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
             ps.setString(6, t.getLocation());
 
             ps.execute();
-
         } catch (SQLException ex) {
-            Logger.getLogger(HotelDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception("Unable to save data to database");
         } finally {
             super.close(conn, ps, null);
         }
     }
-    
+
     @Override
-    public void update(Hotel t) {
+    public void update(Hotel t) throws Exception {
+        Connection conn = super.getConnection();
         String query = "UPDATE hotels "
                 + "SET name = ?, stars = ?, room_available = ?, phone = ?, agent_id = ?, location = ? "
                 + "WHERE id = ?";
@@ -127,17 +146,18 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
             ps.setInt(4, t.getRoom_available());
             ps.setInt(5, t.getAgent_id());
             ps.setString(6, t.getLocation());
+            
             ps.execute();
-
         } catch (SQLException ex) {
-            Logger.getLogger(HotelDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception("Unable to update data to database");
         } finally {
             super.close(conn, ps, null);
         }
     }
 
     @Override
-    public void delete(Hotel t) {
+    public void delete(Hotel t) throws Exception {
+        Connection conn = super.getConnection();
         String query = "DELETE FROM hotels WHERE id = ?";
         PreparedStatement ps = null;
         try {
@@ -147,7 +167,7 @@ public class HotelDAO extends DBContext implements DAO<Hotel> {
             ps.execute();
 
         } catch (SQLException ex) {
-            Logger.getLogger(HotelDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception("Unable to delete data from database");
         } finally {
             super.close(conn, ps, null);
         }

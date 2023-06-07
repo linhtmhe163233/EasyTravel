@@ -6,6 +6,7 @@
  * DATE            Version             AUTHOR           DESCRIPTION
  * 21-05-2023      1.0                 DucTM           First Implement
  * 26-05-2023      1.0                 DucTM           Add close() method 
+ * 06-06-2023      1.0                 DucTM           Add getConnection() for opening a new connection
  */
 package dao;
 
@@ -26,7 +27,6 @@ import java.util.logging.Logger;
  */
 public class DBContext {
 
-    Connection conn;
     //Information of your database connection
     private final String serverName = "localhost";
     private final String dbName = "EasyTravel";
@@ -34,21 +34,28 @@ public class DBContext {
     private final String userID = "sa";
     private final String password = "247314";
 
-    public DBContext() throws Exception {
-
+    public DBContext(){   
+    }
+    
+    //Open a new database connection
+    public Connection getConnection() throws Exception{
         String url = "jdbc:sqlserver://" + serverName + ":" + portNumber
                 + ";databaseName=" + dbName;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch (ClassNotFoundException ex) {
+            throw new Exception("Database open connection error");
+        }
 
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-
-        conn = DriverManager.getConnection(url, userID, password);
+        return DriverManager.getConnection(url, userID, password);
     }
-    public void close(Connection conn, PreparedStatement ps, ResultSet rs) {
+    //Close the current database connection
+    public void close(Connection conn, PreparedStatement ps, ResultSet rs) throws Exception{
         if (rs != null) {
             try {
                 rs.close();
             } catch (SQLException e) {
-                Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, e);
+                throw new Exception("Database close connection error");
             }
         }
 
@@ -56,7 +63,7 @@ public class DBContext {
             try {
                 ps.close();
             } catch (SQLException e) {
-                Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, e);
+                throw new Exception("Database close connection error");
             }
         }
 
@@ -69,9 +76,7 @@ public class DBContext {
                 conn.close();
             }
         } catch (SQLException e) {
-            Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, e);
+            throw new Exception("Database close connection error");
         }
     }
-
-
 }

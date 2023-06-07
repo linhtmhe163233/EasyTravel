@@ -1,6 +1,11 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * ISP392-IS1701-Group6
+ * EasyTravel
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * ??-??-2023      1.0                 LinhTM          First Implement
+ * 06-06-2023      1.0                 DucTM           Fix database connection
  */
 package dao;
 
@@ -11,10 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import models.User;
-
 /**
  *
  * @author LinhTM
@@ -25,14 +27,18 @@ public class UserDao extends DBContext implements DAO<User> {
 
     }
 
-    public User checkLogin(String username, String password) {
+    public User checkLogin(String username, String password) throws Exception {
+        Connection conn = super.getConnection();
+        String login = "SELECT * FROM users WHERE account_name=? AND password=?";
+
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String login = "SELECT * FROM users WHERE account_name=? AND password=?";
+
         try {
             ps = conn.prepareStatement(login);
             ps.setString(1, username);
             ps.setString(2, password);
+
             rs = ps.executeQuery();
             while (rs.next()) {
                 return new User(
@@ -48,7 +54,7 @@ public class UserDao extends DBContext implements DAO<User> {
                         rs.getString(10));
             }
         } catch (SQLException e) {
-            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, e);
+            throw new Exception("Unable to get data from database");
         } finally {
             super.close(conn, ps, rs);
         }
@@ -56,7 +62,8 @@ public class UserDao extends DBContext implements DAO<User> {
     }
 
     @Override
-    public List<User> getAll() {
+    public List<User> getAll() throws Exception {
+        Connection conn = super.getConnection();
         List<User> list = new ArrayList();
         String sql = "select * form user";
 
@@ -95,7 +102,7 @@ public class UserDao extends DBContext implements DAO<User> {
                 list.add(user);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception("Unable to get data from database");
         } finally {
             super.close(conn, ps, rs);
         }
@@ -151,11 +158,12 @@ public class UserDao extends DBContext implements DAO<User> {
     }
 
     @Override
-    public void save(User t) {
-        PreparedStatement ps = null;
+    public void save(User t) throws Exception {
+        Connection conn = super.getConnection();
         String sql = "INSERT INTO users(account_name, email, password, full_name, phone, status, role, DOB, [key])"
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+        
+        PreparedStatement ps = null;
         try {
             ps = conn.prepareStatement(sql);
 
@@ -171,37 +179,28 @@ public class UserDao extends DBContext implements DAO<User> {
 
             ps.execute();
         } catch (SQLException ex) {
-            Logger.getLogger(StaffDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception("Unable to create new user");
         } finally {
             super.close(conn, ps, null);
         }
     }
-//    public static void main(String[] args) {
-//        UserDao dao;
-//        try {
-//            dao = new UserDao();
-//            dao.update(new User(18, "abc", "12345678", "Duc", Date.valueOf("2003-01-01"), 
-//                    "anv@gmail.com", "0345678891", "Tourist", "Inactive", "123456"));
-//        } catch (Exception ex) {
-//            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
 
     @Override
-    public void update(User t) {
+    public void update(User t) throws Exception {
+        Connection conn = super.getConnection();
         String query = "update users set [key]=? where id=?";
         PreparedStatement ps = null;
         try {
             ps = conn.prepareStatement(query);
             ps.setString(1, t.getKey());
             ps.setInt(2, t.getId());
+            
             ps.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception("Unable to update data to database");
         } finally {
             super.close(conn, ps, null);
         }
-
     }
 
     @Override
@@ -210,7 +209,8 @@ public class UserDao extends DBContext implements DAO<User> {
     }
 
     @Override
-    public List<User> search(String keyword) {
+    public List<User> search(String keyword) throws Exception {
+        Connection conn = super.getConnection();
         List<User> list = new ArrayList<>();
         String sql = "SELECT * FROM users WHERE full_name like ? or [key]=?";
 
@@ -226,12 +226,15 @@ public class UserDao extends DBContext implements DAO<User> {
         String key;
 
         User user;
+        
         PreparedStatement ps = null;
         ResultSet rs = null;
+        
         try {
             ps = conn.prepareStatement(sql);
             ps.setString(1, "%" + keyword + "%");
             ps.setString(2, keyword);
+            
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -250,9 +253,9 @@ public class UserDao extends DBContext implements DAO<User> {
                 list.add(user);
             }
         } catch (SQLException e) {
-            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, e);
+            throw new Exception("Unable to get data to database");
         } finally {
-//            super.close(conn, ps, rs);
+            super.close(conn, ps, rs);
         }
         return list;
 
