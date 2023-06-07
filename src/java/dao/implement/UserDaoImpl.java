@@ -190,12 +190,13 @@ public class UserDaoImpl extends DBContext implements BasicDAO<User> {
     @Override
     public void update(User t) throws Exception {
         Connection conn = super.getConnection();
-        String query = "update users set [key]=? where id=?";
+        String query = "update users set [key]=?, status=? where id=?";
         PreparedStatement ps = null;
         try {
             ps = conn.prepareStatement(query);
             ps.setString(1, t.getKey());
-            ps.setInt(2, t.getId());
+            ps.setString(2, t.getStatus());
+            ps.setInt(3, t.getId());
             
             ps.executeUpdate();
         } catch (SQLException ex) {

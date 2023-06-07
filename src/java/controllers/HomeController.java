@@ -74,7 +74,7 @@ public class HomeController extends HttpServlet {
         String key = request.getParameter("key");
         if (key != null) {
             try {
-                UserDaoImpl dao = new UserDaoImpl();
+                BasicDAO dao = new UserDaoImpl();
                 List<User> list = dao.search(key);
                 if (list.isEmpty() || !list.get(0).getStatus().equals("Inactive")) {
                     request.getRequestDispatcher("views/LandingPage.jsp").forward(request, response);
@@ -88,7 +88,8 @@ public class HomeController extends HttpServlet {
                     request.removeAttribute("key");
                 }
             } catch (Exception ex) {
-                Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("error", ex.getMessage());
+                request.getRequestDispatcher("views/Error.jsp").forward(request, response);
             }
         }
         BasicDAO dao;
@@ -97,7 +98,8 @@ public class HomeController extends HttpServlet {
             List<Tour> list = dao.getAll();
             request.setAttribute("list", list);
         } catch (Exception ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", ex.getMessage());
+            request.getRequestDispatcher("views/Error.jsp").forward(request, response);
         }
         request.getRequestDispatcher("views/HomePage.jsp").forward(request, response);
     }
