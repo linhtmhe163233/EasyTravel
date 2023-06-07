@@ -5,7 +5,7 @@
 package controllers;
 
 import commonutils.SendMail;
-import dao.UserDao;
+import dao.implement.UserDaoImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -85,7 +85,7 @@ public class RegisterController extends HttpServlet {
         Date dob = Date.valueOf(request.getParameter("dob"));
         String key = String.valueOf(System.currentTimeMillis()) + Math.random() % 1000 + String.valueOf(System.currentTimeMillis());
         try {
-            UserDao dao = new UserDao();
+            UserDaoImpl dao = new UserDaoImpl();
             dao.save(new User(username, password, fullname, dob, email, phone, role, "Inactive", key));
 
             SendMail mail = new SendMail();

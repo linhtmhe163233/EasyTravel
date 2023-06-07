@@ -9,8 +9,7 @@
  */
 package controllers;
 
-import dao.DAO;
-import dao.TourDAO;
+import dao.implement.TourDAOImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -25,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.Tour;
 import models.User;
+import dao.BasicDAO;
 
 /**
  * This controller is responsible for the adding tour function
@@ -108,7 +108,7 @@ public class TourController extends HttpServlet {
 
         String description = request.getParameter("description").trim();
         try {
-            DAO dao = new TourDAO();
+            BasicDAO dao = new TourDAOImpl();
             dao.save(new Tour(name, type, true, destination, tripLength,
                     availableFrom, availableTo, maxQuantity, price, description, agentID, image));
         } catch (Exception ex) {

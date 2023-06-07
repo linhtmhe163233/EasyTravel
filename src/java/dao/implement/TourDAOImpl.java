@@ -7,8 +7,10 @@
  * 27-05-2023      1.0                 DucTM           First Implement
  * 06-06-2023      1.0                 DucTM           Fix database connection
  */
-package dao;
+package dao.implement;
 
+import dao.BasicDAO;
+import dao.DBContext;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -23,9 +25,9 @@ import models.Tour;
  * 
  * @author DucTM
  */
-public class TourDAO extends DBContext implements DAO<Tour> {
+public class TourDAOImpl extends DBContext implements BasicDAO<Tour> {
 
-    public TourDAO() throws Exception {
+    public TourDAOImpl() throws Exception {
     }
     
     @Override

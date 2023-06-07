@@ -7,8 +7,10 @@
  * ??-??-2023      1.0                 LinhTM          First Implement
  * 06-06-2023      1.0                 DucTM           Fix database connection
  */
-package dao;
+package dao.implement;
 
+import dao.BasicDAO;
+import dao.DBContext;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -21,9 +23,9 @@ import models.User;
  *
  * @author LinhTM
  */
-public class UserDao extends DBContext implements DAO<User> {
+public class UserDaoImpl extends DBContext implements BasicDAO<User> {
 
-    public UserDao() throws Exception {
+    public UserDaoImpl() throws Exception {
 
     }
 

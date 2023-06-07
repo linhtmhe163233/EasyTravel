@@ -8,8 +8,10 @@
  * 03-06-2023      1.0                 DucTM            Fix getAll(), get(), save() method
  * 06-06-2023      1.0                 DucTM            Fix database connection
  */
-package dao;
+package dao.implement;
 
+import dao.BasicDAO;
+import dao.DBContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,9 +26,9 @@ import models.Vehicle;
  *
  * @author SHD
  */
-public class VehicleDAO extends DBContext implements DAO<Vehicle> {
+public class VehicleDAOImpl extends DBContext implements BasicDAO<Vehicle> {
 
-    public VehicleDAO() throws Exception {
+    public VehicleDAOImpl() throws Exception {
     }
 
     @Override

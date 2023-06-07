@@ -21,7 +21,7 @@ import java.util.List;
  * @author DucTM 
  * @param <T> class of the object the implementing DAO will handle
  */
-public interface DAO<T> {
+public interface BasicDAO<T> {
 
     List<T> getAll() throws Exception;
 

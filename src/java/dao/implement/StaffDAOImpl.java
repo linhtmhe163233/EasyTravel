@@ -7,8 +7,10 @@
  * 31-05-2023      1.0                 DucTM           First Implement
  * 06-06-2023      1.0                 DucTM           Fix database connection
  */
-package dao;
+package dao.implement;
 
+import dao.BasicDAO;
+import dao.DBContext;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -23,9 +25,9 @@ import models.Staff;
  * 
  * @author DucTM
  */
-public class StaffDAO extends DBContext implements DAO<Staff> {
+public class StaffDAOImpl extends DBContext implements BasicDAO<Staff> {
 
-    public StaffDAO() throws Exception {
+    public StaffDAOImpl() throws Exception {
     }
 
     @Override
