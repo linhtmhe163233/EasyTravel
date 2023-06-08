@@ -8,9 +8,8 @@
  */
 package controllers;
 
-import dao.DAO;
-import dao.TourDAO;
-import dao.UserDao;
+import dao.implement.TourDAOImpl;
+import dao.implement.UserDaoImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,10 +18,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import models.Tour;
 import models.User;
+import dao.BasicDAO;
 
 /*
  * This class controls the home page of the website
@@ -74,7 +72,7 @@ public class HomeController extends HttpServlet {
         String key = request.getParameter("key");
         if (key != null) {
             try {
-                UserDao dao = new UserDao();
+                BasicDAO dao = new UserDaoImpl();
                 List<User> list = dao.search(key);
                 if (list.isEmpty() || !list.get(0).getStatus().equals("Inactive")) {
                     request.getRequestDispatcher("views/LandingPage.jsp").forward(request, response);
@@ -88,16 +86,18 @@ public class HomeController extends HttpServlet {
                     request.removeAttribute("key");
                 }
             } catch (Exception ex) {
-                Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("error", ex.getMessage());
+                request.getRequestDispatcher("views/Error.jsp").forward(request, response);
             }
         }
-        DAO dao;
+        BasicDAO dao;
         try {
-            dao = new TourDAO();
+            dao = new TourDAOImpl();
             List<Tour> list = dao.getAll();
             request.setAttribute("list", list);
         } catch (Exception ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", ex.getMessage());
+            request.getRequestDispatcher("views/Error.jsp").forward(request, response);
         }
         request.getRequestDispatcher("views/HomePage.jsp").forward(request, response);
     }

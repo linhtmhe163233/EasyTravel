@@ -9,8 +9,7 @@
  */
 package controllers;
 
-import dao.DAO;
-import dao.VehicleDAO;
+import dao.implement.VehicleDAOImpl;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -22,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.User;
 import models.Vehicle;
+import dao.BasicDAO;
 
 /**
  *
@@ -42,7 +42,7 @@ public class VehicleController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            DAO dao = new VehicleDAO();
+            BasicDAO dao = new VehicleDAOImpl();
             HttpSession session = request.getSession();
             int agentID=((User)session.getAttribute("user")).getId();
             List<Vehicle> list = dao.get(agentID);
@@ -71,7 +71,7 @@ public class VehicleController extends HttpServlet {
         HttpSession session = request.getSession();
         int agentID = ((User)session.getAttribute("user")).getId();
         try {
-            DAO dao = new VehicleDAO();
+            BasicDAO dao = new VehicleDAOImpl();
             dao.save(new Vehicle(type, driverName, driverPhone, maxPassenger, agentID));
         } catch (Exception ex) {
             request.setAttribute("message", ex.getMessage());

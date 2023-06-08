@@ -7,8 +7,10 @@
  * ??-??-2023      1.0                 LinhTM          First Implement
  * 06-06-2023      1.0                 DucTM           Fix database connection
  */
-package dao;
+package dao.implement;
 
+import dao.BasicDAO;
+import dao.DBContext;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -21,9 +23,9 @@ import models.User;
  *
  * @author LinhTM
  */
-public class UserDao extends DBContext implements DAO<User> {
+public class UserDaoImpl extends DBContext implements BasicDAO<User> {
 
-    public UserDao() throws Exception {
+    public UserDaoImpl() throws Exception {
 
     }
 
@@ -188,12 +190,13 @@ public class UserDao extends DBContext implements DAO<User> {
     @Override
     public void update(User t) throws Exception {
         Connection conn = super.getConnection();
-        String query = "update users set [key]=? where id=?";
+        String query = "update users set [key]=?, status=? where id=?";
         PreparedStatement ps = null;
         try {
             ps = conn.prepareStatement(query);
             ps.setString(1, t.getKey());
-            ps.setInt(2, t.getId());
+            ps.setString(2, t.getStatus());
+            ps.setInt(3, t.getId());
             
             ps.executeUpdate();
         } catch (SQLException ex) {

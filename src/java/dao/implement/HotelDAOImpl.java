@@ -8,8 +8,10 @@
  * 04-06-2023      1.0                 DucTM           Implement get() and save() 
  * 06-06-2023      1.0                 DucTM           Fix database connection
  */
-package dao;
+package dao.implement;
 
+import dao.BasicDAO;
+import dao.DBContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,9 +24,9 @@ import models.Hotel;
  *
  * @author Ngan Ha
  */
-public class HotelDAO extends DBContext implements DAO<Hotel> {
+public class HotelDAOImpl extends DBContext implements BasicDAO<Hotel> {
 
-    public HotelDAO() throws Exception {
+    public HotelDAOImpl() throws Exception {
     }
 
     @Override

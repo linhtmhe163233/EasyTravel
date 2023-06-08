@@ -4,9 +4,8 @@
  */
 package controllers;
 
-import dao.DAO;
-import dao.HotelDAO;
-import dao.VehicleDAO;
+import dao.implement.HotelDAOImpl;
+import dao.implement.VehicleDAOImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -21,6 +20,7 @@ import java.util.logging.Logger;
 import models.Hotel;
 import models.User;
 import models.Vehicle;
+import dao.BasicDAO;
 
 /**
  *
@@ -67,7 +67,7 @@ public class HotelController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            DAO dao = new HotelDAO();
+            BasicDAO dao = new HotelDAOImpl();
             HttpSession session = request.getSession();
             int agentID = ((User) session.getAttribute("user")).getId();
             List<Hotel> list = dao.get(agentID);
@@ -97,7 +97,7 @@ public class HotelController extends HttpServlet {
         int agentID = ((User) session.getAttribute("user")).getId();
         String location = request.getParameter("location");
         try {
-            DAO dao = new HotelDAO();
+            BasicDAO dao = new HotelDAOImpl();
             dao.save(new Hotel(name, stars, room_available, phone, agentID, location));
         } catch (Exception ex) {
             request.setAttribute("message", ex.getMessage());

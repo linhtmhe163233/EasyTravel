@@ -8,8 +8,7 @@
  */
 package controllers;
 
-import dao.DAO;
-import dao.StaffDAO;
+import dao.implement.StaffDAOImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -23,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.Staff;
 import models.User;
+import dao.BasicDAO;
 
 
 /*
@@ -71,7 +71,7 @@ public class StaffController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            DAO dao = new StaffDAO();
+            BasicDAO dao = new StaffDAOImpl();
             HttpSession session = request.getSession();
             int agentID = ((User)session.getAttribute("user")).getId();
             List<Staff> list = dao.get(agentID);
@@ -100,7 +100,7 @@ public class StaffController extends HttpServlet {
         HttpSession session = request.getSession();
         int agentID = ((User)session.getAttribute("user")).getId();
         try {
-            DAO dao = new StaffDAO();
+            BasicDAO dao = new StaffDAOImpl();
             dao.save(new Staff(name, DOB, phone, gender, agentID));
         } catch (Exception ex) {
             request.setAttribute("message", ex.getMessage());
