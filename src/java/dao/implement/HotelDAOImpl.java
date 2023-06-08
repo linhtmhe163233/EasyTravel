@@ -74,6 +74,7 @@ public class HotelDAOImpl extends DBContext implements BasicDAO<Hotel> {
         List<Hotel> list = new ArrayList();
         String query = "select * from hotels where agent_id=?";
         
+        int id;
         String name;
         int stars;
         int room_available;
@@ -91,13 +92,14 @@ public class HotelDAOImpl extends DBContext implements BasicDAO<Hotel> {
             ps.setInt(1, agentID);
             rs = ps.executeQuery();
             while (rs.next()) {
+                id=rs.getInt("id");
                 name = rs.getString("name");
                 stars = rs.getInt("stars");
                 room_available = rs.getInt("room_available");
                 phone = rs.getString("phone");
                 agent_id = rs.getInt("agent_id");
                 location = rs.getString("location");
-                hotel = new Hotel(name, stars, room_available, phone, agent_id, location);
+                hotel = new Hotel(id, name, stars, room_available, phone, agent_id, location);
                 list.add(hotel);
             }
         } catch (SQLException ex) {
