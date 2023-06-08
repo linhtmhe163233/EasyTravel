@@ -30,7 +30,7 @@ public class DBContext {
     private final String dbName = "EasyTravel";
     private final String portNumber = "1433";
     private final String userID = "sa";
-    private final String password = "247314";
+    private final String password = "linhlam20022013";
 
     public DBContext(){   
     }

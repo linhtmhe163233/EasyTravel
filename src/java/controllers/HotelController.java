@@ -5,7 +5,6 @@
 package controllers;
 
 import dao.implement.HotelDAOImpl;
-import dao.implement.VehicleDAOImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,13 +12,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.Part;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.Hotel;
 import models.User;
-import models.Vehicle;
 import dao.BasicDAO;
 
 /**
