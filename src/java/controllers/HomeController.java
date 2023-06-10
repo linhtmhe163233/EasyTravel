@@ -103,7 +103,7 @@ public class HomeController extends HttpServlet {
                 index = (int) indexObj;
             }
 
-            Paging page = new Paging(list.size(), 6, index);
+            Paging page = new Paging(list.size(), 3, index);
             page.calculate();
             request.setAttribute("page", page);
         } catch (Exception ex) {
