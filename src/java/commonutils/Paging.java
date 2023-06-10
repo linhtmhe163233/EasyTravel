@@ -28,29 +28,30 @@ public class Paging {
      * @param itemsPerPage the number of items displayed in one page
      * @param index the current page index
      */
-    public Paging(int totalItems ,int itemsPerPage, int index) {
+    public Paging(int totalItems, int itemsPerPage, int index) {
         this.totalItems = totalItems < 0 ? 0 : totalItems;
-        this.itemsPerPage = itemsPerPage < 0 ? 0 : itemsPerPage;
+        this.itemsPerPage = itemsPerPage < 1 ? 1 : itemsPerPage;
         this.index = index < 0 ? 0 : index;
     }
-    
+
     /**
-     * Calculate the total number of page, 
-     * the begin and end index in the items collections for the items in current page,
-     * and the smallest and biggest page number appear on the screen
+     * Calculate the total number of page, the begin and end index in the items
+     * collections for the items in current page, and the smallest and biggest
+     * page number appear on the screen
      */
     public void calculate() {
-        if(totalItems==0){
-            begin=end=pageStart=pageEnd=0;
+        if (totalItems == 0) {
+            index = totalPage = begin = end = pageStart = pageEnd = 0;
             return;
         }
-        totalPage = (totalItems + itemsPerPage - 1) / itemsPerPage; 
+        totalPage = (totalItems + itemsPerPage - 1) / itemsPerPage;
+        index = index > totalPage - 1 ? totalPage - 1 : index;
         begin = index * itemsPerPage;
         end = begin + itemsPerPage - 1 > totalItems ? totalItems - 1 : begin + itemsPerPage - 1; //prevent out of bound exception
-        pageStart = index - 2 < 2 ? 2 : index - 2;
-        pageEnd = index + 2 > totalPage-1 ? totalPage - 1 : index + 2;
+        pageStart = index - 2 < 1 ? 1 : index - 2;
+        pageEnd = index + 2 > totalPage - 2 ? totalPage - 2 : index + 2;
     }
-    
+
     public int getPageStart() {
         return pageStart;
     }
@@ -66,7 +67,7 @@ public class Paging {
     public void setPageEnd(int pageEnd) {
         this.pageEnd = pageEnd;
     }
-    
+
     public int getTotalItems() {
         return totalItems;
     }

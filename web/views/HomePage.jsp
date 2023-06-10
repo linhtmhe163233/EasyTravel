@@ -22,8 +22,8 @@
     </head>
     <body>
         <c:import url="./Layout/Header.jsp"></c:import>
-        <div class="d-flex flex-wrap flex-row justify-content-start w-75 mx-auto mt-4" style="column-gap: 8.5rem; row-gap: 2rem">
-            <c:forEach items="${list}" var="tour">
+            <div class="d-flex flex-wrap flex-row justify-content-start w-75 mx-auto mt-4" style="column-gap: 8.5rem; row-gap: 2rem">
+            <c:forEach items="${list}" var="tour" begin="${page.begin}" end="${page.end}">
                 <div class="card rounded" style="width: 18rem;">
                     <img class="card-img-top border-bottom border-dark pb-4 text-truncate rounded-top img-fluid" 
                          src="./images/${tour.image}" alt="${tour.name}" style="max-height: 216px">
@@ -43,5 +43,37 @@
                 </div>
             </c:forEach>
         </div>
+        <form action="home" method="POST">
+            <input type="hidden" min="0" name="index" value="${page.index}"> 
+        <nav class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <button type="submit" class="page-link" name="Prev"><<</button>
+                    </li>
+                    <li class="page-item">
+                        <button type="submit" class="page-link" name="first">1</button>
+                    </li>
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                    <c:forEach var="p" begin="${page.pageStart}" end="${page.pageEnd}">
+                        <li class="page-item">
+                            <button type="submit" class="page-link" value="${p}" name="btnIdx">${p+1}</button>
+                        </li>
+                    </c:forEach>
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                    <li class="page-item">
+                        <button type="submit" class="page-link" name="last" value="${page.totalPage-1}">
+                            ${page.totalPage}
+                        </button>
+                    </li>
+                    <li class="page-item">
+                        <button type="submit" class="page-link" name="Next">>></button>
+                    </li>
+                </ul>
+            </nav>
+        </form>
     </body>
 </html>

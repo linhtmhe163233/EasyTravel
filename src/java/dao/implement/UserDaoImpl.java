@@ -18,6 +18,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import models.Hotel;
 import models.User;
 /**
  *
@@ -28,11 +31,11 @@ public class UserDaoImpl extends DBContext implements BasicDAO<User> {
     public UserDaoImpl() throws Exception {
 
     }
-
+    
     public User checkLogin(String username, String password) throws Exception {
         Connection conn = super.getConnection();
         String login = "SELECT * FROM users WHERE account_name=? AND password=?";
-
+ 
         PreparedStatement ps = null;
         ResultSet rs = null;
 
@@ -67,7 +70,7 @@ public class UserDaoImpl extends DBContext implements BasicDAO<User> {
     public List<User> getAll() throws Exception {
         Connection conn = super.getConnection();
         List<User> list = new ArrayList();
-        String sql = "select * form user";
+        String sql = "select * from users";
 
         int id;
         String username;

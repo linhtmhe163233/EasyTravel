@@ -8,6 +8,7 @@
  */
 package controllers;
 
+import commonutils.Paging;
 import dao.implement.TourDAOImpl;
 import dao.implement.UserDaoImpl;
 import java.io.IOException;
@@ -50,8 +51,7 @@ public class HomeController extends HttpServlet {
             out.println("<title>Servlet HomeController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HomeController at " + request.getContextPath() + "</h1>");
-            out.println("<a heft='logout'>logout</a>");
+            out.println("<h1>Servlet HomeController at " + request.getParameter("index") + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -95,6 +95,17 @@ public class HomeController extends HttpServlet {
             dao = new TourDAOImpl();
             List<Tour> list = dao.getAll();
             request.setAttribute("list", list);
+            Object indexObj = request.getAttribute("index");
+            int index;
+            if (indexObj == null) {
+                index = 0;
+            } else {
+                index = (int) indexObj;
+            }
+
+            Paging page = new Paging(list.size(), 6, index);
+            page.calculate();
+            request.setAttribute("page", page);
         } catch (Exception ex) {
             request.setAttribute("error", ex.getMessage());
             request.getRequestDispatcher("views/Error.jsp").forward(request, response);
@@ -113,7 +124,29 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int index = Integer.parseInt(request.getParameter("index"));
+        if (request.getParameter("first") != null) //click first
+        {
+            index = 0;
+        }
+        if (request.getParameter("last") != null) //click last
+        {
+            index = Integer.parseInt(request.getParameter("last"));
+        }
+        if (request.getParameter("Prev") != null) //click prev
+        {
+            index--;
+        }
+        if (request.getParameter("Next") != null) //click next
+        {
+            index++;
+        }
+        if (request.getParameter("btnIdx") != null) // click button number
+        {
+            index = Integer.parseInt(request.getParameter("btnIdx"));
+        }
+        request.setAttribute("index", index);
+        doGet(request, response);
     }
 
     /**
