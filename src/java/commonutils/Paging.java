@@ -45,11 +45,16 @@ public class Paging {
             return;
         }
         totalPage = (totalItems + itemsPerPage - 1) / itemsPerPage;
-        index = index > totalPage - 1 ? totalPage - 1 : index;
         begin = index * itemsPerPage;
         end = begin + itemsPerPage - 1 > totalItems ? totalItems - 1 : begin + itemsPerPage - 1; //prevent out of bound exception
-        pageStart = index - 2 < 1 ? 1 : index - 2;
-        pageEnd = index + 2 > totalPage - 2 ? totalPage - 2 : index + 2;
+        pageStart = index - 1;
+        if (index < 2 || totalPage == 4) {
+            pageStart = 1;
+        }
+        if (totalPage > 4 && index >= totalPage - 2) {
+            pageStart = totalPage - 4;
+        }
+        pageEnd = pageStart + 2 > totalPage - 2 ? totalPage - 2 : pageStart + 2;
     }
 
     public int getPageStart() {

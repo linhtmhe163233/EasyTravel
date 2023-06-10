@@ -45,32 +45,42 @@
         </div>
         <form action="home" method="POST">
             <input type="hidden" min="0" name="index" value="${page.index}"> 
-        <nav class="mt-4">
+            <nav class="mt-4">
                 <ul class="pagination justify-content-center">
                     <li class="page-item">
-                        <button type="submit" class="page-link" name="Prev"><<</button>
+                        <button type="submit" class="page-link" name="Prev" ${page.index==0?"hidden":""}>
+                            <<
+                        </button>
                     </li>
-                    <li class="page-item">
+                    <li class="page-item ${page.index==0?"active":""}">
                         <button type="submit" class="page-link" name="first">1</button>
                     </li>
-                    <li class="page-item disabled">
+                    <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
                         <span class="page-link">...</span>
                     </li>
-                    <c:forEach var="p" begin="${page.pageStart}" end="${page.pageEnd}">
-                        <li class="page-item">
-                            <button type="submit" class="page-link" value="${p}" name="btnIdx">${p+1}</button>
-                        </li>
-                    </c:forEach>
-                    <li class="page-item disabled">
+                    <c:if test="${page.totalPage>2}">
+                        <c:forEach var="p" begin="${page.pageStart}" end="${page.pageEnd}">
+                            <li class="page-item ${page.index==p?"active":""}">
+                                <button type="submit" class="page-link" value="${p}" name="btnIdx">
+                                    ${p+1}
+                                </button>
+                            </li>
+                        </c:forEach>
+                    </c:if>
+                    <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
                         <span class="page-link">...</span>
                     </li>
-                    <li class="page-item">
-                        <button type="submit" class="page-link" name="last" value="${page.totalPage-1}">
+                    <li class="page-item ${page.index==page.totalPage-1?"active":""}" ${page.totalPage==1?"hidden":""}>
+                        <button type="submit" class="page-link"
+                                name="last" value="${page.totalPage-1}">
                             ${page.totalPage}
                         </button>
                     </li>
                     <li class="page-item">
-                        <button type="submit" class="page-link" name="Next">>></button>
+                        <button type="submit" class="page-link" name="Next" 
+                                ${page.index==page.totalPage-1?"hidden":""}>
+                            >>
+                        </button>
                     </li>
                 </ul>
             </nav>
