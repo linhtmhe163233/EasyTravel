@@ -18,8 +18,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import models.Tour;
 
 /*
@@ -30,18 +28,6 @@ import models.Tour;
 public class TourDAOImpl extends DBContext implements BasicDAO<Tour> {
 
     public TourDAOImpl() throws Exception {
-    }
-    public static void main(String[] args) {
-        try {
-            TourDAOImpl td = new TourDAOImpl();
-            List<Tour> list = td.getAll();
-            System.out.println(list.isEmpty());
-            for(Tour tour:list){
-                System.out.println(tour.getName());
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(TourDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
     
     @Override
