@@ -1,14 +1,11 @@
 /*
- * ISP392-IS1701-Group6
- * EasyTravel
- *
- * Record of change:
- * DATE            Version             AUTHOR           DESCRIPTION
- * 31-05-2023      1.0                 DucTM           First Implement
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package controllers;
 
-import dao.implement.StaffDAOImpl;
+import dao.BasicDAO;
+import dao.implement.UserDaoImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,21 +13,16 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.sql.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import models.Staff;
 import models.User;
-import dao.BasicDAO;
 
-
-/*
- * This class controls the staff list and perform CRUD functions
- * 
- * @author DucTM
+/**
+ *
+ * @author My Laptop
  */
-public class StaffController extends HttpServlet {
+public class ProfileController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,10 +41,10 @@ public class StaffController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet StaffController</title>");
+            out.println("<title>Servlet ProfileController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet StaffController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ProfileController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -71,16 +63,18 @@ public class StaffController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            BasicDAO dao = new StaffDAOImpl();
+            //        processRequest(request, response
+            BasicDAO dao = new UserDaoImpl();
             HttpSession session = request.getSession();
-            int agentID = ((User)session.getAttribute("user")).getId();
-            System.out.println(agentID);
-            List<Staff> list = dao.get(agentID);
+            int id = ((User) session.getAttribute("user")).getId();
+            System.out.println(id);
+            List<User> list = dao.get(id);
             request.setAttribute("list", list);
         } catch (Exception ex) {
-            Logger.getLogger(StaffController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        request.getRequestDispatcher("views/TravelAgent/StaffList.jsp").forward(request, response);
+
+        request.getRequestDispatcher("views/Profile.jsp").forward(request, response);
     }
 
     /**
@@ -94,20 +88,8 @@ public class StaffController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String name=request.getParameter("name").trim();
-        Date DOB=Date.valueOf(request.getParameter("DOB"));
-        String phone=request.getParameter("phone").trim();
-        boolean gender=request.getParameter("gender").equals("Male");
-        HttpSession session = request.getSession();
-        int agentID = ((User)session.getAttribute("user")).getId();
-        try {
-            BasicDAO dao = new StaffDAOImpl();
-            dao.save(new Staff(name, DOB, phone, gender, agentID));
-        } catch (Exception ex) {
-            request.setAttribute("message", ex.getMessage());
-            request.setAttribute("staff", new Staff(name, DOB, phone, gender, agentID));
-        }
-        doGet(request, response);
+//        processRequest(request, response);
+String fullname = request.getParameter("fullname");
     }
 
     /**

@@ -18,6 +18,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import models.Staff;
 
 /*
@@ -112,5 +114,15 @@ public class StaffDAOImpl extends DBContext implements BasicDAO<Staff> {
     public List<Staff> search(String keyword) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    public static void main(String[] args) {
+        try {
+            StaffDAOImpl staff = new StaffDAOImpl();
+            System.out.println(staff.get(3).size());
+            for( Staff st : staff.get(3)){
+                System.out.println(st.getName());
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(StaffDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

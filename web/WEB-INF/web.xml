@@ -36,6 +36,10 @@
         <servlet-name>MainController</servlet-name>
         <servlet-class>controllers.MainController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProfileController</servlet-name>
+        <servlet-class>controllers.ProfileController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/landing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProfileController</servlet-name>
+        <url-pattern>/ProfileController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
