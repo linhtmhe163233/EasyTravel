@@ -7,7 +7,6 @@ package controllers;
 //import dao.DAO;
 import dao.implement.UserDaoImpl;
 import java.io.IOException;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -67,7 +66,7 @@ public class LoginController extends HttpServlet {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String mess = "";
+        String mess;
         
         try {
 //            DAO dao = new UserDao(); 
@@ -76,7 +75,6 @@ public class LoginController extends HttpServlet {
             User user = dao.checkLogin(username, password);
             
             if (user == null) {
-                System.out.println(2);
                 mess = "Wrong account or password !!! Please re-enter.";
                 request.setAttribute("mess", mess);
                 doGet(request, response);

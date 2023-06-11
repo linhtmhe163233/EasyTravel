@@ -131,9 +131,6 @@ constraint booking_to_staff foreign key(staff_id) references staff(id),
 constraint booking_to_restaurants foreign key(restaurant_id) references restaurants(id),
 )
 
-﻿use EasyTravel
-go
-
 insert into tours(name, type, is_enabled, destination, trip_length, available_from, available_to, max_quantity, price, description, agent_id, image )
 values
 (N'Du lịch biển Sầm Sơn', N'du lịch biển', 1, N'Thanh Hoá', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 3, ''),
@@ -142,23 +139,14 @@ values
 (N'Du lịch sinh thái Cát Tiên', N'du lịch sinh thái', 1, N'Đồng Nai, Lâm Đồng, Bình Phước', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 3, ''),
 (N'Du lịch nghỉ dưỡng Sa Pa', N'nghỉ dưỡng', 1, N'Lào Cai', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 3, '')
 
-﻿use EasyTravel
-go
-
 insert into staff(name, DOB, phone, gender, agent_id)
 values
 (N'Nguyễn Văn A', '2000-01-01', '0123456789', 1, 3),
 (N'Nguyễn Văn B', '2000-01-01', '0123456788', 0, 3),
 (N'Nguyễn Văn C', '2000-01-01', '0123456787', 1, 3)
 
-use EasyTravel
-go
-
 alter table hotels
 add location nvarchar(50) not null
-
-﻿USE [EasyTravel]
-GO
 
 INSERT INTO [dbo].[vehicles]
            ([type]
@@ -170,17 +158,9 @@ INSERT INTO [dbo].[vehicles]
            (N'Xe 7 chỗ', N'Nguyễn Văn A', '0123456789', 7, 3),
 			(N'Xe 5 chỗ', N'Nguyễn Văn A', '0123456780', 5, 3),
 			(N'Xe 20 chỗ', N'Nguyễn Văn A', '0123456781', 20, 3)
-GO
-
-
-use EasyTravel
-go
 
 alter table hotels
 add name nvarchar(80) not null
-
-use EasyTravel 
-go
 
 alter table users
 add [key] varchar(100)

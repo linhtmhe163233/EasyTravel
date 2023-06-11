@@ -28,7 +28,6 @@ public class HotelDAOImpl extends DBContext implements BasicDAO<Hotel> {
 
     public HotelDAOImpl() throws Exception {
     }
-
     @Override
     public List<Hotel> getAll() throws Exception {
         Connection conn = super.getConnection();
