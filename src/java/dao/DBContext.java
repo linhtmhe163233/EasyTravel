@@ -15,6 +15,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * This class contains the database accessing config for the web application
@@ -24,15 +26,22 @@ import java.sql.SQLException;
  * @author DucTM
  */
 public class DBContext {
-
+    public static void main(String[] args) {
+        DBContext db = new DBContext();
+        try {
+            db.getConnection();
+        } catch (Exception ex) {
+            Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     //Information of your database connection
     private final String serverName = "localhost";
     private final String dbName = "EasyTravel";
     private final String portNumber = "1433";
     private final String userID = "sa";
-    private final String password = "247314";
+    private final String password = "12345678";
 
-    public DBContext(){   
+    public DBContext(){
     }
     
     //Open a new database connection
