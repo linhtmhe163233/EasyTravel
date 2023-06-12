@@ -30,6 +30,7 @@
                     <a class="nav-item nav-link" href="hotels">Hotels</a>
                     <a class="nav-item nav-link" href="vehicles">Vehicles</a>
                     <a class="nav-item nav-link" href="staff">Staff</a>
+                    <a class="nav-item nav-link" href="profile">Profile</a>
                 </div>
                 <div class="navbar-nav ml-auto">
                     <a class="nav-item nav-link" href="logout">Logout</a>

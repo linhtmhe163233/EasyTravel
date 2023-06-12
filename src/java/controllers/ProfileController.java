@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,10 +67,10 @@ public class ProfileController extends HttpServlet {
             //        processRequest(request, response
             BasicDAO dao = new UserDaoImpl();
             HttpSession session = request.getSession();
-            int id = ((User) session.getAttribute("user")).getId();
-            System.out.println(id);
-            List<User> list = dao.get(id);
-            request.setAttribute("list", list);
+            User acc = (User) session.getAttribute("user");
+            
+            String fullname = request.getParameter("fullname");
+                   
         } catch (Exception ex) {
             Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -89,7 +90,27 @@ public class ProfileController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
-String fullname = request.getParameter("fullname");
+//        int id = request.getParameter("id");
+        String username = request.getParameter("username");
+        String fullname = request.getParameter("fullname");
+        String password = request.getParameter("password");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+        String role = request.getParameter("role");
+        String status = request.getParameter("status");
+        String key = request.getParameter("key");
+        Date dob = Date.valueOf(request.getParameter("dob"));
+        try {
+            BasicDAO dao = new UserDaoImpl();
+//            dao.save(new User(username, password, fullname, dob, email, phone, role, status, key));
+            HttpSession session = request.getSession();
+            User acc = (User) session.getAttribute("user");
+        } catch (Exception ex) {
+//            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex
+//            request.setAttribute("message", ex.getMessage());
+//            request.getAttribute("user", new User(username, password, fullname, dob, email, phone, role, status, key));
+        }
+        doGet(request, response);
     }
 
     /**
