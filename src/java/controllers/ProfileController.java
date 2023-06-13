@@ -64,17 +64,19 @@ public class ProfileController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            //        processRequest(request, response
+            
             BasicDAO dao = new UserDaoImpl();
             HttpSession session = request.getSession();
             User acc = (User) session.getAttribute("user");
+            int id = ((User) session.getAttribute("user")).getId();
+            System.out.println(id);
+            List<User> list = dao.get(id);
+            request.setAttribute("list", list);
             
-            String fullname = request.getParameter("fullname");
-                   
         } catch (Exception ex) {
             Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         request.getRequestDispatcher("views/Profile.jsp").forward(request, response);
     }
 
@@ -89,8 +91,7 @@ public class ProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
-//        int id = request.getParameter("id");
+        
         String username = request.getParameter("username");
         String fullname = request.getParameter("fullname");
         String password = request.getParameter("password");
@@ -100,15 +101,15 @@ public class ProfileController extends HttpServlet {
         String status = request.getParameter("status");
         String key = request.getParameter("key");
         Date dob = Date.valueOf(request.getParameter("dob"));
+        HttpSession session = request.getSession();
+        int id = ((User) session.getAttribute("user")).getId();
         try {
             BasicDAO dao = new UserDaoImpl();
-//            dao.save(new User(username, password, fullname, dob, email, phone, role, status, key));
-            HttpSession session = request.getSession();
-            User acc = (User) session.getAttribute("user");
+            request.setAttribute("user", new User(username, password, fullname, dob, email, phone, role, status, key));
+            
         } catch (Exception ex) {
 //            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex
-//            request.setAttribute("message", ex.getMessage());
-//            request.getAttribute("user", new User(username, password, fullname, dob, email, phone, role, status, key));
+
         }
         doGet(request, response);
     }
