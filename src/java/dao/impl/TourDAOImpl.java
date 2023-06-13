@@ -6,10 +6,11 @@
  * DATE            Version             AUTHOR           DESCRIPTION
  * 27-05-2023      1.0                 DucTM           First Implement
  * 06-06-2023      1.0                 DucTM           Fix database connection
+ * 13-06-2023      1.0                 DucTM           Add getTotalItems() and getPage()
  */
 package dao.impl;
 
-import dao.BasicDAO;
+import dao.TourDAO;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -18,43 +19,124 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import entity.Tour;
+import utils.Pagination;
 
 /*
  * This class contains methods for performing CRUD actions to table Tours in the database
  * 
  * @author DucTM
  */
-public class TourDAOImpl extends DBContext implements BasicDAO<Tour> {
+public class TourDAOImpl extends DBContext implements TourDAO {
 
     public TourDAOImpl() throws Exception {
     }
+        
+    @Override    
+    public int getTotalItems() throws Exception {
+        String query = "select count(*) from tours";
+        
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (Exception e) {
+        }
+        return 0;
+    }
     
     @Override
-    public List<Tour> getAll() throws Exception {
-        Connection conn = super.getConnection();
+    public List<Tour> getPage(Pagination page) throws Exception {
         List<Tour> list = new ArrayList<>();
-        String query = "select * from tours";
-        
-        int ID;
-        String name;
-        String type;
-        boolean isEnabled;
-        String destination;
-        int tripLength;
-        Date availableFrom;
-        Date availableTo;
-        int maxQuantity;
-        float price;
-        String description;
-        int agentID;
-        String image;
+        String query = "select * from tours order by id offset ? rows fetch next ? rows only";
 
-        Tour tour;
+        int ID = 0;
+        String name = null;
+        String type = null;
+        boolean isEnabled = false;
+        String destination = null;
+        int tripLength = 0;
+        Date availableFrom = null;
+        Date availableTo = null;
+        int maxQuantity = 0;
+        float price = 0f;
+        String description = null;
+        int agentID = 0;
+        String image = null;
 
+        Tour tour = null;
+
+        Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, page.getOffset());
+            ps.setInt(2, page.getItemsPerPage());
+            
+            rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                ID = rs.getInt("id");
+                name = rs.getString("name");
+                type = rs.getString("type");
+                isEnabled = rs.getBoolean("is_enabled");
+                destination = rs.getString("destination");
+                tripLength = rs.getInt("trip_length");
+                availableFrom = rs.getDate("available_from");
+                availableTo = rs.getDate("available_to");
+                maxQuantity = rs.getInt("max_quantity");
+                price = rs.getFloat("price");
+                description = rs.getString("description");
+                agentID = rs.getInt("agent_id");
+                image = rs.getString("image");
+
+                tour = new Tour(ID, name, type, isEnabled, destination, tripLength, availableFrom,
+                        availableTo, maxQuantity, price, description, agentID, image);
+                list.add(tour);
+            }
+        } catch (SQLException ex) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            close(conn, ps, rs);
+        }
+        return list;
+    }
+
+    @Override
+    public List<Tour> getAll() throws Exception {
+        List<Tour> list = new ArrayList<>();
+        String query = "select * from tours";
+
+        int ID = 0;
+        String name = null;
+        String type = null;
+        boolean isEnabled = false;
+        String destination = null;
+        int tripLength = 0;
+        Date availableFrom = null;
+        Date availableTo = null;
+        int maxQuantity = 0;
+        float price = 0f;
+        String description = null;
+        int agentID = 0;
+        String image = null;
+
+        Tour tour = null;
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = super.getConnection();
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {

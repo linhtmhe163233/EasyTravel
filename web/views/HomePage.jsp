@@ -3,6 +3,7 @@
     Created on : 17/05/2023
     Author     : DucTM
     Update on  : 28/05/2023, implements some elements
+    Update on  : 13/06/2023, adjust paging
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -23,7 +24,7 @@
     <body>
         <c:import url="./Layout/Header.jsp"></c:import>
             <div class="d-flex flex-wrap flex-row justify-content-start w-75 mx-auto mt-4" style="column-gap: 8.5rem; row-gap: 2rem">
-            <c:forEach items="${list}" var="tour" begin="${page.begin}" end="${page.end}">
+            <c:forEach items="${list}" var="tour">
                 <div class="card rounded" style="width: 18rem;">
                     <img class="card-img-top border-bottom border-dark pb-4 text-truncate rounded-top img-fluid" 
                          src="./images/${tour.image}" alt="${tour.name}" style="max-height: 216px">
@@ -48,11 +49,11 @@
             <nav class="mt-4">
                 <ul class="pagination justify-content-center">
                     <li class="page-item">
-                        <button type="submit" class="page-link" name="Prev" ${page.index==0?"hidden":""}>
+                        <button type="submit" class="page-link" name="Prev" ${page.index==1?"hidden":""}>
                             <<
                         </button>
                     </li>
-                    <li class="page-item ${page.index==0?"active":""}">
+                    <li class="page-item ${page.index==1?"active":""}">
                         <button type="submit" class="page-link" name="first">1</button>
                     </li>
                     <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
@@ -62,7 +63,7 @@
                         <c:forEach var="p" begin="${page.pageStart}" end="${page.pageEnd}">
                             <li class="page-item ${page.index==p?"active":""}">
                                 <button type="submit" class="page-link" value="${p}" name="btnIdx">
-                                    ${p+1}
+                                    ${p}
                                 </button>
                             </li>
                         </c:forEach>
@@ -70,15 +71,15 @@
                     <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
                         <span class="page-link">...</span>
                     </li>
-                    <li class="page-item ${page.index==page.totalPage-1?"active":""}" ${page.totalPage==1?"hidden":""}>
+                    <li class="page-item ${page.index==page.totalPage?"active":""}" ${page.totalPage==1?"hidden":""}>
                         <button type="submit" class="page-link"
-                                name="last" value="${page.totalPage-1}">
+                                name="last" value="${page.totalPage}">
                             ${page.totalPage}
                         </button>
                     </li>
                     <li class="page-item">
                         <button type="submit" class="page-link" name="Next" 
-                                ${page.index==page.totalPage-1?"hidden":""}>
+                                ${page.index==page.totalPage?"hidden":""}>
                             >>
                         </button>
                     </li>

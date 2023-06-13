@@ -5,6 +5,7 @@
  * Record of change:
  * DATE            Version             AUTHOR           DESCRIPTION
  * 27-05-2023      1.0                 DucTM           First Implement
+ * 13-06-2023      1.0                 DucTM           Update paging
  */
 package controller;
 
@@ -21,6 +22,7 @@ import java.util.List;
 import entity.Tour;
 import entity.User;
 import dao.BasicDAO;
+import dao.TourDAO;
 
 /*
  * This class controls the home page of the website
@@ -75,22 +77,25 @@ public class HomeController extends HttpServlet {
                 request.getRequestDispatcher("views/Error.jsp").forward(request, response);
             }
         }
-        BasicDAO dao;
+        TourDAO dao;
         try {
             dao = new TourDAOImpl();
-            List<Tour> list = dao.getAll();
-            request.setAttribute("list", list);
+            
+            int totalItems = dao.getTotalItems();
+            
             Object indexObj = request.getAttribute("index");
             int index;
             if (indexObj == null) {
-                index = 0;
+                index = 1;
             } else {
                 index = (int) indexObj;
             }
-
-            Pagination page = new Pagination(list.size(), 6, index);
-            page.calculate();
+            
+            Pagination page = new Pagination(totalItems, 3, index);
+            List<Tour> list = dao.getPage(page);
+            
             request.setAttribute("page", page);
+            request.setAttribute("list", list);
         } catch (Exception ex) {
             request.setAttribute("error", ex.getMessage());
             request.getRequestDispatcher("views/Error.jsp").forward(request, response);
@@ -112,7 +117,7 @@ public class HomeController extends HttpServlet {
         int index = Integer.parseInt(request.getParameter("index"));
         if (request.getParameter("first") != null) //click first
         {
-            index = 0;
+            index = 1;
         }
         if (request.getParameter("last") != null) //click last
         {

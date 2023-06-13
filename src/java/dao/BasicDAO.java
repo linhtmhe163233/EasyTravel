@@ -1,4 +1,3 @@
-
 /*
  * ISP392-IS1701-Group6
  * EasyTravel
@@ -7,7 +6,6 @@
  * DATE            Version             AUTHOR           DESCRIPTION
  * 21-05-2023      1.0                 DucTM           First Implement
  * 26-05-2023      1.0                 DucTM           Add search() method
- * 31-05-2023      1.0                 DucTM           Add getBy(int agentid) method
  */
 package dao;
 
