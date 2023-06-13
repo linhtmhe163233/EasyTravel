@@ -6,21 +6,20 @@
  * DATE            Version             AUTHOR           DESCRIPTION
  * 27-05-2023      1.0                 DucTM           First Implement
  */
-package controllers;
+package controller;
 
-import commonutils.Paging;
-import dao.implement.TourDAOImpl;
-import dao.implement.UserDaoImpl;
+import utils.Pagination;
+import dao.impl.TourDAOImpl;
+import dao.impl.UserDaoImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
-import models.Tour;
-import models.User;
+import entity.Tour;
+import entity.User;
 import dao.BasicDAO;
 
 /*
@@ -41,20 +40,6 @@ public class HomeController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet HomeController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet HomeController at " + request.getParameter("index") + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -103,7 +88,7 @@ public class HomeController extends HttpServlet {
                 index = (int) indexObj;
             }
 
-            Paging page = new Paging(list.size(), 6, index);
+            Pagination page = new Pagination(list.size(), 6, index);
             page.calculate();
             request.setAttribute("page", page);
         } catch (Exception ex) {

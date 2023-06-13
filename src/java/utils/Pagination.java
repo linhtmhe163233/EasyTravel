@@ -6,9 +6,9 @@
  * DATE            Version             AUTHOR           DESCRIPTION
  * 07-06-2023      1.0                 DucTM           First Implement
  */
-package commonutils;
+package utils;
 
-public class Paging {
+public class Pagination {
 
     private int totalItems;
     private int itemsPerPage;
@@ -19,7 +19,7 @@ public class Paging {
     private int pageStart;
     private int pageEnd;
 
-    public Paging() {
+    public Pagination() {
     }
 
     /**
@@ -28,7 +28,7 @@ public class Paging {
      * @param itemsPerPage the number of items displayed in one page
      * @param index the current page index
      */
-    public Paging(int totalItems, int itemsPerPage, int index) {
+    public Pagination(int totalItems, int itemsPerPage, int index) {
         this.totalItems = totalItems < 0 ? 0 : totalItems;
         this.itemsPerPage = itemsPerPage < 1 ? 1 : itemsPerPage;
         this.index = index < 0 ? 0 : index;

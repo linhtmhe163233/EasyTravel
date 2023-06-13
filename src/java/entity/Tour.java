@@ -6,7 +6,7 @@
  * DATE            Version             AUTHOR           DESCRIPTION
  * 26-05-2023      1.0                 DucTM           First Implement
  */
-package models;
+package entity;
 
 import java.sql.Date;
 

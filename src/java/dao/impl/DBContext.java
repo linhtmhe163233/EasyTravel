@@ -8,7 +8,7 @@
  * 26-05-2023      1.0                 DucTM           Add close() method 
  * 06-06-2023      1.0                 DucTM           Add getConnection() for opening a new connection
  */
-package dao;
+package dao.impl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

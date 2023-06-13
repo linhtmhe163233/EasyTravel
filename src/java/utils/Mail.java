@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package commonutils;
+package utils;
 
 import java.util.Properties;
 import javax.mail.Authenticator;
@@ -18,7 +18,7 @@ import javax.mail.internet.MimeMessage;
  *
  * @author LinhTM
  */
-public class SendMail {
+public class Mail {
 
     public void sentEmail(String toEmail, String subject, String link) {
         String MAIL = "tranminhducbxvp@gmail.com";
@@ -59,7 +59,7 @@ public class SendMail {
         String toEmail = "ductmhe173033@fpt.edu.vn";
         String subject = "Easy Travel verification mail";
         String link = "http://localhost:9999/EasyTravel/home";
-        new SendMail().sentEmail(toEmail, subject, link);
+        new Mail().sentEmail(toEmail, subject, link);
     }
 
 }

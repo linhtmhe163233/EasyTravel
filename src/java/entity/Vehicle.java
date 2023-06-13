@@ -7,7 +7,7 @@
  * ??-??-2023      1.0                 DungMQ           First Implement
  * 03-06-2023      1.0                 DucTM            Change variables name
  */
-package models;
+package entity;
 
 public class Vehicle {
     private int ID;

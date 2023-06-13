@@ -1,9 +1,14 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ * ISP392-IS1701-Group6
+ * EasyTravel
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 31-05-2023      1.0                 DucTM           First Implement
  */
-package controllers;
+package controller;
 
+import dao.impl.StaffDAOImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,12 +16,21 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import entity.Staff;
+import entity.User;
+import dao.BasicDAO;
 
-/**
- *
- * @author My Laptop
+
+/*
+ * This class controls the staff list and perform CRUD functions
+ * 
+ * @author DucTM
  */
-public class LogoutController extends HttpServlet {
+public class StaffController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,10 +49,10 @@ public class LogoutController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LogoutController</title>");
+            out.println("<title>Servlet StaffController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LogoutController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet StaffController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,10 +70,16 @@ public class LogoutController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
-        HttpSession session = request.getSession();
-        session.invalidate();
-        response.sendRedirect("login");
+        try {
+            BasicDAO dao = new StaffDAOImpl();
+            HttpSession session = request.getSession();
+            int agentID = ((User)session.getAttribute("user")).getId();
+            List<Staff> list = dao.get(agentID);
+            request.setAttribute("list", list);
+        } catch (Exception ex) {
+            Logger.getLogger(StaffController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        request.getRequestDispatcher("views/TravelAgent/StaffList.jsp").forward(request, response);
     }
 
     /**
@@ -73,7 +93,20 @@ public class LogoutController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
+        String name=request.getParameter("name").trim();
+        Date DOB=Date.valueOf(request.getParameter("DOB"));
+        String phone=request.getParameter("phone").trim();
+        boolean gender=request.getParameter("gender").equals("Male");
+        HttpSession session = request.getSession();
+        int agentID = ((User)session.getAttribute("user")).getId();
+        try {
+            BasicDAO dao = new StaffDAOImpl();
+            dao.save(new Staff(name, DOB, phone, gender, agentID));
+        } catch (Exception ex) {
+            request.setAttribute("message", ex.getMessage());
+            request.setAttribute("staff", new Staff(name, DOB, phone, gender, agentID));
+        }
+        doGet(request, response);
     }
 
     /**

@@ -1,5 +1,5 @@
 
-package models;
+package entity;
 
 public class Restaurant {
 

@@ -7,9 +7,9 @@
  * ??-??-2023      1.0                 DungMQ           First Implement
  * 03-06-2023      1.0                 DucTM            
  */
-package controllers;
+package controller;
 
-import dao.implement.VehicleDAOImpl;
+import dao.impl.VehicleDAOImpl;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -19,8 +19,8 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import models.User;
-import models.Vehicle;
+import entity.User;
+import entity.Vehicle;
 import dao.BasicDAO;
 
 /**

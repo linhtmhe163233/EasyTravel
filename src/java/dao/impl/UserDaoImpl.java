@@ -7,10 +7,9 @@
  * ??-??-2023      1.0                 LinhTM          First Implement
  * 06-06-2023      1.0                 DucTM           Fix database connection
  */
-package dao.implement;
+package dao.impl;
 
 import dao.BasicDAO;
-import dao.DBContext;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -20,8 +19,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import models.Hotel;
-import models.User;
+import entity.Hotel;
+import entity.User;
 /**
  *
  * @author LinhTM

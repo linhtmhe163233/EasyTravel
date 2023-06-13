@@ -1,36 +1,27 @@
 /*
- * ISP392-IS1701-Group6
- * EasyTravel
- *
- * Record of change:
- * DATE            Version             AUTHOR           DESCRIPTION
- * 31-05-2023      1.0                 DucTM           First Implement
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controllers;
+package controller;
 
-import dao.implement.StaffDAOImpl;
+import utils.Mail;
+import dao.impl.UserDaoImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import models.Staff;
-import models.User;
-import dao.BasicDAO;
+import entity.User;
 
-
-/*
- * This class controls the staff list and perform CRUD functions
- * 
- * @author DucTM
+/**
+ *
+ * @author linhtm
  */
-public class StaffController extends HttpServlet {
+public class RegisterController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,10 +40,10 @@ public class StaffController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet StaffController</title>");
+            out.println("<title>Servlet RegisterController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet StaffController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet RegisterController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -70,16 +61,7 @@ public class StaffController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            BasicDAO dao = new StaffDAOImpl();
-            HttpSession session = request.getSession();
-            int agentID = ((User)session.getAttribute("user")).getId();
-            List<Staff> list = dao.get(agentID);
-            request.setAttribute("list", list);
-        } catch (Exception ex) {
-            Logger.getLogger(StaffController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        request.getRequestDispatcher("views/TravelAgent/StaffList.jsp").forward(request, response);
+        request.getRequestDispatcher("views/Register.jsp").forward(request, response);
     }
 
     /**
@@ -93,20 +75,27 @@ public class StaffController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String name=request.getParameter("name").trim();
-        Date DOB=Date.valueOf(request.getParameter("DOB"));
-        String phone=request.getParameter("phone").trim();
-        boolean gender=request.getParameter("gender").equals("Male");
-        HttpSession session = request.getSession();
-        int agentID = ((User)session.getAttribute("user")).getId();
+        String username = request.getParameter("username");
+        String email = request.getParameter("email");
+        String fullname = request.getParameter("fullname");
+        String password = request.getParameter("password");
+        String phone = request.getParameter("phone");
+        String role = request.getParameter("role");
+        Date dob = Date.valueOf(request.getParameter("dob"));
+        String key = String.valueOf(System.currentTimeMillis()) + Math.random() % 1000 + String.valueOf(System.currentTimeMillis());
         try {
-            BasicDAO dao = new StaffDAOImpl();
-            dao.save(new Staff(name, DOB, phone, gender, agentID));
+            UserDaoImpl dao = new UserDaoImpl();
+            dao.save(new User(username, password, fullname, dob, email, phone, role, "Inactive", key));
+
+            Mail mail = new Mail();
+
+            String contextPath = "http://localhost:9999/EasyTravel/"; //request.getContextPath()
+            mail.sentEmail(email, "Easy Travel verification mail", contextPath + "home?key=" + key);
+            request.setAttribute("registered", true);
+            doGet(request, response);
         } catch (Exception ex) {
-            request.setAttribute("message", ex.getMessage());
-            request.setAttribute("staff", new Staff(name, DOB, phone, gender, agentID));
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        doGet(request, response);
     }
 
     /**

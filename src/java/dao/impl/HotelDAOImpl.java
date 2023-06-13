@@ -8,17 +8,16 @@
  * 04-06-2023      1.0                 DucTM           Implement get() and save() 
  * 06-06-2023      1.0                 DucTM           Fix database connection
  */
-package dao.implement;
+package dao.impl;
 
 import dao.BasicDAO;
-import dao.DBContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import models.Hotel;
+import entity.Hotel;
 
 /**
  *

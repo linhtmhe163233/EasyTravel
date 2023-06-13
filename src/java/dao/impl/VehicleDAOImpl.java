@@ -8,10 +8,9 @@
  * 03-06-2023      1.0                 DucTM            Fix getAll(), get(), save() method
  * 06-06-2023      1.0                 DucTM            Fix database connection
  */
-package dao.implement;
+package dao.impl;
 
 import dao.BasicDAO;
-import dao.DBContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import models.Vehicle;
+import entity.Vehicle;
 
 /**
  *

@@ -1,27 +1,42 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ * ISP392-IS1701-Group6
+ * EasyTravel
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 29-05-2023      1.0                 DucTM           First Implement
+ * 30-05-2023      1.0                 DucTM           Add save image
  */
-package controllers;
+package controller;
 
-import commonutils.SendMail;
-import dao.implement.UserDaoImpl;
+import dao.impl.TourDAOImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import models.User;
+import entity.Tour;
+import entity.User;
+import dao.BasicDAO;
 
 /**
+ * This controller is responsible for the adding tour function
  *
- * @author linhtm
+ * @author DucTM
  */
-public class RegisterController extends HttpServlet {
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
+        maxFileSize = 1024 * 1024 * 10, // 10 MB
+        maxRequestSize = 1024 * 1024 * 100 // 100 MB
+)
+public class TourController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +55,10 @@ public class RegisterController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RegisterController</title>");
+            out.println("<title>Servlet TourController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RegisterController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet TourController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +76,7 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("views/Register.jsp").forward(request, response);
+        request.getRequestDispatcher("views/TravelAgent/AddNewTour.jsp").forward(request, response);
     }
 
     /**
@@ -75,27 +90,32 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String email = request.getParameter("email");
-        String fullname = request.getParameter("fullname");
-        String password = request.getParameter("password");
-        String phone = request.getParameter("phone");
-        String role = request.getParameter("role");
-        Date dob = Date.valueOf(request.getParameter("dob"));
-        String key = String.valueOf(System.currentTimeMillis()) + Math.random() % 1000 + String.valueOf(System.currentTimeMillis());
+        String name = request.getParameter("name").trim();
+        String destination = request.getParameter("destination").trim();
+        String type = request.getParameter("type").trim();
+        float price = Float.parseFloat(request.getParameter("price"));
+        Date availableFrom = Date.valueOf(request.getParameter("available_from"));
+        Date availableTo = Date.valueOf(request.getParameter("available_to"));
+        int tripLength = Integer.parseInt(request.getParameter("trip_length"));
+        int maxQuantity = Integer.parseInt(request.getParameter("max_quantity"));
+        HttpSession session = request.getSession();
+        int agentID = ((User)session.getAttribute("user")).getId();
+
+        Part file = request.getPart("image");
+        String image = file.getSubmittedFileName()+System.currentTimeMillis();
+        String realPath = request.getServletContext().getRealPath("images");
+        file.write(realPath + "/" + image);
+
+        String description = request.getParameter("description").trim();
         try {
-            UserDaoImpl dao = new UserDaoImpl();
-            dao.save(new User(username, password, fullname, dob, email, phone, role, "Inactive", key));
-
-            SendMail mail = new SendMail();
-
-            String contextPath = "http://localhost:9999/EasyTravel/"; //request.getContextPath()
-            mail.sentEmail(email, "Easy Travel verification mail", contextPath + "home?key=" + key);
-            request.setAttribute("registered", true);
-            doGet(request, response);
+            BasicDAO dao = new TourDAOImpl();
+            dao.save(new Tour(name, type, true, destination, tripLength,
+                    availableFrom, availableTo, maxQuantity, price, description, agentID, image));
         } catch (Exception ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TourController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        response.sendRedirect(request.getContextPath() + "/home");
     }
 
     /**
