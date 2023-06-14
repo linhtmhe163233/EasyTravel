@@ -17,7 +17,7 @@ import java.sql.Date;
  */
 public class Tour {
 
-    private int ID;
+    private int id;
     private String name;
     private String type;
     private boolean isEnabled;
@@ -32,13 +32,13 @@ public class Tour {
     private String image;
 
     public Tour(int ID) {
-        this.ID = ID;
+        this.id = ID;
     }
     
     public Tour(int ID, String name, String type, boolean isEnabled, String destination,
             int tripLength, Date availableFrom, Date availableTo, int maxQuantity,
             float price, String description, int agentID, String image) {
-        this.ID = ID;
+        this.id = ID;
         this.name = name;
         this.type = type;
         this.isEnabled = isEnabled;
@@ -70,8 +70,8 @@ public class Tour {
         this.image = image;
     }
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -122,8 +122,8 @@ public class Tour {
         return image;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {

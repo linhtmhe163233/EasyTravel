@@ -45,7 +45,7 @@
             </c:forEach>
         </div>
         <form action="home" method="POST">
-            <input type="hidden" min="0" name="index" value="${page.index}"> 
+            <input type="hidden" min="1" name="index" value="${page.index}"> 
             <nav class="mt-4">
                 <ul class="pagination justify-content-center">
                     <li class="page-item">

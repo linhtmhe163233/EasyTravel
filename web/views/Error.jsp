@@ -9,9 +9,15 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Error</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1 class="text-center">${error}</h1>
+        <div class="d-flex flex-row justify-content-center">
+            <a href="home" class="btn btn-primary mr-4">Home</a>
+            <a href="login" class="btn btn-secondary">Login</a>   
+        </div>
+
     </body>
 </html>

@@ -23,6 +23,8 @@ import java.util.logging.Logger;
 import entity.Staff;
 import entity.User;
 import dao.BasicDAO;
+import dao.StaffDAO;
+import utils.Pagination;
 
 
 /*
@@ -71,13 +73,34 @@ public class StaffController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            BasicDAO dao = new StaffDAOImpl();
+            StaffDAO dao = new StaffDAOImpl();
             HttpSession session = request.getSession();
-            int agentID = ((User)session.getAttribute("user")).getId();
-            List<Staff> list = dao.get(agentID);
+
+            Object agentObj = session.getAttribute("user");
+            if (agentObj == null) {
+                throw new Exception("Session is not valid");
+            }
+            int agentId = ((User) agentObj).getId();
+
+            int totalItems = dao.getTotalItems();
+
+            Object indexObj = request.getAttribute("index");
+            int index;
+            if (indexObj == null) {
+                index = 1;
+            } else {
+                index = (int) indexObj;
+            }
+
+            Pagination page = new Pagination(totalItems, 10, index);
+            List<Staff> list = dao.getPageByAgent(agentId, page);
+
+            request.setAttribute("page", page);
             request.setAttribute("list", list);
         } catch (Exception ex) {
-            Logger.getLogger(StaffController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", ex.getMessage());
+            request.getRequestDispatcher("views/Error.jsp").forward(request, response);
+            return;
         }
         request.getRequestDispatcher("views/TravelAgent/StaffList.jsp").forward(request, response);
     }
@@ -93,19 +116,49 @@ public class StaffController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String name=request.getParameter("name").trim();
-        Date DOB=Date.valueOf(request.getParameter("DOB"));
-        String phone=request.getParameter("phone").trim();
-        boolean gender=request.getParameter("gender").equals("Male");
-        HttpSession session = request.getSession();
-        int agentID = ((User)session.getAttribute("user")).getId();
-        try {
-            BasicDAO dao = new StaffDAOImpl();
-            dao.save(new Staff(name, DOB, phone, gender, agentID));
-        } catch (Exception ex) {
-            request.setAttribute("message", ex.getMessage());
-            request.setAttribute("staff", new Staff(name, DOB, phone, gender, agentID));
+        if (request.getParameter("add") != null) {
+            String name = request.getParameter("name").trim();
+            Date DOB = Date.valueOf(request.getParameter("DOB"));
+            String phone = request.getParameter("phone").trim();
+            boolean gender = request.getParameter("gender").equals("Male");
+            int agentId = 0;
+            HttpSession session = request.getSession();
+
+            try {
+                BasicDAO dao = new StaffDAOImpl();
+                Object agentObj = session.getAttribute("user");
+                if (agentObj == null) {
+                    throw new Exception("Session is not valid");
+                }
+                agentId = ((User) agentObj).getId();
+                dao.save(new Staff(name, DOB, phone, gender, agentId));
+            } catch (Exception ex) {
+                request.setAttribute("message", ex.getMessage());
+                request.setAttribute("staff", new Staff(name, DOB, phone, gender, agentId));
+            }
         }
+        int index = Integer.parseInt(request.getParameter("index"));
+        if (request.getParameter("first") != null) //click first
+        {
+            index = 1;
+        }
+        if (request.getParameter("last") != null) //click last
+        {
+            index = Integer.parseInt(request.getParameter("last"));
+        }
+        if (request.getParameter("Prev") != null) //click prev
+        {
+            index--;
+        }
+        if (request.getParameter("Next") != null) //click next
+        {
+            index++;
+        }
+        if (request.getParameter("btnIdx") != null) // click button number
+        {
+            index = Integer.parseInt(request.getParameter("btnIdx"));
+        }
+        request.setAttribute("index", index);
         doGet(request, response);
     }
 

@@ -16,7 +16,7 @@ import java.sql.Date;
  * @author DucTM
  */
 public class Staff {
-    private int ID;
+    private int id;
     private String name;
     private Date DOB;
     private String phone;
@@ -24,7 +24,7 @@ public class Staff {
     private int agentID;
 
     public Staff(int ID, String name, Date DOB, String phone, boolean gender, int agentID) {
-        this.ID = ID;
+        this.id = ID;
         this.name = name;
         this.DOB = DOB;
         this.phone = phone;
@@ -41,12 +41,12 @@ public class Staff {
     }
 
     
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

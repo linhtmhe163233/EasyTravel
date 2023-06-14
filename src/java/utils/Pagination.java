@@ -31,9 +31,9 @@ public class Pagination {
     public Pagination(int totalItems, int itemsPerPage, int index) {
         this.totalItems = totalItems < 0 ? 0 : totalItems;
         this.itemsPerPage = itemsPerPage < 1 ? 1 : itemsPerPage;
-        this.index = index < 0 ? 0 : index;
-        this.offset=itemsPerPage*(index-1);
         totalPage = (totalItems + itemsPerPage - 1) / itemsPerPage;
+        this.index = index < 1 ? 1 : index > totalPage ? totalPage : index;
+        offset = itemsPerPage * (index - 1);
         pageStart = index - 1;
         if (index < 3 || totalPage == 4) {
             pageStart = 2;
