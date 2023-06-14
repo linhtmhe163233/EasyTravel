@@ -12,6 +12,6 @@
         <title>EasyTravel</title>
     </head>
     <body>
-        <h1>Landing</h1>
+        <h1>${tour.name}</h1>
     </body>
 </html>
