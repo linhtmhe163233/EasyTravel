@@ -20,28 +20,28 @@
     </head>
     <body>
         <c:import url="../Layout/Header.jsp"></c:import>
-        <div class="">
-            <h1 class="text-center">Staff</h1>
-            <button class="btn btn-primary btn-rounded mr-4 float-right" 
-                    data-toggle="modal" data-target="#modalAddStaff" id="add">
-                Add
-            </button>
-        </div>
-        <table class="table table-hover table-bordered w-75 mx-auto" id="staffTable">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">DOB</th>
-                    <th scope="col">Gender</th>
-                    <th scope="col" colspan="2"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach items="${list}" var="staff">
+            <div class="">
+                <h1 class="text-center">Staff</h1>
+                <button class="btn btn-primary btn-rounded mr-4 float-right" 
+                        data-toggle="modal" data-target="#modalAddStaff" id="add">
+                    Add
+                </button>
+            </div>
+            <table class="table table-hover table-bordered w-75 mx-auto" id="staffTable">
+                <thead>
                     <tr>
-                        <th scope="row">${staff.ID}</th>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">DOB</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col" colspan="2"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${list}" var="staff" varStatus="loop">
+                    <tr>
+                        <th scope="row">${loop.count+page.itemsPerPage*(page.index-1)}</th>
                         <td>${staff.name}</td>
                         <td>${staff.phone}</td>
                         <td>${staff.DOB}</td>
@@ -52,6 +52,48 @@
                 </c:forEach>
             </tbody>
         </table>
+        <form action="staff" method="POST">
+            <input type="hidden" min="1" name="index" value="${page.index}"> 
+            <nav class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <button type="submit" class="page-link" name="Prev" ${page.index==1?"hidden":""}>
+                            <<
+                        </button>
+                    </li>
+                    <li class="page-item ${page.index==1?"active":""}">
+                        <button type="submit" class="page-link" name="first">1</button>
+                    </li>
+                    <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
+                        <span class="page-link">...</span>
+                    </li>
+                    <c:if test="${page.totalPage>2}">
+                        <c:forEach var="p" begin="${page.pageStart}" end="${page.pageEnd}">
+                            <li class="page-item ${page.index==p?"active":""}">
+                                <button type="submit" class="page-link" value="${p}" name="btnIdx">
+                                    ${p}
+                                </button>
+                            </li>
+                        </c:forEach>
+                    </c:if>
+                    <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
+                        <span class="page-link">...</span>
+                    </li>
+                    <li class="page-item ${page.index==page.totalPage?"active":""}" ${page.totalPage==1?"hidden":""}>
+                        <button type="submit" class="page-link"
+                                name="last" value="${page.totalPage}">
+                            ${page.totalPage}
+                        </button>
+                    </li>
+                    <li class="page-item">
+                        <button type="submit" class="page-link" name="Next" 
+                                ${page.index==page.totalPage?"hidden":""}>
+                            >>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </form>
         <div class="modal fade" id="modalAddStaff" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -62,6 +104,7 @@
                         </button>
                     </div>
                     <form action="/EasyTravel/staff" method="POST" novalidate id="form" class="needs-validation">
+                        <input type="hidden" min="1" name="index" value="${page.index}"> 
                         <div class="modal-body mx-3">
                             <div class="md-form mb-5">
                                 <label data-error="wrong" data-success="right" for="name">Staff name</label>
@@ -95,7 +138,7 @@
                             </div>
                         </div>
                         <div class="modal-footer d-flex justify-content-center">
-                            <button class="btn btn-primary" type="submit">Confirm</button>
+                            <button class="btn btn-primary" type="submit" name="add">Confirm</button>
                         </div>
                     </form>
                 </div>
