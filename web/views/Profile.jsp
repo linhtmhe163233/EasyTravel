@@ -78,7 +78,7 @@
             }
             .centered{
 
-                    margin-left: 200px;
+                margin-left: 200px;
             }
         </style>
 
@@ -86,66 +86,75 @@
     </head>
     <body>
         <h1 class="centered">My profile</h1>
+        <form action ="profile" method="post">
+            <div class="container">
+                <div class="row gutters">
 
-        <div class="container">
-            <div class="row gutters">
+                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="row gutters">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <!--                                    <h6 class="mb-2 text-primary">Personal Details</h6>-->
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <label for="fullname">Full Name</label>
+                                            <input type="text" class="form-control"name="fullname" id="fullname" placeholder="Enter full name" value="${user.fullname}">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <label for="email">Email</label>
+                                            <input type="email" class="form-control" name="email" id="email" placeholder="Enter email ID" value="${user.email}">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <label for="phone">Phone</label>
+                                            <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter phone number" value="${user.phone}">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <label for="website">Date of birthday</label>
+                                            <input type="date" class="form-control" name="dob" id="dob" placeholder="" value="${user.dob}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row gutters">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <!--                                    <h6 class="mt-3 mb-2 text-primary">Address</h6>-->
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <!--                                        <label for="Street">Password</label>-->
+                                            <a href="/EasyTravel/changepassword">Change password</a>
 
-                <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="row gutters">
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                    <!--                                    <h6 class="mb-2 text-primary">Personal Details</h6>-->
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="fullName">Full Name</label>
-                                        <input type="text" class="form-control" id="fullName" placeholder="Enter full name" value="${user.fullname}">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="eMail">Email</label>
-                                        <input type="email" class="form-control" id="eMail" placeholder="Enter email ID" value="${user.email}">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <label for="role">Role: ${user.role}</label>
+    <!--                                        <input type="text" class="form-control" id="role" placeholder="" value="${user.role}">-->
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="phone">Phone</label>
-                                        <input type="text" class="form-control" id="phone" placeholder="Enter phone number" value="${user.phone}">
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="website">Date of birthday</label>
-                                        <input type="date" class="form-control" id="password" placeholder="" value="${user.dob}">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row gutters">
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                    <!--                                    <h6 class="mt-3 mb-2 text-primary">Address</h6>-->
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <!--                                        <label for="Street">Password</label>-->
-                                        <a href="/EasyTravel/changepassword">Change password</a>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <label for="id">ID: ${user.id}</label>
 
+<!--                                        <input type="text" class="form-control" id="role" placeholder="" value="${user.id}">-->
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="ciTy">Role: ${user.role}</label>
-                                        <input type="text" class="form-control" id="ciTy" placeholder="Enter City" value="${user.role}">
-                                    </div>
-                                </div>
 
-                            </div>
-                            <div class="row gutters">
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                    <div class="text-right">
-                                        <a href="/EasyTravel/home"class="btn btn-secondary">Cancel</a>
-                                        <button type="button" id="submit" name="submit" class="btn btn-primary">Update</button>
+                                </div>
+                                <div class="row gutters">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <div class="text-right">
+                                            <a href="/EasyTravel/home"class="btn btn-secondary">Cancel</a>
+                                            <!--                                        <a href="/EasyTravel/profile"class="btn btn-primary">Update</a>-->
+                                            <button type="submit" id="submit" name="submit" class="btn btn-primary">Update</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -153,7 +162,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
+        </form>
     </body>
 </html>
