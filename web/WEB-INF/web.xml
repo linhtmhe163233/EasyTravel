@@ -44,6 +44,10 @@
         <servlet-name>ChangepasswordController</servlet-name>
         <servlet-class>controller.ChangepasswordController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TourDetailController</servlet-name>
+        <servlet-class>controller.TourDetailController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -87,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>ChangepasswordController</servlet-name>
         <url-pattern>/changepassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TourDetailController</servlet-name>
+        <url-pattern>/tour</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
