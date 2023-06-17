@@ -27,7 +27,7 @@
             <c:forEach items="${list}" var="tour">
                 <div class="card rounded" style="width: 18rem;">
                     <a href="tour?id=${tour.id}" data-toggle="tooltip" data-placement="top" title="Click to see details">
-                        <img class="card-img-top border-bottom border-dark pb-4 rounded-top img-fluid" 
+                        <img class="card-img-top border-bottom border-dark pb-4 rounded-top img-fluid"  
                              src="./images/${tour.image}" alt="${tour.name}" style="max-height: 216px">
                     </a>
                     <a href="tour?id=${tour.id}" class="card-body text-body card-link"  

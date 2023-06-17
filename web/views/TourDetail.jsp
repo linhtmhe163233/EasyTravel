@@ -1,7 +1,8 @@
 <%-- 
     Document   : LandingPage
-    Created on : May 17, 2023, 8:05:10 PM
-    Author     : tranm
+    Created on : 17/05/2023
+    Author     : DucTM
+    Update on  : 16/06/2023, implement update button
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -20,16 +21,17 @@
     </head>
     <body>
         <c:import url="./Layout/Header.jsp"></c:import>
-        <div class="rounded w-75 mx-auto" style="background: #DDD0C8;">
-            <h1 class="text-center mt-2" style="color: #323232;">${tour.name}</h1>
+            <div class="rounded w-75 mx-auto" style="background: #DDD0C8;">
+                <h1 class="text-center mt-2" style="color: #323232;">${tour.name}</h1>
             <img class="img-fluid img-thumbnail d-block mx-auto" 
                  src="./images/${tour.image}" alt="${tour.name}"
                  style="height: 50vh;">
             <div class="float-right mr-4">
                 <c:if test="${sessionScope.user!=null && sessionScope.user.role=='Travel Agent'}">
-                    <button type="button" class="btn btn-info">
-                        Edit
-                    </button>
+                    <% request.getSession().setAttribute("tour", request.getAttribute("tour")); %>
+                    <a href="tours?act=update" type="button" class="btn btn-info">
+                        Update
+                    </a>
                     <button type="button" class="btn btn-danger">
                         Delete
                     </button>
@@ -49,12 +51,12 @@
             <div class="ml-4 mt-2">
                 <span class="font-weight-bold">Price: </span><fmt:formatNumber type="number" maxFractionDigits = "3" 
                                   value="${tour.price}"></fmt:formatNumber> VND / ${tour.tripLength} days
-            </div>
-            <div class="ml-4 mt-2"><span class="font-weight-bold">Available: </span>
-                from ${tour.availableFrom} to ${tour.availableTo}
+                </div>
+                <div class="ml-4 mt-2"><span class="font-weight-bold">Available: </span>
+                    from ${tour.availableFrom} to ${tour.availableTo}
             </div>
             <div class="ml-4 mt-2"><span class="font-weight-bold">Max: </span>
-                    ${tour.maxQuantity} people
+                ${tour.maxQuantity} people
             </div>
             <div class="ml-4 mt-2">Vehicle, hotel, ... will be assigned after you book</div>
         </div>

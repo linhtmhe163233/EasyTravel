@@ -91,7 +91,7 @@ public class HomeController extends HttpServlet {
                 index = (int) indexObj;
             }
             
-            Pagination page = new Pagination(totalItems, 3, index);
+            Pagination page = new Pagination(totalItems, 6, index);
             List<Tour> list = dao.getPage(page);
             
             request.setAttribute("page", page);
