@@ -94,6 +94,11 @@ public class Hotel {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "Hotel{" + "id=" + id + ", name=" + name + ", stars=" + stars + ", room_available=" + room_available + ", phone=" + phone + ", agent_id=" + agent_id + ", location=" + location + '}';
+    }
         
 
    

@@ -46,6 +46,8 @@
                         <td>${hotel.room_available}</td>
                         <td>${hotel.phone}</td>
                         <td>${hotel.location}</td>
+                        <td><a href="EditHotel?HotelId=${hotel.id}" class="badge badge-info">Edit</a></td>
+                        <td><a href="delete?HotleId=${hotel.id}" class="badge badge-danger">Delete</a></td>
                     </tr>
                 </c:forEach>
             </tbody>

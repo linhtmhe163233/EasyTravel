@@ -8,6 +8,10 @@
         <servlet-name>HotelController</servlet-name>
         <servlet-class>controller.HotelController</servlet-class>
     </servlet>
+     <servlet>
+        <servlet-name>DeleteHotelController</servlet-name>
+        <servlet-class>delete</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>LoginController</servlet-name>
         <servlet-class>controller.LoginController</servlet-class>
