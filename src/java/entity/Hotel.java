@@ -26,8 +26,14 @@ public class Hotel {
         this.location = location;
     }
 
-
-    
+    public Hotel( String name, int stars, int room_available, String phone, String location) {
+        
+        this.name = name;
+        this.stars = stars;
+        this.room_available = room_available;
+        this.phone = phone;
+        this.location = location;
+    }
 
     public Hotel(String name, int stars, int room_available, String phone, int agent_id, String location) {
         this.name = name;

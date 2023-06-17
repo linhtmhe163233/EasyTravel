@@ -18,6 +18,8 @@ import java.util.logging.Logger;
 import entity.Hotel;
 import entity.User;
 import dao.BasicDAO;
+import dao.impl.VehicleDAOImpl;
+import entity.Vehicle;
 import jakarta.servlet.annotation.WebServlet;
 
 /**
@@ -67,7 +69,7 @@ public class HotelController extends HttpServlet {
             throws ServletException, IOException {
         try {
             HotelDAOImpl dao = new HotelDAOImpl();
-            List<Hotel> list = dao.getAll();
+            List<Hotel> list = dao.getAll2();
             request.setAttribute("list", list);
         } catch (Exception ex) {
             Logger.getLogger(HotelController.class.getName()).log(Level.SEVERE, null, ex);
@@ -86,7 +88,23 @@ public class HotelController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       processRequest(request, response);
+        String name=request.getParameter("name").trim();
+        int stars= Integer.parseInt(request.getParameter("stars"));
+        int room_available = Integer.parseInt(request.getParameter("room_available"));
+        String phone=request.getParameter("phone").trim();
+        String location=request.getParameter("location").trim();
+        HttpSession session = request.getSession();
+        
+        try {
+            BasicDAO dao = new HotelDAOImpl();
+            dao.save(new Hotel(name, stars, room_available, phone, location));
+            
+        } catch (Exception ex) {
+            request.setAttribute("message", ex.getMessage());
+            request.setAttribute("hotel", new Hotel(name, stars, room_available, phone, location));
+        }
+        doGet(request, response);
+       
     }
 
     /**

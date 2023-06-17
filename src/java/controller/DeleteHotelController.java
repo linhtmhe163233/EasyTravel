@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  *
  * @author Ngan Ha
  */
-@WebServlet(name = "DeleteHotelController", urlPatterns = {"/detele"})
+@WebServlet(name = "DeleteHotelController", urlPatterns = {"/delete"})
 public class DeleteHotelController extends HttpServlet {
 
     /**
@@ -63,8 +63,8 @@ public class DeleteHotelController extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("HotelId"));
         try {
             HotelDAOImpl dao = new HotelDAOImpl();
-            dao.deteleHotel(id);
-            response.sendRedirect("Hotels");
+            dao.deleteHotel(id);
+            response.sendRedirect("./hotels");
         } catch (Exception ex) {
             Logger.getLogger(DeleteHotelController.class.getName()).log(Level.SEVERE, null, ex);
         }
