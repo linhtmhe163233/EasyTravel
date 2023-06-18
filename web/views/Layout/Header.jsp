@@ -29,16 +29,23 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <c:if test="${sessionScope.user!=null}">
+            <c:if test="${sessionScope.user!=null && sessionScope.user.role=='Travel Agent'}">
                 <a class="nav-item nav-link" href="tours">New tour</a>
                 <a class="nav-item nav-link" href="hotels">Hotels</a>
                 <a class="nav-item nav-link" href="vehicles">Vehicles</a>
                 <a class="nav-item nav-link" href="staff">Staff</a>
+            </c:if>  
+            <c:if test="${sessionScope.user!=null}">
                 <a class="nav-item nav-link" href="profile">Profile</a>
             </c:if>
         </div>
         <div class="navbar-nav ml-auto">
-            <a class="nav-item nav-link" href="logout">Logout</a>
+            <c:if test="${sessionScope.user!=null}">
+                <a class="nav-item nav-link" href="logout">Logout</a>
+            </c:if>
+            <c:if test="${sessionScope.user==null}">
+                <a class="nav-item nav-link" href="login">Login</a>
+            </c:if>
         </div>
     </div>
 </nav>

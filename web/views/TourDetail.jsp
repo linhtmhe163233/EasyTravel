@@ -3,6 +3,7 @@
     Created on : 17/05/2023
     Author     : DucTM
     Update on  : 16/06/2023, implement update button
+    update on  : 18/06/2023, implement disable/enable
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -17,6 +18,8 @@
         <meta name="author" content="Group6">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/bootstrap.min.css">
+        <script src="js/jquery-3.7.0.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
         <title>Easy Travel | Tour detail</title>
     </head>
     <body>
@@ -29,12 +32,63 @@
             <div class="float-right mr-4">
                 <c:if test="${sessionScope.user!=null && sessionScope.user.role=='Travel Agent'}">
                     <% request.getSession().setAttribute("tour", request.getAttribute("tour")); %>
-                    <a href="tours?act=update" type="button" class="btn btn-info">
-                        Update
-                    </a>
-                    <button type="button" class="btn btn-danger">
-                        Delete
-                    </button>
+                    <form action="tour" method="post">
+                        <a href="tours?act=update" type="button" class="btn btn-info">
+                            Update
+                        </a>
+                        <input type="hidden" value="${tour.id}" name="id">
+                        <c:if test="${tour.enabled}">
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#disableModal">
+                                Disable
+                            </button>
+                            <div class="modal fade" id="disableModal" tabindex="-1" role="dialog" 
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Tourists can't access a disabled tour but you can undo this action anytime.
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-danger" name="disable">Disable tour</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:if>
+                        <c:if test="${!tour.enabled}">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#enableModal">
+                                Enable
+                            </button>
+                            <div class="modal fade" id="enableModal" tabindex="-1" role="dialog" 
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Tourists can access this tour again.
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-success" name="enable">Enable tour</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>     
+
+                        </c:if>
+                    </form>
                 </c:if>
                 <c:if test="${sessionScope.user!=null && sessionScope.user.role=='Tourist'}">
                     <button type="button" class="btn btn-primary">

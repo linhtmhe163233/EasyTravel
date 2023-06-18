@@ -32,8 +32,8 @@ from.max = dateNow.addYears(10).toISOString().split("T")[0];
 to.max = dateNow.addYears(10).addDays(1).toISOString().split("T")[0];
 
 let id = document.getElementById("id");
+from.valueAsDate = dateNow;
 if (id.value.length === 0) {
-    from.valueAsDate = dateNow;
     to.valueAsDate = dateNow.addDays(1);
 }
 

@@ -7,6 +7,7 @@
  * 27-05-2023      1.0                 DucTM           First Implement
  * 06-06-2023      1.0                 DucTM           Fix database connection
  * 13-06-2023      1.0                 DucTM           Add getTotalItems() and getPage()
+ * 18-06-2023      1.0                 DucTM           Implement delete() (soft delete only) and enable()
  */
 package dao.impl;
 
@@ -19,8 +20,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import entity.Tour;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import utils.Pagination;
 
 /*
@@ -48,6 +47,8 @@ public class TourDAOImpl extends DBContext implements TourDAO {
             rs.next();
             return rs.getInt(1);
         } catch (Exception e) {
+        } finally {
+            close(conn, ps, rs);
         }
         return 0;
     }
@@ -55,7 +56,7 @@ public class TourDAOImpl extends DBContext implements TourDAO {
     @Override
     public List<Tour> getPage(Pagination page) throws Exception {
         List<Tour> list = new ArrayList<>();
-        String query = "select * from tours where is_enabled=1 order by id offset ? rows fetch next ? rows only";
+        String query = "select * from tours order by id offset ? rows fetch next ? rows only";
 
         int ID = 0;
         String name = null;
@@ -163,7 +164,7 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         } catch (SQLException ex) {
             throw new Exception("Unable to get data from database");
         } finally {
-            super.close(conn, ps, rs);
+            close(conn, ps, rs);
         }
         return list;
     }
@@ -220,7 +221,7 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         } catch (SQLException ex) {
             throw new Exception("Unable to get data from database");
         } finally {
-            super.close(conn, ps, rs);
+            close(conn, ps, rs);
         }
         return list;
     }
@@ -234,9 +235,9 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         PreparedStatement ps = null;
 
         try {
-            conn = super.getConnection();
+            conn = getConnection();
             ps = conn.prepareStatement(query);
-            
+
             ps.setString(1, t.getName());
             ps.setString(2, t.getType());
             ps.setBoolean(3, t.isEnabled());
@@ -254,23 +255,23 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         } catch (SQLException ex) {
             throw new Exception("Unable to save data to database");
         } finally {
-            super.close(conn, ps, null);
+            close(conn, ps, null);
         }
     }
 
     @Override
-    public void update(Tour t) throws Exception{
+    public void update(Tour t) throws Exception {
         String query = "update tours set name=?, type=?, is_enabled=?, destination=?, trip_length=?, "
                 + "available_from=?, available_to=?, max_quantity=?, price=?, description=?, agent_id=?, image=? "
                 + "where id=?";
-        
+
         Connection conn = null;
         PreparedStatement ps = null;
-        
+
         try {
-            conn=getConnection();
-            ps=conn.prepareStatement(query);
-            
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+
             ps.setString(1, t.getName());
             ps.setString(2, t.getType());
             ps.setBoolean(3, t.isEnabled());
@@ -284,21 +285,58 @@ public class TourDAOImpl extends DBContext implements TourDAO {
             ps.setInt(11, t.getAgentID());
             ps.setString(12, t.getImage());
             ps.setInt(13, t.getId());
-            
+
             ps.executeUpdate();
         } catch (Exception ex) {
             throw new Exception("Unable to update data to database");
+        } finally {
+            close(conn, ps, null);
         }
     }
 
     @Override
-    public void delete(Tour t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void delete(Tour t) throws Exception {
+        String query = "update tours set is_enabled=0 where id=?";
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+
+            ps.setInt(1, t.getId());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception("Unable to disable this tour in database");
+        } finally {
+            close(conn, ps, null);
+        }
     }
 
     @Override
     public List<Tour> search(String keyword) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void enable(int id) throws Exception {
+        String query = "update tours set is_enabled=1 where id=?";
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception("Unable to enable this tour in database");
+        } finally {
+            close(conn, ps, null);
+        }
     }
 
 }

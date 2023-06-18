@@ -74,12 +74,14 @@
                     <input type="date" class="form-control validate" id="available_from" name="available_from" required
                            value="${requestScope.tour.availableFrom}">
                     <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">This date cannot be in the past!</div>
                 </div>
                 <div class="form-group col-6">
                     <label data-error="wrong" data-success="right" for="available_to">Available to</label>
                     <input type="date" class="form-control validate" id="available_to" name="available_to" required
                            value="${requestScope.tour.availableTo}">
                     <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">This date cannot be in the past!</div>
                 </div>
             </div>
             <div class="form-row border-bottom border-info pb-3">
@@ -120,7 +122,12 @@
                 <div class="invalid-feedback">Write something about your tour</div>
             </div>  
             <button type="submit" class="btn btn-primary">Save</button>
-            <a href="/EasyTravel/home" class="btn btn-danger">Cancel</a>
+            <c:if test="${requestScope.tour==null}">
+                <a href="home" class="btn btn-danger">Cancel</a>
+            </c:if>
+            <c:if test="${requestScope.tour!=null}">
+                <a href="tour?id=${requestScope.tour.id}" class="btn btn-danger">Cancel</a>
+            </c:if>
         </form>
     </body>
     <script src="js/AddNewTour.js"></script>

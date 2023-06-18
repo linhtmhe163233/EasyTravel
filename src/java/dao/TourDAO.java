@@ -5,6 +5,7 @@
  * Record of change:
  * DATE            Version             AUTHOR           DESCRIPTION
  * 13-06-2023      1.0                 DucTM           First Implement
+ * 18-06-2023      1.0                 DucTM           Add enable() method
  */
 package dao;
 
@@ -19,4 +20,5 @@ import utils.Pagination;
 public interface TourDAO extends BasicDAO<Tour> {
     List<Tour> getPage(Pagination page) throws Exception;
     int getTotalItems() throws Exception;
+    void enable(int id) throws Exception;
 }

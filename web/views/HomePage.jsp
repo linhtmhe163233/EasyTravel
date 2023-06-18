@@ -26,11 +26,15 @@
             <div class="d-flex flex-wrap flex-row justify-content-start w-75 mx-auto mt-4" style="column-gap: 8.5rem; row-gap: 2rem">
             <c:forEach items="${list}" var="tour">
                 <div class="card rounded" style="width: 18rem;">
-                    <a href="tour?id=${tour.id}" data-toggle="tooltip" data-placement="top" title="Click to see details">
+                    <c:set var="link" value="tour?id=${tour.id}"></c:set>
+                    <c:if test="${!tour.enabled && sessionScope.user.role =='Tourist'}">
+                        <c:set var="link" value="#"></c:set>
+                    </c:if>
+                    <a href="${link}" data-toggle="tooltip" data-placement="top" title="Click to see details">
                         <img class="card-img-top border-bottom border-dark pb-4 rounded-top img-fluid"  
                              src="./images/${tour.image}" alt="${tour.name}" style="max-height: 216px">
                     </a>
-                    <a href="tour?id=${tour.id}" class="card-body text-body card-link"  
+                    <a href="${link}" class="card-body text-body card-link"  
                        data-toggle="tooltip" data-placement="top" title="Click to see details">
                         <h6 class="card-title text-truncate">${tour.name}</h6>
                         <p class="card-text border-bottom border-dark pb-2 text-truncate">${tour.destination}</p>
@@ -38,7 +42,12 @@
                     </a>
 
                     <div class="card-footer text-muted d-flex flex-row flex-wrap justify-content-between align-items-center">
-                        <a href="#" class="btn btn-primary">Book now</a>
+                        <c:if test="${tour.enabled}">
+                            <a href="#" class="btn btn-primary">Book now</a>
+                        </c:if>
+                        <c:if test="${!tour.enabled}">
+                            <a href="#" class="btn btn-danger">Tour is closed!</a>
+                        </c:if>
                         <p class="card-text text-right">
                             <fmt:formatNumber type="number" maxFractionDigits = "3" value="${tour.price}">
                             </fmt:formatNumber>
