@@ -9,6 +9,14 @@
         <servlet-class>controller.HotelController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>EditHotelController</servlet-name>
+        <servlet-class>controller.EditHotelController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteHotelController</servlet-name>
+        <servlet-class>controller.DeleteHotelController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>LoginController</servlet-name>
         <servlet-class>controller.LoginController</servlet-class>
     </servlet>
@@ -41,12 +49,20 @@
         <servlet-class>controller.ProfileController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>RestaurantController</servlet-name>
+        <servlet-class>controller.RestaurantController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ChangepasswordController</servlet-name>
         <servlet-class>controller.ChangepasswordController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>TourDetailController</servlet-name>
         <servlet-class>controller.TourDetailController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RestaurantList</servlet-name>
+        <servlet-class>controller.RestaurantList</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
@@ -55,6 +71,14 @@
     <servlet-mapping>
         <servlet-name>HotelController</servlet-name>
         <url-pattern>/hotels</url-pattern>
+    </servlet-mapping>
+      <servlet-mapping>
+        <servlet-name>EditHotelController</servlet-name>
+        <url-pattern>/edit</url-pattern>
+    </servlet-mapping>
+     <servlet-mapping>
+        <servlet-name>DeleteHotelController</servlet-name>
+        <url-pattern>/delete</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -67,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>StaffController</servlet-name>
         <url-pattern>/staff</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RestaurantController</servlet-name>
+        <url-pattern>/restaurant</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>TourController</servlet-name>
@@ -96,9 +124,15 @@
         <servlet-name>TourDetailController</servlet-name>
         <url-pattern>/tour</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RestaurantList</servlet-name>
+        <url-pattern>/RestaurantList</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <servlet-name>RestaurantController</servlet-name>
+    <url-pattern>/restaurant</url-pattern>
 </web-app>

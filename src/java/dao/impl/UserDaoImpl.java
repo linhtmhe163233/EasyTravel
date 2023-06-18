@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import entity.Hotel;
 import entity.User;
+
 /**
  *
  * @author LinhTM
@@ -30,11 +31,11 @@ public class UserDaoImpl extends DBContext implements BasicDAO<User> {
     public UserDaoImpl() throws Exception {
 
     }
-    
+
     public User checkLogin(String username, String password) throws Exception {
         Connection conn = super.getConnection();
         String login = "SELECT * FROM users WHERE account_name=? AND password=?";
- 
+
         PreparedStatement ps = null;
         ResultSet rs = null;
 
@@ -166,7 +167,7 @@ public class UserDaoImpl extends DBContext implements BasicDAO<User> {
         Connection conn = super.getConnection();
         String sql = "INSERT INTO users(account_name, email, password, full_name, phone, status, role, DOB, [key])"
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        
+
         PreparedStatement ps = null;
         try {
             ps = conn.prepareStatement(sql);
@@ -192,14 +193,20 @@ public class UserDaoImpl extends DBContext implements BasicDAO<User> {
     @Override
     public void update(User t) throws Exception {
         Connection conn = super.getConnection();
-        String query = "update users set [key]=?, status=? where id=?";
+        String query = "update users set account_name = ?, password = ?, full_name= ?, DOB = ?, email = ?, phone = ?, role =?, status = ?, [key] = ? where id=?";
         PreparedStatement ps = null;
         try {
             ps = conn.prepareStatement(query);
-            ps.setString(1, t.getKey());
-            ps.setString(2, t.getStatus());
-            ps.setInt(3, t.getId());
-            
+            ps.setString(1, t.getUsername());
+            ps.setString(2, t.getPassword());
+            ps.setString(3, t.getFullname());
+            ps.setDate(4, t.getDob());
+            ps.setString(5, t.getEmail());
+            ps.setString(6, t.getPhone());
+            ps.setString(7, t.getRole());
+            ps.setString(8, t.getStatus());
+            ps.setString(9, t.getKey());
+            ps.setInt(10, t.getId());
             ps.executeUpdate();
         } catch (SQLException ex) {
             throw new Exception("Unable to update data to database");
@@ -209,8 +216,22 @@ public class UserDaoImpl extends DBContext implements BasicDAO<User> {
     }
 
     @Override
-    public void delete(User t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void delete(User t) throws Exception {
+        Connection conn = super.getConnection();
+
+        String sql = "delete from users where id = ?";
+        PreparedStatement ps = null;
+
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, t.getId());
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            throw new Exception("Unable to delete data to database");
+        } finally {
+            super.close(conn, ps, null);
+        }
     }
 
     @Override
@@ -231,15 +252,15 @@ public class UserDaoImpl extends DBContext implements BasicDAO<User> {
         String key;
 
         User user;
-        
+
         PreparedStatement ps = null;
         ResultSet rs = null;
-        
+
         try {
             ps = conn.prepareStatement(sql);
             ps.setString(1, "%" + keyword + "%");
             ps.setString(2, keyword);
-            
+
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -265,4 +286,13 @@ public class UserDaoImpl extends DBContext implements BasicDAO<User> {
         return list;
 
     }
+//    public static void main(String[] args) {
+//        try {
+//            User u = new User(2, "agent_demo", "123456", "Nguyen Van Ban", Date.valueOf("2003-01-01"), "ANV345@gmail.com", "0123456781", "Travel Agent", "Active", null);
+//            UserDaoImpl ud = new UserDaoImpl();
+//            ud.update(u);
+//        } catch (Exception ex) {
+//            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 }
