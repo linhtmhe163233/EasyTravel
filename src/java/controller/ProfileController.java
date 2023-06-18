@@ -66,12 +66,12 @@ public class ProfileController extends HttpServlet {
         try {
             
             BasicDAO dao = new UserDaoImpl();
-            HttpSession session = request.getSession();
-            User acc = (User) session.getAttribute("user");
-            int id = ((User) session.getAttribute("user")).getId();
-            System.out.println(id);
-            List<User> list = dao.get(id);
-            request.setAttribute("list", list);
+//            HttpSession session = request.getSession();
+//            User acc = (User) session.getAttribute("user");
+////            int id = ((User) session.getAttribute("user")).getId();
+////            System.out.println(id);
+////            List<User> list = dao.get(id);
+//            request.setAttribute("list", acc);
             
         } catch (Exception ex) {
             Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
@@ -91,22 +91,28 @@ public class ProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User acc = (User) session.getAttribute("user");
         
-        String username = request.getParameter("username");
+        String username = acc.getUsername();
         String fullname = request.getParameter("fullname");
-        String password = request.getParameter("password");
+        String password = acc.getPassword();
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
-        String role = request.getParameter("role");
-        String status = request.getParameter("status");
-        String key = request.getParameter("key");
+        String role = acc.getRole();
+        String status = acc.getStatus();
+        String key = acc.getKey();
         Date dob = Date.valueOf(request.getParameter("dob"));
-        HttpSession session = request.getSession();
-        int id = ((User) session.getAttribute("user")).getId();
+//        int id = Integer.parseInt(request.getParameter("id"));
+        int id = acc.getId();
+        getServletContext().log(username + fullname + password + email + phone + role + status + key + dob + id);
         try {
             BasicDAO dao = new UserDaoImpl();
-            request.setAttribute("user", new User(username, password, fullname, dob, email, phone, role, status, key));
-            
+//            request.setAttribute("user", new User(username, password, fullname, dob, email, phone, role, status, key));
+            User user = new User(id, username, password, fullname, dob, email, phone, role, status, key);
+            dao.update(user);
+            session.removeAttribute("user");
+            session.setAttribute("user", user);
         } catch (Exception ex) {
 //            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex
 
