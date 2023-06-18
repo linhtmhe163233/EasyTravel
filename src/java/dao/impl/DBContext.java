@@ -1,4 +1,4 @@
-/*
+    /*
  * ISP392-IS1701-Group6
  * EasyTravel
  *
@@ -30,7 +30,7 @@ public class DBContext {
     private final String dbName = "EasyTravel";
     private final String portNumber = "1433";
     private final String userID = "sa";
-    private final String password = "linhlam20022013";
+    private final String password = "12345678";
 
     public DBContext(){   
     }
