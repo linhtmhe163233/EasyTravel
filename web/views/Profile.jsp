@@ -100,25 +100,29 @@
                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
                                             <label for="fullname">Full Name</label>
-                                            <input type="text" class="form-control"name="fullname" id="fullname" placeholder="Enter full name" value="${user.fullname}">
+                                            <input type="text" class="form-control"name="fullname" id="fullname" placeholder="Enter full name" value="${user.fullname}"
+                                                   required pattern="^\s*\p{L}+(\s\p{L}+)*\s*$"
+                                                   maxlength="80">
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
                                             <label for="email">Email</label>
-                                            <input type="email" class="form-control" name="email" id="email" placeholder="Enter email ID" value="${user.email}">
+                                            <input type="email" class="form-control" name="email" id="email" 
+                                                   placeholder="example@gmail.com" required maxlength=80 value="${user.email}">
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
                                             <label for="phone">Phone</label>
-                                            <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter phone number" value="${user.phone}">
+                                            <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter phone number" value="${user.phone}"
+                                                   required pattern="^0[0-9]{9}$">
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
-                                            <label for="website">Date of birthday</label>
-                                            <input type="date" class="form-control" name="dob" id="dob" placeholder="" value="${user.dob}">
+                                            <label for="Date">Date of birthday</label>
+                                            <input type="date" class="form-control" name="dob" id="dob" placeholder="Your birthday" value="${user.dob}" required >
                                         </div>
                                     </div>
                                 </div>
@@ -152,7 +156,7 @@
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                         <div class="text-right">
                                             <a href="/EasyTravel/home"class="btn btn-secondary">Cancel</a>
-                                            <!--                                        <a href="/EasyTravel/profile"class="btn btn-primary">Update</a>-->
+                                         
                                             <button type="submit" id="submit" name="submit" class="btn btn-primary">Update</button>
                                         </div>
                                     </div>
@@ -164,4 +168,15 @@
             </div>
         </form>
     </body>
+
+    <script>
+        Date.prototype.addYears = function (years) {
+            let date = new Date(this);
+            date.setYear(date.getFullYear() + years);
+            return date;
+        };
+        let dob = document.getElementById("dob");
+        dob.max = new Date().addYears(-18).toISOString().split("T")[0];
+    </script>
+
 </html>
