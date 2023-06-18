@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
@@ -18,11 +18,15 @@ import java.util.logging.Logger;
 import entity.Hotel;
 import entity.User;
 import dao.BasicDAO;
+import dao.impl.VehicleDAOImpl;
+import entity.Vehicle;
+import jakarta.servlet.annotation.WebServlet;
 
 /**
  *
  * @author tranm
  */
+@WebServlet(name = "HotelController", urlPatterns = {"/Hotels"})
 public class HotelController extends HttpServlet {
 
     /**
@@ -64,13 +68,11 @@ public class HotelController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            BasicDAO dao = new HotelDAOImpl();
-            HttpSession session = request.getSession();
-            int agentID = ((User) session.getAttribute("user")).getId();
-            List<Hotel> list = dao.get(agentID);
+            HotelDAOImpl dao = new HotelDAOImpl();
+            List<Hotel> list = dao.getAll2();
             request.setAttribute("list", list);
         } catch (Exception ex) {
-            Logger.getLogger(VehicleController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HotelController.class.getName()).log(Level.SEVERE, null, ex);
         }
         request.getRequestDispatcher("views/TravelAgent/HotelList.jsp").forward(request, response);
     }
@@ -86,21 +88,23 @@ public class HotelController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String name = request.getParameter("name").trim();
-        int stars = Integer.parseInt(request.getParameter("stars"));
+        String name=request.getParameter("name").trim();
+        int stars= Integer.parseInt(request.getParameter("stars"));
         int room_available = Integer.parseInt(request.getParameter("room_available"));
-        String phone = request.getParameter("phone").trim();
+        String phone=request.getParameter("phone").trim();
+        String location=request.getParameter("location").trim();
         HttpSession session = request.getSession();
-        int agentID = ((User) session.getAttribute("user")).getId();
-        String location = request.getParameter("location");
+        
         try {
             BasicDAO dao = new HotelDAOImpl();
-            dao.save(new Hotel(name, stars, room_available, phone, agentID, location));
+            dao.save(new Hotel(name, stars, room_available, phone, location));
+            
         } catch (Exception ex) {
             request.setAttribute("message", ex.getMessage());
-            request.setAttribute("hotel", new Hotel(name, stars, room_available, phone, agentID, location));
+            request.setAttribute("hotel", new Hotel(name, stars, room_available, phone, location));
         }
         doGet(request, response);
+       
     }
 
     /**
