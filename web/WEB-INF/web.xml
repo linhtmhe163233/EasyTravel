@@ -9,6 +9,10 @@
         <servlet-class>controller.HotelController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>EditHotelController</servlet-name>
+        <servlet-class>controller.EditHotelController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>DeleteHotelController</servlet-name>
         <servlet-class>controller.DeleteHotelController</servlet-class>
     </servlet>
@@ -67,6 +71,14 @@
     <servlet-mapping>
         <servlet-name>HotelController</servlet-name>
         <url-pattern>/hotels</url-pattern>
+    </servlet-mapping>
+      <servlet-mapping>
+        <servlet-name>EditHotelController</servlet-name>
+        <url-pattern>/edit</url-pattern>
+    </servlet-mapping>
+     <servlet-mapping>
+        <servlet-name>DeleteHotelController</servlet-name>
+        <url-pattern>/delete</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
