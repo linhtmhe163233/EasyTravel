@@ -15,21 +15,21 @@
         <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
 
-<!--        <style>
-            .palel-primary
-            {
-                border-color: #bce8f1;
-            }
-            .panel-primary>.panel-heading
-            {
-                background:#bce8f1;
-
-            }
-            .panel-primary>.panel-body
-            {
-                background-color: #EDEDED;
-            }
-        </style>-->
+        <!--        <style>
+                    .palel-primary
+                    {
+                        border-color: #bce8f1;
+                    }
+                    .panel-primary>.panel-heading
+                    {
+                        background:#bce8f1;
+        
+                    }
+                    .panel-primary>.panel-body
+                    {
+                        background-color: #EDEDED;
+                    }
+                </style>-->
     </head>
 
     <body>
@@ -39,21 +39,35 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">Change password
                     </div>
+
                     <div class="panel-body">
-                        <form name="myform">
+                        <form name="myform" action="changepassword" method="post">
+
                             <div class="form-group">
-                                <label for="password">Current password</label>
-                                <input id="password" name="password" class="form-control" type="password" data-validation="required">
+                                <label for="crpassword">Current password</label>
+                                <input id="crpassword" name="crpassword" class="form-control" type="password" data-validation="required" required>
+<!--                                <intput type="hidden" name="id" value="${sessionScope.user.id}"/>-->
+                                <p style="color:red">${mess1}</p>   
+<!--                                <p style="color:red">${oldpassword}</p>   
+                                <p style="color:red">${crpassword}</p>   -->
                                 <span id="error_name" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label for="newpassword">New password</label>
-                                <input id="newpassword" name="newpassword" class="form-control" type="password" data-validation="required">
+                                <input id="newpassword" name="password" class="form-control" type="password" data-validation="required"
+                                       required maxlength="50" minlength="8"
+                                                   pattern="^[a-zA-z0-9]{8, 50}$">
+                                <p style="color:red">${mess2}</p>   
+<!--                                <p style="color:red">${password}</p>   -->
                                 <span id="error_lastname" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label for="age">Confirm password</label>
-                                <input id="cfpassword" name="cfpassword"  class="form-control" type="password" data-validation="required" >
+                                <input id="cfpassword" name="cfpassword"  class="form-control" type="password" data-validation="required"
+                                       required maxlength="50" minlength="8"
+                                                   pattern="^[a-zA-z0-9]{8, 50}$">
+                                  <p style="color:red">${mess3}</p>   
+<!--                                <p style="color:red">${cfpassword}</p>  -->
                                 <span id="error_age" class="text-danger"></span>
                             </div>                            
 
@@ -84,8 +98,6 @@
     
             });
         </script>-->
-    
-    
-    
-    
+
+
 </html>

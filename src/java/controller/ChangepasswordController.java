@@ -6,12 +6,15 @@ package controller;
 
 import dao.BasicDAO;
 import dao.impl.UserDaoImpl;
+import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,8 +62,10 @@ public class ChangepasswordController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         try {
             BasicDAO dao = new UserDaoImpl();
+
         } catch (Exception ex) {
             Logger.getLogger(ChangepasswordController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -78,17 +83,64 @@ public class ChangepasswordController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User acc = (User) session.getAttribute("user");
 
-        try {
-            
-            String username = request.getParameter("username");
-            String password = request.getParameter("newpassword");
-            String crpassword = request.getParameter("password");
-            String cfpassword = request.getParameter("cfpassword");
-            String mess;
-        } catch (Exception ex) {
-            Logger.getLogger(ChangepasswordController.class.getName()).log(Level.SEVERE, null, ex);
+        String mess1 = "";
+        String mess2 = "";
+        String mess3 = "";
+        String crpassword = request.getParameter("crpassword");
+        String oldpassword = acc.getPassword();
+        String cfpassword = request.getParameter("cfpassword");
+
+        String username = acc.getUsername();
+        String fullname = acc.getFullname();
+        String password = request.getParameter("password");
+        String email = acc.getEmail();
+        String phone = acc.getPhone();
+        String role = acc.getRole();
+        String status = acc.getStatus();
+        String key = acc.getKey();
+        Date dob = acc.getDob();
+        int id = acc.getId();
+
+        if (crpassword.equals(oldpassword)) {
+            if (password.equals(oldpassword)) {
+                mess2 = "The new password cannot be the same as the current password";
+                request.setAttribute("mess2", mess2);
+//                request.setAttribute("password", password);
+                request.getRequestDispatcher("views/ChangePassword.jsp").forward(request, response);
+            } else {
+
+                if (cfpassword.equals(password)) {
+
+            getServletContext().log(username + fullname + password + email + phone + role + status + key + dob + id);
+            try {
+                BasicDAO dao = new UserDaoImpl();
+
+                User user = new User(id, username, password, fullname, dob, email, phone, role, status, key);
+                dao.update(user);
+                session.removeAttribute("user");
+                session.setAttribute("user", user);
+            } catch (Exception ex) {
+            }
+                } else {
+                    mess3 = "confirm the password and the new password is not the same";
+                    request.setAttribute("mess3", mess3);
+//                    request.setAttribute("cfpassword", cfpassword);
+                    request.getRequestDispatcher("views/ChangePassword.jsp").forward(request, response);
+
+                }
+            }
+
+        } else {
+            mess1 = "Current password is incorrect";
+            request.setAttribute("mess1", mess1);
+//            request.setAttribute("oldpassword", oldpassword);
+//            request.setAttribute("crpassword", crpassword);
+            request.getRequestDispatcher("views/ChangePassword.jsp").forward(request, response);
         }
+        doGet(request, response);
 
     }
 
