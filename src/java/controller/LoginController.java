@@ -75,6 +75,8 @@ public class LoginController extends HttpServlet {
             User user = dao.checkLogin(username, password);
             
             if (user == null) {
+                request.setAttribute("username", username);
+               
                 mess = "Wrong account or password !!! Please re-enter.";
                 request.setAttribute("mess", mess);
                 doGet(request, response);

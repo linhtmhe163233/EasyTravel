@@ -3,7 +3,7 @@
     Created on : May 17, 2023, 8:05:10 PM
     Author     : tranm
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,7 +13,7 @@
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     </head
     <body>
-          <div id="login">
+        <div id="login">
             <h3 class="text-center text-white pt-5">Login form</h3>
             <div class="container">
                 <div id="login-row" class="row justify-content-center align-items-center">
@@ -23,7 +23,12 @@
                                 <h3 class="text-center text-info">Login</h3>
                                 <div class="form-group">
                                     <label for="username" class="text-info">Username:</label><br>
-                                    <input type="text" name="username" id="username" class="form-control" placeholder="your username" required>
+                                    <c:if test="${username==null}">
+                                        <input type="text" name="username" id="username" class="form-control" placeholder="your username" required>
+                                    </c:if>
+                                    <c:if test="${username!=null}">
+                                        <input type="text" name="username" id="username" class="form-control" placeholder="your username" value="${username}" required>
+                                    </c:if>
                                 </div>
                                 <div class="form-group">
                                     <label for="password" class="text-info">Password:</label><br>
@@ -48,5 +53,3 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     </body>
 </html>
-<!--value="<%= request.getParameter("username") %>"
-value="<%= request.getParameter("password") %>"-->
