@@ -58,7 +58,7 @@ public class TourController extends HttpServlet {
             out.println("<title>Servlet TourController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet TourController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Tour name: " + ((Tour) request.getSession().getAttribute("tour")).getName() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -76,6 +76,12 @@ public class TourController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String act = request.getParameter("act");
+        if (act != null && act.equals("update")) {
+            Tour tour = (Tour) request.getSession().getAttribute("tour");
+            request.setAttribute("tour", tour);
+            request.getSession().removeAttribute("tour");
+        }
         request.getRequestDispatcher("views/TravelAgent/AddNewTour.jsp").forward(request, response);
     }
 
@@ -90,6 +96,7 @@ public class TourController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String id = request.getParameter("id");
         String name = request.getParameter("name").trim();
         String destination = request.getParameter("destination").trim();
         String type = request.getParameter("type").trim();
@@ -99,23 +106,29 @@ public class TourController extends HttpServlet {
         int tripLength = Integer.parseInt(request.getParameter("trip_length"));
         int maxQuantity = Integer.parseInt(request.getParameter("max_quantity"));
         HttpSession session = request.getSession();
-        int agentID = ((User)session.getAttribute("user")).getId();
-
-        Part file = request.getPart("image");
-        String image = file.getSubmittedFileName()+System.currentTimeMillis();
-        String realPath = request.getServletContext().getRealPath("images");
-        file.write(realPath + "/" + image);
+        int agentID = ((User) session.getAttribute("user")).getId();
 
         String description = request.getParameter("description").trim();
         try {
+            Part file = request.getPart("image");
+            String image = System.currentTimeMillis() + file.getSubmittedFileName();
+            String realPath = request.getServletContext().getRealPath("images");
+            file.write(realPath + "/" + image);
+            
             BasicDAO dao = new TourDAOImpl();
-            dao.save(new Tour(name, type, true, destination, tripLength,
-                    availableFrom, availableTo, maxQuantity, price, description, agentID, image));
+            if (id != null && !id.isEmpty()) {
+                dao.update(new Tour(Integer.parseInt(id), name, type, true, destination, tripLength,
+                        availableFrom, availableTo, maxQuantity, price, description, agentID, image));
+                response.sendRedirect(request.getContextPath() + "/tour?id=" + id);
+            } else {
+                dao.save(new Tour(name, type, true, destination, tripLength,
+                        availableFrom, availableTo, maxQuantity, price, description, agentID, image));
+                response.sendRedirect(request.getContextPath() + "/home");
+            }
         } catch (Exception ex) {
-            Logger.getLogger(TourController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", ex.getMessage());
+            request.getRequestDispatcher("views/Error.jsp").forward(request, response);
         }
-
-        response.sendRedirect(request.getContextPath() + "/home");
     }
 
     /**

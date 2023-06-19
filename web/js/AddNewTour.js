@@ -17,17 +17,32 @@ Date.prototype.addDays = function (days) {
     return date;
 };
 
+Date.prototype.addYears = function (years) {
+    let date = new Date(this);
+    date.setYear(date.getFullYear() + years);
+    return date;
+};
+
 from.onchange = () => {
     to.min = from.valueAsDate.addDays(1).toISOString().split("T")[0];
     to.valueAsDate = from.valueAsDate.addDays(1);
 };
 
-document.getElementById("available_from").min = dateNow.toISOString().split("T")[0];
-from.valueAsDate = dateNow;
-to.valueAsDate = dateNow.addDays(1);
+from.max = dateNow.addYears(10).toISOString().split("T")[0];
+to.max = dateNow.addYears(10).addDays(1).toISOString().split("T")[0];
 
-let image=document.getElementById("image");
-let imageDisplay=document.getElementById("imageDisplay");
+let id = document.getElementById("id");
+from.valueAsDate = dateNow;
+if (id.value.length === 0) {
+    to.valueAsDate = dateNow.addDays(1);
+}
+
+from.min = dateNow.toISOString().split("T")[0];
+to.min = dateNow.addDays(1).toISOString().split("T")[0];
+
+let image = document.getElementById("image");
+let imageDisplay = document.getElementById("imageDisplay");
+
 image.onchange = () => {
     const file = image.files[0];
     if (file) {
@@ -35,6 +50,36 @@ image.onchange = () => {
     }
 };
 
+// xmlHTTP return blob respond
+function getImgURL(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        callback(xhr.response);
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+}
+;
+
+function loadURLToInputFiled(url) {
+    getImgURL(url, (imgBlob) => {
+        // Load img blob to input
+        // WIP: UTF8 character error
+        let fileName = imageDisplay.src.substring(imageDisplay.src.lastIndexOf('/')+1);
+        console.log(fileName);
+        let file = new File([imgBlob], fileName, {type: "image/*", lastModified: new Date().getTime()}, 'utf-8');
+        let container = new DataTransfer();
+        container.items.add(file);
+        image.files = container.files;
+
+    });
+}
+;
+if (id.value.length !== 0) {
+    loadURLToInputFiled(imageDisplay.src);
+}
+console.log();
 (function () {
     'use strict';
     window.addEventListener('load', function () {

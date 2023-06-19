@@ -64,7 +64,7 @@ public class TourDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         try {
             TourDAO dao = new TourDAOImpl();
             String idStr = request.getParameter("id");
@@ -94,7 +94,21 @@ public class TourDetailController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        try {
+            TourDAO dao = new TourDAOImpl();
+            int id = Integer.parseInt(request.getParameter("id"));
+            if (request.getParameter("disable") != null) {
+                dao.delete(new Tour(id));
+            }
+            if (request.getParameter("enable") != null) {
+                dao.enable(id);
+            }
+            response.sendRedirect("home");
+        } catch (Exception ex) {
+            request.setAttribute("error", ex.getMessage());
+            request.getRequestDispatcher("views/Error.jsp").forward(request, response);
+        }
     }
 
     /**

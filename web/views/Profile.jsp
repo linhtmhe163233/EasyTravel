@@ -4,6 +4,7 @@
     Author     : tranm
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -81,10 +82,9 @@
                 margin-left: 200px;
             }
         </style>
-
-
     </head>
     <body>
+        <c:import url="./Layout/Header.jsp"></c:import>
         <h1 class="centered">My profile</h1>
         <form action ="profile" method="post">
             <div class="container">
