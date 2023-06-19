@@ -65,6 +65,40 @@ public class UserDaoImpl extends DBContext implements BasicDAO<User> {
         }
         return null;
     }
+    
+    public User checkEmail(String email) throws Exception {
+        Connection conn = super.getConnection();
+        String sql = "SELECT * FROM users WHERE email=?";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, email);
+          
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new User(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getDate(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getString(10));
+            }
+        } catch (SQLException e) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            super.close(conn, ps, rs);
+        }
+        return null;
+    }
 
     @Override
     public List<User> getAll() throws Exception {
