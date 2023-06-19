@@ -64,6 +64,10 @@
         <servlet-name>RestaurantList</servlet-name>
         <servlet-class>controller.RestaurantList</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ForgotpasswordController</servlet-name>
+        <servlet-class>controller.ForgotpasswordController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -72,11 +76,11 @@
         <servlet-name>HotelController</servlet-name>
         <url-pattern>/hotels</url-pattern>
     </servlet-mapping>
-      <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>EditHotelController</servlet-name>
         <url-pattern>/edit</url-pattern>
     </servlet-mapping>
-     <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>DeleteHotelController</servlet-name>
         <url-pattern>/delete</url-pattern>
     </servlet-mapping>
@@ -127,6 +131,10 @@
     <servlet-mapping>
         <servlet-name>RestaurantList</servlet-name>
         <url-pattern>/RestaurantList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ForgotpasswordController</servlet-name>
+        <url-pattern>/forgotpassword</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
