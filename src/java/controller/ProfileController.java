@@ -37,18 +37,7 @@ public class ProfileController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ProfileController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ProfileController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -95,10 +84,10 @@ public class ProfileController extends HttpServlet {
         User acc = (User) session.getAttribute("user");
         
         String username = acc.getUsername();
-        String fullname = request.getParameter("fullname");
+        String fullname = request.getParameter("fullname").trim();
         String password = acc.getPassword();
-        String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
+        String email = request.getParameter("email").trim();
+        String phone = request.getParameter("phone").trim();
         String role = acc.getRole();
         String status = acc.getStatus();
         String key = acc.getKey();
