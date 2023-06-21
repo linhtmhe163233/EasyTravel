@@ -10,6 +10,7 @@
 package dao.impl;
 
 import dao.BasicDAO;
+import dao.UserDAO;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -26,7 +27,7 @@ import entity.User;
  *
  * @author LinhTM
  */
-public class UserDaoImpl extends DBContext implements BasicDAO<User> {
+public class UserDaoImpl extends DBContext implements UserDAO {
 
     public UserDaoImpl() throws Exception {
 
@@ -76,6 +77,39 @@ public class UserDaoImpl extends DBContext implements BasicDAO<User> {
         try {
             ps = conn.prepareStatement(sql);
             ps.setString(1, email);
+          
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new User(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getDate(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getString(10));
+            }
+        } catch (SQLException e) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            super.close(conn, ps, rs);
+        }
+        return null;
+    }
+    public User checkKey(String key) throws Exception {
+        Connection conn = super.getConnection();
+        String sql = "SELECT * FROM users WHERE [key]=?";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, key);
           
 
             rs = ps.executeQuery();
@@ -272,7 +306,7 @@ public class UserDaoImpl extends DBContext implements BasicDAO<User> {
     public List<User> search(String keyword) throws Exception {
         Connection conn = super.getConnection();
         List<User> list = new ArrayList<>();
-        String sql = "SELECT * FROM users WHERE full_name like ? or [key]=?";
+        String sql = "SELECT * FROM users WHERE full_name like ? or [key]=? or email=?";
 
         int id;
         String username;
@@ -294,6 +328,7 @@ public class UserDaoImpl extends DBContext implements BasicDAO<User> {
             ps = conn.prepareStatement(sql);
             ps.setString(1, "%" + keyword + "%");
             ps.setString(2, keyword);
+            ps.setString(3, keyword);
 
             rs = ps.executeQuery();
 
@@ -322,9 +357,10 @@ public class UserDaoImpl extends DBContext implements BasicDAO<User> {
     }
 //    public static void main(String[] args) {
 //        try {
-//            User u = new User(2, "agent_demo", "123456", "Nguyen Van Ban", Date.valueOf("2003-01-01"), "ANV345@gmail.com", "0123456781", "Travel Agent", "Active", null);
+////            User u = new User(2, "agent_demo", "123456", "Nguyen Van Ban", Date.valueOf("2003-01-01"), "ANV345@gmail.com", "0123456781", "Travel Agent", "Active", null);
 //            UserDaoImpl ud = new UserDaoImpl();
-//            ud.update(u);
+//            System.out.println(ud.checkKey("16871629842350.75986604125715921687162984235"));
+////            ud.update(u);
 //        } catch (Exception ex) {
 //            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
 //        }

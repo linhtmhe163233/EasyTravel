@@ -4,25 +4,27 @@
  */
 package controller;
 
+import dao.BasicDAO;
 import dao.UserDAO;
-import utils.Mail;
 import dao.impl.UserDaoImpl;
+import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import entity.User;
 
 /**
  *
- * @author linhtm
+ * @author My Laptop
  */
-public class RegisterController extends HttpServlet {
+public class NewPasswordController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +43,10 @@ public class RegisterController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RegisterController</title>");
+            out.println("<title>Servlet NewPasswordController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RegisterController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet NewPasswordController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,7 +64,24 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("views/Register.jsp").forward(request, response);
+        String key = request.getParameter("key");
+        try {
+            UserDAO dao = new UserDaoImpl();
+            User user = dao.checkKey(key);
+            if (user == null) {
+                request.getRequestDispatcher("views/LandingPage.jsp").forward(request, response);
+            } else {
+
+                user.setKey(String.valueOf(System.currentTimeMillis()) + Math.random() % 1000 + System.currentTimeMillis());
+                dao.update(user);
+                HttpSession session = request.getSession();
+                session.setAttribute("user", user);
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ChangepasswordController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        request.getRequestDispatcher("views/NewPassword.jsp").forward(request, response);
     }
 
     /**
@@ -76,27 +95,44 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String email = request.getParameter("email");
-        String fullname = request.getParameter("fullname");
-        String password = request.getParameter("password");
-        String phone = request.getParameter("phone");
-        String role = request.getParameter("role");
-        Date dob = Date.valueOf(request.getParameter("dob"));
-        String key = String.valueOf(System.currentTimeMillis()) + Math.random() % 1000 + String.valueOf(System.currentTimeMillis());
-        try {
-            UserDAO dao = new UserDaoImpl();
-            dao.save(new User(username, password, fullname, dob, email, phone, role, "Inactive", key));
+        HttpSession session = request.getSession();
+        User acc = (User) session.getAttribute("user");
 
-            Mail mail = new Mail();
+        String mess = "";
+        String password = request.getParameter("password").trim();
+        String cfpassword = request.getParameter("cfpassword").trim();
 
-            String contextPath = "http://localhost:9999/EasyTravel/"; //request.getContextPath()
-            mail.sentEmail(email, "Easy Travel verification mail", contextPath + "home?key=" + key);
-            request.setAttribute("registered", true);
-            doGet(request, response);
-        } catch (Exception ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        String username = acc.getUsername();
+        String fullname = acc.getFullname();
+
+        String email = acc.getEmail();
+        String phone = acc.getPhone();
+        String role = acc.getRole();
+        String status = acc.getStatus();
+        String key = acc.getKey();
+        Date dob = acc.getDob();
+        int id = acc.getId();
+        if (cfpassword.equals(password)) {
+
+            getServletContext().log(username + fullname + password + email + phone + role + status + key + dob + id);
+            try {
+                UserDAO dao = new UserDaoImpl();
+
+                User user = new User(id, username, password, fullname, dob, email, phone, role, status, key);
+                dao.update(user);
+                session.removeAttribute("user");
+                session.setAttribute("user", user);
+            } catch (Exception ex) {
+            }
+        } else {
+            mess = "Confirm the password and the new password is not the same";
+            request.setAttribute("mess", mess);
+
+            request.getRequestDispatcher("views/NewPassword.jsp").forward(request, response);
+
         }
+        doGet(request, response);
+
     }
 
     /**

@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dao.UserDAO;
 import dao.impl.UserDaoImpl;
 import entity.User;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.Mail;
@@ -75,31 +77,31 @@ public class ForgotpasswordController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter("email");
+        String email = request.getParameter("email").trim();
 
         String mess;
 
         try {
 //            DAO dao = new UserDao(); 
 //            User u = dao.checkLogin(username,password);
-            UserDaoImpl dao = new UserDaoImpl();
+            UserDAO dao = new UserDaoImpl();
             User user = dao.checkEmail(email);
 
+          
+
             if (user == null) {
-                mess = "khong ton tai email";
+                mess = "Email does not exist";
                 request.setAttribute("mess", mess);
                 doGet(request, response);
 
             } else {
-//                HttpSession session = request.getSession();
-//                session.setAttribute("user", user);
-//                response.sendRedirect(request.getContextPath() + "/home");
-
+                String key = user.getKey();
+                String link = "http://localhost:9999/EasyTravel/newpassword";
                 Mail mail = new Mail();
 
                 String contextPath = "http://localhost:9999/EasyTravel/"; //request.getContextPath()
-                mail.sentEmail(email, "Easy Travel verification mail",contextPath);
-                
+                mail.sentEmail(email, "Easy Travel verification mail", contextPath + "newpassword?key=" +key);
+
                 doGet(request, response);
             }
         } catch (Exception ex) {

@@ -5,6 +5,7 @@
 package controller;
 
 //import dao.DAO;
+import dao.UserDAO;
 import dao.impl.UserDaoImpl;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -71,7 +72,7 @@ public class LoginController extends HttpServlet {
         try {
 //            DAO dao = new UserDao(); 
 //            User u = dao.checkLogin(username,password);
-            UserDaoImpl dao = new UserDaoImpl();
+            UserDAO dao = new UserDaoImpl();
             User user = dao.checkLogin(username, password);
             
             if (user == null) {

@@ -5,6 +5,7 @@
 package controller;
 
 import dao.BasicDAO;
+import dao.UserDAO;
 import dao.impl.UserDaoImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -54,7 +55,7 @@ public class ProfileController extends HttpServlet {
             throws ServletException, IOException {
         try {
             
-            BasicDAO dao = new UserDaoImpl();
+            UserDAO dao = new UserDaoImpl();
 //            HttpSession session = request.getSession();
 //            User acc = (User) session.getAttribute("user");
 ////            int id = ((User) session.getAttribute("user")).getId();
@@ -96,7 +97,7 @@ public class ProfileController extends HttpServlet {
         int id = acc.getId();
         getServletContext().log(username + fullname + password + email + phone + role + status + key + dob + id);
         try {
-            BasicDAO dao = new UserDaoImpl();
+            UserDAO dao = new UserDaoImpl();
 //            request.setAttribute("user", new User(username, password, fullname, dob, email, phone, role, status, key));
             User user = new User(id, username, password, fullname, dob, email, phone, role, status, key);
             dao.update(user);

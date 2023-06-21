@@ -23,6 +23,7 @@ import entity.Tour;
 import entity.User;
 import dao.BasicDAO;
 import dao.TourDAO;
+import dao.UserDAO;
 
 /*
  * This class controls the home page of the website
@@ -59,7 +60,7 @@ public class HomeController extends HttpServlet {
         String key = request.getParameter("key");
         if (key != null) {
             try {
-                BasicDAO dao = new UserDaoImpl();
+                UserDAO dao = new UserDaoImpl();
                 List<User> list = dao.search(key);
                 if (list.isEmpty() || !list.get(0).getStatus().equals("Inactive")) {
                     request.getRequestDispatcher("views/LandingPage.jsp").forward(request, response);

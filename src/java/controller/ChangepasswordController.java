@@ -5,6 +5,7 @@
 package controller;
 
 import dao.BasicDAO;
+import dao.UserDAO;
 import dao.impl.UserDaoImpl;
 import entity.User;
 import java.io.IOException;
@@ -53,7 +54,7 @@ public class ChangepasswordController extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-            BasicDAO dao = new UserDaoImpl();
+            UserDAO dao = new UserDaoImpl();
 
         } catch (Exception ex) {
             Logger.getLogger(ChangepasswordController.class.getName()).log(Level.SEVERE, null, ex);
@@ -105,7 +106,7 @@ public class ChangepasswordController extends HttpServlet {
 
             getServletContext().log(username + fullname + password + email + phone + role + status + key + dob + id);
             try {
-                BasicDAO dao = new UserDaoImpl();
+                UserDAO dao = new UserDaoImpl();
 
                 User user = new User(id, username, password, fullname, dob, email, phone, role, status, key);
                 dao.update(user);

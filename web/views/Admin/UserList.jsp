@@ -60,10 +60,5 @@
     <script src="js/jquery-3.7.0.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/StaffList.js"></script>
-    <script>
-                            let message = '${requestScope.message}';
-                            if (message !== '') {
-                                document.getElementById("add").click();
-                            }
-    </script>
+   
 </html>
