@@ -15,8 +15,8 @@
     <body>
         <h1 class="text-center">${error}</h1>
         <div class="d-flex flex-row justify-content-center">
-            <a href="home" class="btn btn-primary mr-4">Home</a>
-            <a href="login" class="btn btn-secondary">Login</a>   
+            <a href="home" class="btn btn-secondary mr-4">Home</a>
+            <a href="login" class="btn btn-primary">Login</a>   
         </div>
 
     </body>

@@ -138,7 +138,7 @@ public class StaffDAOImpl extends DBContext implements StaffDAO {
             rs.next();
             return rs.getInt(1);
         } catch (Exception e) {
-             throw new Exception("Unable to get data from database");
+            throw new Exception("Unable to get data from database");
         } finally {
             closeRs(rs);
             closePs(ps);
@@ -192,4 +192,28 @@ public class StaffDAOImpl extends DBContext implements StaffDAO {
         return list;
     }
 
+    @Override
+    public boolean isPhoneUnique(String phone) throws Exception{
+        String query = "select phone from staff where phone=?";
+        
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, phone);
+
+            rs = ps.executeQuery();
+         
+            return !rs.next();
+        } catch (SQLException ex) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
+    }
 }

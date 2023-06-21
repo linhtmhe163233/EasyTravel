@@ -119,9 +119,9 @@
                                        pattern="^0[0-9]{9}$" value="${staff.phone}">
                                 <div class="valid-feedback">Looks good!</div>
                                 <div class="invalid-feedback">Phone number can only contain 10 digits! Ex:0123456789</div>
-                                <c:if test="${message!=null}">
-                                    <div class="text-danger">Phone must be unique!</div>
-                                </c:if>
+                                <%--<c:if test="${message!=null}">--%>
+                                    <div class="text-danger">${message}</div>
+                                <%--</c:if>--%>
                             </div>
                             <div class="md-form mb-5">
                                 <label data-error="wrong" data-success="right" for="dob">Date of birth</label>

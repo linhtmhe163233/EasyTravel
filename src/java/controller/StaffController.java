@@ -18,8 +18,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import entity.Staff;
 import entity.User;
 import dao.BasicDAO;
@@ -125,16 +123,23 @@ public class StaffController extends HttpServlet {
             HttpSession session = request.getSession();
 
             try {
-                BasicDAO dao = new StaffDAOImpl();
+                StaffDAO dao = new StaffDAOImpl();
                 Object agentObj = session.getAttribute("user");
                 if (agentObj == null) {
                     throw new Exception("Session is not valid");
                 }
                 agentId = ((User) agentObj).getId();
-                dao.save(new Staff(name, DOB, phone, gender, agentId));
+                Staff staff = new Staff(name, DOB, phone, gender, agentId);
+                if (dao.isPhoneUnique(phone)) {
+                    dao.save(staff);
+                } else {
+                    request.setAttribute("staff", staff);
+                    request.setAttribute("message", "This phone number already exists in the list!");
+                }
             } catch (Exception ex) {
-                request.setAttribute("message", ex.getMessage());
-                request.setAttribute("staff", new Staff(name, DOB, phone, gender, agentId));
+                request.setAttribute("error", ex.getMessage());
+                request.getRequestDispatcher("views/Error.jsp").forward(request, response);
+                return;
             }
         }
         int index = Integer.parseInt(request.getParameter("index"));

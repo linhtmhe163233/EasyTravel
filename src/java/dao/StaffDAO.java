@@ -9,7 +9,6 @@
 package dao;
 
 import entity.Staff;
-import entity.Tour;
 import java.util.List;
 import utils.Pagination;
 
@@ -20,4 +19,5 @@ import utils.Pagination;
 public interface StaffDAO extends BasicDAO<Staff> {
     int getTotalItems() throws Exception;
     List<Staff> getPageByAgent(int agentId, Pagination page) throws Exception;
+    boolean isPhoneUnique(String phone) throws Exception;
 }
