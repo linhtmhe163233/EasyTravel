@@ -38,6 +38,9 @@
             <c:if test="${sessionScope.user!=null}">
                 <a class="nav-item nav-link" href="profile">Profile</a>
             </c:if>
+            <c:if test="${sessionScope.user!=null && sessionScope.user.role=='Admin'}">
+                <a class="nav-item nav-link" href="manageuser">Manage</a>
+            </c:if>
         </div>
         <div class="navbar-nav ml-auto">
             <c:if test="${sessionScope.user!=null}">

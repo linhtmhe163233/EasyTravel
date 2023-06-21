@@ -23,7 +23,7 @@
     </head>
     <body>
 
-       
+
         <div class="form-gap"></div>
         <div class="container">
             <div class="row">
@@ -34,6 +34,7 @@
                                 <h3><i class="fa fa-lock fa-4x"></i></h3>
                                 <h2 class="text-center">Forgot Password?</h2>
                                 <p>You can reset your password here.</p>
+                                <p style="color:red">${mess}</p>
                                 <div class="panel-body">
 
                                     <form method="post" action="forgotpassword">
@@ -47,7 +48,10 @@
                                         <div class="form-group">
                                             <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Reset Password" type="submit">
                                         </div>
-
+                                        <div >
+                                            <a href="/EasyTravel/register" class="text-info">Register</a><br>
+                                            <a href="/EasyTravel/login" class="text-info">Login</a>
+                                        </div>
                                         <input type="hidden" class="hide" name="token" id="token" value=""> 
                                     </form>
 

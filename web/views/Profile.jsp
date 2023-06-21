@@ -15,7 +15,7 @@
         <style>
             body {
                 margin: 0;
-                padding-top: 40px;
+                padding-top: 0px;
                 color: #2e323c;
                 background: #f5f6fa;
                 position: relative;
@@ -79,7 +79,7 @@
             }
             .centered{
 
-                margin-left: 200px;
+                margin-left: 400px;
             }
         </style>
     </head>
@@ -90,7 +90,7 @@
             <div class="container">
                 <div class="row gutters">
 
-                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+                    <div class="mx-auto">
                         <div class="card h-100">
                             <div class="card-body">
                                 <div class="row gutters">

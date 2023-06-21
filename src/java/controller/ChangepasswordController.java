@@ -5,6 +5,7 @@
 package controller;
 
 import dao.BasicDAO;
+import dao.UserDAO;
 import dao.impl.UserDaoImpl;
 import entity.User;
 import java.io.IOException;
@@ -36,18 +37,7 @@ public class ChangepasswordController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ChangepasswordController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ChangepasswordController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+      
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -64,7 +54,7 @@ public class ChangepasswordController extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-            BasicDAO dao = new UserDaoImpl();
+            UserDAO dao = new UserDaoImpl();
 
         } catch (Exception ex) {
             Logger.getLogger(ChangepasswordController.class.getName()).log(Level.SEVERE, null, ex);
@@ -95,7 +85,7 @@ public class ChangepasswordController extends HttpServlet {
 
         String username = acc.getUsername();
         String fullname = acc.getFullname();
-        String password = request.getParameter("password");
+        String password = request.getParameter("password").trim();
         String email = acc.getEmail();
         String phone = acc.getPhone();
         String role = acc.getRole();
@@ -108,7 +98,7 @@ public class ChangepasswordController extends HttpServlet {
             if (password.equals(oldpassword)) {
                 mess2 = "The new password cannot be the same as the current password";
                 request.setAttribute("mess2", mess2);
-//                request.setAttribute("password", password);
+
                 request.getRequestDispatcher("views/ChangePassword.jsp").forward(request, response);
             } else {
 
@@ -116,7 +106,7 @@ public class ChangepasswordController extends HttpServlet {
 
             getServletContext().log(username + fullname + password + email + phone + role + status + key + dob + id);
             try {
-                BasicDAO dao = new UserDaoImpl();
+                UserDAO dao = new UserDaoImpl();
 
                 User user = new User(id, username, password, fullname, dob, email, phone, role, status, key);
                 dao.update(user);
@@ -125,9 +115,9 @@ public class ChangepasswordController extends HttpServlet {
             } catch (Exception ex) {
             }
                 } else {
-                    mess3 = "confirm the password and the new password is not the same";
+                    mess3 = "Confirm the password and the new password is not the same";
                     request.setAttribute("mess3", mess3);
-//                    request.setAttribute("cfpassword", cfpassword);
+
                     request.getRequestDispatcher("views/ChangePassword.jsp").forward(request, response);
 
                 }
@@ -136,8 +126,7 @@ public class ChangepasswordController extends HttpServlet {
         } else {
             mess1 = "Current password is incorrect";
             request.setAttribute("mess1", mess1);
-//            request.setAttribute("oldpassword", oldpassword);
-//            request.setAttribute("crpassword", crpassword);
+
             request.getRequestDispatcher("views/ChangePassword.jsp").forward(request, response);
         }
         doGet(request, response);
