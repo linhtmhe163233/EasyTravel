@@ -1,4 +1,4 @@
-    /*
+/*
  * ISP392-IS1701-Group6
  * EasyTravel
  *
@@ -7,6 +7,7 @@
  * 21-05-2023      1.0                 DucTM           First Implement
  * 26-05-2023      1.0                 DucTM           Add close() method 
  * 06-06-2023      1.0                 DucTM           Add getConnection() for opening a new connection
+ * 21-06-2023      1.0                 DucTM           Separate close function
  */
 package dao.impl;
 
@@ -32,11 +33,11 @@ public class DBContext {
     private final String userID = "sa";
     private final String password = "247314";
 
-    public DBContext(){   
+    public DBContext() {
     }
-    
+
     //Open a new database connection
-    public Connection getConnection() throws Exception{
+    public Connection getConnection() throws Exception {
         String url = "jdbc:sqlserver://" + serverName + ":" + portNumber
                 + ";databaseName=" + dbName;
         try {
@@ -47,8 +48,9 @@ public class DBContext {
 
         return DriverManager.getConnection(url, userID, password);
     }
+
     //Close the current database connection
-    public void close(Connection conn, PreparedStatement ps, ResultSet rs) throws Exception{
+    public void close(Connection conn, PreparedStatement ps, ResultSet rs) throws Exception {
         if (rs != null) {
             try {
                 rs.close();
@@ -77,4 +79,39 @@ public class DBContext {
             throw new Exception("Database close connection error");
         }
     }
+
+    public void closeConnection(Connection conn) throws Exception {
+        try {
+            if (conn != null && !conn.isClosed()) {
+                if (!conn.getAutoCommit()) {
+                    conn.commit();
+                    conn.setAutoCommit(true);
+                }
+                conn.close();
+            }
+        } catch (SQLException e) {
+            throw new Exception("Database close connection error");
+        }
+    }
+
+    public void closePs(PreparedStatement ps) throws Exception {
+        if (ps != null) {
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                throw new Exception("Database close PreparedStatement error");
+            }
+        }
+    }
+
+    public void closeRs(ResultSet rs) throws Exception {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                throw new Exception("Database close ResultSet error");
+            }
+        }
+    }
+
 }

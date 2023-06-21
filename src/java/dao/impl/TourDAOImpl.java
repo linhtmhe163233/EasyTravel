@@ -47,10 +47,12 @@ public class TourDAOImpl extends DBContext implements TourDAO {
             rs.next();
             return rs.getInt(1);
         } catch (Exception e) {
+            throw new Exception("Unable to get data from database");
         } finally {
-            close(conn, ps, rs);
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
         }
-        return 0;
     }
 
     @Override
@@ -108,7 +110,9 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         } catch (SQLException ex) {
             throw new Exception("Unable to get data from database");
         } finally {
-            close(conn, ps, rs);
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
         }
         return list;
     }
@@ -164,7 +168,9 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         } catch (SQLException ex) {
             throw new Exception("Unable to get data from database");
         } finally {
-            close(conn, ps, rs);
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
         }
         return list;
     }
@@ -221,7 +227,9 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         } catch (SQLException ex) {
             throw new Exception("Unable to get data from database");
         } finally {
-            close(conn, ps, rs);
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
         }
         return list;
     }
@@ -255,7 +263,8 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         } catch (SQLException ex) {
             throw new Exception("Unable to save data to database");
         } finally {
-            close(conn, ps, null);
+            closePs(ps);
+            closeConnection(conn);
         }
     }
 
@@ -290,7 +299,8 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         } catch (Exception ex) {
             throw new Exception("Unable to update data to database");
         } finally {
-            close(conn, ps, null);
+            closePs(ps);
+            closeConnection(conn);
         }
     }
 
@@ -310,7 +320,8 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         } catch (Exception e) {
             throw new Exception("Unable to disable this tour in database");
         } finally {
-            close(conn, ps, null);
+            closePs(ps);
+            closeConnection(conn);
         }
     }
 
@@ -335,7 +346,8 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         } catch (Exception e) {
             throw new Exception("Unable to enable this tour in database");
         } finally {
-            close(conn, ps, null);
+            closePs(ps);
+            closeConnection(conn);
         }
     }
 

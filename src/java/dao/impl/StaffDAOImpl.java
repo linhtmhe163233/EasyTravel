@@ -19,7 +19,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import entity.Staff;
-import entity.Tour;
 import utils.Pagination;
 
 /*
@@ -75,7 +74,9 @@ public class StaffDAOImpl extends DBContext implements StaffDAO {
         } catch (SQLException ex) {
             throw new Exception("Unable to get data from database");
         } finally {
-            close(conn, ps, rs);
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
         }
         return list;
     }
@@ -102,7 +103,8 @@ public class StaffDAOImpl extends DBContext implements StaffDAO {
         } catch (SQLException ex) {
             throw new Exception("Unable to save data to database");
         } finally {
-            super.close(conn, ps, null);
+            closePs(ps);
+            closeConnection(conn);
         }
     }
 
@@ -136,8 +138,12 @@ public class StaffDAOImpl extends DBContext implements StaffDAO {
             rs.next();
             return rs.getInt(1);
         } catch (Exception e) {
+             throw new Exception("Unable to get data from database");
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
         }
-        return 0;
     }
 
     @Override
@@ -179,7 +185,9 @@ public class StaffDAOImpl extends DBContext implements StaffDAO {
         } catch (SQLException ex) {
             throw new Exception("Unable to get data from database");
         } finally {
-            close(conn, ps, rs);
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
         }
         return list;
     }
