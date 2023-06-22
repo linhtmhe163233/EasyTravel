@@ -157,6 +157,4 @@
             30
         </session-timeout>
     </session-config>
-    <servlet-name>RestaurantController</servlet-name>
-    <url-pattern>/restaurant</url-pattern>
 </web-app>
