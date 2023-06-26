@@ -5,24 +5,23 @@
 package controller;
 
 import dao.UserDAO;
-import utils.Mail;
 import dao.impl.UserDaoImpl;
+import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.Date;
+import jakarta.servlet.http.HttpSession;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import entity.User;
 
 /**
  *
- * @author linhtm
+ * @author My Laptop
  */
-public class RegisterController extends HttpServlet {
+public class NewPasswordCotroller extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +40,10 @@ public class RegisterController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RegisterController</title>");
+            out.println("<title>Servlet NewPasswordCotroller</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RegisterController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet NewPasswordCotroller at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,7 +61,8 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("views/Register.jsp").forward(request, response);
+
+        request.getRequestDispatcher("views/NewPassword.jsp").forward(request, response);
     }
 
     /**
@@ -76,28 +76,32 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String email = request.getParameter("email");
-        String fullname = request.getParameter("fullname");
-        String password = request.getParameter("password");
-        String phone = request.getParameter("phone");
-        String role = request.getParameter("role");
-        Date dob = Date.valueOf(request.getParameter("dob"));
-        String key = Math.random() % 1000000 + String.valueOf(System.currentTimeMillis()) + Math.random() % 1000000;
         try {
+            HttpSession session = request.getSession();
+            String email = (String) session.getAttribute("email");
+            String cfpassword = request.getParameter("cfpassword").trim();
+            String password = request.getParameter("password").trim();
+            String mess = "";
             UserDAO dao = new UserDaoImpl();
-            dao.save(new User(username, password, fullname, dob, email, phone, role, "Inactive", key));
+            User user = dao.checkEmail(email);
+            if (password.equals(cfpassword)) {
 
-            Mail mail = new Mail();
+                user.setPassword(password);
+                dao.update(user);
 
-            String contextPath = "http://localhost:9999/EasyTravel/"; //request.getContextPath()
-            mail.sentEmail(email, "Easy Travel verification mail", contextPath + "home?key=" + key, "link");
-            request.setAttribute("registered", true);
-            doGet(request, response);
-//            request.getRequestDispatcher("views/Register.jsp").forward(request, response);
+                session.removeAttribute("key");
+                session.removeAttribute("email");
+                session.setAttribute("user", user);
+                response.sendRedirect("home");
+            } else {
+                mess = "Confirm the password and the new password is not the same";
+                request.setAttribute("mess", mess);
+                request.getRequestDispatcher("views/NewPassword.jsp").forward(request, response);
+            }
         } catch (Exception ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NewPasswordCotroller.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     /**

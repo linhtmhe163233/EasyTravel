@@ -79,19 +79,13 @@ public class ChangepasswordController extends HttpServlet {
         String mess1 = "";
         String mess2 = "";
         String mess3 = "";
-        String crpassword = request.getParameter("crpassword");
+        String crpassword = request.getParameter("crpassword").trim();
         String oldpassword = acc.getPassword();
-        String cfpassword = request.getParameter("cfpassword");
+        String cfpassword = request.getParameter("cfpassword").trim();
 
-        String username = acc.getUsername();
-        String fullname = acc.getFullname();
+        
         String password = request.getParameter("password").trim();
-        String email = acc.getEmail();
-        String phone = acc.getPhone();
-        String role = acc.getRole();
-        String status = acc.getStatus();
-        String key = acc.getKey();
-        Date dob = acc.getDob();
+
         int id = acc.getId();
 
         if (crpassword.equals(oldpassword)) {
@@ -104,14 +98,14 @@ public class ChangepasswordController extends HttpServlet {
 
                 if (cfpassword.equals(password)) {
 
-            getServletContext().log(username + fullname + password + email + phone + role + status + key + dob + id);
+           
             try {
                 UserDAO dao = new UserDaoImpl();
 
-                User user = new User(id, username, password, fullname, dob, email, phone, role, status, key);
-                dao.update(user);
+                acc.setPassword(password);
+                dao.update(acc);
                 session.removeAttribute("user");
-                session.setAttribute("user", user);
+                session.setAttribute("user", acc);
             } catch (Exception ex) {
             }
                 } else {

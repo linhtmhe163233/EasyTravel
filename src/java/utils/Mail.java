@@ -20,7 +20,7 @@ import javax.mail.internet.MimeMessage;
  */
 public class Mail {
 
-    public void sentEmail(String toEmail, String subject, String link) {
+    public void sentEmail(String toEmail, String subject, String content, String type) {
         String MAIL = "tranminhducbxvp@gmail.com";
         String PASSWORD = "voxwhknyrytimqxu";
 
@@ -45,8 +45,15 @@ public class Mail {
             message.setFrom(new InternetAddress(MAIL));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
             message.setSubject(subject);
-            message.setContent("<a href='"+link+"'>Click this to verify your mail</a>",
-                    "text/html");
+      
+//            message.setContent("<a href='" + link + "'>Click this to verify your mail</a>",
+//                        "text/html");
+            if (type.equals("link")) {
+                message.setContent("<a href='" + content + "'>Click this to verify your mail</a>",
+                        "text/html");
+            } else if(type.equals("code")) {
+                message.setContent("<p>"+ content.substring(0,6) +"</p>", "text/html");
+            }
 
             Transport.send(message);
 
@@ -56,10 +63,10 @@ public class Mail {
     }
 
     public static void main(String[] args) {
-        String toEmail = "ductmhe173033@fpt.edu.vn";
+        String toEmail = "linhtmhe163233@fpt.edu.vn";
         String subject = "Easy Travel verification mail";
         String link = "http://localhost:9999/EasyTravel/home";
-        new Mail().sentEmail(toEmail, subject, link);
+        new Mail().sentEmail(toEmail, subject, link, "link");
     }
 
 }

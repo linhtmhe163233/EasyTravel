@@ -8,8 +8,11 @@
  */
 package controller;
 
+import dao.BasicDAO;
 import dao.TourDAO;
+import dao.impl.FeedbackDAOImpl;
 import dao.impl.TourDAOImpl;
+import entity.FeedbackThread;
 import entity.Tour;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -66,6 +69,7 @@ public class TourDetailController extends HttpServlet {
             throws ServletException, IOException {
 
         try {
+            BasicDAO daoo = new FeedbackDAOImpl();
             TourDAO dao = new TourDAOImpl();
             String idStr = request.getParameter("id");
             if (idStr == null || !idStr.matches("^[0-9]+$")) {
@@ -73,8 +77,10 @@ public class TourDetailController extends HttpServlet {
                 return;
             }
             int id = Integer.parseInt(idStr);
+            List<FeedbackThread> listfb = daoo.get(id);
             List<Tour> list = dao.get(id);
             request.setAttribute("tour", list.get(0));
+            request.setAttribute("feedback", listfb);
         } catch (Exception ex) {
             request.setAttribute("error", ex.getMessage());
             request.getRequestDispatcher("views/Error.jsp").forward(request, response);
