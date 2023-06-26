@@ -46,7 +46,7 @@
                             <a href="#" class="btn btn-primary">Book now</a>
                         </c:if>
                         <c:if test="${!tour.enabled}">
-                            <a href="#" class="btn btn-danger">Tour is closed!</a>
+                            <button type="button" class="btn btn-danger disabled">Tour is closed!</button>
                         </c:if>
                         <p class="card-text text-right">
                             <fmt:formatNumber type="number" maxFractionDigits = "3" value="${tour.price}">

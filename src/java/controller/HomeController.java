@@ -21,7 +21,6 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import entity.Tour;
 import entity.User;
-import dao.BasicDAO;
 import dao.TourDAO;
 import dao.UserDAO;
 
@@ -81,7 +80,7 @@ public class HomeController extends HttpServlet {
         TourDAO dao;
         try {
             dao = new TourDAOImpl();
-            
+
             int totalItems = dao.getTotalItems();
             
             Object indexObj = request.getAttribute("index");
