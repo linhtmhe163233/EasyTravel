@@ -21,4 +21,5 @@ public interface TourDAO extends BasicDAO<Tour> {
     List<Tour> getPage(Pagination page) throws Exception;
     int getTotalItems() throws Exception;
     void enable(int id) throws Exception;
+    boolean checkAllBookingDone(int tourId) throws Exception;
 }

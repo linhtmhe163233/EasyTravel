@@ -270,6 +270,11 @@ public class TourDAOImpl extends DBContext implements TourDAO {
 
     @Override
     public void update(Tour t) throws Exception {
+        if(!checkAllBookingDone(t.getId())){
+            save(t);
+            return;
+        }
+            
         String query = "update tours set name=?, type=?, is_enabled=?, destination=?, trip_length=?, "
                 + "available_from=?, available_to=?, max_quantity=?, price=?, description=?, agent_id=?, image=? "
                 + "where id=?";
@@ -351,4 +356,29 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         }
     }
 
+    @Override
+    public boolean checkAllBookingDone(int tourId) throws Exception {
+        String sql = "select count(*) from booking where tour_id=? and status !=?";
+        
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            conn=getConnection();
+            ps=conn.prepareStatement(sql);
+            ps.setInt(1, tourId);
+            ps.setString(2, "Done");
+            
+            rs=ps.executeQuery();
+            rs.next();
+            return rs.getInt(1)==0;
+        } catch (Exception e) {
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
+        return false;
+    }
 }
