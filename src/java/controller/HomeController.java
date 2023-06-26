@@ -21,7 +21,6 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import entity.Tour;
 import entity.User;
-import dao.BasicDAO;
 import dao.TourDAO;
 import dao.UserDAO;
 
@@ -31,7 +30,16 @@ import dao.UserDAO;
  * @author DucTM
  */
 public class HomeController extends HttpServlet {
-
+    
+    @Override
+    public void init() throws ServletException {
+        try {
+            TourDAO dao = new TourDAOImpl();
+            dao.closeOutdated();
+        } catch (Exception e) {
+        }
+        super.init();
+    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,8 +49,7 @@ public class HomeController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -81,9 +88,9 @@ public class HomeController extends HttpServlet {
         TourDAO dao;
         try {
             dao = new TourDAOImpl();
-            
+
             int totalItems = dao.getTotalItems();
-            
+
             Object indexObj = request.getAttribute("index");
             int index;
             if (indexObj == null) {
@@ -91,10 +98,10 @@ public class HomeController extends HttpServlet {
             } else {
                 index = (int) indexObj;
             }
-            
+
             Pagination page = new Pagination(totalItems, 6, index);
             List<Tour> list = dao.getPage(page);
-            
+
             request.setAttribute("page", page);
             request.setAttribute("list", list);
         } catch (Exception ex) {

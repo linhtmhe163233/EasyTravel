@@ -8,6 +8,7 @@
  * 06-06-2023      1.0                 DucTM           Fix database connection
  * 13-06-2023      1.0                 DucTM           Add getTotalItems() and getPage()
  * 18-06-2023      1.0                 DucTM           Implement delete() (soft delete only) and enable()
+ * 26-06-2023      1.0                 DucTM           Implements checkAllBookingDone() and closeOutdated()
  */
 package dao.impl;
 
@@ -270,11 +271,11 @@ public class TourDAOImpl extends DBContext implements TourDAO {
 
     @Override
     public void update(Tour t) throws Exception {
-        if(!checkAllBookingDone(t.getId())){
+        if (!checkAllBookingDone(t.getId())) {
             save(t);
             return;
         }
-            
+
         String query = "update tours set name=?, type=?, is_enabled=?, destination=?, trip_length=?, "
                 + "available_from=?, available_to=?, max_quantity=?, price=?, description=?, agent_id=?, image=? "
                 + "where id=?";
@@ -359,26 +360,45 @@ public class TourDAOImpl extends DBContext implements TourDAO {
     @Override
     public boolean checkAllBookingDone(int tourId) throws Exception {
         String sql = "select count(*) from booking where tour_id=? and status !=?";
-        
+
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        
+
         try {
-            conn=getConnection();
-            ps=conn.prepareStatement(sql);
+            conn = getConnection();
+            ps = conn.prepareStatement(sql);
             ps.setInt(1, tourId);
             ps.setString(2, "Done");
-            
-            rs=ps.executeQuery();
+
+            rs = ps.executeQuery();
             rs.next();
-            return rs.getInt(1)==0;
+            return rs.getInt(1) == 0;
         } catch (Exception e) {
+            throw new Exception("Unable to get data from database");
         } finally {
             closeRs(rs);
             closePs(ps);
             closeConnection(conn);
         }
-        return false;
+    }
+
+    @Override
+    public void closeOutdated() throws Exception {
+        String sql = "update tours set is_enabled=0 where available_to < getdate()";
+        Connection conn = null;
+        PreparedStatement ps = null; ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(sql);
+            
+            ps.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception("Database fails");
+        } finally {
+            closePs(ps);
+            closeConnection(conn);
+        }
     }
 }
