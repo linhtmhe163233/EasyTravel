@@ -105,7 +105,7 @@ public class ForgotpasswordController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("email", email);
                 session.setAttribute("key", key);
-                response.sendRedirect("newpassword");
+                response.sendRedirect("checkcode");
             }
         } catch (Exception ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);

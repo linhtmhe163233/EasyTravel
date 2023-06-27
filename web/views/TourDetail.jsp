@@ -54,6 +54,81 @@
                     .rate > input:checked ~ label {
                         color: #ffc700;
                     </style>-->
+
+        <style>
+            .comment-box{
+
+                padding:5px;
+            }
+
+
+
+            .comment-area textarea{
+                resize: none;
+                border: 1px solid #ad9f9f;
+            }
+
+
+            .form-control:focus {
+                color: #495057;
+                background-color: #fff;
+                border-color: #ffffff;
+                outline: 0;
+                box-shadow: 0 0 0 1px rgb(255, 0, 0) !important;
+            }
+
+            .send {
+                color: #fff;
+                background-color: #ff0000;
+                border-color: #ff0000;
+            }
+
+            .send:hover {
+                color: #fff;
+                background-color: #f50202;
+                border-color: #f50202;
+            }
+
+
+            .rating {
+                display: flex;
+                margin-top: -10px;
+                flex-direction: row-reverse;
+                margin-left: -4px;
+                float: left;
+            }
+
+            .rating>input {
+                display: none
+            }
+
+            .rating>label {
+                position: relative;
+                width: 19px;
+                font-size: 25px;
+                color: #ff0000;
+                cursor: pointer;
+            }
+
+            .rating>label::before {
+                content: "\2605";
+                position: absolute;
+                opacity: 0
+            }
+
+            .rating>label:hover:before,
+            .rating>label:hover~label:before {
+                opacity: 1 !important
+            }
+
+            .rating>input:checked~label:before {
+                opacity: 1
+            }
+
+            .rating:hover>input:checked~label:before {
+                opacity: 0.4
+            }
+        </style>
     </head>
     <body>
         <c:import url="./Layout/Header.jsp"></c:import>
@@ -153,56 +228,95 @@
             <h2 class="ml-4 mt-2">More description</h2>   
             <div class="ml-4 mt-2">${tour.description}</div>
         </div>
-
-
-
-
-
-
-
-
         <div class="text-center text-uppercase mt-4">
             <h1>Feedback</h1>
-
             <div>
-                <!--                    <div class="rate mx-auto"  >
-                                        <input type="radio" id="star5" name="rate" value="5" >
-                                        <label for="star5" title="text">5 stars</label>
-                                        <input type="radio" id="star4" name="rate" value="4" >
-                                        <label for="star4" title="text">4 stars</label>
-                                        <input type="radio" id="star3" name="rate" value="3" >
-                                        <label for="star3" title="text">3 stars</label>
-                                        <input type="radio" id="star2" name="rate" value="2" >
-                                        <label for="star2" title="text">2 stars</label>
-                                        <input type="radio" id="star1" name="rate" value="1">
-                                        <label for="star1" title="text">1 star</label>
-                                    </div>-->
 
-                <c:forEach items="${feedback}" var="fb" varStatus="loop">
+                <div class="comment-box ml-2 w-75 mx-auto">
 
+                    <!--                <h4>Add a comment</h4>-->
 
-                    <p>${fb.touristID}</p>
-                    <p>${fb.rating}</p>
-                    <p>${fb.time}</p>
-                    <p>${fb.content}</p>
+                    <div class="rating"> 
+                        <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                        <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> 
+                        <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                        <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                        <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                    </div>
 
-
-                </c:forEach>
-
-                <div class="form-group w-75 mx-auto">
-
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <div class="comment-area">
+                        <textarea class="form-control" placeholder="what is your view?" rows="4"></textarea>
+                    </div>
+                    <button class="btn btn-success float-left">Send</button>  
                 </div>
-                <!--            <label for="content">Your comment</label>-->
-
-                <!--                        <input type="text" id="content" name ="content">-->
-                <button type="submit" class="btn btn-success" name="send">Send</button>
             </div>
-
-
-
-
-
         </div>
+        <c:forEach items="${listfb}" var="fb" varStatus="loop">
+
+<!--
+            <div>${fb.touristID}</div>
+            <p>${fb.rating}</p>
+            <p>${fb.time}</p>
+            <p>${fb.content}</p>-->
+            <div class="g-mb-15">
+                <h5 class="h5 g-color-gray-dark-v1 mb-0">${fb.touristID}</h5>
+                <span class="g-color-gray-dark-v4 g-font-size-12">${fb.rating}</span>
+                <span class="g-color-gray-dark-v4 g-font-size-12">${fb.time}</span>
+              </div>
+        
+              <p>${fb.content}</p>
+
+
+        </c:forEach>
+
+        <form action="tour" method="post">
+            <input type="hidden" min="1" name="index" value="${page.index}"> 
+            <nav class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <button type="submit" class="page-link" name="Prev" ${page.index==1?"hidden":""}>
+                            <<
+                        </button>
+                    </li>
+                    <li class="page-item ${page.index==1?"active":""}">
+                        <button type="submit" class="page-link" name="first">1</button>
+                    </li>
+                    <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
+                        <span class="page-link">...</span>
+                    </li>
+                    <c:if test="${page.totalPage>2}">
+                        <c:forEach var="p" begin="${page.pageStart}" end="${page.pageEnd}">
+                            <li class="page-item ${page.index==p?"active":""}">
+                                <button type="submit" class="page-link" value="${p}" name="btnIdx">
+                                    ${p}
+                                </button>
+                            </li>
+                        </c:forEach>
+                    </c:if>
+                    <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
+                        <span class="page-link">...</span>
+                    </li>
+                    <li class="page-item ${page.index==page.totalPage?"active":""}" ${page.totalPage==1?"hidden":""}>
+                        <button type="submit" class="page-link"
+                                name="last" value="${page.totalPage}">
+                            ${page.totalPage}
+                        </button>
+                    </li>
+                    <li class="page-item">
+                        <button type="submit" class="page-link" name="Next" 
+                                ${page.index==page.totalPage?"hidden":""}>
+                            >>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </form>
+
+
+
+
+
+
+
     </body>
 </html>

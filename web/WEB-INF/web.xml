@@ -73,16 +73,16 @@
         <servlet-class>controller.ForgotpasswordController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ManageUserController</servlet-name>
-        <servlet-class>controller.ManageUserController</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>CheckCodeController</servlet-name>
         <servlet-class>controller.CheckCodeController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>NewPasswordCotroller</servlet-name>
         <servlet-class>controller.NewPasswordCotroller</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManageUserController</servlet-name>
+        <servlet-class>controller.ManageUserController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
@@ -153,16 +153,16 @@
         <url-pattern>/forgotpassword</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ManageUserController</servlet-name>
-        <url-pattern>/manageuser</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>CheckCodeController</servlet-name>
         <url-pattern>/checkcode</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>NewPasswordCotroller</servlet-name>
         <url-pattern>/newpassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageUserController</servlet-name>
+        <url-pattern>/manageuser</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

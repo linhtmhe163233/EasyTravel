@@ -9,6 +9,7 @@
 package controller;
 
 import dao.BasicDAO;
+import dao.FeedbackDAO;
 import dao.TourDAO;
 import dao.impl.FeedbackDAOImpl;
 import dao.impl.TourDAOImpl;
@@ -21,6 +22,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import utils.Pagination;
 
 /**
  *
@@ -69,7 +71,7 @@ public class TourDetailController extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-            BasicDAO daoo = new FeedbackDAOImpl();
+            FeedbackDAO daoo = new FeedbackDAOImpl();
             TourDAO dao = new TourDAOImpl();
             String idStr = request.getParameter("id");
             if (idStr == null || !idStr.matches("^[0-9]+$")) {
@@ -77,10 +79,27 @@ public class TourDetailController extends HttpServlet {
                 return;
             }
             int id = Integer.parseInt(idStr);
-            List<FeedbackThread> listfb = daoo.get(id);
+//            List<FeedbackThread> listfb = daoo.get(id);
             List<Tour> list = dao.get(id);
             request.setAttribute("tour", list.get(0));
-            request.setAttribute("feedback", listfb);
+//            request.setAttribute("feedback", listfb);
+
+            int totalItems = daoo.getTotalItems(id);
+
+            Object indexObj = request.getAttribute("index");
+            int index;
+            if (indexObj == null) {
+                index = 1;
+            } else {
+                index = (int) indexObj;
+            }
+
+            Pagination page = new Pagination(totalItems, 10, index);
+            List<FeedbackThread> listfb = daoo.getPage(page, id);
+
+            request.setAttribute("page", page);
+            request.setAttribute("listfb", listfb);
+
         } catch (Exception ex) {
             request.setAttribute("error", ex.getMessage());
             request.getRequestDispatcher("views/Error.jsp").forward(request, response);
@@ -100,7 +119,32 @@ public class TourDetailController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        if (request.getParameter("disable") == null && request.getParameter("enable") == null) {
+            int index = Integer.parseInt(request.getParameter("index"));
+            if (request.getParameter("first") != null) //click first
+            {
+                index = 1;
+            }
+            if (request.getParameter("last") != null) //click last
+            {
+                index = Integer.parseInt(request.getParameter("last"));
+            }
+            if (request.getParameter("Prev") != null) //click prev
+            {
+                index--;
+            }
+            if (request.getParameter("Next") != null) //click next
+            {
+                index++;
+            }
+            if (request.getParameter("btnIdx") != null) // click button number
+            {
+                index = Integer.parseInt(request.getParameter("btnIdx"));
+            }
+            request.setAttribute("index", index);
+            doGet(request, response);
+            return;
+        }
         try {
             TourDAO dao = new TourDAOImpl();
             int id = Integer.parseInt(request.getParameter("id"));
@@ -115,6 +159,7 @@ public class TourDetailController extends HttpServlet {
             request.setAttribute("error", ex.getMessage());
             request.getRequestDispatcher("views/Error.jsp").forward(request, response);
         }
+
     }
 
     /**

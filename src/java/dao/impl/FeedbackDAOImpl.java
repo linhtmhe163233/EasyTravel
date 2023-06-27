@@ -114,7 +114,13 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
         try {
 //            User u = new User(2, "agent_demo", "123456", "Nguyen Van Ban", Date.valueOf("2003-01-01"), "ANV345@gmail.com", "0123456781", "Travel Agent", "Active", null);
             FeedbackDAOImpl ud = new FeedbackDAOImpl();
-            System.out.println(ud.get(1));
+//            System.out.println(ud.get(1));
+
+//            ud.getPage(new Pagination(2,10,1),1);
+            List<FeedbackThread> a =  ud.getPage(new Pagination(2,10,1),1);
+                        System.out.println(a.get(0));
+                        
+                 System.out.println(ud.getTotalItems(1));
 //            ud.update(u);
         } catch (Exception ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -139,7 +145,7 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
     @Override
     public List<FeedbackThread> getPage(Pagination page, int tourID) throws Exception {
        List<FeedbackThread> list = new ArrayList<>();
-        String query = "select * from feedback_thread where tourID = ? order by id offset ? rows fetch next ? rows only";
+        String query = "select * from feedback_threads where tour_id = ? order by id offset ? rows fetch next ? rows only";
 
         int id;
         int rating;
@@ -169,8 +175,8 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
                 rating = rs.getInt("rating");
                 time = rs.getTimestamp("time");
                 content = rs.getString("content");
-                touristID = rs.getInt("touristID");
-                tourID = rs.getInt("tourID");
+                touristID = rs.getInt("tourist_id");
+                tourID = rs.getInt("tour_id");
               
               
                 feedback = new FeedbackThread(id, rating, time, content, touristID, tourID);
@@ -189,7 +195,7 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
 
     @Override
     public int getTotalItems(int tourID) throws Exception {
-       String query = "select count(*) from feedback_thread where tourID = ?";
+       String query = "select count(*) from feedback_threads where tour_id = ?";
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -197,10 +203,14 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
 
         try {
             conn = getConnection();
+            
             ps = conn.prepareStatement(query);
+            ps.setInt(1, tourID);
             rs = ps.executeQuery();
+            
             rs.next();
             return rs.getInt(1);
+            
         } catch (Exception e) {
             throw new Exception("Unable to get data from database");
         } finally {

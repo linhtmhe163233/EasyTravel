@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="panel-body">
-                    <form name="myform" action="newpassword" method="post">
+                    <form name="myform" action="checkcode" method="post">
 
                       
                         <div class="form-group">
