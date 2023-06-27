@@ -80,7 +80,7 @@ public class StaffController extends HttpServlet {
             }
             int agentId = ((User) agentObj).getId();
 
-            int totalItems = dao.getTotalItems();
+            int totalItems = dao.getTotalItems(agentId);
 
             Object indexObj = request.getAttribute("index");
             int index;
