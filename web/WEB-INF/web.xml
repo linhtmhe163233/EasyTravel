@@ -80,6 +80,10 @@
         <servlet-name>NewPasswordController</servlet-name>
         <servlet-class>controller.NewPasswordController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BookingController</servlet-name>
+        <servlet-class>controller.BookingController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -155,6 +159,10 @@
     <servlet-mapping>
         <servlet-name>NewPasswordController</servlet-name>
         <url-pattern>/newpassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BookingController</servlet-name>
+        <url-pattern>/book</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -257,7 +257,7 @@ public class TourDAOImpl extends DBContext implements TourDAO {
             ps.setInt(8, t.getMaxQuantity());
             ps.setFloat(9, t.getPrice());
             ps.setString(10, t.getDescription());
-            ps.setInt(11, t.getAgentID());
+            ps.setInt(11, t.getAgentId());
             ps.setString(12, t.getImage());
 
             ps.execute();
@@ -297,7 +297,7 @@ public class TourDAOImpl extends DBContext implements TourDAO {
             ps.setInt(8, t.getMaxQuantity());
             ps.setFloat(9, t.getPrice());
             ps.setString(10, t.getDescription());
-            ps.setInt(11, t.getAgentID());
+            ps.setInt(11, t.getAgentId());
             ps.setString(12, t.getImage());
             ps.setInt(13, t.getId());
 

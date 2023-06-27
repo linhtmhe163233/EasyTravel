@@ -28,7 +28,7 @@ public class Tour {
     private int maxQuantity;
     private float price;
     private String description;
-    private int agentID;
+    private int agentId;
     private String image;
 
     public Tour(int ID) {
@@ -37,7 +37,7 @@ public class Tour {
     
     public Tour(int ID, String name, String type, boolean isEnabled, String destination,
             int tripLength, Date availableFrom, Date availableTo, int maxQuantity,
-            float price, String description, int agentID, String image) {
+            float price, String description, int agentId, String image) {
         this.id = ID;
         this.name = name;
         this.type = type;
@@ -49,13 +49,13 @@ public class Tour {
         this.maxQuantity = maxQuantity;
         this.price = price;
         this.description = description;
-        this.agentID = agentID;
+        this.agentId = agentId;
         this.image = image;
     }
 
     public Tour(String name, String type, boolean isEnabled, String destination,
             int tripLength, Date availableFrom, Date availableTo, int maxQuantity,
-            float price, String description, int agentID, String image) {
+            float price, String description, int agentId, String image) {
         this.name = name;
         this.type = type;
         this.isEnabled = isEnabled;
@@ -66,7 +66,7 @@ public class Tour {
         this.maxQuantity = maxQuantity;
         this.price = price;
         this.description = description;
-        this.agentID = agentID;
+        this.agentId = agentId;
         this.image = image;
     }
 
@@ -114,8 +114,8 @@ public class Tour {
         return description;
     }
 
-    public int getAgentID() {
-        return agentID;
+    public int getAgentId() {
+        return agentId;
     }
 
     public String getImage() {
@@ -166,8 +166,8 @@ public class Tour {
         this.description = description;
     }
 
-    public void setAgentID(int agentID) {
-        this.agentID = agentID;
+    public void setAgentId(int agentId) {
+        this.agentId = agentId;
     }
 
     public void setImage(String image) {
