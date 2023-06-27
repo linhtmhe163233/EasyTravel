@@ -23,12 +23,10 @@
                                 <h3 class="text-center text-info">Login</h3>
                                 <div class="form-group">
                                     <label for="username" class="text-info">Username:</label><br>
-                                    <c:if test="${username==null}">
-                                        <input type="text" name="username" id="username" class="form-control" placeholder="your username" required>
-                                    </c:if>
-                                    <c:if test="${username!=null}">
-                                        <input type="text" name="username" id="username" class="form-control" placeholder="your username" value="${username}" required>
-                                    </c:if>
+                                  
+                                        <input type="text" name="username" id="username" class="form-control" placeholder="your username" required value="${param.username}">
+                                  
+                                  
                                 </div>
                                 <div class="form-group">
                                     <label for="password" class="text-info">Password:</label><br>

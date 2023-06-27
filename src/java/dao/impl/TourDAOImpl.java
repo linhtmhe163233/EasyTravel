@@ -58,6 +58,8 @@ public class TourDAOImpl extends DBContext implements TourDAO {
 
     @Override
     public List<Tour> getPage(Pagination page) throws Exception {
+        closeOutdated();
+        
         List<Tour> list = new ArrayList<>();
         String query = "select * from tours order by id offset ? rows fetch next ? rows only";
 

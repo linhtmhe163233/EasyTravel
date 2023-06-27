@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import entity.Hotel;
 import entity.User;
+import utils.Pagination;
 
 /**
  *
@@ -66,7 +67,7 @@ public class UserDaoImpl extends DBContext implements UserDAO {
         }
         return null;
     }
-    
+
     public User checkEmail(String email) throws Exception {
         Connection conn = super.getConnection();
         String sql = "SELECT * FROM users WHERE email=?";
@@ -77,7 +78,6 @@ public class UserDaoImpl extends DBContext implements UserDAO {
         try {
             ps = conn.prepareStatement(sql);
             ps.setString(1, email);
-          
 
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -100,6 +100,7 @@ public class UserDaoImpl extends DBContext implements UserDAO {
         }
         return null;
     }
+
     public User checkKey(String key) throws Exception {
         Connection conn = super.getConnection();
         String sql = "SELECT * FROM users WHERE [key]=?";
@@ -110,7 +111,6 @@ public class UserDaoImpl extends DBContext implements UserDAO {
         try {
             ps = conn.prepareStatement(sql);
             ps.setString(1, key);
-          
 
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -252,7 +252,7 @@ public class UserDaoImpl extends DBContext implements UserDAO {
 
             ps.execute();
         } catch (SQLException ex) {
-            throw new Exception("Unable to create new user");
+            throw new Exception("Unable to create new user" + ex.getMessage());
         } finally {
             super.close(conn, ps, null);
         }
@@ -355,10 +355,89 @@ public class UserDaoImpl extends DBContext implements UserDAO {
         return list;
 
     }
+
+    @Override
+    public int getTotalItems() throws Exception {
+        String query = "select count(*) from users";
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (Exception e) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
+    }
+
+    @Override
+    public List<User> getPage(Pagination page) throws Exception {
+        List<User> list = new ArrayList<>();
+        String query = "select * from users order by id offset ? rows fetch next ? rows only";
+
+        int id;
+        String fullname;
+        String username;
+        String email;
+        
+        Date DOB;
+        String phone;
+        String role;
+        String status;
+     
+
+        User user;
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+
+            ps.setInt(1, page.getOffset());
+            ps.setInt(2, page.getItemsPerPage());
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt("id");
+                fullname = rs.getString("full_name");
+                username = rs.getString("account_name");
+                email = rs.getString("email");
+                DOB = rs.getDate("DOB");
+                phone = rs.getString("phone");
+                role = rs.getString("role");
+                status = rs.getString("status");
+              
+              
+                user = new User(id, username, fullname, DOB, email, phone, role, status);
+
+                list.add(user);
+            }
+        } catch (SQLException ex) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
+        return list;
+    }
 //    public static void main(String[] args) {
 //        try {
-////            User u = new User(2, "agent_demo", "123456", "Nguyen Van Ban", Date.valueOf("2003-01-01"), "ANV345@gmail.com", "0123456781", "Travel Agent", "Active", null);
+//            User u = new User(2, "agent_demos", "1234567", "Nguyen Van Bane", Date.valueOf("2003-01-01"), "ANV345s@gmail.com", "0123456782", "Travel Agent", "Active", null);
 //            UserDaoImpl ud = new UserDaoImpl();
+//            ud.save(u);
 //            System.out.println(ud.checkKey("16871629842350.75986604125715921687162984235"));
 ////            ud.update(u);
 //        } catch (Exception ex) {

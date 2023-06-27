@@ -1,77 +1,72 @@
 <%-- 
     Document   : NewPassword
-    Created on : Jun 20, 2023, 2:30:47 AM
+    Created on : Jun 23, 2023, 11:59:40 AM
     Author     : My Laptop
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>EasyTravel</title>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-
-
-        <!--        <style>
-                    .palel-primary
-                    {
-                        border-color: #bce8f1;
-                    }
-                    .panel-primary>.panel-heading
-                    {
-                        background:#bce8f1;
-        
-                    }
-                    .panel-primary>.panel-body
-                    {
-                        background-color: #EDEDED;
-                    }
-                </style>-->
-        
+        <title>JSP Page</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery-3.7.0.js"></script>
     </head>
-
     <body>
-        <div class="mb-5"></div>
-    <div class="row mt-5">
-        <div class="col-md-6 col-sm-12 col-lg-6 col-md-offset-3">
-            <div class="panel panel-primary">
-                <div class="panel-heading">New password
+
+
+        <!--                    <form class="w-25 mx-auto" action="newpassword" method="post">
+                                
+                            <div class="form-group">
+                                <label for="password">New password</label>
+                                <input type="password" name="password" class="form-control" id="exampleInputPassword1" 
+                                       placeholder="New password"
+                                       data-validation="required"
+                                       required maxlength="50" minlength="8"
+                                       pattern="^[a-zA-z0-9]{8, 50}$">
+                                
+                            </div>               
+                            <div class="form-group">
+                                <label for="cfpassword">Confirm password</label>
+                                <input type="password" name="cfpassword" class="form-control" id="exampleInputPassword1" 
+                                       placeholder="Confirm password"
+                                       data-validation="required"
+                                       required maxlength="50" minlength="8"
+                                       pattern="^[a-zA-z0-9]{8, 50}$">
+                                <small style="color:red">${mess}</small>
+                            </div>               
+                            <button type="submit" class="btn btn-primary">Update</button>
+                            <a href="#" class="btn btn-secondary">Cancel</a>
+                
+                        </form>-->
+
+        <c:import url="./Layout/Header.jsp"></c:import>
+
+            <form class="w-25 mx-auto" action="newpassword" method="post">
+                <div class="form-group">
+                    <label for="password">New password</label>
+                    <input type="password" name="password" class="form-control" id="password"  
+                           placeholder="Your new password"
+                           data-validation="required"
+                           required maxlength="50" minlength="8"
+                           pattern="^[a-zA-z0-9]{8, 50}$">
+
                 </div>
+                <div class="form-group">
+                    <label for="cfpassword">Confirm password</label>
+                    <input type="password" name="cfpassword" class="form-control" id="cfpassword" 
+                           placeholder="New password"
+                           data-validation="required"
+                           required maxlength="50" minlength="8"
+                           pattern="^[a-zA-z0-9]{8, 50}$">
+                    <small style="color:red">${mess}</small>
+            </div>          
 
-                <div class="panel-body">
-                    <form name="myform" action="newpassword" method="post">
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a href="/EasyTravel/forgotpassword" class="btn btn-secondary">Cancel</a>
 
-                      
-                        <div class="form-group">
-                            <label for="newpassword">New password</label>
-                            <input id="newpassword" name="password" class="form-control" type="password" data-validation="required"
-                                   required maxlength="50" minlength="8"
-                                   pattern="^[a-zA-z0-9]{8, 50}$">
-                          
-                            <span id="error_lastname" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="age">Confirm password</label>
-                            <input id="cfpassword" name="cfpassword"  class="form-control" type="password" data-validation="required"
-                                   required maxlength="50" minlength="8"
-                                   pattern="^[a-zA-z0-9]{8, 50}$">
-                            <p style="color:red">${mess}</p>   
-
-                            <span id="error_age" class="text-danger"></span>
-                        </div>                            
-
-                        <button id="update" type="submit" value="update" class="btn btn-primary center">Update</button>
-                        <a href="/EasyTravel/login" class="btn btn-primary center">Cancel</a>
-
-                    </form>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-</body>
+        </form>
+    </body>
 </html>

@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  *
  * @author My Laptop
  */
-public class NewPasswordController extends HttpServlet {
+public class CheckCodeController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -64,24 +64,25 @@ public class NewPasswordController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String key = request.getParameter("key");
-        try {
-            UserDAO dao = new UserDaoImpl();
-            User user = dao.checkKey(key);
-            if (user == null) {
-                request.getRequestDispatcher("views/LandingPage.jsp").forward(request, response);
-            } else {
+//        String key = request.getParameter("key");
+//        try {
+//            UserDAO dao = new UserDaoImpl();
+//            User user = dao.checkKey(key);
+//            if (user == null) {
+//                request.getRequestDispatcher("views/LandingPage.jsp").forward(request, response);
+//            } else {
+//
+////                user.setKey(String.valueOf(System.currentTimeMillis()) + Math.random() % 1000 + System.currentTimeMillis());
+////                dao.update(user);
+//                HttpSession session = request.getSession();
+//                session.setAttribute("user", user);
+//            }
+//
+//        } catch (Exception ex) {
+//            Logger.getLogger(ChangepasswordController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
-                user.setKey(String.valueOf(System.currentTimeMillis()) + Math.random() % 1000 + System.currentTimeMillis());
-                dao.update(user);
-                HttpSession session = request.getSession();
-                session.setAttribute("user", user);
-            }
-
-        } catch (Exception ex) {
-            Logger.getLogger(ChangepasswordController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        request.getRequestDispatcher("views/NewPassword.jsp").forward(request, response);
+        request.getRequestDispatcher("views/CheckCode.jsp").forward(request, response);
     }
 
     /**
@@ -95,43 +96,63 @@ public class NewPasswordController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String code = request.getParameter("code");
         HttpSession session = request.getSession();
-        User acc = (User) session.getAttribute("user");
-
-        String mess = "";
-        String password = request.getParameter("password").trim();
-        String cfpassword = request.getParameter("cfpassword").trim();
-
-        String username = acc.getUsername();
-        String fullname = acc.getFullname();
-
-        String email = acc.getEmail();
-        String phone = acc.getPhone();
-        String role = acc.getRole();
-        String status = acc.getStatus();
-        String key = acc.getKey();
-        Date dob = acc.getDob();
-        int id = acc.getId();
-        if (cfpassword.equals(password)) {
-
-            getServletContext().log(username + fullname + password + email + phone + role + status + key + dob + id);
-            try {
-                UserDAO dao = new UserDaoImpl();
-
-                User user = new User(id, username, password, fullname, dob, email, phone, role, status, key);
-                dao.update(user);
-                session.removeAttribute("user");
-                session.setAttribute("user", user);
-            } catch (Exception ex) {
+        String key =(String) session.getAttribute("key");
+        String email =(String) session.getAttribute("email");
+        String mess="";
+       
+        if(code.equals(key.substring(0,6))){
+            response.sendRedirect("newpassword");
+        }else{
+                mess="Code sai :))";
+                request.setAttribute("mess", mess);
+                
+                doGet(request, response);
+                
             }
-        } else {
-            mess = "Confirm the password and the new password is not the same";
-            request.setAttribute("mess", mess);
-
-            request.getRequestDispatcher("views/NewPassword.jsp").forward(request, response);
-
-        }
-        doGet(request, response);
+        
+        
+        
+//        HttpSession session = request.getSession();
+//        User acc = (User) session.getAttribute("user");
+//
+//        String mess = "";
+//        String password = request.getParameter("password").trim();
+//        String cfpassword = request.getParameter("cfpassword").trim();
+//        String code = request.getParameter("code").trim();
+//        
+//
+//        String username = acc.getUsername();
+//        String fullname = acc.getFullname();
+//
+//        String email = acc.getEmail();
+//        String phone = acc.getPhone();
+//        String role = acc.getRole();
+//        String status = acc.getStatus();
+//        String key = acc.getKey();
+//        Date dob = acc.getDob();
+//        int id = acc.getId();
+//        if (cfpassword.equals(password)) {
+//
+//            getServletContext().log(username + fullname + password + email + phone + role + status + key + dob + id);
+//            try {
+//                UserDAO dao = new UserDaoImpl();
+//
+//                User user = new User(id, username, password, fullname, dob, email, phone, role, status, key);
+//                dao.update(user);
+//                session.removeAttribute("user");
+//                session.setAttribute("user", user);
+//            } catch (Exception ex) {
+//            }
+//        } else {
+//            mess = "Confirm the password and the new password is not the same";
+//            request.setAttribute("mess", mess);
+//
+//            request.getRequestDispatcher("views/CheckCode.jsp").forward(request, response);
+//
+//        }
+//        doGet(request, response);
 
     }
 

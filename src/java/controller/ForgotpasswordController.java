@@ -100,9 +100,12 @@ public class ForgotpasswordController extends HttpServlet {
                 Mail mail = new Mail();
 
                 String contextPath = "http://localhost:9999/EasyTravel/"; //request.getContextPath()
-                mail.sentEmail(email, "Easy Travel verification mail", contextPath + "newpassword?key=" +key);
+                mail.sentEmail(email, "Easy Travel forgot password email:", key ,"code");
 
-                doGet(request, response);
+                HttpSession session = request.getSession();
+                session.setAttribute("email", email);
+                session.setAttribute("key", key);
+                response.sendRedirect("newpassword");
             }
         } catch (Exception ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);

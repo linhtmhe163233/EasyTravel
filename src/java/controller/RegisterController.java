@@ -83,7 +83,7 @@ public class RegisterController extends HttpServlet {
         String phone = request.getParameter("phone");
         String role = request.getParameter("role");
         Date dob = Date.valueOf(request.getParameter("dob"));
-        String key = String.valueOf(System.currentTimeMillis()) + Math.random() % 1000 + String.valueOf(System.currentTimeMillis());
+        String key = Math.random() % 1000000 + String.valueOf(System.currentTimeMillis()) + Math.random() % 1000000;
         try {
             UserDAO dao = new UserDaoImpl();
             dao.save(new User(username, password, fullname, dob, email, phone, role, "Inactive", key));
@@ -91,9 +91,10 @@ public class RegisterController extends HttpServlet {
             Mail mail = new Mail();
 
             String contextPath = "http://localhost:9999/EasyTravel/"; //request.getContextPath()
-            mail.sentEmail(email, "Easy Travel verification mail", contextPath + "home?key=" + key);
+            mail.sentEmail(email, "Easy Travel verification mail", contextPath + "home?key=" + key, "link");
             request.setAttribute("registered", true);
             doGet(request, response);
+//            request.getRequestDispatcher("views/Register.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }

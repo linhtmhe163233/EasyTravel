@@ -73,12 +73,16 @@
         <servlet-class>controller.ForgotpasswordController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ManageuserController</servlet-name>
-        <servlet-class>controller.ManageuserController</servlet-class>
+        <servlet-name>ManageUserController</servlet-name>
+        <servlet-class>controller.ManageUserController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>NewPasswordController</servlet-name>
-        <servlet-class>controller.NewPasswordController</servlet-class>
+        <servlet-name>CheckCodeController</servlet-name>
+        <servlet-class>controller.CheckCodeController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NewPasswordCotroller</servlet-name>
+        <servlet-class>controller.NewPasswordCotroller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>BookingController</servlet-name>
@@ -153,11 +157,15 @@
         <url-pattern>/forgotpassword</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ManageuserController</servlet-name>
+        <servlet-name>ManageUserController</servlet-name>
         <url-pattern>/manageuser</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>NewPasswordController</servlet-name>
+        <servlet-name>CheckCodeController</servlet-name>
+        <url-pattern>/checkcode</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewPasswordCotroller</servlet-name>
         <url-pattern>/newpassword</url-pattern>
     </servlet-mapping>
     <servlet-mapping>

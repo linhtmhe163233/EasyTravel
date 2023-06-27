@@ -6,12 +6,16 @@
     update on  : 18/06/2023, implement disable/enable
 --%>
 
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
+        <!--                <meta charset="UTF-8">
+                        <link rel="stylesheet" type="text/css" href="style.css">-->
+
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="description" content="EasyTravel">
         <meta name="keywords" content="travel">
@@ -21,6 +25,35 @@
         <script src="js/jquery-3.7.0.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
         <title>Easy Travel | Tour detail</title>
+
+        <!--        <style>
+                    *{
+                        margin: 0;
+                        padding: 0;
+                    }
+                    .rate {
+                        height: 46px;
+                        padding: 0 10px;
+                    }
+                    .rate:not(:checked) > input {
+                        position:absolute;
+                        top:-9999px;
+                    }
+                    .rate:not(:checked) > label {
+        /*                float:right;*/
+                        width:1em;
+                        overflow:hidden;
+                        white-space:nowrap;
+                        cursor:pointer;
+                        font-size:30px;
+                        color:#ccc;
+                    }
+                    .rate:not(:checked) > label:before {
+                        content: '★ ';
+                    }
+                    .rate > input:checked ~ label {
+                        color: #ffc700;
+                    </style>-->
     </head>
     <body>
         <c:import url="./Layout/Header.jsp"></c:import>
@@ -149,7 +182,8 @@
             </div>
             <div class="pb-4"></div>
         </div>
-        <div class="rounded w-75 mx-auto" style="background: #DDD0C8; color: #323232;">
+        <div class="rounded w-75 mx-auto" style="background: #DDD0C8;
+             color: #323232;">
             <h2 class="ml-4 mt-2">Detail</h2>   
             <div class="ml-4 mt-2"><span class="font-weight-bold">Type:</span> ${tour.type}</div>
             <div class="ml-4 mt-2">
@@ -164,12 +198,61 @@
             </div>
             <div class="ml-4 mt-2">Vehicle, hotel, ... will be assigned after you book</div>
         </div>
-        <div class="rounded w-75 mx-auto" style="background: #DDD0C8;color: #323232;">
+        <div class="rounded w-75 mx-auto" style="background: #DDD0C8;
+             color: #323232;">
             <h2 class="ml-4 mt-2">More description</h2>   
             <div class="ml-4 mt-2">${tour.description}</div>
         </div>
+
+
+
+
+
+
+
+
         <div class="text-center text-uppercase mt-4">
-            Comment section (add later)
+            <h1>Feedback</h1>
+
+            <div>
+                <!--                    <div class="rate mx-auto"  >
+                                        <input type="radio" id="star5" name="rate" value="5" >
+                                        <label for="star5" title="text">5 stars</label>
+                                        <input type="radio" id="star4" name="rate" value="4" >
+                                        <label for="star4" title="text">4 stars</label>
+                                        <input type="radio" id="star3" name="rate" value="3" >
+                                        <label for="star3" title="text">3 stars</label>
+                                        <input type="radio" id="star2" name="rate" value="2" >
+                                        <label for="star2" title="text">2 stars</label>
+                                        <input type="radio" id="star1" name="rate" value="1">
+                                        <label for="star1" title="text">1 star</label>
+                                    </div>-->
+
+                <c:forEach items="${feedback}" var="fb" varStatus="loop">
+
+
+                    <p>${fb.touristID}</p>
+                    <p>${fb.rating}</p>
+                    <p>${fb.time}</p>
+                    <p>${fb.content}</p>
+
+
+                </c:forEach>
+
+                <div class="form-group w-75 mx-auto">
+
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+                <!--            <label for="content">Your comment</label>-->
+
+                <!--                        <input type="text" id="content" name ="content">-->
+                <button type="submit" class="btn btn-success" name="send">Send</button>
+            </div>
+
+
+
+
+
         </div>
     </body>
     <script>
