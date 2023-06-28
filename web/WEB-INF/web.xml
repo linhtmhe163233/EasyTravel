@@ -88,6 +88,10 @@
         <servlet-name>BookingController</servlet-name>
         <servlet-class>controller.BookingController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TourHistoryController</servlet-name>
+        <servlet-class>controller.TourHistoryController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -171,6 +175,10 @@
     <servlet-mapping>
         <servlet-name>BookingController</servlet-name>
         <url-pattern>/book</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TourHistoryController</servlet-name>
+        <url-pattern>/history</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

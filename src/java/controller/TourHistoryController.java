@@ -4,32 +4,28 @@
  *
  * Record of change:
  * DATE            Version             AUTHOR           DESCRIPTION
- * 31-05-2023      1.0                 DucTM           First Implement
+ * 27-06-2023      1.0                 DucTM           First Implement
  */
 package controller;
 
-import dao.impl.StaffDAOImpl;
+import dao.BookingDAO;
+import dao.impl.BookingDAOImpl;
+import entity.Booking;
+import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.sql.Date;
 import java.util.List;
-import entity.Staff;
-import entity.User;
-import dao.StaffDAO;
 import utils.Pagination;
 
-
-/*
- * This class controls the staff list and perform CRUD functions
- * 
+/**
+ *
  * @author DucTM
  */
-public class StaffController extends HttpServlet {
+public class TourHistoryController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,10 +44,10 @@ public class StaffController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet StaffController</title>");
+            out.println("<title>Servlet TourHistoryController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet StaffController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet TourHistoryController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -70,17 +66,9 @@ public class StaffController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            StaffDAO dao = new StaffDAOImpl();
-            HttpSession session = request.getSession();
-
-            Object agentObj = session.getAttribute("user");
-            if (agentObj == null) {
-                throw new Exception("Session is not valid");
-            }
-            int agentId = ((User) agentObj).getId();
-
-            int totalItems = dao.getTotalItems(agentId);
-
+            BookingDAO dao = new BookingDAOImpl();
+            int touristId = ((User) request.getSession().getAttribute("user")).getId();
+            int totalItems = dao.getTotalHistoryItems(touristId);
             Object indexObj = request.getAttribute("index");
             int index;
             if (indexObj == null) {
@@ -88,18 +76,15 @@ public class StaffController extends HttpServlet {
             } else {
                 index = (int) indexObj;
             }
-
             Pagination page = new Pagination(totalItems, 10, index);
-            List<Staff> list = dao.getPageByAgent(agentId, page);
-
-            request.setAttribute("page", page);
+            List<Booking> list = dao.getTourHistory(touristId, page);
             request.setAttribute("list", list);
-        } catch (Exception ex) {
-            request.setAttribute("error", ex.getMessage());
+            request.setAttribute("page", page);
+            request.getRequestDispatcher("views/Tourist/TourHistory.jsp").forward(request, response);
+        } catch (Exception e) {
+            request.setAttribute("error", e.getMessage());
             request.getRequestDispatcher("views/Error.jsp").forward(request, response);
-            return;
         }
-        request.getRequestDispatcher("views/TravelAgent/StaffList.jsp").forward(request, response);
     }
 
     /**
@@ -113,34 +98,6 @@ public class StaffController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getParameter("add") != null) {
-            String name = request.getParameter("name").trim();
-            Date DOB = Date.valueOf(request.getParameter("DOB"));
-            String phone = request.getParameter("phone").trim();
-            boolean gender = request.getParameter("gender").equals("Male");
-            int agentId = 0;
-            HttpSession session = request.getSession();
-
-            try {
-                StaffDAO dao = new StaffDAOImpl();
-                Object agentObj = session.getAttribute("user");
-                if (agentObj == null) {
-                    throw new Exception("Session is not valid");
-                }
-                agentId = ((User) agentObj).getId();
-                Staff staff = new Staff(name, DOB, phone, gender, agentId);
-                if (dao.isPhoneUnique(phone)) {
-                    dao.save(staff);
-                } else {
-                    request.setAttribute("staff", staff);
-                    request.setAttribute("message", "This phone number already exists in the list!");
-                }
-            } catch (Exception ex) {
-                request.setAttribute("error", ex.getMessage());
-                request.getRequestDispatcher("views/Error.jsp").forward(request, response);
-                return;
-            }
-        }
         int index = Integer.parseInt(request.getParameter("index"));
         if (request.getParameter("first") != null) //click first
         {

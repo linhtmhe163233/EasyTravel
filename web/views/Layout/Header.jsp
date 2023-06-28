@@ -29,17 +29,20 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <c:if test="${sessionScope.user!=null && sessionScope.user.role=='Travel Agent'}">
-                <a class="nav-item nav-link" href="tours">New tour</a>
-                <a class="nav-item nav-link" href="hotels">Hotels</a>
-                <a class="nav-item nav-link" href="vehicles">Vehicles</a>
-                <a class="nav-item nav-link" href="staff">Staff</a>
-            </c:if>  
             <c:if test="${sessionScope.user!=null}">
+                <c:if test="${sessionScope.user.role=='Travel Agent'}">
+                    <a class="nav-item nav-link" href="tours">New tour</a>
+                    <a class="nav-item nav-link" href="hotels">Hotels</a>
+                    <a class="nav-item nav-link" href="vehicles">Vehicles</a>
+                    <a class="nav-item nav-link" href="staff">Staff</a>
+                </c:if>  
+                <c:if test="${sessionScope.user.role=='Tourist'}">
+                    <a class="nav-item nav-link" href="history">Booking history</a>
+                </c:if>
+                <c:if test="${sessionScope.user.role=='Admin'}">
+                    <a class="nav-item nav-link" href="manageuser">Manage</a>
+                </c:if>
                 <a class="nav-item nav-link" href="profile">Profile</a>
-            </c:if>
-            <c:if test="${sessionScope.user!=null && sessionScope.user.role=='Admin'}">
-                <a class="nav-item nav-link" href="manageuser">Manage</a>
             </c:if>
         </div>
         <div class="navbar-nav ml-auto">

@@ -13,10 +13,40 @@ public class Booking {
     private int touristsQuantity;
     private String status;
     private String note;
+    private String touristName;
+    private String tourName;
 
     public Booking() {
     }
 
+    public Booking(int id, int touristId, int tourId, Timestamp bookTime, Date startDate, int touristsQuantity, 
+            String status, String note, String touristName, String tourName) {
+        this.id = id;
+        this.touristId = touristId;
+        this.tourId = tourId;
+        this.bookTime = bookTime;
+        this.startDate = startDate;
+        this.touristsQuantity = touristsQuantity;
+        this.status = status;
+        this.note = note;
+        this.touristName = touristName;
+        this.tourName = tourName;
+    }
+
+    public Booking(int id, int touristId, int tourId, Timestamp bookTime, Date startDate, int touristsQuantity, 
+            String status, String note, String tourName) {
+        this.id = id;
+        this.touristId = touristId;
+        this.tourId = tourId;
+        this.bookTime = bookTime;
+        this.startDate = startDate;
+        this.touristsQuantity = touristsQuantity;
+        this.status = status;
+        this.note = note;
+        this.tourName = tourName;
+    }
+    
+    
     public Booking(int id, int touristId, int tourId, Timestamp bookTime, Date startDate, int touristsQuantity,
             String status, String note) {
         this.id = id;
@@ -104,4 +134,20 @@ public class Booking {
         this.note = note;
     }
 
+    public String getTouristName() {
+        return touristName;
+    }
+
+    public void setTouristName(String touristName) {
+        this.touristName = touristName;
+    }
+
+    public String getTourName() {
+        return tourName;
+    }
+
+    public void setTourName(String tourName) {
+        this.tourName = tourName;
+    }
+    
 }

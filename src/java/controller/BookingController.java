@@ -5,6 +5,7 @@
  * Record of change:
  * DATE            Version             AUTHOR           DESCRIPTION
  * 27-06-2023      1.0                 DucTM           First Implement
+ * 28-06-2023      1.0                 DucTM           Change redirect link
  */
 
 package controller;
@@ -21,7 +22,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.Instant;
 
 /**
  *
@@ -97,7 +97,7 @@ public class BookingController extends HttpServlet {
             request.setAttribute("error", e.getMessage());
             request.getRequestDispatcher("views/Error.jsp").forward(request, response);
         }
-        response.sendRedirect("tour?id="+tourId);
+        response.sendRedirect("history");
     }
 
     /** 
