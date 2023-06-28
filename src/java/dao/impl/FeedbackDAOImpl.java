@@ -135,10 +135,11 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
     @Override
     public List<FeedbackThread> getPage(Pagination page, int tourID) throws Exception {
         List<FeedbackThread> list = new ArrayList<>();
-        String query = "select * from feedback_threads\n"
+        String query = "SELECT feedback_threads.id, rating, content, tourist_id, time, full_name \n"
+                + " FROM feedback_threads\n"
                 + " FULL OUTER JOIN users\n"
-                + " ON feedback_threads.tourist_id = users.id  where tour_id = ? order by id offset ? rows fetch next ? rows only";
-
+                + " ON feedback_threads.tourist_id = users.id \n"
+                + " where tour_id = ? order by feedback_threads.time desc offset ? rows fetch next ? rows only";
         int id;
         int rating;
         Timestamp time;
@@ -166,7 +167,6 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
                 time = rs.getTimestamp("time");
                 content = rs.getString("content");
                 touristID = rs.getInt("tourist_id");
-                tourID = rs.getInt("tour_id");
                 fullName = rs.getString("full_name");
 
                 feedback = new FeedbackThread(id, rating, time, content, touristID, tourID, fullName);
@@ -209,6 +209,5 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
             closeConnection(conn);
         }
     }
-
 
 }
