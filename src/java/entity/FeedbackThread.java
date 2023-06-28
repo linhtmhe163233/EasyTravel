@@ -10,6 +10,7 @@ public class FeedbackThread {
     private String content;
     private int touristID;
     private int tourID;
+    private String fullName;
 
     public FeedbackThread() {
     }
@@ -31,6 +32,17 @@ public class FeedbackThread {
         this.tourID = tourID;
     }
 
+    public FeedbackThread(int id, int rating, Timestamp time, String content, int touristID, int tourID, String fullName) {
+        this.id = id;
+        this.rating = rating;
+        this.time = time;
+        this.content = content;
+        this.touristID = touristID;
+        this.tourID = tourID;
+        this.fullName = fullName;
+    }
+
+    
     public int getId() {
         return id;
     }
@@ -77,6 +89,14 @@ public class FeedbackThread {
 
     public void setTourID(int tourID) {
         this.tourID = tourID;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     @Override

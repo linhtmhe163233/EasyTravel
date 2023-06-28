@@ -20,7 +20,6 @@ import java.sql.Date;
 import java.util.List;
 import entity.Staff;
 import entity.User;
-import dao.BasicDAO;
 import dao.StaffDAO;
 import utils.Pagination;
 
@@ -80,7 +79,7 @@ public class StaffController extends HttpServlet {
             }
             int agentId = ((User) agentObj).getId();
 
-            int totalItems = dao.getTotalItems();
+            int totalItems = dao.getTotalItems(agentId);
 
             Object indexObj = request.getAttribute("index");
             int index;

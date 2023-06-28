@@ -165,3 +165,55 @@ add name nvarchar(80) not null
 alter table users
 add [key] varchar(100)
 
+alter table booking
+drop column book_time 
+
+alter table feedback_threads
+drop column time 
+
+drop table comments
+
+create table comments(
+time datetime not null unique, 
+content nvarchar(300) not null,
+user_id int,
+thread_id int, 
+constraint comments_to_threads foreign key(thread_id) 
+references feedback_threads(id),
+constraint comments_to_users foreign key(user_id) 
+references users(id),
+primary key(thread_id, user_id, time)
+)
+
+alter table booking
+add book_time datetime 
+
+alter table feedback_threads
+add time datetime 
+
+alter table booking
+drop constraint booking_to_tourists, 
+booking_to_tour,
+booking_to_vehicles,
+booking_to_hotels,
+booking_to_staff,
+booking_to_restaurants
+
+alter table booking
+drop column vehicle_id,
+hotel_id,
+staff_id,
+restaurant_id
+
+create table bookingDetails(
+booking_id int primary key,
+vehicle_id int,
+hotel_id int,
+staff_id int,
+restaurant_id int, 
+constraint bookingDetails_to_booking foreign key(booking_id) references booking(id),
+constraint booking_to_vehicles foreign key(vehicle_id) references vehicles(id),
+constraint booking_to_hotels foreign key(hotel_id) references hotels(id),
+constraint booking_to_staff foreign key(staff_id) references staff(id),
+constraint booking_to_restaurants foreign key(restaurant_id) references restaurants(id),
+)

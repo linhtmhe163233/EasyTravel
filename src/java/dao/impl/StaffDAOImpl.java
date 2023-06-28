@@ -124,8 +124,8 @@ public class StaffDAOImpl extends DBContext implements StaffDAO {
     }
 
     @Override
-    public int getTotalItems() throws Exception {
-        String query = "select count(*) from staff";
+    public int getTotalItems(int agentId) throws Exception {
+        String query = "select count(*) from staff where agent_id=?";
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -134,6 +134,7 @@ public class StaffDAOImpl extends DBContext implements StaffDAO {
         try {
             conn = getConnection();
             ps = conn.prepareStatement(query);
+            ps.setInt(1, agentId);
             rs = ps.executeQuery();
             rs.next();
             return rs.getInt(1);

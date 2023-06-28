@@ -73,9 +73,10 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
         }
         return list;
     }
+
     @Override
     public void save(FeedbackThread t) throws Exception {
-         String query = "insert into feedback_thread(rating, time, [content], tourist_id, tour_id)"
+        String query = "insert into feedback_thread(rating, time, [content], tourist_id, tour_id)"
                 + "values(?,?,?,?,?)";
 
         Connection conn = null;
@@ -100,16 +101,11 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
         }
     }
 
-
     @Override
     public List search(String keyword) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-
-    
-    
-    
     public static void main(String[] args) {
         try {
 //            User u = new User(2, "agent_demo", "123456", "Nguyen Van Ban", Date.valueOf("2003-01-01"), "ANV345@gmail.com", "0123456781", "Travel Agent", "Active", null);
@@ -117,20 +113,15 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
 //            System.out.println(ud.get(1));
 
 //            ud.getPage(new Pagination(2,10,1),1);
-            List<FeedbackThread> a =  ud.getPage(new Pagination(2,10,1),1);
-                        System.out.println(a.get(0));
-                        
-                 System.out.println(ud.getTotalItems(1));
+            List<FeedbackThread> a = ud.getPage(new Pagination(2, 10, 1), 1);
+            System.out.println(a.get(0));
+
+            System.out.println(ud.getTotalItems(1));
 //            ud.update(u);
         } catch (Exception ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-
-
-
-
 
     @Override
     public void update(FeedbackThread t) throws Exception {
@@ -144,17 +135,17 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
 
     @Override
     public List<FeedbackThread> getPage(Pagination page, int tourID) throws Exception {
-       List<FeedbackThread> list = new ArrayList<>();
-        String query = "select * from feedback_threads where tour_id = ? order by id offset ? rows fetch next ? rows only";
+        List<FeedbackThread> list = new ArrayList<>();
+        String query = "select * from feedback_threads\n"
+                + " FULL OUTER JOIN users\n"
+                + " ON feedback_threads.tourist_id = users.id  where tour_id = ? order by id offset ? rows fetch next ? rows only";
 
         int id;
         int rating;
         Timestamp time;
         String content;
         int touristID;
-       
-     
-
+        String fullName;
         FeedbackThread feedback;
 
         Connection conn = null;
@@ -177,9 +168,9 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
                 content = rs.getString("content");
                 touristID = rs.getInt("tourist_id");
                 tourID = rs.getInt("tour_id");
-              
-              
-                feedback = new FeedbackThread(id, rating, time, content, touristID, tourID);
+                fullName = rs.getString("full_name");
+
+                feedback = new FeedbackThread(id, rating, time, content, touristID, tourID, fullName);
 
                 list.add(feedback);
             }
@@ -195,7 +186,7 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
 
     @Override
     public int getTotalItems(int tourID) throws Exception {
-       String query = "select count(*) from feedback_threads where tour_id = ?";
+        String query = "select count(*) from feedback_threads where tour_id = ?";
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -203,14 +194,14 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
 
         try {
             conn = getConnection();
-            
+
             ps = conn.prepareStatement(query);
             ps.setInt(1, tourID);
             rs = ps.executeQuery();
-            
+
             rs.next();
             return rs.getInt(1);
-            
+
         } catch (Exception e) {
             throw new Exception("Unable to get data from database");
         } finally {
@@ -219,5 +210,6 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
             closeConnection(conn);
         }
     }
-}
 
+
+}
