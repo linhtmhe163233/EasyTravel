@@ -105,7 +105,7 @@ public class CheckCodeController extends HttpServlet {
         if(code.equals(key.substring(0,6))){
             response.sendRedirect("newpassword");
         }else{
-                mess="Code sai :))";
+                mess="Wrong code !!!";
                 request.setAttribute("mess", mess);
                 
                 doGet(request, response);

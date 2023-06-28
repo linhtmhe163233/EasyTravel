@@ -128,6 +128,12 @@
             .rating:hover>input:checked~label:before {
                 opacity: 0.4
             }
+
+
+            .g-mr-15 {
+                margin-right: 1.07143rem !important;
+            }
+
         </style>
     </head>
     <body>
@@ -251,23 +257,24 @@
                 </div>
             </div>
         </div>
-        <c:forEach items="${listfb}" var="fb" varStatus="loop">
+        <div class="g-mb-15">
+            <c:forEach items="${listfb}" var="fb" varStatus="loop">
 
-<!--
-            <div>${fb.touristID}</div>
-            <p>${fb.rating}</p>
-            <p>${fb.time}</p>
-            <p>${fb.content}</p>-->
-            <div class="g-mb-15">
+                <!--
+                            <div>${fb.touristID}</div>
+                            <p>${fb.rating}</p>
+                            <p>${fb.time}</p>
+                            <p>${fb.content}</p>-->
+
                 <h5 class="h5 g-color-gray-dark-v1 mb-0">${fb.touristID}</h5>
                 <span class="g-color-gray-dark-v4 g-font-size-12">${fb.rating}</span>
                 <span class="g-color-gray-dark-v4 g-font-size-12">${fb.time}</span>
-              </div>
-        
-              <p>${fb.content}</p>
+
+                <p>${fb.content}</p>
 
 
-        </c:forEach>
+            </c:forEach>
+        </div>
 
         <form action="tour" method="post">
             <input type="hidden" min="1" name="index" value="${page.index}"> 

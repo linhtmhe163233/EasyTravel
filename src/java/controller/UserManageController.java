@@ -16,12 +16,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import utils.Pagination;
 
 /**
  *
  * @author My Laptop
  */
-public class ManageuserController extends HttpServlet {
+public class UserManageController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -60,7 +61,22 @@ public class ManageuserController extends HttpServlet {
     throws ServletException, IOException {
         try {
             UserDaoImpl dao = new UserDaoImpl();
-            List<User> list = dao.getAll();
+//            List<User> list = dao.getAll();
+//            request.setAttribute("list", list);
+            int totalItems = dao.getTotalItems();
+
+            Object indexObj = request.getAttribute("index");
+            int index;
+            if (indexObj == null) {
+                index = 1;
+            } else {
+                index = (int) indexObj;
+            }
+
+            Pagination page = new Pagination(totalItems, 10, index);
+            List<User> list = dao.getPage(page);
+
+            request.setAttribute("page", page);
             request.setAttribute("list", list);
         } catch (Exception ex) {
             Logger.getLogger(HotelController.class.getName()).log(Level.SEVERE, null, ex);
@@ -79,7 +95,31 @@ public class ManageuserController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        int index = Integer.parseInt(request.getParameter("index"));
+        if (request.getParameter("first") != null) //click first
+        {
+            index = 1;
+        }
+        if (request.getParameter("last") != null) //click last
+        {
+            index = Integer.parseInt(request.getParameter("last"));
+        }
+        if (request.getParameter("Prev") != null) //click prev
+        {
+            index--;
+        }
+        if (request.getParameter("Next") != null) //click next
+        {
+            index++;
+        }
+        if (request.getParameter("btnIdx") != null) // click button number
+        {
+            index = Integer.parseInt(request.getParameter("btnIdx"));
+        }
+        request.setAttribute("index", index);
+        doGet(request, response);
+
+
     }
 
     /** 

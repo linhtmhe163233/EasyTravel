@@ -81,8 +81,12 @@
         <servlet-class>controller.NewPasswordCotroller</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ManageUserController</servlet-name>
+        <servlet-name>ManageuserController</servlet-name>
         <servlet-class>controller.ManageUserController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserManageController</servlet-name>
+        <servlet-class>controller.UserManageController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
@@ -161,8 +165,12 @@
         <url-pattern>/newpassword</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ManageUserController</servlet-name>
+        <servlet-name>ManageuserController</servlet-name>
         <url-pattern>/manageuser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserManageController</servlet-name>
+        <url-pattern>/usermanage</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
