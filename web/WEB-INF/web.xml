@@ -84,6 +84,13 @@
     <servlet>
         <servlet-name>UserManageController</servlet-name>
         <servlet-class>controller.UserManageController</servlet-class>
+    <servlet>
+        <servlet-name>BookingController</servlet-name>
+        <servlet-class>controller.BookingController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TourHistoryController</servlet-name>
+        <servlet-class>controller.TourHistoryController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
@@ -164,6 +171,12 @@
     <servlet-mapping>
         <servlet-name>UserManageController</servlet-name>
         <url-pattern>/usermanage</url-pattern>
+        <servlet-name>BookingController</servlet-name>
+        <url-pattern>/book</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TourHistoryController</servlet-name>
+        <url-pattern>/history</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

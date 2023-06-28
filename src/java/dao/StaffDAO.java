@@ -17,7 +17,7 @@ import utils.Pagination;
  * @author DucTM
  */
 public interface StaffDAO extends BasicDAO<Staff> {
-    int getTotalItems() throws Exception;
+    int getTotalItems(int agentId) throws Exception;
     List<Staff> getPageByAgent(int agentId, Pagination page) throws Exception;
     boolean isPhoneUnique(String phone) throws Exception;
 }
