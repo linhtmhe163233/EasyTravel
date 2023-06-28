@@ -4,7 +4,6 @@
  */
 package dao.impl;
 
-import dao.BasicDAO;
 import dao.FeedbackDAO;
 import entity.FeedbackThread;
 import java.sql.Connection;
