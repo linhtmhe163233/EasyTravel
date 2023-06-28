@@ -130,9 +130,7 @@
             }
 
 
-            .g-mr-15 {
-                margin-right: 1.07143rem !important;
-            }
+
 
         </style>
     </head>
@@ -236,6 +234,7 @@
         </div>
         <div class="text-center text-uppercase mt-4">
             <h1>Feedback</h1>
+
             <div>
 
                 <div class="comment-box ml-2 w-75 mx-auto">
@@ -257,26 +256,47 @@
                 </div>
             </div>
         </div>
-        <div class="g-mb-15">
+        <br><!-- commented -->
+
+        <div class="container mt-4">
             <c:forEach items="${listfb}" var="fb" varStatus="loop">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="media g-mb-30 media-comment">
 
-                <!--
-                            <div>${fb.touristID}</div>
-                            <p>${fb.rating}</p>
-                            <p>${fb.time}</p>
-                            <p>${fb.content}</p>-->
+                            <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+                                <div class="g-mb-15">
+                                    <h5 class="h5 g-color-gray-dark-v1 mb-0">${fb.touristID}</h5>
+                                    <c:forEach begin="1" end="${fb.rating}">
+                                        <span style="color: orangered;font-size: 25px;">☆</span>
+                                    </c:forEach>
+                                    <br>
+<!--                                    <span class="g-color-gray-dark-v4 g-font-size-10">${fb.time}</span>-->
+                                    <small class="g-color-gray-dark-v4 g-font-size-10">${fb.time}</small>
 
-                <h5 class="h5 g-color-gray-dark-v1 mb-0">${fb.touristID}</h5>
-                <span class="g-color-gray-dark-v4 g-font-size-12">${fb.rating}</span>
-                <span class="g-color-gray-dark-v4 g-font-size-12">${fb.time}</span>
+                                </div>
 
-                <p>${fb.content}</p>
+                                <p Style="font-size:20px">${fb.content}</p>
 
+                                <ul class="list-inline d-sm-flex my-0">
 
+                                    <li class="list-inline-item ml-auto">
+                                        <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
+                                            <i class="fa fa-reply g-pos-rel g-top-1 g-mr-3"></i>
+                                            Reply
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </c:forEach>
         </div>
 
-        <form action="tour" method="post">
+        <br>
+
+        <form action="tour" method="post" ${page.totalItems==0?'hidden':''}>
             <input type="hidden" min="1" name="index" value="${page.index}"> 
             <nav class="mt-4">
                 <ul class="pagination justify-content-center">
