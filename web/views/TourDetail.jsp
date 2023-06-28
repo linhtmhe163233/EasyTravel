@@ -264,15 +264,16 @@
         <div class="rounded w-75 mx-auto" style="background: #DDD0C8;
              color: #323232;">
             <h2 class="ml-4 mt-2">Detail</h2>   
-            <div class="ml-4 mt-2"><span class="font-weight-bold">Type:</span> ${tour.type}</div>
+            <div class="ml-4 mt-2"><b>From </b> ${tour.agentName}</div>
+            <div class="ml-4 mt-2"><b>Type:</b> ${tour.type}</div>
             <div class="ml-4 mt-2">
-                <span class="font-weight-bold">Price: </span><fmt:formatNumber type="number" maxFractionDigits = "3" 
+                <b>Price: </b><fmt:formatNumber type="number" maxFractionDigits = "3" 
                                   value="${tour.price}"></fmt:formatNumber> VND / ${tour.tripLength} days
                 </div>
-                <div class="ml-4 mt-2"><span class="font-weight-bold">Available: </span>
+                <div class="ml-4 mt-2"><b>Available: </b>
                     from ${tour.availableFrom} to ${tour.availableTo}
             </div>
-            <div class="ml-4 mt-2"><span class="font-weight-bold">Max: </span>
+            <div class="ml-4 mt-2"><b>Max: </b>
                 ${tour.maxQuantity} people
             </div>
             <div class="ml-4 mt-2">Vehicle, hotel, ... will be assigned after you book</div>

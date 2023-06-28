@@ -181,9 +181,9 @@ public class TourDAOImpl extends DBContext implements TourDAO {
     @Override
     public List<Tour> get(int id) throws Exception {
         List<Tour> list = new ArrayList<>();
-        String query = "select * from tours where id=?";
-
-        int ID = 0;
+        String query = "select tours.id, name, type, is_enabled, destination, trip_length, available_from, available_to, "
+                + "max_quantity, price, description, agent_id, image, full_name "
+                + "from tours join users on tours.agent_id=users.id where tours.id=?";
         String name = null;
         String type = null;
         boolean isEnabled = false;
@@ -196,6 +196,7 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         String description = null;
         int agentID = 0;
         String image = null;
+        String agentName = null;
 
         Tour tour = null;
 
@@ -223,9 +224,10 @@ public class TourDAOImpl extends DBContext implements TourDAO {
             description = rs.getString("description");
             agentID = rs.getInt("agent_id");
             image = rs.getString("image");
+            agentName = rs.getString("full_name");
 
             tour = new Tour(id, name, type, isEnabled, destination, tripLength, availableFrom,
-                    availableTo, maxQuantity, price, description, agentID, image);
+                    availableTo, maxQuantity, price, description, agentID, image, agentName);
             list.add(tour);
         } catch (SQLException ex) {
             throw new Exception("Unable to get data from database");
@@ -236,7 +238,6 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         }
         return list;
     }
-
     @Override
     public void save(Tour t) throws Exception {
         String query = "insert into tours(name, type, is_enabled, destination, trip_length, available_from, available_to,"
