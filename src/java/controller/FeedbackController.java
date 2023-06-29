@@ -63,7 +63,7 @@ public class FeedbackController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("tour");
+
     }
 
     /**
@@ -90,7 +90,7 @@ public class FeedbackController extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(FeedbackController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        doGet(request, response);
+        response.sendRedirect("http://localhost:9999/EasyTravel/"+"tour?id=" + tourID);
     }
 
     /**
