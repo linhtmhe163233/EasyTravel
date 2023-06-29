@@ -4,6 +4,10 @@
  */
 package controller;
 
+import dao.FeedbackDAO;
+import dao.impl.FeedbackDAOImpl;
+import entity.FeedbackThread;
+import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +16,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Timestamp;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -57,7 +63,7 @@ public class FeedbackController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        response.sendRedirect("tour");
     }
 
     /**
@@ -72,11 +78,19 @@ public class FeedbackController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        int id = Integer.parseInt(request.getParameter("tourID"));
+        User acc = (User) session.getAttribute("user");
+        int tourID = Integer.parseInt(request.getParameter("tourID"));
+        int touristID = acc.getId();
         int rating = Integer.parseInt(request.getParameter("rating"));
         String content = request.getParameter("content");
         Timestamp time = new Timestamp(System.currentTimeMillis());
-
+        try {
+            FeedbackDAO dao = new FeedbackDAOImpl();
+            dao.save(new FeedbackThread(tourID, rating, time, content, touristID, tourID));
+        } catch (Exception ex) {
+            Logger.getLogger(FeedbackController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        doGet(request, response);
     }
 
     /**
