@@ -30,6 +30,7 @@ public class Tour {
     private String description;
     private int agentId;
     private String image;
+    private String agentName;
 
     public Tour(int ID) {
         this.id = ID;
@@ -70,6 +71,31 @@ public class Tour {
         this.image = image;
     }
 
+    public Tour(int id, String name, String type, boolean isEnabled, String destination, int tripLength, Date availableFrom, Date availableTo, int maxQuantity, float price, String description, int agentId, String image, String agentName) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.isEnabled = isEnabled;
+        this.destination = destination;
+        this.tripLength = tripLength;
+        this.availableFrom = availableFrom;
+        this.availableTo = availableTo;
+        this.maxQuantity = maxQuantity;
+        this.price = price;
+        this.description = description;
+        this.agentId = agentId;
+        this.image = image;
+        this.agentName = agentName;
+    }
+
+    public String getAgentName() {
+        return agentName;
+    }
+
+    public void setAgentName(String agentName) {
+        this.agentName = agentName;
+    }
+    
     public int getId() {
         return id;
     }

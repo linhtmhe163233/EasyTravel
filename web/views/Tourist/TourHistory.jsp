@@ -21,31 +21,68 @@
     </head>
     <body>
         <c:import url="../Layout/Header.jsp"></c:import>
-        <table class="table table-hover w-75 mx-auto">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Book time</th>
-                    <th scope="col">Tour name</th>
-                    <th scope="col">Start date</th>
-                    <th scope="col">Tourists quantity</th>
-                    <th scope="col">Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach items="${list}" var="booking" varStatus="loop">
-                    <tr>
-                        <th scope="row">${loop.count+page.itemsPerPage*(page.index-1)}</th>
-                        <td>${booking.bookTime}</td>
-                        <td><a href="tour?id=${booking.tourId}" class="badge badge-info">${booking.tourName}</a></td>
-                        <td>${booking.startDate}</td>
-                        <td>${booking.touristsQuantity}</td>
-                        <td class="${booking.status=='Processing'?'text-warning':
-                                     booking.status=='Ready'?'text-primary':'text-success'}">${booking.status}</td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
+        <div id="accordion" class="w-75 mx-auto">
+            <div class="row card-header font-weight-bold">
+                <div class="col-1">
+                    #
+                </div>
+                <div class="col-2">
+                    Book time
+                </div>
+                <div class="col-3">
+                    Tour name
+                </div>
+                <div class="col-2">
+                    Start date
+                </div>
+                <div class="col-2">
+                    Tourists quantity
+                </div>
+                <div class="col-2">
+                    Status
+                </div>
+            </div>
+            <c:forEach items="${list}" var="booking" varStatus="loop">
+                <c:set var="idx" value="${loop.count+page.itemsPerPage*(page.index-1)}"></c:set>
+                <div class="card">
+                    <div class="card-header row" id="heading${idx}" role="button" 
+                        onclick="this.children[0].click()">
+                        <button class="btn collapsed" data-toggle="collapse" data-target="#collapse${idx}" 
+                                aria-expanded="false" aria-controls="collapse${idx}" type="button" hidden="">
+                        </button>
+                        <div class="col-1">
+                            ${idx}
+                        </div>
+                        <div class="col-2">
+                            ${booking.bookTime}
+                        </div>
+                        <div class="col-3">
+                            ${booking.tourName}
+                        </div>
+                        <div class="col-2">
+                            ${booking.startDate}
+                        </div>
+                        <div class="col-2">
+                            ${booking.touristsQuantity}
+                        </div>
+                        <div class="col-2 ${booking.status=='Processing'?'text-warning':
+                                     booking.status=='Ready'?'text-primary':'text-success'}">
+                            ${booking.status}
+                        </div>
+                    </div>
+                    <div id="collapse${idx}" class="collapse" data-parent="#accordion" aria-labelledby="heading${idx}">
+                        <div class="card-body row">
+                            <div class="col-10">
+                                <b>Note: </b>${booking.note}
+                            </div>
+                            <div class="col-2">
+                                <a href="tour?id=${booking.tourId}" class="btn btn-info">Go to tour</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>        
         <form action="history" method="POST" ${page.totalItems==0?'hidden':''}>
             <input type="hidden" min="1" name="index" value="${page.index}"> 
             <nav class="mt-4">
