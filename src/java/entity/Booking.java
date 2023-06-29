@@ -15,12 +15,14 @@ public class Booking {
     private String note;
     private String touristName;
     private String tourName;
+    private String touristPhone;
+    private String touristEmail;
 
     public Booking() {
     }
 
     public Booking(int id, int touristId, int tourId, Timestamp bookTime, Date startDate, int touristsQuantity, 
-            String status, String note, String touristName, String tourName) {
+            String status, String note, String touristName, String tourName, String touristPhone, String touristEmail) {
         this.id = id;
         this.touristId = touristId;
         this.tourId = tourId;
@@ -31,6 +33,8 @@ public class Booking {
         this.note = note;
         this.touristName = touristName;
         this.tourName = tourName;
+        this.touristPhone = touristPhone;
+        this.touristEmail = touristEmail;
     }
 
     public Booking(int id, int touristId, int tourId, Timestamp bookTime, Date startDate, int touristsQuantity, 
@@ -45,19 +49,6 @@ public class Booking {
         this.note = note;
         this.tourName = tourName;
     }
-    
-    
-    public Booking(int id, int touristId, int tourId, Timestamp bookTime, Date startDate, int touristsQuantity,
-            String status, String note) {
-        this.id = id;
-        this.touristId = touristId;
-        this.tourId = tourId;
-        this.bookTime = bookTime;
-        this.startDate = startDate;
-        this.touristsQuantity = touristsQuantity;
-        this.status = status;
-        this.note = note;
-    }
 
     public Booking(int touristId, int tourId, Timestamp bookTime, Date startDate, int touristsQuantity,
             String status, String note) {
@@ -68,6 +59,22 @@ public class Booking {
         this.touristsQuantity = touristsQuantity;
         this.status = status;
         this.note = note;
+    }
+
+    public String getTouristPhone() {
+        return touristPhone;
+    }
+
+    public void setTouristPhone(String touristPhone) {
+        this.touristPhone = touristPhone;
+    }
+
+    public String getTouristEmail() {
+        return touristEmail;
+    }
+
+    public void setTouristEmail(String touristEmail) {
+        this.touristEmail = touristEmail;
     }
 
     public int getId() {

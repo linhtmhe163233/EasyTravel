@@ -2,7 +2,6 @@ package dao.impl;
 
 import dao.BookingDAO;
 import entity.Booking;
-import entity.Tour;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -19,45 +18,7 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
 
     @Override
     public List<Booking> getAll() throws Exception {
-        String sql = "select * from booking";
-        List<Booking> list = new ArrayList();
-        int id;
-        int touristId;
-        int tourId;
-        Timestamp bookTime;
-        Date startDate;
-        int touristsQuantity;
-        String status;
-        String note;
-        Booking booking = null;
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            conn = getConnection();
-            ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                id = rs.getInt("id");
-                touristId = rs.getInt("tourist_id");
-                tourId = rs.getInt("tour_id");
-                bookTime = rs.getTimestamp("book_time");
-                startDate = rs.getDate("start_date");
-                touristsQuantity = rs.getInt("tourists_quantity");
-                status = rs.getString("status");
-                note = rs.getString("note");
-                booking = new Booking(id, touristId, tourId, bookTime, startDate, touristsQuantity, status, note);
-                list.add(booking);
-            }
-        } catch (Exception e) {
-            throw new Exception("Unable to get data from database!");
-        } finally {
-            closeRs(rs);
-            closePs(ps);
-            closeConnection(conn);
-        }
-        return list;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -113,7 +74,7 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
 
     @Override
     public List<Booking> getTourHistory(int touristId, Pagination page) throws Exception {
-        String sql = "select booking.id, tour_id, book_time, start_date, tourists_quantity, status, note, name  "
+        String sql = "select booking.id, tour_id, book_time, start_date, tourists_quantity, booking.status, note, name  "
                 + "from booking join tours "
                 + "on tour_id=tours.id where tourist_id=? "
                 + "order by book_time desc "
@@ -137,7 +98,7 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
             ps = conn.prepareStatement(sql);
             ps.setInt(1, touristId);
             ps.setInt(2, page.getOffset());
-            ps.setInt(3, page.getItemsPerPage());            
+            ps.setInt(3, page.getItemsPerPage());
             rs = ps.executeQuery();
             while (rs.next()) {
                 id = rs.getInt("id");
@@ -161,19 +122,77 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
         return list;
     }
 
-    public static void main(String[] args) throws Exception {
-        BookingDAOImpl dao = new BookingDAOImpl();
-        int totalItem = dao.getTotalHistoryItems(2);
-        Pagination page = new Pagination(totalItem, 10, 1);
-        List<Booking> list = dao.getTourHistory(2, page);
-        for (Booking booking : list) {
-            System.out.println(booking.getTourName());
-        }
-    }
-
     @Override
-    public int getTotalHistoryItems(int touristId) throws Exception {
-        String query = "select count(*) from booking where tourist_id=?";
+    public List<Booking> getBookingList(int agentId, Pagination page) throws Exception {
+        String sql = "select booking.id, tour_id, book_time, start_date, tourists_quantity, booking.status, "
+                + "note, name, tourist_id, full_name, phone, email "
+                + "from booking "
+                + "join users on tourist_id=users.id "
+                + "join tours on tour_id=tours.id "
+                + "where agent_id=? "
+                + "order by book_time desc "
+                + "offset ? rows fetch next ? rows only";
+        List<Booking> list = new ArrayList();
+        int id;
+        int touristId;
+        int tourId;
+        Timestamp bookTime;
+        Date startDate;
+        int touristsQuantity;
+        String status;
+        String note;
+        String tourName;
+        String touristName;
+        String touristPhone;
+        String touristEmail;
+        Booking booking = null;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, agentId);
+            ps.setInt(2, page.getOffset());
+            ps.setInt(3, page.getItemsPerPage());
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt("id");
+                touristId = rs.getInt("tourist_id");
+                tourId = rs.getInt("tour_id");
+                bookTime = rs.getTimestamp("book_time");
+                startDate = rs.getDate("start_date");
+                touristsQuantity = rs.getInt("tourists_quantity");
+                status = rs.getString("status");
+                note = rs.getString("note");
+                tourName = rs.getString("name");
+                touristName = rs.getString("full_name");
+                touristPhone = rs.getString("phone");
+                touristEmail = rs.getString("email");
+                booking = new Booking(id, touristId, tourId, bookTime, startDate, touristsQuantity, status, note, 
+                        touristName, tourName, touristPhone, touristEmail);
+                list.add(booking);
+            }
+        } catch (Exception e) {
+            throw new Exception("Unable to get data from database!");
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
+        return list;
+    }
+    
+    @Override
+    public int getTotalItems(int searchBy, String type) throws Exception {
+        String query = null;
+        if (type.equals("history")) {
+            query = "select count(*) from booking where tourist_id=?";
+        } else if (type.equals("request")) {
+            query = "select count(*) from booking join tours on tour_id=tours.id "
+                    + "where tours.agent_id in (select id from users where id=?)";
+        }
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -182,7 +201,7 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
         try {
             conn = getConnection();
             ps = conn.prepareStatement(query);
-            ps.setInt(1, touristId);
+            ps.setInt(1, searchBy);
             rs = ps.executeQuery();
             rs.next();
             return rs.getInt(1);

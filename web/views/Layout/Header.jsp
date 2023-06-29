@@ -21,17 +21,15 @@
                     <a class="nav-item nav-link" href="hotels">Hotels</a>
                     <a class="nav-item nav-link" href="vehicles">Vehicles</a>
                     <a class="nav-item nav-link" href="staff">Staff</a>
+                    <a class="nav-item nav-link" href="bookinglist">Booking list</a>
                 </c:if>  
                 <c:if test="${sessionScope.user.role=='Tourist'}">
                     <a class="nav-item nav-link" href="history">Booking history</a>
                 </c:if>
                 <c:if test="${sessionScope.user.role=='Admin'}">
-                    <a class="nav-item nav-link" href="manageuser">Manage</a>
+                     <a class="nav-item nav-link" href="usermanage">Manage</a>
                 </c:if>
                 <a class="nav-item nav-link" href="profile">Profile</a>
-            </c:if>
-            <c:if test="${sessionScope.user!=null && sessionScope.user.role=='Admin'}">
-                <a class="nav-item nav-link" href="usermanage">Manage</a>
             </c:if>
         </div>
         <div class="navbar-nav ml-auto">

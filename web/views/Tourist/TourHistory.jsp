@@ -1,7 +1,7 @@
 <%-- 
     Document   : LandingPage
     Created on : May 17, 2023, 8:05:10 PM
-    Author     : tranm
+    Author     : DucTM
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -21,7 +21,7 @@
     </head>
     <body>
         <c:import url="../Layout/Header.jsp"></c:import>
-        <div id="accordion" class="w-75 mx-auto">
+        <div id="accordion" class="w-75 mx-auto mt-4">
             <div class="row card-header font-weight-bold">
                 <div class="col-1">
                     #
