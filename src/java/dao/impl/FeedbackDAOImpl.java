@@ -75,7 +75,7 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
 
     @Override
     public void save(FeedbackThread t) throws Exception {
-        String query = "insert into feedback_thread(rating, time, [content], tourist_id, tour_id)"
+        String query = "insert into feedback_threads(rating, time, [content], tourist_id, tour_id)"
                 + "values(?,?,?,?,?)";
 
         Connection conn = null;

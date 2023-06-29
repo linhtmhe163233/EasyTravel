@@ -282,6 +282,7 @@
             <h2 class="ml-4 mt-2">More description</h2>   
             <div class="ml-4 mt-2">${tour.description}</div>
         </div>
+        <form action="feedback" method="post">
         <div class="text-center text-uppercase mt-4">
             <h1>Feedback</h1>
 
@@ -290,7 +291,7 @@
                 <div class="comment-box ml-2 w-75 mx-auto">
 
                     <!--                <h4>Add a comment</h4>-->
-
+                    <input type="hidden" name="tourID" value="${tour.id}">
                     <div class="rating"> 
                         <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
                         <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> 
@@ -300,12 +301,13 @@
                     </div>
 
                     <div class="comment-area">
-                        <textarea class="form-control" placeholder="what is your view?" rows="4"></textarea>
+                        <textarea class="form-control" name ="content" placeholder="what is your view?" rows="4"></textarea>
                     </div>
-                    <button class="btn btn-success float-left">Send</button>  
+                    <button class="btn btn-success float-left" type="submit">Send</button>  
                 </div>
             </div>
         </div>
+        </form>
         <br><!-- commented -->
 
         <div class="container mt-4">
