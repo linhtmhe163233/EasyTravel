@@ -69,16 +69,36 @@
         <servlet-class>controller.ForgotpasswordController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CreateRestaurant</servlet-name>
-        <servlet-class>controller.CreateRestaurant</servlet-class>
+        <servlet-name>CheckCodeController</servlet-name>
+        <servlet-class>controller.CheckCodeController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>EditRestau</servlet-name>
-        <servlet-class>controller.EditRestau</servlet-class>
+        <servlet-name>NewPasswordCotroller</servlet-name>
+        <servlet-class>controller.NewPasswordCotroller</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>DeleteRestau</servlet-name>
-        <servlet-class>controller.DeleteRestau</servlet-class>
+        <servlet-name>UserManageController</servlet-name>
+        <servlet-class>controller.UserManageController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BookingController</servlet-name>
+        <servlet-class>controller.BookingController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TourHistoryController</servlet-name>
+        <servlet-class>controller.TourHistoryController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BookingListController</servlet-name>
+        <servlet-class>controller.BookingListController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HandleBookingController</servlet-name>
+        <servlet-class>controller.HandleBookingController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FeedbackController</servlet-name>
+        <servlet-class>controller.FeedbackController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
@@ -106,7 +126,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>StaffController</servlet-name>
-        <url-pattern>/z</url-pattern>
+        <url-pattern>/staff</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>RestaurantController</servlet-name>
@@ -149,22 +169,40 @@
         <url-pattern>/forgotpassword</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>CreateRestaurant</servlet-name>
-        <url-pattern>/CreateRestaurant</url-pattern>
+        <servlet-name>CheckCodeController</servlet-name>
+        <url-pattern>/checkcode</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>EditRestau</servlet-name>
-        <url-pattern>/EditRestau</url-pattern>
+        <servlet-name>NewPasswordCotroller</servlet-name>
+        <url-pattern>/newpassword</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>DeleteRestau</servlet-name>
-        <url-pattern>/DeleteRestau</url-pattern>
+        <servlet-name>UserManageController</servlet-name>
+        <url-pattern>/usermanage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BookingController</servlet-name>
+        <url-pattern>/book</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TourHistoryController</servlet-name>
+        <url-pattern>/history</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BookingListController</servlet-name>
+        <url-pattern>/bookinglist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HandleBookingController</servlet-name>
+        <url-pattern>/handlebooking</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FeedbackController</servlet-name>
+        <url-pattern>/feedback</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-    <servlet-name>RestaurantController</servlet-name>
-    <url-pattern>/restaurant</url-pattern>
 </web-app>

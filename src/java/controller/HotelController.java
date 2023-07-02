@@ -94,7 +94,6 @@ public class HotelController extends HttpServlet {
         String phone=request.getParameter("phone").trim();
         String location=request.getParameter("location").trim();
         HttpSession session = request.getSession();
-        
         try {
             BasicDAO dao = new HotelDAOImpl();
             dao.save(new Hotel(name, stars, room_available, phone, location));
@@ -104,7 +103,6 @@ public class HotelController extends HttpServlet {
             request.setAttribute("hotel", new Hotel(name, stars, room_available, phone, location));
         }
         doGet(request, response);
-       
     }
 
     /**

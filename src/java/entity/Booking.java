@@ -15,12 +15,23 @@ public class Booking {
     private String note;
     private String touristName;
     private String tourName;
+    private String touristPhone;
+    private String touristEmail;
+    private int tourLength;
+    private String reason;
 
     public Booking() {
     }
 
-    public Booking(int id, int touristId, int tourId, Timestamp bookTime, Date startDate, int touristsQuantity, 
-            String status, String note, String touristName, String tourName) {
+    public Booking(int id, String status, String reason) {
+        this.id = id;
+        this.status = status;
+        this.reason = reason;
+    }
+    //use this when load booking list of travel agent
+    public Booking(int id, int touristId, int tourId, Timestamp bookTime, Date startDate, int touristsQuantity,
+            String status, String note, String touristName, String tourName, String touristPhone, String touristEmail,
+            int tourLength, String reason) {
         this.id = id;
         this.touristId = touristId;
         this.tourId = tourId;
@@ -31,10 +42,14 @@ public class Booking {
         this.note = note;
         this.touristName = touristName;
         this.tourName = tourName;
+        this.touristPhone = touristPhone;
+        this.touristEmail = touristEmail;
+        this.tourLength = tourLength;
+        this.reason = reason;
     }
-
-    public Booking(int id, int touristId, int tourId, Timestamp bookTime, Date startDate, int touristsQuantity, 
-            String status, String note, String tourName) {
+    //use this when load tour history of tourist
+    public Booking(int id, int touristId, int tourId, Timestamp bookTime, Date startDate, int touristsQuantity,
+            String status, String note, String tourName, String reason) {
         this.id = id;
         this.touristId = touristId;
         this.tourId = tourId;
@@ -44,21 +59,9 @@ public class Booking {
         this.status = status;
         this.note = note;
         this.tourName = tourName;
+        this.reason = reason;
     }
-    
-    
-    public Booking(int id, int touristId, int tourId, Timestamp bookTime, Date startDate, int touristsQuantity,
-            String status, String note) {
-        this.id = id;
-        this.touristId = touristId;
-        this.tourId = tourId;
-        this.bookTime = bookTime;
-        this.startDate = startDate;
-        this.touristsQuantity = touristsQuantity;
-        this.status = status;
-        this.note = note;
-    }
-
+    //use this when create a new booking entry
     public Booking(int touristId, int tourId, Timestamp bookTime, Date startDate, int touristsQuantity,
             String status, String note) {
         this.touristId = touristId;
@@ -68,6 +71,38 @@ public class Booking {
         this.touristsQuantity = touristsQuantity;
         this.status = status;
         this.note = note;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public int getTourLength() {
+        return tourLength;
+    }
+
+    public void setTourLength(int tourLength) {
+        this.tourLength = tourLength;
+    }
+
+    public String getTouristPhone() {
+        return touristPhone;
+    }
+
+    public void setTouristPhone(String touristPhone) {
+        this.touristPhone = touristPhone;
+    }
+
+    public String getTouristEmail() {
+        return touristEmail;
+    }
+
+    public void setTouristEmail(String touristEmail) {
+        this.touristEmail = touristEmail;
     }
 
     public int getId() {
@@ -149,5 +184,5 @@ public class Booking {
     public void setTourName(String tourName) {
         this.tourName = tourName;
     }
-    
+
 }

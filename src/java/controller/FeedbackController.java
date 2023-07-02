@@ -1,16 +1,12 @@
 /*
- * ISP392-IS1701-Group6
- * EasyTravel
- *
- * Record of change:
- * DATE            Version             AUTHOR           DESCRIPTION
- * 27-06-2023      1.0                 DucTM           First Implement
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package controller;
 
-import dao.BookingDAO;
-import dao.impl.BookingDAOImpl;
-import entity.Booking;
+import dao.FeedbackDAO;
+import dao.impl.FeedbackDAOImpl;
+import entity.FeedbackThread;
 import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,14 +14,16 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import utils.Pagination;
+import jakarta.servlet.http.HttpSession;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
- * @author DucTM
+ * @author My Laptop
  */
-public class TourHistoryController extends HttpServlet {
+public class FeedbackController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +42,10 @@ public class TourHistoryController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet TourHistoryController</title>");
+            out.println("<title>Servlet FeedbackController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet TourHistoryController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet FeedbackController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,26 +63,7 @@ public class TourHistoryController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            BookingDAO dao = new BookingDAOImpl();
-            int touristId = ((User) request.getSession().getAttribute("user")).getId();
-            int totalItems = dao.getTotalItems(touristId, "history");
-            Object indexObj = request.getAttribute("index");
-            int index;
-            if (indexObj == null) {
-                index = 1;
-            } else {
-                index = (int) indexObj;
-            }
-            Pagination page = new Pagination(totalItems, 10, index);
-            List<Booking> list = dao.getTourHistory(touristId, page);
-            request.setAttribute("list", list);
-            request.setAttribute("page", page);
-            request.getRequestDispatcher("views/Tourist/TourHistory.jsp").forward(request, response);
-        } catch (Exception e) {
-            request.setAttribute("error", e.getMessage());
-            request.getRequestDispatcher("views/Error.jsp").forward(request, response);
-        }
+
     }
 
     /**
@@ -98,29 +77,20 @@ public class TourHistoryController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int index = Integer.parseInt(request.getParameter("index"));
-        if (request.getParameter("first") != null) //click first
-        {
-            index = 1;
+        HttpSession session = request.getSession();
+        User acc = (User) session.getAttribute("user");
+        int tourID = Integer.parseInt(request.getParameter("tourID"));
+        int touristID = acc.getId();
+        int rating = Integer.parseInt(request.getParameter("rating"));
+        String content = request.getParameter("content");
+        Timestamp time = new Timestamp(System.currentTimeMillis());
+        try {
+            FeedbackDAO dao = new FeedbackDAOImpl();
+            dao.save(new FeedbackThread(tourID, rating, time, content, touristID, tourID));
+        } catch (Exception ex) {
+            Logger.getLogger(FeedbackController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (request.getParameter("last") != null) //click last
-        {
-            index = Integer.parseInt(request.getParameter("last"));
-        }
-        if (request.getParameter("Prev") != null) //click prev
-        {
-            index--;
-        }
-        if (request.getParameter("Next") != null) //click next
-        {
-            index++;
-        }
-        if (request.getParameter("btnIdx") != null) // click button number
-        {
-            index = Integer.parseInt(request.getParameter("btnIdx"));
-        }
-        request.setAttribute("index", index);
-        doGet(request, response);
+        response.sendRedirect("http://localhost:9999/EasyTravel/"+"tour?id=" + tourID);
     }
 
     /**

@@ -9,6 +9,8 @@
  */
 package entity;
 
+import java.sql.Date;
+
 public class Vehicle {
     private int ID;
     private String type;
