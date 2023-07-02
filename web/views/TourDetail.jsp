@@ -129,9 +129,6 @@
                 opacity: 0.4
             }
 
-
-
-
         </style>
     </head>
     <body>
@@ -318,8 +315,8 @@
                         <div class="col-md-12">
                             <div class="media g-mb-30 media-comment">
 
-                                <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
-                                    <div class="g-mb-15">
+                                <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30"  style="border:1px  outset #999999">
+                                    <div class="g-mb-15" >
                                         <h5 class="h5 g-color-gray-dark-v1 mb-0">${fb.fullName}</h5>
                                         <c:forEach begin="1" end="${fb.rating}">
                                             <span style="color: orangered;font-size: 25px;">☆</span>
@@ -392,12 +389,6 @@
                     </ul>
                 </nav>
             </form>
-
-
-
-
-
-
 
         </body>
         <script>

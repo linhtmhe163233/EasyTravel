@@ -5,6 +5,7 @@
 package dao.impl;
 
 import dao.FeedbackDAO;
+import entity.Booking;
 import entity.FeedbackThread;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -113,9 +114,11 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
 
 //            ud.getPage(new Pagination(2,10,1),1);
             List<FeedbackThread> a = ud.getPage(new Pagination(2, 10, 1), 1);
-            System.out.println(a.get(0));
+           
 
-            System.out.println(ud.getTotalItems(1));
+//            System.out.println(a.get(0));
+//
+//            System.out.println(ud.getTotalItems(1));
 //            ud.update(u);
         } catch (Exception ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -208,6 +211,39 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
             closePs(ps);
             closeConnection(conn);
         }
+    }
+    
+   public Booking checkDone(int touristID, int tourID) throws Exception {
+        Connection conn = super.getConnection();
+        String sql = "SELECT * FROM booking WHERE status='done' and tourist_id =? and tour_id = ?";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, touristID);
+            ps.setInt(2, tourID);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Booking(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getTimestamp(4),
+                        rs.getDate(5),
+                        rs.getInt(6),
+                        rs.getString(7),
+                        rs.getString(8));
+         
+            }
+        } catch (SQLException e) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            super.close(conn, ps, rs);
+        }
+        return null;
     }
 
 }
