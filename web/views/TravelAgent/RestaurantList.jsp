@@ -12,40 +12,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>EasyTravel | Restaurant</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <style>
-            .title{
-                text-align: center;
-                background: white;
-                width: 20%;
-                display: flex;
-                justify-content: center;
-                border-radius: 20px;
-                margin-left: 40%;
-            }
-            body{
-                background: #A9A9A9;
-            }
-            input{
-                height: 40px;
-                padding-bottom: 8px;
-            }
-            .search{
-                float: right;
-                margin-right: 30px;
-            }
-            thead{
-                background: #3DE397;
-            }
-            button{
-                background: #3DE397 !important;
-            }
-            .table{
-                width: 95%;
-                margin-left: 65px;
-            }
-        </style>
+        <link href="css/fontawesome.min.css" rel="stylesheet"/>
     </head>
     <body>
+        <c:import url="../Layout/Header.jsp"></c:import>
+
         <c:if test="${param['index']==null }">   
             <c:set var = "index" scope = "page" value = "1"/>
         </c:if>
@@ -53,21 +24,21 @@
             <c:set var = "index" scope = "page" value = "${param['index']}"/>
         </c:if>
         <div class="title mt-5">
-            <h1>View a list Restaurant</h1>
+            <h1 style="text-align: center;">View a list Restaurant</h1>
         </div>
-        <form method="get" action="RestaurantList" class="search " style="display: flex; justify-content: space-between;width: 100%;padding-left: 105px;">
+        <form  method="get" action="RestaurantList" class="search  w-75 mx-auto " style="display: flex; justify-content: space-between;width: 100%;padding-left: 105px;">
             <div>
                 <a class="btn btn-primary" href="CreateRestaurant">Create</a>
             </div>
             <div>
                 <input type="text" placeholder="Search" name="search by type or phone" value="${param.search}"/>
                 <input type="hidden" value="${param.index}" name="index"/>
-                <button type="submit" class="btn" >Search</button>
+                <button type="submit" class="btn btn-primary" >Search</button>
             </div>
         </form>
 
         <div class="mt-5">
-            <table class="table">
+            <table  class="table table-hover table-bordered w-75 mx-auto" >
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -75,6 +46,8 @@
                         <th scope="col">Table Available</th>
                         <th scope="col">Phone Number</th>
                         <th scope="col">Agent Name</th>
+                        <th colspan="2">Action</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -84,7 +57,10 @@
                             <td>${a.getType()}</td>
                             <td>${a.getTable_available()}</td>
                             <td>${a.getPhone()}</td>
-                            <td>${a.getAgentName()}</td>
+                            <td>${a.getAgentName()}</td>    
+                            <td><a href="EditRestau?rid=${a.getId()}" class="btn btn-info btn-sm"> Edit</a></td>
+                            <td><a href="DeleteRestau?rid=${a.getId()}" class="btn btn-danger btn-sm"> Delete</a></td>
+
                         </tr>
                     </c:forEach>
 

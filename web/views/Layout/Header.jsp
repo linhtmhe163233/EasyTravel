@@ -20,6 +20,7 @@
                     <a class="nav-item nav-link" href="tours">New tour</a>
                     <a class="nav-item nav-link" href="hotels">Hotels</a>
                     <a class="nav-item nav-link" href="vehicles">Vehicles</a>
+                    <a class="nav-item nav-link" href="RestaurantList">Restaurants</a>
                     <a class="nav-item nav-link" href="staff">Staff</a>
                 </c:if>  
                 <c:if test="${sessionScope.user.role=='Tourist'}">

@@ -64,30 +64,23 @@
         <c:import url="../Layout/Header.jsp"></c:import>
 
             <div class="title mt-5">
-                <h1>Add a Restaurant</h1>
+                <h1>Edit a Restaurant</h1>
             </div>
 
-            <form action="CreateRestaurant" method="post">
+            <form action="EditRestau" method="post">
+                <input type="hidden" name="rid" maxlength="30" required value="${a.getId()}"/>
                 <div class="mt-5">
                     <table class="table">
                         <tbody>
                             <tr>
                                 <td class="word">Type</td>
-                                <td><input type="text" name="type" maxlength="30" required value="${type}"/></td>
+                                <td><input type="text" name="type" maxlength="30" required value="${a.getType()}"/></td>
                             <td class="word">Phone</td>
-                            <td><input type="text"  name="phone" maxlength="10" minlength="10" value="${phone}" required/></td>
+                            <td><input type="text"  name="phone" maxlength="10" minlength="10" value="${a.getPhone()}" required/></td>
                         </tr>
                         <tr>
-                            <!--                            <td class="word">Name Agent</td>
-                                                        <td>
-                                                            <select name="name">
-                            <c:forEach var="a" items="${al}">
-                                <option value="${a.id}">${a.fullname}</option>
-                            </c:forEach>
-                        </select>
-                    </td>-->
                             <td class="word">Table Available</td>
-                            <td><input type="number" min="1" name="table" value="${table}" /></td>
+                            <td><input type="number" min="1" name="table" value="${a.getTable_available()}" /></td>
                         </tr>
                     </tbody>
                 </table>
@@ -98,7 +91,7 @@
             </div>
             <div class="text-center" style="margin-top: 120px;">
 
-                <button class="btn" type="submit">Create</button>
+                <button class="btn" type="submit">Update</button>
             </div>
 
         </form>
