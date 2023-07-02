@@ -70,7 +70,7 @@
                         </div>
                         <div class="col-2 ${booking.status=='Processing'?'text-warning':
                                      booking.status=='Ready'?'text-primary':
-                                     booking.status=='Declined'?'text-danger':'text-success'}">
+                                     booking.status=='Done'?'text-success':'text-danger'}">
                             ${booking.status}
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                                 </c:if>
                             </div>
                             <div class="col-4">
-                                <c:if test="${booking.status!='Done' && booking.status!='Declined'}">
+                                <c:if test="${booking.status=='Processing'}">
                                     <button class="btn btn-primary" data-toggle="modal" 
                                         data-target="#modalRequest${booking.id}">
                                         Process
@@ -101,8 +101,8 @@
                                             data-target="#modalDecline${booking.id}">
                                             Decline request
                                     </button>  
-                                    <a href="tour?id=${booking.tourId}" class="btn btn-info">Go to tour</a>
                                 </c:if>
+                                <a href="tour?id=${booking.tourId}" class="btn btn-info">Go to tour</a>
                             </div>
                             <c:if test="${booking.status!='Done' && booking.status!='Declined'}">
                             <div class="modal fade" id="modalRequest${booking.id}" tabindex="-1" role="dialog">
@@ -224,7 +224,7 @@
                                                     </label>
                                                     <textarea class="form-control validate" 
                                                               id="reason" rows="3" name="reason" 
-                                                              maxlength="${300-fn:length(booking.note)}" required></textarea>
+                                                              maxlength="300" required></textarea>
                                                     <div class="valid-feedback">Looks good!</div>
                                                     <div class="invalid-feedback">
                                                         Add some reason about your decline

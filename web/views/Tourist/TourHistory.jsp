@@ -67,13 +67,13 @@
                         </div>
                         <div class="col-2 ${booking.status=='Processing'?'text-warning':
                                      booking.status=='Ready'?'text-primary':
-                                     booking.status=='Declined'?'text-danger':'text-success'}">
+                                     booking.status=='Done'?'text-success':'text-danger'}">
                             ${booking.status}
                         </div>
                     </div>
                     <div id="collapse${idx}" class="collapse" data-parent="#accordion" aria-labelledby="heading${idx}">
                         <div class="card-body row">
-                            <div class="col-10">
+                            <div class="col-8">
                                 <b>Note: </b>${booking.note}
                                 <c:if test="${booking.reason!=null}">
                                     <br>
@@ -81,11 +81,59 @@
                                 </c:if>
                             </div>
                             <div class="col-2">
+                                <c:if test="${booking.status=='Processing'||booking.status=='Ready'}">
+                                   <button class="btn btn-danger" data-toggle="modal" 
+                                            data-target="#modalDecline${booking.id}">
+                                    Decline request
+                                </button>  
+                                </c:if>
+                                 
+                            </div>
+                            <div class="col-2">
                                 <a href="tour?id=${booking.tourId}" class="btn btn-info">Go to tour</a>
                             </div>
                         </div>
                     </div>
                 </div>
+                <c:if test="${booking.status=='Processing'||booking.status=='Ready'}">
+                <div class="modal fade" id="modalDecline${booking.id}" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header text-center">
+                                <h4 class="modal-title w-100 font-weight-bold">Decline this request</h4>
+                                <button type="button" class="close btn btn-danger" data-dismiss="modal" 
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="handlebooking" method="POST" novalidate id="declineform${booking.id}" 
+                                  class="needs-validation">
+                                <input type="hidden" name="id" value="${booking.id}">
+                                <input type="hidden" min="1" name="index" value="${page.index}"> 
+                                <div class="modal-body mx-3">
+                                    <div class="md-form mb-2">
+                                        <label data-error="wrong" data-success="right" for="reason">
+                                            Add reason
+                                        </label>
+                                        <textarea class="form-control validate" 
+                                                  id="reason" rows="3" name="reason" 
+                                                  maxlength="300" required></textarea>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">
+                                            Add some reason about your decline
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer d-flex justify-content-center">
+                                    <button class="btn btn-primary" type="submit" name="cancel">
+                                        Confirm
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                </c:if>
             </c:forEach>
         </div>        
         <form action="history" method="POST" ${page.totalItems==0?'hidden':''}>

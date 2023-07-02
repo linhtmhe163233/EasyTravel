@@ -96,6 +96,10 @@
         <servlet-name>HandleBookingController</servlet-name>
         <servlet-class>controller.HandleBookingController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FeedbackController</servlet-name>
+        <servlet-class>controller.FeedbackController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -191,6 +195,10 @@
     <servlet-mapping>
         <servlet-name>HandleBookingController</servlet-name>
         <url-pattern>/handlebooking</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FeedbackController</servlet-name>
+        <url-pattern>/feedback</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

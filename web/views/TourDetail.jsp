@@ -242,145 +242,148 @@
             <h2 class="ml-4 mt-2">More description</h2>   
             <div class="ml-4 mt-2">${tour.description}</div>
         </div>
-        <div class="text-center text-uppercase mt-4">
-            <h1>Feedback</h1>
+        <form action="feedback" method="post">
+            <div class="text-center text-uppercase mt-4">
+                <h1>Feedback</h1>
 
-            <div>
+                <div>
+                    <c:if test="${sessionScope.user!=null}">
+                        <div class="comment-box ml-2 w-75 mx-auto">
 
-                <div class="comment-box ml-2 w-75 mx-auto">
+                            <!--                <h4>Add a comment</h4>-->
+                            <input type="hidden" name="tourID" value="${tour.id}">
+                            <div class="rating"> 
+                                <input type="radio" name="rating" value="5" id="5" required><label for="5">☆</label>
+                                <input type="radio" name="rating" value="4" id="4" required><label for="4">☆</label> 
+                                <input type="radio" name="rating" valque="3" id="3" required><label for="3">☆</label>
+                                <input type="radio" name="rating" value="2" id="2" required><label for="2">☆</label>
+                                <input type="radio" name="rating" value="1" id="1" required><label for="1">☆</label>
+                            </div>
 
-                    <!--                <h4>Add a comment</h4>-->
-
-                    <div class="rating"> 
-                        <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
-                        <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> 
-                        <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
-                        <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
-                        <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                            <div class="comment-area">
+                                <textarea class="form-control" name ="content" placeholder="what is your view?" rows="4"></textarea>
+                            </div>
+                            <button class="btn btn-success float-left" type="submit">Send</button>  
+                        </div>
+                    </c:if>
                     </div>
-
-                    <div class="comment-area">
-                        <textarea class="form-control" placeholder="what is your view?" rows="4"></textarea>
-                    </div>
-                    <button class="btn btn-success float-left">Send</button>  
                 </div>
-            </div>
-        </div>
-        <br><!-- commented -->
+            </form>
+            <br><!-- commented -->
 
-        <div class="container mt-4">
-            <c:forEach items="${listfb}" var="fb" varStatus="loop">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="media g-mb-30 media-comment">
+            <div class="container mt-4">
+                <c:forEach items="${listfb}" var="fb" varStatus="loop">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="media g-mb-30 media-comment">
 
-                            <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
-                                <div class="g-mb-15">
-                                    <h5 class="h5 g-color-gray-dark-v1 mb-0">${fb.fullName}</h5>
-                                    <c:forEach begin="1" end="${fb.rating}">
-                                        <span style="color: orangered;font-size: 25px;">☆</span>
-                                    </c:forEach>
-                                    <br>
-<!--                                    <span class="g-color-gray-dark-v4 g-font-size-10">${fb.time}</span>-->
-                                    <small class="g-color-gray-dark-v4 g-font-size-10">${fb.time}</small>
+                                <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+                                    <div class="g-mb-15">
+                                        <h5 class="h5 g-color-gray-dark-v1 mb-0">${fb.fullName}</h5>
+                                        <c:forEach begin="1" end="${fb.rating}">
+                                            <span style="color: orangered;font-size: 25px;">☆</span>
+                                        </c:forEach>
+                                        <br>
+    <!--                                    <span class="g-color-gray-dark-v4 g-font-size-10">${fb.time}</span>-->
+                                        <small class="g-color-gray-dark-v4 g-font-size-10">${fb.time}</small>
 
+                                    </div>
+
+                                    <p Style="font-size:20px">${fb.content}</p>
+
+                                    <ul class="list-inline d-sm-flex my-0">
+
+                                        <li class="list-inline-item ml-auto">
+                                            <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
+                                                <i class="fa fa-reply g-pos-rel g-top-1 g-mr-3"></i>
+                                                Reply
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
-
-                                <p Style="font-size:20px">${fb.content}</p>
-
-                                <ul class="list-inline d-sm-flex my-0">
-
-                                    <li class="list-inline-item ml-auto">
-                                        <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
-                                            <i class="fa fa-reply g-pos-rel g-top-1 g-mr-3"></i>
-                                            Reply
-                                        </a>
-                                    </li>
-                                </ul>
                             </div>
                         </div>
                     </div>
-                </div>
-            </c:forEach>
-        </div>
+                </c:forEach>
+            </div>
 
-        <br>
+            <br>
 
-        <form action="tour" method="post" ${page.totalItems==0?'hidden':''}>
-            <input type="hidden" min="1" name="index" value="${page.index}"> 
-            <nav class="mt-4">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                        <button type="submit" class="page-link" name="Prev" ${page.index==1?"hidden":""}>
-                            <<
-                        </button>
-                    </li>
-                    <li class="page-item ${page.index==1?"active":""}">
-                        <button type="submit" class="page-link" name="first">1</button>
-                    </li>
-                    <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
-                        <span class="page-link">...</span>
-                    </li>
-                    <c:if test="${page.totalPage>2}">
-                        <c:forEach var="p" begin="${page.pageStart}" end="${page.pageEnd}">
-                            <li class="page-item ${page.index==p?"active":""}">
-                                <button type="submit" class="page-link" value="${p}" name="btnIdx">
-                                    ${p}
-                                </button>
-                            </li>
-                        </c:forEach>
-                    </c:if>
-                    <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
-                        <span class="page-link">...</span>
-                    </li>
-                    <li class="page-item ${page.index==page.totalPage?"active":""}" ${page.totalPage==1?"hidden":""}>
-                        <button type="submit" class="page-link"
-                                name="last" value="${page.totalPage}">
-                            ${page.totalPage}
-                        </button>
-                    </li>
-                    <li class="page-item">
-                        <button type="submit" class="page-link" name="Next" 
-                                ${page.index==page.totalPage?"hidden":""}>
-                            >>
-                        </button>
-                    </li>
-                </ul>
-            </nav>
-        </form>
-
+            <form action="tour" method="post" ${page.totalItems==0?'hidden':''}>
+                <input type="hidden" min="1" name="index" value="${page.index}"> 
+                <nav class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <button type="submit" class="page-link" name="Prev" ${page.index==1?"hidden":""}>
+                                <<
+                            </button>
+                        </li>
+                        <li class="page-item ${page.index==1?"active":""}">
+                            <button type="submit" class="page-link" name="first">1</button>
+                        </li>
+                        <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
+                            <span class="page-link">...</span>
+                        </li>
+                        <c:if test="${page.totalPage>2}">
+                            <c:forEach var="p" begin="${page.pageStart}" end="${page.pageEnd}">
+                                <li class="page-item ${page.index==p?"active":""}">
+                                    <button type="submit" class="page-link" value="${p}" name="btnIdx">
+                                        ${p}
+                                    </button>
+                                </li>
+                            </c:forEach>
+                        </c:if>
+                        <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
+                            <span class="page-link">...</span>
+                        </li>
+                        <li class="page-item ${page.index==page.totalPage?"active":""}" ${page.totalPage==1?"hidden":""}>
+                            <button type="submit" class="page-link"
+                                    name="last" value="${page.totalPage}">
+                                ${page.totalPage}
+                            </button>
+                        </li>
+                        <li class="page-item">
+                            <button type="submit" class="page-link" name="Next" 
+                                    ${page.index==page.totalPage?"hidden":""}>
+                                >>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </form>
 
 
 
 
 
 
-    </body>
-    <script>
-        (function () {
-            'use strict';
-            window.addEventListener('load', function () {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                let forms = document.getElementsByClassName('needs-validation');
-                // Loop over them and prevent submission
-                let validation = Array.prototype.filter.call(forms, function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
-        })();
-        let startDate = document.getElementById("startDate");
 
-        Date.prototype.addYears = function (years) {
-            let date = new Date(this);
-            date.setYear(date.getFullYear() + years);
-            return date;
-        };
+        </body>
+        <script>
+            (function () {
+                'use strict';
+                window.addEventListener('load', function () {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    let forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    let validation = Array.prototype.filter.call(forms, function (form) {
+                        form.addEventListener('submit', function (event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+            let startDate = document.getElementById("startDate");
+
+            Date.prototype.addYears = function (years) {
+                let date = new Date(this);
+                date.setYear(date.getFullYear() + years);
+                return date;
+            };
 
         Date.prototype.addDays = function (days) {
             let date = new Date(this);
