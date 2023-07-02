@@ -91,6 +91,7 @@
             .rating:hover>input:checked~label:before {
                 opacity: 0.4
             }
+
         </style>
     </head>
     <body>
@@ -245,6 +246,7 @@
         <form action="feedback" method="post">
             <div class="text-center text-uppercase mt-4">
                 <h1>Feedback</h1>
+                <p style="color:red">${mess}</p>   
 
                 <div>
                     <c:if test="${sessionScope.user!=null}">
@@ -262,6 +264,7 @@
 
                             <div class="comment-area">
                                 <textarea class="form-control" name ="content" placeholder="what is your view?" rows="4"></textarea>
+                                 
                             </div>
                             <button class="btn btn-success float-left" type="submit">Send</button>  
                         </div>
@@ -277,8 +280,8 @@
                         <div class="col-md-12">
                             <div class="media g-mb-30 media-comment">
 
-                                <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
-                                    <div class="g-mb-15">
+                                <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30"  style="border:1px  outset #999999">
+                                    <div class="g-mb-15" >
                                         <h5 class="h5 g-color-gray-dark-v1 mb-0">${fb.fullName}</h5>
                                         <c:forEach begin="1" end="${fb.rating}">
                                             <span style="color: orangered;font-size: 25px;">☆</span>
@@ -351,12 +354,6 @@
                     </ul>
                 </nav>
             </form>
-
-
-
-
-
-
 
         </body>
         <script>

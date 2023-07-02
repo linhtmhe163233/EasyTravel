@@ -28,6 +28,14 @@ public class Booking {
         this.status = status;
         this.reason = reason;
     }
+
+    public Booking(int touristId, int tourId, String status) {
+        this.touristId = touristId;
+        this.tourId = tourId;
+        this.status = status;
+    }
+    
+    
     //use this when load booking list of travel agent
     public Booking(int id, int touristId, int tourId, Timestamp bookTime, Date startDate, int touristsQuantity,
             String status, String note, String touristName, String tourName, String touristPhone, String touristEmail,

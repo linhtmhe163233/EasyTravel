@@ -4,6 +4,7 @@
  */
 package dao;
 
+import entity.Booking;
 import entity.FeedbackThread;
 import java.util.List;
 import utils.Pagination;
@@ -15,4 +16,5 @@ import utils.Pagination;
 public interface FeedbackDAO extends BasicDAO<FeedbackThread> {
      List<FeedbackThread> getPage(Pagination page,int tourID) throws Exception;
     int getTotalItems(int tourID) throws Exception;
+    boolean checkDone(int touristID, int tourID) throws Exception;
 }
