@@ -1,27 +1,23 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package controller;
 
-import dao.impl.RestaurantDAOlmpl;
-import entity.User;
-import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  *
- * @author Admin
+ * @author Ngan Ha
  */
-public class EditRestau extends HttpServlet {
+@WebServlet(name = "DeleteVehicleContrller", urlPatterns = {"/delete2"})
+public class DeleteVehicleContrller extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,15 +31,15 @@ public class EditRestau extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EditRestau</title>");
+            out.println("<title>Servlet DeleteVehicleContrller</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet EditRestau at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DeleteVehicleContrller at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,13 +57,7 @@ public class EditRestau extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            request.setAttribute("a", new RestaurantDAOlmpl().getDetail(Integer.valueOf(request.getParameter("rid"))));
-            request.getRequestDispatcher("views/TravelAgent/EditRestau.jsp").forward(request, response);
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -81,28 +71,7 @@ public class EditRestau extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            String type = request.getParameter("type");
-            String phone = request.getParameter("phone");
-            String table = request.getParameter("table");
-            String rid = request.getParameter("rid");
-            request.setAttribute("type", type);
-            request.setAttribute("phone", phone);
-            request.setAttribute("table", table);
-            if (phone.charAt(0) != '0' || !phone.matches("^[0-9]*$")) {
-                request.setAttribute("msg", "Phone must start with 0 and only number character");
-
-                request.getRequestDispatcher("views/TravelAgent/EditRestau.jsp").forward(request, response);
-
-            } else {
-                new RestaurantDAOlmpl().update(type, table, phone, rid);
-
-                response.sendRedirect("RestaurantList");
-            }
-        } catch (Exception e) {
-            response.getWriter().print(e);
-        }
-
+        processRequest(request, response);
     }
 
     /**
