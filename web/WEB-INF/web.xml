@@ -100,6 +100,10 @@
         <servlet-name>FeedbackController</servlet-name>
         <servlet-class>controller.FeedbackController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchTourController</servlet-name>
+        <servlet-class>controller.SearchTourController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -199,6 +203,10 @@
     <servlet-mapping>
         <servlet-name>FeedbackController</servlet-name>
         <url-pattern>/feedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchTourController</servlet-name>
+        <url-pattern>/searchtour</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

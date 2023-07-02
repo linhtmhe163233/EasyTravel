@@ -19,12 +19,21 @@
         <meta name="author" content="Group6">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/bootstrap.min.css">
+        <script src="js/jquery-3.7.0.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
         <title>Easy Travel | Home</title>
     </head>
     <body>
         <c:import url="./Layout/Header.jsp"></c:import>
-            <div class="d-flex flex-wrap flex-row justify-content-start w-75 mx-auto mt-4" 
-                 style="column-gap: 8.5rem; row-gap: 2rem">
+        <div class="d-flex justify-content-end mr-5 mt-3">
+            <form class="form-inline my-2 my-lg-0" action="home" method="get">
+                <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                       id="search" value="${param.search}" oninput="handleChange(this)">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+        <div class="d-flex flex-wrap flex-row justify-content-start w-75 mx-auto mt-4" 
+             style="column-gap: 8.5rem; row-gap: 2rem" id="deck">
             <c:forEach items="${list}" var="tour">
                 <div class="card rounded" style="width: 18rem;">
                     <c:set var="link" value="tour?id=${tour.id}"></c:set>
@@ -41,7 +50,8 @@
                         <p class="card-text border-bottom border-dark pb-2 text-truncate">${tour.destination}</p>
                         <p class="card-text">${fn:substring(tour.description, 0, 81)}...</p>
                     </a>
-                    <div class="card-footer text-muted d-flex flex-row flex-wrap justify-content-between align-items-center">
+                    <div class="card-footer text-muted d-flex flex-row flex-wrap justify-content-between 
+                         align-items-center">
                         <c:if test="${tour.enabled}">
                             <a href="${link}&book=true" class="btn btn-primary">Book now</a>
                         </c:if>
@@ -58,6 +68,7 @@
         </div>
         <form action="home" method="POST" ${page.totalItems==0?'hidden':''}>
             <input type="hidden" min="1" name="index" value="${page.index}"> 
+            <input type="hidden" name="hiddenSearch" id="hiddenSearch"> 
             <nav class="mt-4">
                 <ul class="pagination justify-content-center">
                     <li class="page-item">
@@ -99,4 +110,26 @@
             </nav>
         </form>
     </body>
+    <script>
+//        function handleSearch(param){
+//            let search = param.value;
+//                $.ajax({
+//                    url: "/EasyTravel/home",
+//                    type: "get", //send it through get method
+//                    data: {
+//                        search: search
+//                    },
+//                    success: function (data) {
+//                        var deck = document.getElementById("deck");
+//                        deck.innerHTML = data;
+//                    },
+//                    error: function (xhr) {
+//                        //Do Something to handle error
+//                    }
+//                });
+//        };
+    function handleChange(param){
+        $("#hiddenSearch")[0].value=param.value;
+    }
+    </script>
 </html>

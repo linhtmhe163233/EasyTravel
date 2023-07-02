@@ -220,7 +220,7 @@
                                             <div class="modal-body mx-3">
                                                 <div class="md-form mb-2">
                                                     <label data-error="wrong" data-success="right" for="reason">
-                                                        Add reason
+                                                        Add reason(*)
                                                     </label>
                                                     <textarea class="form-control validate" 
                                                               id="reason" rows="3" name="reason" 

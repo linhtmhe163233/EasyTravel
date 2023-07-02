@@ -34,8 +34,8 @@ public class TourDAOImpl extends DBContext implements TourDAO {
     }
 
     @Override
-    public int getTotalItems() throws Exception {
-        String query = "select count(*) from tours";
+    public int getTotalItems(String search) throws Exception {
+        String query = "select count(*) from tours where name like ? or type like ? or destination like ?";
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -44,6 +44,9 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         try {
             conn = getConnection();
             ps = conn.prepareStatement(query);
+            ps.setString(1, "%"+search+"%");
+            ps.setString(2, "%"+search+"%");
+            ps.setString(3, "%"+search+"%");
             rs = ps.executeQuery();
             rs.next();
             return rs.getInt(1);
@@ -57,11 +60,12 @@ public class TourDAOImpl extends DBContext implements TourDAO {
     }
 
     @Override
-    public List<Tour> getPage(Pagination page) throws Exception {
+    public List<Tour> getPage(String search, Pagination page) throws Exception {
         closeOutdated();
         
         List<Tour> list = new ArrayList<>();
-        String query = "select * from tours order by id offset ? rows fetch next ? rows only";
+        String query = "select * from tours where name like ? or type like ? or destination like ? "
+                + "order by id offset ? rows fetch next ? rows only";
 
         int ID = 0;
         String name = null;
@@ -86,8 +90,11 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         try {
             conn = getConnection();
             ps = conn.prepareStatement(query);
-            ps.setInt(1, page.getOffset());
-            ps.setInt(2, page.getItemsPerPage());
+            ps.setString(1, "%"+search+"%");
+            ps.setString(2, "%"+search+"%");
+            ps.setString(3, "%"+search+"%");
+            ps.setInt(4, page.getOffset());
+            ps.setInt(5, page.getItemsPerPage());
 
             rs = ps.executeQuery();
 
@@ -119,7 +126,6 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         }
         return list;
     }
-
     @Override
     public List<Tour> getAll() throws Exception {
         List<Tour> list = new ArrayList<>();

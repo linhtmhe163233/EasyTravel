@@ -20,6 +20,9 @@
         <meta name="author" content="Group6">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/bootstrap.min.css">
+        <script src="js/jquery-3.7.0.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/AddNewTour.js"></script>
         <title>Easy Travel | Add tour</title>
     </head>
     <body>
@@ -35,7 +38,7 @@
             <input type="hidden" name="id" id="id" value="${requestScope.tour.id}">
             <div class="form-row">
                 <div class="form-group col-6">
-                    <label data-error="wrong" data-success="right" for="name">Tour name</label>
+                    <label data-error="wrong" data-success="right" for="name">Tour name(*)</label>
                     <input type="text" class="form-control validate" id="name" placeholder="Tour name" 
                            name="name" required maxlength="100" pattern="^\s*[\p{L}0-9]+(\s[\p{L}0-9]+)*\s*$"
                            value="${requestScope.tour.name}">
@@ -43,7 +46,7 @@
                     <div class="invalid-feedback">Name must be fewer than 100 letters and spaces and not empty!</div>
                 </div>
                 <div class="form-group col-6">
-                    <label data-error="wrong" data-success="right" for="destination">Destination</label>
+                    <label data-error="wrong" data-success="right" for="destination">Destination(*)</label>
                     <input type="text" class="form-control validate" id="destination" placeholder="Destination" 
                            name="destination" required maxlength="50" pattern="^\s*[\p{L}0-9]+(\s[\p{L}0-9]+)*\s*$"
                            value="${requestScope.tour.destination}">
@@ -53,7 +56,7 @@
             </div>
             <div class="form-row border-bottom border-info pb-3">
                 <div class="form-group col-6">
-                    <label  data-error="wrong" data-success="right" for="type">Type</label>
+                    <label  data-error="wrong" data-success="right" for="type">Type(*)</label>
                     <input type="text" class="form-control validate" id="type" placeholder="Tour type"
                            name="type" required maxlength="50" pattern="^\s*\p{L}+(\s\p{L}+)*\s*$"
                            value="${requestScope.tour.type}">
@@ -61,7 +64,7 @@
                     <div class="invalid-feedback">Type must be fewer than 50 letters and spaces and not empty!</div>
                 </div>
                 <div class="form-group col-6">
-                    <label  data-error="wrong" data-success="right" for="price">Price</label>
+                    <label  data-error="wrong" data-success="right" for="price">Price(*)</label>
                     <input type="number" class="form-control validate" id="price" placeholder="5,000,000" 
                            name="price" step=100000 required min="100000" value="${requestScope.tour.price}">
                     <div class="valid-feedback">Looks good!</div>
@@ -86,21 +89,21 @@
             </div>
             <div class="form-row border-bottom border-info pb-3">
                 <div class="form-group col-6">
-                    <label data-error="wrong" data-success="right" for="trip_length">Trip length (days)</label>
+                    <label data-error="wrong" data-success="right" for="trip_length">Trip length (days)(*)</label>
                     <input type="number" class="form-control" id="trip_length" placeholder="3" 
                            name="trip_length" required min="1" value="${requestScope.tour.tripLength}">
                     <div class="valid-feedback">Looks good!</div>
                     <div class="invalid-feedback">Enter a valid number!</div>
                 </div>
                 <div class="form-group col-6">
-                    <label data-error="wrong" data-success="right" for="max_quantity">Max number of passengers</label>
+                    <label data-error="wrong" data-success="right" for="max_quantity">Max number of passengers(*)</label>
                     <input type="number" class="form-control validate" id="max_quantity" placeholder="5" 
                            name="max_quantity" required min="1" value="${requestScope.tour.maxQuantity}">
                     <div class="valid-feedback">Looks good!</div>
                     <div class="invalid-feedback">Enter a valid number!</div>
                 </div>
             </div>
-            <p class="mt-3 mb-0">Image</p>
+            <p class="mt-3 mb-0">Image(*)</p>
             <div class="custom-file mb-3">
                 <input type="file" class="custom-file-input validate" id="image" name="image" required  
                        accept="image/*">
@@ -115,7 +118,7 @@
                 <img id="imageDisplay" class="img-fluid">
             </c:if>
             <div class="form-group mt-3 ">
-                <label data-error="wrong" data-success="right" for="description">Description</label>
+                <label data-error="wrong" data-success="right" for="description">Description(*)</label>
                 <textarea class="form-control validate" id="description" rows="3" 
                           name="description" required maxlength="300">${requestScope.tour.description}</textarea>
                 <div class="valid-feedback">Looks good!</div>
@@ -130,6 +133,4 @@
             </c:if>
         </form>
     </body>
-    <script src="js/AddNewTour.js"></script>
-    <script src="js/bootstrap.min.js"></script>
 </html>

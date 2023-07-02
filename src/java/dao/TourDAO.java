@@ -19,8 +19,8 @@ import utils.Pagination;
  * @author DucTM
  */
 public interface TourDAO extends BasicDAO<Tour> {
-    List<Tour> getPage(Pagination page) throws Exception;
-    int getTotalItems() throws Exception;
+    List<Tour> getPage(String search, Pagination page) throws Exception;
+    int getTotalItems(String search) throws Exception;
     void enable(int id) throws Exception;
     boolean checkAllBookingDone(int tourId) throws Exception;
     void closeOutdated() throws Exception;
