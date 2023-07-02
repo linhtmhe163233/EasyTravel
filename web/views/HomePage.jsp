@@ -23,7 +23,8 @@
     </head>
     <body>
         <c:import url="./Layout/Header.jsp"></c:import>
-            <div class="d-flex flex-wrap flex-row justify-content-start w-75 mx-auto mt-4" style="column-gap: 8.5rem; row-gap: 2rem">
+            <div class="d-flex flex-wrap flex-row justify-content-start w-75 mx-auto mt-4" 
+                 style="column-gap: 8.5rem; row-gap: 2rem">
             <c:forEach items="${list}" var="tour">
                 <div class="card rounded" style="width: 18rem;">
                     <c:set var="link" value="tour?id=${tour.id}"></c:set>
@@ -40,10 +41,9 @@
                         <p class="card-text border-bottom border-dark pb-2 text-truncate">${tour.destination}</p>
                         <p class="card-text">${fn:substring(tour.description, 0, 81)}...</p>
                     </a>
-
                     <div class="card-footer text-muted d-flex flex-row flex-wrap justify-content-between align-items-center">
                         <c:if test="${tour.enabled}">
-                            <a href="#" class="btn btn-primary">Book now</a>
+                            <a href="${link}&book=true" class="btn btn-primary">Book now</a>
                         </c:if>
                         <c:if test="${!tour.enabled}">
                             <button type="button" class="btn btn-danger disabled">Tour is closed!</button>

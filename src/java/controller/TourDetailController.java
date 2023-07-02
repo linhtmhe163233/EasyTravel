@@ -8,7 +8,6 @@
  */
 package controller;
 
-import dao.BasicDAO;
 import dao.FeedbackDAO;
 import dao.TourDAO;
 import dao.impl.FeedbackDAOImpl;
@@ -78,14 +77,12 @@ public class TourDetailController extends HttpServlet {
                 response.sendRedirect("home");
                 return;
             }
+            String book=request.getParameter("book");
+            request.setAttribute("book", book);
             int id = Integer.parseInt(idStr);
-//            List<FeedbackThread> listfb = daoo.get(id);
             List<Tour> list = dao.get(id);
             request.setAttribute("tour", list.get(0));
-//            request.setAttribute("feedback", listfb);
-
             int totalItems = daoo.getTotalItems(id);
-
             Object indexObj = request.getAttribute("index");
             int index;
             if (indexObj == null) {
@@ -93,13 +90,10 @@ public class TourDetailController extends HttpServlet {
             } else {
                 index = (int) indexObj;
             }
-
             Pagination page = new Pagination(totalItems, 10, index);
             List<FeedbackThread> listfb = daoo.getPage(page, id);
-
             request.setAttribute("page", page);
             request.setAttribute("listfb", listfb);
-
         } catch (Exception ex) {
             request.setAttribute("error", ex.getMessage());
             request.getRequestDispatcher("views/Error.jsp").forward(request, response);

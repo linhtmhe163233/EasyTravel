@@ -66,7 +66,8 @@
                             ${booking.touristsQuantity}
                         </div>
                         <div class="col-2 ${booking.status=='Processing'?'text-warning':
-                                     booking.status=='Ready'?'text-primary':'text-success'}">
+                                     booking.status=='Ready'?'text-primary':
+                                     booking.status=='Declined'?'text-danger':'text-success'}">
                             ${booking.status}
                         </div>
                     </div>
@@ -74,6 +75,10 @@
                         <div class="card-body row">
                             <div class="col-10">
                                 <b>Note: </b>${booking.note}
+                                <c:if test="${booking.reason!=null}">
+                                    <br>
+                                    <b>Reason for cancel:  </b>${booking.reason}
+                                </c:if>
                             </div>
                             <div class="col-2">
                                 <a href="tour?id=${booking.tourId}" class="btn btn-info">Go to tour</a>

@@ -13,9 +13,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <!--                <meta charset="UTF-8">
-                        <link rel="stylesheet" type="text/css" href="style.css">-->
-
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="description" content="EasyTravel">
         <meta name="keywords" content="travel">
@@ -25,50 +22,16 @@
         <script src="js/jquery-3.7.0.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
         <title>Easy Travel | Tour detail</title>
-
-        <!--        <style>
-                    *{
-                        margin: 0;
-                        padding: 0;
-                    }
-                    .rate {
-                        height: 46px;
-                        padding: 0 10px;
-                    }
-                    .rate:not(:checked) > input {
-                        position:absolute;
-                        top:-9999px;
-                    }
-                    .rate:not(:checked) > label {
-        /*                float:right;*/
-                        width:1em;
-                        overflow:hidden;
-                        white-space:nowrap;
-                        cursor:pointer;
-                        font-size:30px;
-                        color:#ccc;
-                    }
-                    .rate:not(:checked) > label:before {
-                        content: '★ ';
-                    }
-                    .rate > input:checked ~ label {
-                        color: #ffc700;
-                    </style>-->
-
         <style>
             .comment-box{
 
                 padding:5px;
             }
-
-
-
+            
             .comment-area textarea{
                 resize: none;
                 border: 1px solid #ad9f9f;
             }
-
-
             .form-control:focus {
                 color: #495057;
                 background-color: #fff;
@@ -128,10 +91,6 @@
             .rating:hover>input:checked~label:before {
                 opacity: 0.4
             }
-
-
-
-
         </style>
     </head>
     <body>
@@ -204,7 +163,7 @@
                     </form>
                 </c:if>
                 <c:if test="${sessionScope.user!=null && sessionScope.user.role=='Tourist'}">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalBookTour">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalBookTour" id="book">
                         Book
                     </button>
                     <div class="modal fade" id="modalBookTour" tabindex="-1" role="dialog">
@@ -431,5 +390,7 @@
         startDate.min = new Date().addDays(3).toISOString().split("T")[0];
         startDate.valueAsDate = new Date().addDays(3);
         startDate.max = new Date('${tour.availableTo}').addDays(3);
+        if(${book})
+            $('#book').click();
     </script>
 </html>

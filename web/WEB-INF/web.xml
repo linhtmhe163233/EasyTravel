@@ -92,6 +92,10 @@
         <servlet-name>BookingListController</servlet-name>
         <servlet-class>controller.BookingListController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HandleBookingController</servlet-name>
+        <servlet-class>controller.HandleBookingController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -183,6 +187,10 @@
     <servlet-mapping>
         <servlet-name>BookingListController</servlet-name>
         <url-pattern>/bookinglist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HandleBookingController</servlet-name>
+        <url-pattern>/handlebooking</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

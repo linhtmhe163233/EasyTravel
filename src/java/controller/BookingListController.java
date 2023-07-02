@@ -8,12 +8,21 @@
  */
 package controller;
 
+import dao.BasicDAO;
 import dao.BookingDAO;
+import dao.StaffDAO;
 import dao.impl.BookingDAOImpl;
+import dao.impl.HotelDAOImpl;
+//import dao.impl.RestaurantDAOlmpl;
+import dao.impl.StaffDAOImpl;
+import dao.impl.VehicleDAOImpl;
 import entity.Booking;
+import entity.Hotel;
+//import entity.Restaurant;
+import entity.Staff;
 import entity.User;
+import entity.Vehicle;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,33 +35,7 @@ import utils.Pagination;
  * @author tranm
  */
 public class BookingListController extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet BookingListController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet BookingListController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -76,9 +59,22 @@ public class BookingListController extends HttpServlet {
             } else {
                 index = (int) indexObj;
             }
+            BasicDAO basicDao = new VehicleDAOImpl();
+            List<Vehicle> listVehicles = basicDao.getAll();
+            basicDao=new HotelDAOImpl();
+            List<Hotel> listHotels = basicDao.getAll();
+//            basicDao=new RestaurantDAOlmpl();
+//            List<Restaurant> listRestaurants = basicDao.getAll();
+            StaffDAO sDao = new StaffDAOImpl();
+            List<Staff> listStaff = sDao.getPageByAgent(agentId, new Pagination(sDao.getTotalItems(agentId), 100000, 1));
             Pagination page = new Pagination(totalItems, 10, index);
             List<Booking> list = dao.getBookingList(agentId, page);
+            
             request.setAttribute("list", list);
+            request.setAttribute("vehicles", listVehicles);
+            request.setAttribute("hotels", listHotels);
+//            request.setAttribute("restaurants", listRestaurants);
+            request.setAttribute("staff", listStaff);
             request.setAttribute("page", page);
             request.getRequestDispatcher("views/TravelAgent/BookingList.jsp").forward(request, response);
         } catch (Exception e) {
