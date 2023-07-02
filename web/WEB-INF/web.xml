@@ -89,6 +89,14 @@
         <servlet-class>controller.TourHistoryController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>BookingListController</servlet-name>
+        <servlet-class>controller.BookingListController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HandleBookingController</servlet-name>
+        <servlet-class>controller.HandleBookingController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>FeedbackController</servlet-name>
         <servlet-class>controller.FeedbackController</servlet-class>
     </servlet>
@@ -179,6 +187,14 @@
     <servlet-mapping>
         <servlet-name>TourHistoryController</servlet-name>
         <url-pattern>/history</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BookingListController</servlet-name>
+        <url-pattern>/bookinglist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HandleBookingController</servlet-name>
+        <url-pattern>/handlebooking</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>FeedbackController</servlet-name>

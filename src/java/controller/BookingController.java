@@ -87,7 +87,7 @@ public class BookingController extends HttpServlet {
         Date startDate = Date.valueOf(request.getParameter("startDate"));
         int touristsQuantity = Integer.parseInt(request.getParameter("touristsQuantity"));
         String status = "Processing";
-        String note = request.getParameter("note");
+        String note = request.getParameter("note").trim();
         
         Booking booking = new Booking(touristId, tourId, bookTime, startDate, touristsQuantity, status, note);
         try {

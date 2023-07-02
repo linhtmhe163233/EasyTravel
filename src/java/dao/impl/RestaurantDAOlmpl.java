@@ -68,14 +68,32 @@ public class RestaurantDAOlmpl extends DBContext implements BasicDAO<Restaurant>
         }
         return list;
     }
+
     @Override
     public List<Restaurant> getAll() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
-    public List<Restaurant> get(int id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public CustomRestaurant getDetail(int id) throws Exception {
+        String query = "select * from restaurants where id = " + id;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            DBContext db = new DBContext();
+            ps = db.getConnection().prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                 CustomRestaurant v = new CustomRestaurant(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getInt(5));
+                return v;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
+        return null;
+        
+        
     }
 
     @Override
@@ -99,21 +117,81 @@ public class RestaurantDAOlmpl extends DBContext implements BasicDAO<Restaurant>
         }
     }
 
-    @Override
-    public void update(Restaurant t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void update(String type, String table, String phone, String tid) throws Exception {
+        String query = "UPDATE [dbo].[restaurants]\n"
+                + "   SET [type] = ?\n"
+                + "      ,[table_available] = ?\n"
+                + "      ,[phone] = ?\n"
+                + " WHERE id = " + tid;
+
+        PreparedStatement ps = null;
+
+        try {
+            DBContext db = new DBContext();
+            ps = db.getConnection().prepareStatement(query);
+            ps.setString(1, type);
+            ps.setString(2, table);
+            ps.setString(3, phone);
+            ps.executeUpdate();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
-    @Override
-    public void delete(Restaurant t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void delete(int tid) throws Exception {
+        String query = "Delete [restaurants]  where id =" + tid;
+
+        PreparedStatement ps = null;
+
+        try {
+            DBContext db = new DBContext();
+            ps = db.getConnection().prepareStatement(query);
+            ps.executeUpdate();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
     public List<Restaurant> search(String keyword) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
+    public void add(String type, String table, String phone, int aId) {
+        String query = "INSERT INTO [dbo].[restaurants]   ([type] ,[table_available] ,[phone],[agent_id])\n"
+                + "     VALUES (?,?,?,?)";
+
+        PreparedStatement ps = null;
+
+        try {
+            DBContext db = new DBContext();
+            ps = db.getConnection().prepareStatement(query);
+            ps.setString(1, type);
+            ps.setString(2, table);
+            ps.setString(3, phone);
+            ps.setInt(4, aId);
+
+            ps.executeUpdate();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void update(Restaurant t) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void delete(Restaurant t) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Restaurant> get(int id) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
-
-

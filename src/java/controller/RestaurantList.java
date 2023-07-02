@@ -7,9 +7,7 @@ package controller;
 
 import dao.impl.RestaurantDAOlmpl;
 import entity.CustomRestaurant;
-import entity.Restaurant;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;

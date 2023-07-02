@@ -93,6 +93,7 @@ public class AccessFilter implements Filter {
      * @exception IOException if an input/output error occurs
      * @exception ServletException if a servlet error occurs
      */
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain)
 	throws IOException, ServletException {
@@ -105,12 +106,11 @@ public class AccessFilter implements Filter {
 	try {
 	    chain.doFilter(request, response);
 	}
-	catch(Throwable t) {
+	catch(ServletException | IOException t) {
 	    // If an exception is thrown somewhere down the filter chain,
 	    // we still want to execute our after processing, and then
 	    // rethrow the problem after that.
 	    problem = t;
-	    t.printStackTrace();
 	}
 
 	doAfterProcessing(request, response);
@@ -126,6 +126,7 @@ public class AccessFilter implements Filter {
     
     /**
      * Return the filter configuration object for this filter.
+     * @return 
      */
     public FilterConfig getFilterConfig() {
 	return (this.filterConfig);
@@ -143,12 +144,15 @@ public class AccessFilter implements Filter {
     /**
      * Destroy method for this filter 
      */
+    @Override
     public void destroy() { 
     }
 
     /**
      * Init method for this filter 
+     * @param filterConfig
      */
+    @Override
     public void init(FilterConfig filterConfig) { 
 	this.filterConfig = filterConfig;
 	if (filterConfig != null) {
@@ -164,7 +168,7 @@ public class AccessFilter implements Filter {
     @Override
     public String toString() {
 	if (filterConfig == null) return ("AccessFilter()");
-	StringBuffer sb = new StringBuffer("AccessFilter(");
+	StringBuilder sb = new StringBuilder("AccessFilter(");
 	sb.append(filterConfig);
 	sb.append(")");
 	return (sb.toString());
@@ -176,28 +180,26 @@ public class AccessFilter implements Filter {
 	if(stackTrace != null && !stackTrace.equals("")) {
 	    try {
 		response.setContentType("text/html");
-		PrintStream ps = new PrintStream(response.getOutputStream());
-		PrintWriter pw = new PrintWriter(ps); 
-		pw.print("<html>\n<head>\n<title>Error</title>\n</head>\n<body>\n"); //NOI18N
-		    
-		// PENDING! Localize this for next official release
-		pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n"); 
-		pw.print(stackTrace); 
-		pw.print("</pre></body>\n</html>"); //NOI18N
-		pw.close();
-		ps.close();
+                try (PrintStream ps = new PrintStream(response.getOutputStream()); PrintWriter pw = new PrintWriter(ps)) {
+                    pw.print("<html>\n<head>\n<title>Error</title>\n</head>\n<body>\n"); //NOI18N
+                    
+                    // PENDING! Localize this for next official release
+                    pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");
+                    pw.print(stackTrace);
+                    pw.print("</pre></body>\n</html>"); //NOI18N
+                }
 		response.getOutputStream().close();
 	    }
-	    catch(Exception ex) {}
+	    catch(IOException ex) {}
 	}
 	else {
 	    try {
-		PrintStream ps = new PrintStream(response.getOutputStream());
-		t.printStackTrace(ps);
-		ps.close();
+                try (PrintStream ps = new PrintStream(response.getOutputStream())) {
+                    t.printStackTrace(ps);
+                }
 		response.getOutputStream().close();
 	    }
-	    catch(Exception ex) {}
+	    catch(IOException ex) {}
 	}
     }
 
@@ -211,7 +213,7 @@ public class AccessFilter implements Filter {
 	    sw.close();
 	    stackTrace = sw.getBuffer().toString();
 	}
-	catch(Exception ex) {}
+	catch(IOException ex) {}
 	return stackTrace;
     }
 

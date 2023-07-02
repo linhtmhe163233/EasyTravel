@@ -17,8 +17,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import entity.Vehicle;
 
 /**
@@ -43,7 +41,8 @@ public class VehicleDAOImpl extends DBContext implements BasicDAO<Vehicle> {
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Vehicle v = new Vehicle(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6));
+                Vehicle v = new Vehicle(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), 
+                        rs.getInt(5), rs.getInt(6));
                 list.add(v);
             }
         } catch (SQLException ex) {

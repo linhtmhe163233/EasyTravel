@@ -79,7 +79,6 @@ function loadURLToInputFiled(url) {
 if (id.value.length !== 0) {
     loadURLToInputFiled(imageDisplay.src);
 }
-console.log();
 (function () {
     'use strict';
     window.addEventListener('load', function () {

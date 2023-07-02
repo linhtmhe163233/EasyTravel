@@ -18,5 +18,6 @@ import utils.Pagination;
  */
 public interface BookingDAO extends BasicDAO<Booking> {
     List<Booking> getTourHistory(int touristId, Pagination page) throws Exception;
-    int getTotalHistoryItems(int touristId) throws Exception;
+    List<Booking> getBookingList(int agentId, Pagination page) throws Exception;
+    int getTotalItems(int searchBy, String type) throws Exception;
 }

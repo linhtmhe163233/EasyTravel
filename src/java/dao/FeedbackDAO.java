@@ -16,5 +16,5 @@ import utils.Pagination;
 public interface FeedbackDAO extends BasicDAO<FeedbackThread> {
      List<FeedbackThread> getPage(Pagination page,int tourID) throws Exception;
     int getTotalItems(int tourID) throws Exception;
-    Booking checkDone(int touristID, int tourID) throws Exception;
+    boolean checkDone(int touristID, int tourID) throws Exception;
 }

@@ -113,9 +113,9 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
 //            System.out.println(ud.get(1));
 
 //            ud.getPage(new Pagination(2,10,1),1);
-            List<FeedbackThread> a = ud.getPage(new Pagination(2, 10, 1), 1);
-           
-
+//            List<FeedbackThread> a = ud.getPage(new Pagination(2, 10, 1), 1);
+            boolean b = ud.checkDone(4, 2);
+            System.out.println(b);
 //            System.out.println(a.get(0));
 //
 //            System.out.println(ud.getTotalItems(1));
@@ -212,38 +212,33 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
             closeConnection(conn);
         }
     }
-    
-   public Booking checkDone(int touristID, int tourID) throws Exception {
-        Connection conn = super.getConnection();
-        String sql = "SELECT * FROM booking WHERE status='done' and tourist_id =? and tour_id = ?";
 
+    public boolean checkDone(int touristID, int tourID) throws Exception {
+//        Connection conn = super.getConnection();
+        String sql = "SELECT COUNT(*) FROM booking WHERE status='done' and tourist_id =? and tour_id = ?";
+
+        Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
+            conn = getConnection();
             ps = conn.prepareStatement(sql);
             ps.setInt(1, touristID);
             ps.setInt(2, tourID);
 
             rs = ps.executeQuery();
-            while (rs.next()) {
-                return new Booking(
-                        rs.getInt(1),
-                        rs.getInt(2),
-                        rs.getInt(3),
-                        rs.getTimestamp(4),
-                        rs.getDate(5),
-                        rs.getInt(6),
-                        rs.getString(7),
-                        rs.getString(8));
-         
-            }
+            rs.next();
+            return rs.getInt(1) == 0;
+
         } catch (SQLException e) {
             throw new Exception("Unable to get data from database");
         } finally {
-            super.close(conn, ps, rs);
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
         }
-        return null;
+
     }
 
 }
