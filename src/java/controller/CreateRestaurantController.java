@@ -5,6 +5,7 @@
  */
 package controller;
 
+//import dao.impl.RestaurantDAOlmpl;
 import dao.impl.RestaurantDAOlmpl;
 import entity.User;
 import java.io.IOException;
@@ -14,14 +15,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Admin
  */
-public class EditRestau extends HttpServlet {
+public class CreateRestaurantController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +39,10 @@ public class EditRestau extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EditRestau</title>");
+            out.println("<title>Servlet CreateRestaurant</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet EditRestau at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CreateRestaurant at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,13 +60,7 @@ public class EditRestau extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            request.setAttribute("a", new RestaurantDAOlmpl().getDetail(Integer.valueOf(request.getParameter("rid"))));
-            request.getRequestDispatcher("views/TravelAgent/EditRestau.jsp").forward(request, response);
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        request.getRequestDispatcher("views/TravelAgent/CreateRestaurant.jsp").forward(request, response);
     }
 
     /**
@@ -81,28 +74,26 @@ public class EditRestau extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            String type = request.getParameter("type");
-            String phone = request.getParameter("phone");
-            String table = request.getParameter("table");
-            String rid = request.getParameter("rid");
-            request.setAttribute("type", type);
-            request.setAttribute("phone", phone);
-            request.setAttribute("table", table);
-            if (phone.charAt(0) != '0' || !phone.matches("^[0-9]*$")) {
-                request.setAttribute("msg", "Phone must start with 0 and only number character");
+        String type = request.getParameter("type");
+        String phone = request.getParameter("phone");
+        String table = request.getParameter("table");
+        HttpSession session = request.getSession();
+        User u = (User) session.getAttribute("user");
+        int name = u.getId();
+        request.setAttribute("type", type);
+        request.setAttribute("phone", phone);
+        request.setAttribute("name", name);
+        request.setAttribute("table", table);
+        if (phone.charAt(0) != '0' || !phone.matches("^[0-9]*$")) {
+            request.setAttribute("msg", "Phone must start with 0 and only number character");
 
-                request.getRequestDispatcher("views/TravelAgent/EditRestau.jsp").forward(request, response);
+            request.getRequestDispatcher("views/TravelAgent/CreateRestaurant.jsp").forward(request, response);
 
-            } else {
-                new RestaurantDAOlmpl().update(type, table, phone, rid);
+        } else {
+            new RestaurantDAOlmpl().add(type, table, phone, name);
 
-                response.sendRedirect("RestaurantList");
-            }
-        } catch (Exception e) {
-            response.getWriter().print(e);
+            response.sendRedirect("RestaurantList");
         }
-
     }
 
     /**
