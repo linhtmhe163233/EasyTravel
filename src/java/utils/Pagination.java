@@ -33,8 +33,8 @@ public class Pagination {
         this.itemsPerPage = itemsPerPage < 1 ? 1 : itemsPerPage;
         totalPage = (totalItems + itemsPerPage - 1) / itemsPerPage;
         this.index = index < 1 ? 1 : index > totalPage ? totalPage : index;
-        offset = itemsPerPage * (index - 1);
-        pageStart = index - 1;
+        this.offset = this.itemsPerPage * (this.index - 1);
+        pageStart = this.index - 1;
         if (index < 3 || totalPage == 4) {
             pageStart = 2;
         }

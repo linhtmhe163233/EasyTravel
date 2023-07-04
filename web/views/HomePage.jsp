@@ -25,10 +25,10 @@
     </head>
     <body>
         <c:import url="./Layout/Header.jsp"></c:import>
-        <div class="d-flex justify-content-end mr-5 mt-3">
-            <form class="form-inline my-2 my-lg-0" action="home" method="get">
-                <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
-                       id="search" value="${param.search}" oninput="handleChange(this)">
+            <div class="d-flex justify-content-end mr-5 mt-3">
+                <form class="form-inline my-2 my-lg-0" action="home" method="get">
+                    <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                           id="search" value="${param.search}">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
@@ -50,7 +50,7 @@
                         <p class="card-text border-bottom border-dark pb-2 text-truncate">${tour.destination}</p>
                         <p class="card-text">${fn:substring(tour.description, 0, 81)}...</p>
                     </a>
-                    <div class="card-footer text-muted d-flex flex-row flex-wrap justify-content-between 
+                    <div class="card-footer text-muted d-flex flex-row flex-wrap justify-content-between
                          align-items-center">
                         <c:if test="${tour.enabled}">
                             <a href="${link}&book=true" class="btn btn-primary">Book now</a>
@@ -66,49 +66,43 @@
                 </div>
             </c:forEach>
         </div>
-        <form action="home" method="POST" ${page.totalItems==0?'hidden':''}>
-            <input type="hidden" min="1" name="index" value="${page.index}"> 
-            <input type="hidden" name="hiddenSearch" id="hiddenSearch"> 
-            <nav class="mt-4">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                        <button type="submit" class="page-link" name="Prev" ${page.index==1?"hidden":""}>
-                            <
-                        </button>
-                    </li>
-                    <li class="page-item ${page.index==1?"active":""}">
-                        <button type="submit" class="page-link" name="first">1</button>
-                    </li>
-                    <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
-                        <span class="page-link">...</span>
-                    </li>
-                    <c:if test="${page.totalPage>2}">
-                        <c:forEach var="p" begin="${page.pageStart}" end="${page.pageEnd}">
-                            <li class="page-item ${page.index==p?"active":""}">
-                                <button type="submit" class="page-link" value="${p}" name="btnIdx">
-                                    ${p}
-                                </button>
-                            </li>
-                        </c:forEach>
-                    </c:if>
-                    <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
-                        <span class="page-link">...</span>
-                    </li>
-                    <li class="page-item ${page.index==page.totalPage?"active":""}" ${page.totalPage==1?"hidden":""}>
-                        <button type="submit" class="page-link"
-                                name="last" value="${page.totalPage}">
-                            ${page.totalPage}
-                        </button>
-                    </li>
-                    <li class="page-item">
-                        <button type="submit" class="page-link" name="Next" 
-                                ${page.index==page.totalPage?"hidden":""}>
-                            >
-                        </button>
-                    </li>
-                </ul>
-            </nav>
-        </form>
+        <nav class="mt-4" ${page.totalItems==0?'hidden':''}>
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" href="home?index=${page.index-1}" ${page.index==1?"hidden":""}>
+                        <
+                    </a>
+                </li>
+                <li class="page-item ${page.index==1?"active":""}">
+                    <a class="page-link" href="home?index=1">1</a>
+                </li>
+                <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
+                    <span class="page-link">...</span>
+                </li>
+                <c:if test="${page.totalPage>2}">
+                    <c:forEach var="p" begin="${page.pageStart}" end="${page.pageEnd}">
+                        <li class="page-item ${page.index==p?"active":""}">
+                            <a class="page-link" href="home?index=${p}">
+                                ${p}
+                            </a>
+                        </li>
+                    </c:forEach>
+                </c:if>
+                <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
+                    <span class="page-link">...</span>
+                </li>
+                <li class="page-item ${page.index==page.totalPage?"active":""}" ${page.totalPage==1?"hidden":""}>
+                    <a class="page-link" href="home?index=${page.totalPage}">
+                        ${page.totalPage}
+                    </a>
+                </li>
+                <li class="page-item" ${page.index==page.totalPage?"hidden":""}>
+                    <a class="page-link" href="home?index=${page.index+1}">
+                        >
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </body>
     <script>
 //        function handleSearch(param){
@@ -128,8 +122,9 @@
 //                    }
 //                });
 //        };
-    function handleChange(param){
-        $("#hiddenSearch")[0].value=param.value;
-    }
+        
+        $('a.page-link').click((e)=>{
+            e.target.href+='&search='+$('#search')[0].value;
+        });
     </script>
 </html>
