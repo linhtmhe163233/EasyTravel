@@ -4,7 +4,6 @@
  */
 package dao;
 
-import entity.Booking;
 import entity.FeedbackThread;
 import java.util.List;
 import utils.Pagination;

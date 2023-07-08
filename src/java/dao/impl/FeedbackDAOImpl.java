@@ -5,7 +5,6 @@
 package dao.impl;
 
 import dao.FeedbackDAO;
-import entity.Booking;
 import entity.FeedbackThread;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -108,18 +107,7 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
 
     public static void main(String[] args) {
         try {
-//            User u = new User(2, "agent_demo", "123456", "Nguyen Van Ban", Date.valueOf("2003-01-01"), "ANV345@gmail.com", "0123456781", "Travel Agent", "Active", null);
-            FeedbackDAOImpl ud = new FeedbackDAOImpl();
-//            System.out.println(ud.get(1));
-
-//            ud.getPage(new Pagination(2,10,1),1);
-//            List<FeedbackThread> a = ud.getPage(new Pagination(2, 10, 1), 1);
-            boolean b = ud.checkDone(4, 2);
-            System.out.println(b);
-//            System.out.println(a.get(0));
-//
-//            System.out.println(ud.getTotalItems(1));
-//            ud.update(u);
+            FeedbackDAOImpl dao = new FeedbackDAOImpl();
         } catch (Exception ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -140,7 +128,7 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
         List<FeedbackThread> list = new ArrayList<>();
         String query = "SELECT feedback_threads.id, rating, content, tourist_id, time, full_name \n"
                 + " FROM feedback_threads\n"
-                + " FULL OUTER JOIN users\n"
+                + " JOIN users\n"
                 + " ON feedback_threads.tourist_id = users.id \n"
                 + " where tour_id = ? order by feedback_threads.time desc offset ? rows fetch next ? rows only";
         int id;
@@ -162,7 +150,6 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
             ps.setInt(1, tourID);
             ps.setInt(2, page.getOffset());
             ps.setInt(3, page.getItemsPerPage());
-
             rs = ps.executeQuery();
             while (rs.next()) {
                 id = rs.getInt("id");
@@ -176,6 +163,7 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
 
                 list.add(feedback);
             }
+
         } catch (SQLException ex) {
             throw new Exception("Unable to get data from database");
         } finally {
@@ -200,10 +188,8 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
             ps = conn.prepareStatement(query);
             ps.setInt(1, tourID);
             rs = ps.executeQuery();
-
             rs.next();
             return rs.getInt(1);
-
         } catch (Exception e) {
             throw new Exception("Unable to get data from database");
         } finally {
@@ -213,6 +199,7 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
         }
     }
 
+    @Override
     public boolean checkDone(int touristID, int tourID) throws Exception {
 //        Connection conn = super.getConnection();
         String sql = "SELECT COUNT(*) FROM booking WHERE status='done' and tourist_id =? and tour_id = ?";

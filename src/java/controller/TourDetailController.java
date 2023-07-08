@@ -68,7 +68,6 @@ public class TourDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         try {
             FeedbackDAO daoo = new FeedbackDAOImpl();
             TourDAO dao = new TourDAOImpl();

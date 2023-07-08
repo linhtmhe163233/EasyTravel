@@ -32,6 +32,7 @@ public class Pagination {
         this.totalItems = totalItems < 0 ? 0 : totalItems;
         this.itemsPerPage = itemsPerPage < 1 ? 1 : itemsPerPage;
         totalPage = (totalItems + itemsPerPage - 1) / itemsPerPage;
+        totalPage = totalPage < 1 ? 1 : totalPage;
         this.index = index < 1 ? 1 : index > totalPage ? totalPage : index;
         this.offset = this.itemsPerPage * (this.index - 1);
         pageStart = this.index - 1;
