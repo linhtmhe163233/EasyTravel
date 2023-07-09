@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <filter>
+        <filter-name>AccessFilter</filter-name>
+        <filter-class>filter.AccessFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AccessFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>HomeController</servlet-name>
         <servlet-class>controller.HomeController</servlet-class>
@@ -44,7 +52,7 @@
         <servlet-name>LogoutController</servlet-name>
         <servlet-class>controller.LogoutController</servlet-class>
     </servlet>
-     <servlet>
+    <servlet>
         <servlet-name>CreateRestaurantController</servlet-name>
         <servlet-class>controller.CreateRestaurantController</servlet-class>
     </servlet>
@@ -116,7 +124,7 @@
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/home</url-pattern>
     </servlet-mapping>
-     <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>CreateRestaurantController</servlet-name>
         <url-pattern>/CreateRestaurant</url-pattern>
     </servlet-mapping>
@@ -128,7 +136,6 @@
         <servlet-name>EditRestaurantController</servlet-name>
         <url-pattern>/EditRestau</url-pattern>
     </servlet-mapping>
-
     <servlet-mapping>
         <servlet-name>HotelController</servlet-name>
         <url-pattern>/hotels</url-pattern>
@@ -168,10 +175,6 @@
     <servlet-mapping>
         <servlet-name>LogoutController</servlet-name>
         <url-pattern>/logout</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>MainController</servlet-name>
-        <url-pattern>/landing</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ProfileController</servlet-name>

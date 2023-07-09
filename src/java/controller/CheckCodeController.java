@@ -4,53 +4,18 @@
  */
 package controller;
 
-import dao.BasicDAO;
-import dao.UserDAO;
-import dao.impl.UserDaoImpl;
-import entity.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.sql.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author My Laptop
  */
 public class CheckCodeController extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet NewPasswordController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet NewPasswordController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -64,24 +29,6 @@ public class CheckCodeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        String key = request.getParameter("key");
-//        try {
-//            UserDAO dao = new UserDaoImpl();
-//            User user = dao.checkKey(key);
-//            if (user == null) {
-//                request.getRequestDispatcher("views/LandingPage.jsp").forward(request, response);
-//            } else {
-//
-////                user.setKey(String.valueOf(System.currentTimeMillis()) + Math.random() % 1000 + System.currentTimeMillis());
-////                dao.update(user);
-//                HttpSession session = request.getSession();
-//                session.setAttribute("user", user);
-//            }
-//
-//        } catch (Exception ex) {
-//            Logger.getLogger(ChangepasswordController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
         request.getRequestDispatcher("views/CheckCode.jsp").forward(request, response);
     }
 
@@ -98,62 +45,15 @@ public class CheckCodeController extends HttpServlet {
             throws ServletException, IOException {
         String code = request.getParameter("code");
         HttpSession session = request.getSession();
-        String key =(String) session.getAttribute("key");
-        String email =(String) session.getAttribute("email");
-        String mess="";
-       
-        if(code.equals(key.substring(0,6))){
+        String key = (String) session.getAttribute("key");
+        String mess = "";
+        if (code.equals(key.substring(0, 6))) {
             response.sendRedirect("newpassword");
-        }else{
-                mess="Wrong code !!!";
-                request.setAttribute("mess", mess);
-                
-                doGet(request, response);
-                
-            }
-        
-        
-        
-//        HttpSession session = request.getSession();
-//        User acc = (User) session.getAttribute("user");
-//
-//        String mess = "";
-//        String password = request.getParameter("password").trim();
-//        String cfpassword = request.getParameter("cfpassword").trim();
-//        String code = request.getParameter("code").trim();
-//        
-//
-//        String username = acc.getUsername();
-//        String fullname = acc.getFullname();
-//
-//        String email = acc.getEmail();
-//        String phone = acc.getPhone();
-//        String role = acc.getRole();
-//        String status = acc.getStatus();
-//        String key = acc.getKey();
-//        Date dob = acc.getDob();
-//        int id = acc.getId();
-//        if (cfpassword.equals(password)) {
-//
-//            getServletContext().log(username + fullname + password + email + phone + role + status + key + dob + id);
-//            try {
-//                UserDAO dao = new UserDaoImpl();
-//
-//                User user = new User(id, username, password, fullname, dob, email, phone, role, status, key);
-//                dao.update(user);
-//                session.removeAttribute("user");
-//                session.setAttribute("user", user);
-//            } catch (Exception ex) {
-//            }
-//        } else {
-//            mess = "Confirm the password and the new password is not the same";
-//            request.setAttribute("mess", mess);
-//
-//            request.getRequestDispatcher("views/CheckCode.jsp").forward(request, response);
-//
-//        }
-//        doGet(request, response);
-
+        } else {
+            mess = "Wrong code !!!";
+            request.setAttribute("mess", mess);
+            doGet(request, response);
+        }
     }
 
     /**

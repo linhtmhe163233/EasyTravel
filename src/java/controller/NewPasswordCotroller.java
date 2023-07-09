@@ -8,7 +8,6 @@ import dao.UserDAO;
 import dao.impl.UserDaoImpl;
 import entity.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,32 +21,6 @@ import java.util.logging.Logger;
  * @author My Laptop
  */
 public class NewPasswordCotroller extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet NewPasswordCotroller</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet NewPasswordCotroller at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -85,10 +58,8 @@ public class NewPasswordCotroller extends HttpServlet {
             UserDAO dao = new UserDaoImpl();
             User user = dao.checkEmail(email);
             if (password.equals(cfpassword)) {
-
                 user.setPassword(password);
                 dao.update(user);
-
                 session.removeAttribute("key");
                 session.removeAttribute("email");
                 session.setAttribute("user", user);
@@ -96,7 +67,7 @@ public class NewPasswordCotroller extends HttpServlet {
             } else {
                 mess = "Confirm the password and the new password is not the same";
                 request.setAttribute("mess", mess);
-                request.getRequestDispatcher("views/NewPassword.jsp").forward(request, response);
+                doGet(request, response);
             }
         } catch (Exception ex) {
             Logger.getLogger(NewPasswordCotroller.class.getName()).log(Level.SEVERE, null, ex);
