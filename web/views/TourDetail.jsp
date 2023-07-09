@@ -163,7 +163,9 @@
                         </c:if>
                     </form>
                 </c:if>
-                <c:if test="${sessionScope.user!=null && sessionScope.user.role=='Tourist'}">
+                <c:if test="${sessionScope.user!=null 
+                              && sessionScope.user.role=='Tourist'
+                              && tour.enabled}">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalBookTour" id="book">
                         Book
                     </button>

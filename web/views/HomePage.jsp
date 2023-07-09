@@ -37,9 +37,6 @@
             <c:forEach items="${list}" var="tour">
                 <div class="card rounded" style="width: 18rem;">
                     <c:set var="link" value="tour?id=${tour.id}"></c:set>
-                    <c:if test="${!tour.enabled && sessionScope.user.role =='Tourist'}">
-                        <c:set var="link" value="#"></c:set>
-                    </c:if>
                     <a href="${link}" data-toggle="tooltip" data-placement="top" title="Click to see details">
                         <img class="card-img-top border-bottom border-dark pb-4 rounded-top img-fluid"  
                              src="./images/${tour.image}" alt="${tour.name}" style="max-height: 216px">
