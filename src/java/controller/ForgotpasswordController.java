@@ -8,15 +8,11 @@ import dao.UserDAO;
 import dao.impl.UserDaoImpl;
 import entity.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import utils.Mail;
 
 /**
@@ -24,33 +20,6 @@ import utils.Mail;
  * @author My Laptop
  */
 public class ForgotpasswordController extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ForgotpasswordController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ForgotpasswordController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -78,37 +47,26 @@ public class ForgotpasswordController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String email = request.getParameter("email").trim();
-
         String mess;
-
         try {
-//            DAO dao = new UserDao(); 
-//            User u = dao.checkLogin(username,password);
             UserDAO dao = new UserDaoImpl();
             User user = dao.checkEmail(email);
-
-          
-
             if (user == null) {
                 mess = "Email does not exist";
                 request.setAttribute("mess", mess);
                 doGet(request, response);
-
             } else {
                 String key = user.getKey();
-                String link = "http://localhost:9999/EasyTravel/newpassword";
                 Mail mail = new Mail();
-
-                String contextPath = "http://localhost:9999/EasyTravel/"; //request.getContextPath()
                 mail.sentEmail(email, "Easy Travel forgot password email:", key ,"code");
-
                 HttpSession session = request.getSession();
                 session.setAttribute("email", email);
                 session.setAttribute("key", key);
                 response.sendRedirect("checkcode");
             }
         } catch (Exception ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", ex.getMessage());
+            request.getRequestDispatcher("views/Error.jsp").forward(request, response);
         }
     }
 
