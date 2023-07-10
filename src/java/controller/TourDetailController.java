@@ -14,12 +14,14 @@ import dao.impl.FeedbackDAOImpl;
 import dao.impl.TourDAOImpl;
 import entity.FeedbackThread;
 import entity.Tour;
+import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import utils.Pagination;
 
@@ -76,10 +78,18 @@ public class TourDetailController extends HttpServlet {
                 response.sendRedirect("home");
                 return;
             }
-            String book=request.getParameter("book");
+            String book = request.getParameter("book");
             request.setAttribute("book", book);
             int id = Integer.parseInt(idStr);
             List<Tour> list = dao.get(id);
+            HttpSession session = request.getSession();
+            User acc = (User) session.getAttribute("user");
+            int touristID = -1;
+            if (acc != null) {
+                touristID = acc.getId();
+            }
+            boolean checkFeedback = daoo.checkDone(touristID, id);
+            request.setAttribute("checkFeedback", checkFeedback);
             request.setAttribute("tour", list.get(0));
             int totalItems = daoo.getTotalItems(id);
             Object indexObj = request.getAttribute("index");

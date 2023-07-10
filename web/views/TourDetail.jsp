@@ -117,11 +117,13 @@
                 background-color: white;
                 border-radius: 4px;
                 box-shadow: 10px 10px 5px #aaaaaa;
+                 margin-left:4px;
             }
             .text1{
                 font-size: 15px;
                 font-weight: 500;
                 color: #56575b;
+                margin-left:10px;
             }
             .text2{
                 font-size: 13px;
@@ -144,6 +146,7 @@
                 font-size: 20px;
                 font-weight: 500;
                 color:black;
+                margin-left:10px;
             }
             .text4i{
                 color: #00a5f4;
@@ -319,7 +322,7 @@
                 <p style="color:red">${mess}</p>   
 
                 <div>
-                    <c:if test="${sessionScope.user!=null}">
+                    <c:if test="${checkFeedback}">
                         <div class="comment-box ml-2 w-75 mx-auto">
 
                             <!--                <h4>Add a comment</h4>-->
@@ -327,7 +330,7 @@
                             <div class="rating"> 
                                 <input type="radio" name="rating" value="5" id="5" required><label for="5">☆</label>
                                 <input type="radio" name="rating" value="4" id="4" required><label for="4">☆</label> 
-                                <input type="radio" name="rating" valque="3" id="3" required><label for="3">☆</label>
+                                <input type="radio" name="rating" value="3" id="3" required><label for="3">☆</label>
                                 <input type="radio" name="rating" value="2" id="2" required><label for="2">☆</label>
                                 <input type="radio" name="rating" value="1" id="1" required><label for="1">☆</label>
                             </div>
@@ -392,7 +395,7 @@
                         <div><p class="text4">${fb.fullName}</p></div>
                        
                             <c:forEach begin="1" end="${fb.rating}">
-                            <span style="color: orangered;font-size: 25px;">☆</span>
+                            <span  style="color: orangered;font-size: 25px;margin-left:10px;">☆</span>
                         </c:forEach>
                             <br>
                         <span class="text1">${fb.content}</span>

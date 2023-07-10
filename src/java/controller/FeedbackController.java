@@ -85,10 +85,12 @@ public class FeedbackController extends HttpServlet {
         String content = request.getParameter("content");
         Timestamp time = new Timestamp(System.currentTimeMillis());
         try {
-            FeedbackDAO dao = new FeedbackDAOImpl();
-            dao.save(new FeedbackThread(tourID, rating, time, content, touristID, tourID));
+            FeedbackDAO dao = new FeedbackDAOImpl();           
+            dao.save(new FeedbackThread(tourID, rating, time, content, touristID, tourID));       
         } catch (Exception ex) {
-            Logger.getLogger(FeedbackController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", ex.getMessage());
+            request.getRequestDispatcher("views/Error.jsp").forward(request, response);
+            return;
         }
         response.sendRedirect("http://localhost:9999/EasyTravel/"+"tour?id=" + tourID);
     }
