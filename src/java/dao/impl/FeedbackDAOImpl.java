@@ -108,6 +108,7 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
     public static void main(String[] args) {
         try {
             FeedbackDAOImpl dao = new FeedbackDAOImpl();
+            System.out.println(dao.checkDone(1, 10));
         } catch (Exception ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -202,7 +203,7 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
     @Override
     public boolean checkDone(int touristID, int tourID) throws Exception {
 //        Connection conn = super.getConnection();
-        String sql = "SELECT COUNT(*) FROM booking WHERE status='done' and tourist_id =? and tour_id = ?";
+        String sql = "SELECT COUNT(*) FROM booking WHERE status='Done' and tourist_id =? and tour_id = ?";
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -216,7 +217,7 @@ public class FeedbackDAOImpl extends DBContext implements FeedbackDAO {
 
             rs = ps.executeQuery();
             rs.next();
-            return rs.getInt(1) == 0;
+            return rs.getInt(1) != 0;
 
         } catch (SQLException e) {
             throw new Exception("Unable to get data from database");

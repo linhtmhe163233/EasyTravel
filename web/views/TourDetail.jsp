@@ -91,6 +91,78 @@
             .rating:hover>input:checked~label:before {
                 opacity: 0.4
             }
+
+
+            body{
+                background-color: #fff;
+            }
+            .container{
+                background-color: #eef2f5;
+                width: 1100px;
+            }
+            .addtxt{
+                padding-top: 10px;
+                padding-bottom: 10px;
+                text-align: center;
+                font-size: 13px;
+                width: 1000px;
+                background-color: #e5e8ed;
+                font-weight: 500;
+            }
+            /*            .form-control: focus{
+                            color: #000;
+                        }*/
+            .second{
+                width: 1200px;
+                background-color: white;
+                border-radius: 4px;
+                box-shadow: 10px 10px 5px #aaaaaa;
+                 margin-left:4px;
+            }
+            .text1{
+                font-size: 15px;
+                font-weight: 500;
+                color: #56575b;
+                margin-left:10px;
+            }
+            .text2{
+                font-size: 13px;
+                font-weight: 500;
+                margin-left: 6px;
+                color: #56575b;
+            }
+            .text3{
+                font-size: 13px;
+                font-weight: 500;
+/*                margin-right: 4px;*/
+                color: #828386;
+                margin-left:900px;
+            }
+            .text3o{
+                color: #00a5f4;
+
+            }
+            .text4{
+                font-size: 20px;
+                font-weight: 500;
+                color:black;
+                margin-left:10px;
+            }
+            .text4i{
+                color: #00a5f4;
+            }
+            .text4o{
+                color: white;
+            }
+            .thumbup{
+                font-size: 13px;
+                font-weight: 500;
+                margin-right: 5px;
+            }
+            .thumbupo{
+                color: #17a2b8;
+            }
+
         </style>
     </head>
     <body>
@@ -250,7 +322,7 @@
                 <p style="color:red">${mess}</p>   
 
                 <div>
-                    <c:if test="${sessionScope.user!=null}">
+                    <c:if test="${checkFeedback}">
                         <div class="comment-box ml-2 w-75 mx-auto">
 
                             <!--                <h4>Add a comment</h4>-->
@@ -258,7 +330,7 @@
                             <div class="rating"> 
                                 <input type="radio" name="rating" value="5" id="5" required><label for="5">☆</label>
                                 <input type="radio" name="rating" value="4" id="4" required><label for="4">☆</label> 
-                                <input type="radio" name="rating" valque="3" id="3" required><label for="3">☆</label>
+                                <input type="radio" name="rating" value="3" id="3" required><label for="3">☆</label>
                                 <input type="radio" name="rating" value="2" id="2" required><label for="2">☆</label>
                                 <input type="radio" name="rating" value="1" id="1" required><label for="1">☆</label>
                             </div>
@@ -275,40 +347,67 @@
         </form>
         <br><!-- commented -->
 
-        <div class="container mt-4">
-            <c:forEach items="${listfb}" var="fb" varStatus="loop">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="media g-mb-30 media-comment">
+        <!--        <div class="container mt-4">
+        <c:forEach items="${listfb}" var="fb" varStatus="loop">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="media g-mb-30 media-comment">
 
-                            <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30"  style="border:1px  outset #999999">
-                                <div class="g-mb-15" >
-                                    <h5 class="h5 g-color-gray-dark-v1 mb-0">${fb.fullName}</h5>
-                                    <c:forEach begin="1" end="${fb.rating}">
-                                        <span style="color: orangered;font-size: 25px;">☆</span>
-                                    </c:forEach>
-                                    <br>
-<!--                                    <span class="g-color-gray-dark-v4 g-font-size-10">${fb.time}</span>-->
-                                    <small class="g-color-gray-dark-v4 g-font-size-10">${fb.time}</small>
+                        <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30"  style="border:1px  outset #999999">
+                            <div class="g-mb-15" >
+                                <h5 class="h5 g-color-gray-dark-v1 mb-0">${fb.fullName}</h5>
+            <c:forEach begin="1" end="${fb.rating}">
+                <span style="color: orangered;font-size: 25px;">☆</span>
+            </c:forEach>
+            <br>
 
-                                </div>
+            <small class="g-color-gray-dark-v4 g-font-size-10">${fb.time}</small>
 
-                                <p Style="font-size:20px">${fb.content}</p>
+        </div>
 
-                                <ul class="list-inline d-sm-flex my-0">
+        <p Style="font-size:20px">${fb.content}</p>
 
-                                    <li class="list-inline-item ml-auto">
-                                        <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
-                                            <i class="fa fa-reply g-pos-rel g-top-1 g-mr-3"></i>
-                                            Reply
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+        <ul class="list-inline d-sm-flex my-0">
+
+            <li class="list-inline-item ml-auto">
+                <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
+                    <i class="fa fa-reply g-pos-rel g-top-1 g-mr-3"></i>
+                    Reply
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+</div>
+        </c:forEach>
+    </div>-->
+
+        <div class="container justify-content-center mt-5 border-left border-right">
+<!--            <div class="d-flex justify-content-center pt-3 pb-2"> 
+                <input type="text" name="text" placeholder="+ Add a note" class="form-control addtxt"> 
+            </div>-->
+                <c:forEach items="${listfb}" var="fb" varStatus="loop">
+                <div class="d-flex justify-content-center py-2">
+
+                    <div class="second py-2 px-2"> 
+                        <span class="text3  ">${fb.time}</span>
+                        <div><p class="text4">${fb.fullName}</p></div>
+                       
+                            <c:forEach begin="1" end="${fb.rating}">
+                            <span  style="color: orangered;font-size: 25px;margin-left:10px;">☆</span>
+                        </c:forEach>
+                            <br>
+                        <span class="text1">${fb.content}</span>
+                        <div class="d-flex justify-content-between py-1 pt-2">
+
+                            <div><span class="text1 text3o">Reply</span></div>
                         </div>
                     </div>
+
                 </div>
             </c:forEach>
+          
         </div>
 
         <br>
@@ -388,7 +487,7 @@
         startDate.min = new Date().addDays(3).toISOString().split("T")[0];
         startDate.valueAsDate = new Date().addDays(3);
         startDate.max = new Date('${tour.availableTo}').addDays(3);
-        if ('${book}'.length!==0)
+        if ('${book}'.length !== 0)
             $('#book').click();
     </script>
 </html>
