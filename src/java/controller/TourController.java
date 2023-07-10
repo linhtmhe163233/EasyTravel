@@ -20,8 +20,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.sql.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import entity.Tour;
 import entity.User;
 import dao.BasicDAO;
