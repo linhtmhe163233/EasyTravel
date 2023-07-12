@@ -29,8 +29,8 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
     @Override
     public void save(Booking t) throws Exception {
         String sql = "INSERT INTO booking(tourist_id, tour_id, start_date, "
-                + "tourists_quantity, status, note, book_time)"
-                + "VALUES(?,?,?,?,?,?,?)";
+                + "tourists_quantity, status, note, book_time, payment)"
+                + "VALUES(?,?,?,?,?,?,?, ?)";
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -46,6 +46,7 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
             ps.setString(5, t.getStatus());
             ps.setString(6, t.getNote());
             ps.setTimestamp(7, t.getBookTime());
+            ps.setString(8, t.getPayment());
 
             ps.execute();
         } catch (Exception e) {
@@ -143,7 +144,7 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
     @Override
     public List<Booking> getBookingList(int agentId, Pagination page) throws Exception {
         String sql = "select booking.id, tour_id, book_time, start_date, tourists_quantity, booking.status, "
-                + "note, name, tourist_id, full_name, phone, email, trip_length, reason "
+                + "note, name, tourist_id, full_name, phone, email, trip_length, reason, payment "
                 + "from booking "
                 + "join users on tourist_id=users.id "
                 + "join tours on tour_id=tours.id "
@@ -165,6 +166,7 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
         String touristEmail;
         int tourLength;
         String reason;
+        String payment;
         Booking booking = null;
         Connection conn = null;
         PreparedStatement ps = null;
@@ -192,8 +194,9 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
                 touristEmail = rs.getString("email");
                 tourLength = rs.getInt("trip_length");
                 reason = rs.getString("reason");
+                payment = rs.getString("payment");
                 booking = new Booking(id, touristId, tourId, bookTime, startDate, touristsQuantity, status, note, 
-                        touristName, tourName, touristPhone, touristEmail, tourLength, reason);
+                        touristName, tourName, touristPhone, touristEmail, tourLength, reason, payment);
                 list.add(booking);
             }
         } catch (Exception e) {

@@ -297,11 +297,11 @@
                                               <div class="invalid-feedback">Choose a payment method!</div>
                                           </div>
                                           <div id="onlinePay">
-                                              <div class="form-group mb-3" id="account">
+                                              <div class="form-group mb-3">
                                                   <label data-error="wrong" data-success="right" for="bank">
                                                       Bank name
                                                   </label>
-                                                  <select name="bank" id="bank" required class="form-control validate">
+                                                  <select name="bank" id="bank" class="form-control validate">
                                                       <option disabled selected hidden value>Select an option</option>
                                                       <option value="MB">MB</option>
                                                       <option value="BIDV">BIDV</option>
@@ -312,11 +312,11 @@
                                                   <div class="valid-feedback">Looks good!</div>
                                                   <div class="invalid-feedback">Choose a supported bank from the list!</div>
                                               </div>
-                                              <div class="form-group mb-3" id="account">
-                                                  <label data-error="wrong" data-success="right" for="payment">
+                                              <div class="form-group mb-3">
+                                                  <label data-error="wrong" data-success="right" for="account">
                                                       Account number
                                                   </label>
-                                                  <input type="text" class="form-control validate">
+                                                  <input type="text" class="form-control validate" name="account" id="account">
                                                   <div class="valid-feedback">Looks good!</div>
                                                   <div class="invalid-feedback">Enter a valid bank account!</div>
                                               </div>
@@ -324,7 +324,6 @@
                                       </div>
                                       <div class="modal-footer d-flex justify-content-center">
                                           <button class="btn btn-primary" type="submit" name="book">Confirm</button>
-                                          <button class="btn btn-info" type="button" name="pay" id="pay">Pay</button>
                                       </div>
                                   </form>
                               </div>
@@ -523,10 +522,17 @@
             $('#book').click();
         $('#onlinePay').hide();
         $('#payment').on("change", (e) => {
-            if (e.target.value === 'Bank')
+            if (e.target.value === 'Bank') {
                 $('#onlinePay').show();
-            else
+                $('#bank').attr("required", "required");
+                $('#account').attr("required", "required");
+                $('#account').attr("pattern", "^[0-9]{6,30}$");
+            } else {
                 $('#onlinePay').hide();
+                $('#bank').removeAttr()("required");
+                $('#account').removeAttr()("required");
+                $('#account ').removeAttr()("pattern");
+            }
         });
         $('#cost').val(Number(${tour.price} *${tour.maxQuantity}).toFixed());
         $('#tourists_quantity').on("change", (e) => {

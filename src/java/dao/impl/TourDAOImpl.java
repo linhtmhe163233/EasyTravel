@@ -375,7 +375,7 @@ public class TourDAOImpl extends DBContext implements TourDAO {
     
     @Override
     public boolean checkAllBookingDone(int tourId) throws Exception {
-        String sql = "select count(*) from booking where tour_id=? and status in ('Processing', 'Ready')";
+        String sql = "select count(*) from booking where tour_id=? and status in ('Unpaid', 'Paid', 'Ready')";
 
         Connection conn = null;
         PreparedStatement ps = null;
