@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS EasyTravel;
 create database EasyTravel
 go 
 
@@ -225,5 +226,8 @@ WHERE TABLE_NAME = 'booking'
 AND CONSTRAINT_TYPE = 'check'
 exec('alter table booking drop constraint '+@booking_status_check)
 alter table booking 
-add check(status in('Processing','Declined', 'Canceled', 'Ready', 'Done')),
+add check(status in('Unpaid', 'Paid', 'Declined', 'Canceled', 'Ready', 'Done')),
 reason nvarchar(300)
+
+alter table booking
+add payment varchar(4) check(payment in('Cash', 'Bank'))
