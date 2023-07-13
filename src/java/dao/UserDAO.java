@@ -18,4 +18,6 @@ public interface UserDAO extends BasicDAO<User> {
     User checkKey(String key) throws Exception;
     int getTotalItems() throws Exception;
     List<User> getPage(Pagination page) throws Exception;
+    boolean isPhoneUnique(String phone, int id) throws Exception;
+    boolean isEmailUnique(String email, int id) throws Exception;
 }

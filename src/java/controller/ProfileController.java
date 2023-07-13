@@ -38,7 +38,7 @@ public class ProfileController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -54,7 +54,7 @@ public class ProfileController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            
+
             UserDAO dao = new UserDaoImpl();
 //            HttpSession session = request.getSession();
 //            User acc = (User) session.getAttribute("user");
@@ -62,11 +62,11 @@ public class ProfileController extends HttpServlet {
 ////            System.out.println(id);
 ////            List<User> list = dao.get(id);
 //            request.setAttribute("list", acc);
-            
+
         } catch (Exception ex) {
             Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         request.getRequestDispatcher("views/Profile.jsp").forward(request, response);
     }
 
@@ -83,7 +83,7 @@ public class ProfileController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User acc = (User) session.getAttribute("user");
-        
+
         String username = acc.getUsername();
         String fullname = request.getParameter("fullname").trim();
         String password = acc.getPassword();
@@ -100,11 +100,22 @@ public class ProfileController extends HttpServlet {
             UserDAO dao = new UserDaoImpl();
 //            request.setAttribute("user", new User(username, password, fullname, dob, email, phone, role, status, key));
             User user = new User(id, username, password, fullname, dob, email, phone, role, status, key);
-            dao.update(user);
-            session.removeAttribute("user");
-            session.setAttribute("user", user);
+            if (!dao.isPhoneUnique(phone, id)) {
+                request.setAttribute("message", "Duplicate phone number");
+            }
+            if (!dao.isEmailUnique(email, id)) {
+                request.setAttribute("message1", "This email already exists in the list!");
+            }else{
+                request.setAttribute("message2", "Please check your email for confirmation");
+            }
+            if (dao.isEmailUnique(email, id) && dao.isPhoneUnique(phone, id)) {
+                dao.update(user);
+                session.removeAttribute("user");
+                session.setAttribute("user", user);
+            }
         } catch (Exception ex) {
-//            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex
+            request.setAttribute("error", ex.getMessage());
+            request.getRequestDispatcher("views/Error.jsp").forward(request, response);
 
         }
         doGet(request, response);

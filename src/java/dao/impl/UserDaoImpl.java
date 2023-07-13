@@ -388,12 +388,11 @@ public class UserDaoImpl extends DBContext implements UserDAO {
         String fullname;
         String username;
         String email;
-        
+
         Date DOB;
         String phone;
         String role;
         String status;
-     
 
         User user;
 
@@ -418,8 +417,7 @@ public class UserDaoImpl extends DBContext implements UserDAO {
                 phone = rs.getString("phone");
                 role = rs.getString("role");
                 status = rs.getString("status");
-              
-              
+
                 user = new User(id, username, fullname, DOB, email, phone, role, status);
 
                 list.add(user);
@@ -433,15 +431,101 @@ public class UserDaoImpl extends DBContext implements UserDAO {
         }
         return list;
     }
-//    public static void main(String[] args) {
-//        try {
+
+    public void toggleUserStatus(int id) throws Exception {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        String activeUser = "update users set status ='Active' Where id = ?";
+        String banUser = "update users set status = 'Banned' Where id = ?";
+        String findUserStatusByUserID = "select status from users where id = ?";
+        String status = null;
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(findUserStatusByUserID);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            if(rs.next()){
+            status = rs.getString(activeUser);
+        }
+            
+            if(status.equalsIgnoreCase("Active")){
+                ps = conn.prepareStatement(banUser);
+            }else{
+                ps = conn.prepareStatement(activeUser);
+            }
+            
+            ps.setInt(1, id);
+            ps.executeUpdate();
+           
+        } catch (Exception e) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
+    }
+    
+    public boolean isPhoneUnique(String phone,int id) throws Exception{
+        String query = "select phone from users where phone=? and id !=? ";
+        
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, phone);
+            ps.setInt(2, id);
+
+            rs = ps.executeQuery();
+         
+            return !rs.next();
+        } catch (SQLException ex) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
+    }
+    public boolean isEmailUnique(String email, int id) throws Exception{
+        String query = "select email from users where email=? and id !=?";
+        
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, email);
+            ps.setInt(2, id);
+
+            rs = ps.executeQuery();
+         
+            return !rs.next();
+        } catch (SQLException ex) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
+    }
+    public static void main(String[] args) {
+        try {
 //            User u = new User(2, "agent_demos", "1234567", "Nguyen Van Bane", Date.valueOf("2003-01-01"), "ANV345s@gmail.com", "0123456782", "Travel Agent", "Active", null);
-//            UserDaoImpl ud = new UserDaoImpl();
+            UserDaoImpl ud = new UserDaoImpl();
+            ud.toggleUserStatus(1);
+            System.out.println();
 //            ud.save(u);
 //            System.out.println(ud.checkKey("16871629842350.75986604125715921687162984235"));
-////            ud.update(u);
-//        } catch (Exception ex) {
-//            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
+//            ud.update(u);
+        } catch (Exception ex) {
+            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
