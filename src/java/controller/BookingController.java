@@ -15,7 +15,6 @@ import dao.impl.BookingDAOImpl;
 import entity.Booking;
 import entity.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,7 +38,7 @@ public class BookingController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-       
+        response.sendRedirect("home");
     } 
 
     /** 
@@ -57,10 +56,12 @@ public class BookingController extends HttpServlet {
         Timestamp bookTime = new Timestamp(System.currentTimeMillis());
         Date startDate = Date.valueOf(request.getParameter("startDate"));
         int touristsQuantity = Integer.parseInt(request.getParameter("touristsQuantity"));
-        String status = "Processing";
+        String payment = request.getParameter("payment");
+        String status="Unpaid";
+        if(payment.equals("Bank"))
+            status = "Paid";
         String note = request.getParameter("note").trim();
-        
-        Booking booking = new Booking(touristId, tourId, bookTime, startDate, touristsQuantity, status, note);
+        Booking booking = new Booking(touristId, tourId, bookTime, startDate, touristsQuantity, status, note, payment);
         try {
             BasicDAO dao = new BookingDAOImpl();
             dao.save(booking);

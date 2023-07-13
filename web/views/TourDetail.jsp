@@ -24,7 +24,6 @@
         <title>Easy Travel | Tour detail</title>
         <style>
             .comment-box{
-
                 padding:5px;
             }
 
@@ -32,12 +31,12 @@
                 resize: none;
                 border: 1px solid #ad9f9f;
             }
+
             .form-control:focus {
                 color: #495057;
-                background-color: #fff;
-                border-color: #ffffff;
+                border-color: #00FFFF;
                 outline: 0;
-                box-shadow: 0 0 0 1px rgb(255, 0, 0) !important;
+                box-shadow: 0 0 0 1px !important;
             }
 
             .send {
@@ -109,15 +108,12 @@
                 background-color: #e5e8ed;
                 font-weight: 500;
             }
-            /*            .form-control: focus{
-                            color: #000;
-                        }*/
             .second{
                 width: 1200px;
                 background-color: white;
                 border-radius: 4px;
                 box-shadow: 10px 10px 5px #aaaaaa;
-                 margin-left:4px;
+                margin-left:4px;
             }
             .text1{
                 font-size: 15px;
@@ -134,7 +130,6 @@
             .text3{
                 font-size: 13px;
                 font-weight: 500;
-/*                margin-right: 4px;*/
                 color: #828386;
                 margin-left:900px;
             }
@@ -177,7 +172,7 @@
                               && sessionScope.user.id==tour.agentId}">
                     <% request.getSession().setAttribute("tour", request.getAttribute("tour")); %>
                     <form action="tour" method="post">
-                        <a href="tours?act=update" type="button" class="btn btn-info">
+                        <a href="tours?act=update" class="btn btn-info">
                             Update
                         </a>
                         <input type="hidden" value="${tour.id}" name="id">
@@ -251,15 +246,15 @@
                                   </div>
                                   <form action="book" method="POST" novalidate id="form" class="needs-validation">
                                       <input type="hidden" value="${tour.id}" name="tourId">
-                                      <div class="modal-body mx-3">
-                                          <div class="md-form mb-5">
+                                      <div class="modal-body mx-3" id="bookForm">
+                                          <div class="md-form mb-3">
                                               <label data-error="wrong" data-success="right" for="dob">Start date</label>
                                               <input type="date" id="startDate" class="form-control" name="startDate" 
                                                      required>
                                               <div class="valid-feedback">Looks good!</div>
                                               <div class="invalid-feedback">Your tour can only start in at least 3 days!</div>
                                           </div>
-                                          <div class="md-form mb-5">
+                                          <div class="md-form mb-3">
                                               <label data-error="wrong" data-success="right" for="phone">
                                                   Number of tourists(*)
                                               </label>
@@ -271,7 +266,16 @@
                                                   Number of tourists should be between 1 and ${tour.maxQuantity}
                                               </div>
                                           </div>
-                                          <div class="form-group mb-5">
+                                          <div class="form-group mb-3">
+                                              <label data-error="wrong" data-success="right" for="cost">
+                                                  Total cost
+                                              </label>
+                                              <input type="number" class="form-control validate" id="cost"
+                                                     name="cost" readonly>
+                                              <div class="valid-feedback">Looks good!</div>
+                                              <div class="invalid-feedback">Too long</div>
+                                          </div> 
+                                          <div class="form-group mb-3">
                                               <label data-error="wrong" data-success="right" for="note">
                                                   Note
                                               </label>
@@ -279,18 +283,53 @@
                                                         name="note" maxlength="300"></textarea>
                                               <div class="valid-feedback">Looks good!</div>
                                               <div class="invalid-feedback">Too long</div>
-                                          </div> 
+                                          </div>
+                                          <div class="form-group mb-3">
+                                              <label data-error="wrong" data-success="right" for="payment">
+                                                  Payment
+                                              </label>
+                                              <select name="payment" id="payment" required class="form-control validate">
+                                                  <option disabled selected hidden value>Select an option</option>
+                                                  <option value="Cash">Cash</option>
+                                                  <option value="Bank">Bank</option>
+                                              </select>
+                                              <div class="valid-feedback">Looks good!</div>
+                                              <div class="invalid-feedback">Choose a payment method!</div>
+                                          </div>
+                                          <div id="onlinePay">
+                                              <div class="form-group mb-3">
+                                                  <label data-error="wrong" data-success="right" for="bank">
+                                                      Bank name
+                                                  </label>
+                                                  <select name="bank" id="bank" class="form-control validate">
+                                                      <option disabled selected hidden value>Select an option</option>
+                                                      <option value="MB">MB</option>
+                                                      <option value="BIDV">BIDV</option>
+                                                      <option value="TPBank">TPBank</option>
+                                                      <option value="VCBank">VCBank</option>
+                                                      <option value="Techcombank">Techcombank</option>
+                                                  </select>
+                                                  <div class="valid-feedback">Looks good!</div>
+                                                  <div class="invalid-feedback">Choose a supported bank from the list!</div>
+                                              </div>
+                                              <div class="form-group mb-3">
+                                                  <label data-error="wrong" data-success="right" for="account">
+                                                      Account number
+                                                  </label>
+                                                  <input type="text" class="form-control validate" name="account" id="account">
+                                                  <div class="valid-feedback">Looks good!</div>
+                                                  <div class="invalid-feedback">Enter a valid bank account!</div>
+                                              </div>
+                                          </div>
                                       </div>
                                       <div class="modal-footer d-flex justify-content-center">
                                           <button class="btn btn-primary" type="submit" name="book">Confirm</button>
-                                          <button class="btn btn-info" type="button" name="pay" id="pay">Pay</button>
                                       </div>
                                   </form>
                               </div>
                           </div>
                       </div>
                 </c:if>
-
             </div>
             <div class="pb-4"></div>
         </div>
@@ -320,12 +359,9 @@
             <div class="text-center text-uppercase mt-4">
                 <h1>Feedback</h1>
                 <p style="color:red">${mess}</p>   
-
                 <div>
                     <c:if test="${checkFeedback}">
                         <div class="comment-box ml-2 w-75 mx-auto">
-
-                            <!--                <h4>Add a comment</h4>-->
                             <input type="hidden" name="tourID" value="${tour.id}">
                             <div class="rating"> 
                                 <input type="radio" name="rating" value="5" id="5" required><label for="5">☆</label>
@@ -334,10 +370,8 @@
                                 <input type="radio" name="rating" value="2" id="2" required><label for="2">☆</label>
                                 <input type="radio" name="rating" value="1" id="1" required><label for="1">☆</label>
                             </div>
-
                             <div class="comment-area">
-                                <textarea class="form-control" name ="content" placeholder="what is your view?" rows="4"></textarea>
-
+                                <textarea class="form-control" name ="content" placeholder="Give your feedback" rows="4"></textarea>
                             </div>
                             <button class="btn btn-success float-left" type="submit">Send</button>  
                         </div>
@@ -384,20 +418,20 @@
     </div>-->
 
         <div class="container justify-content-center mt-5 border-left border-right">
-<!--            <div class="d-flex justify-content-center pt-3 pb-2"> 
-                <input type="text" name="text" placeholder="+ Add a note" class="form-control addtxt"> 
-            </div>-->
-                <c:forEach items="${listfb}" var="fb" varStatus="loop">
+            <!--            <div class="d-flex justify-content-center pt-3 pb-2"> 
+                            <input type="text" name="text" placeholder="+ Add a note" class="form-control addtxt"> 
+                        </div>-->
+            <c:forEach items="${listfb}" var="fb" varStatus="loop">
                 <div class="d-flex justify-content-center py-2">
 
                     <div class="second py-2 px-2"> 
                         <span class="text3  ">${fb.time}</span>
                         <div><p class="text4">${fb.fullName}</p></div>
-                       
-                            <c:forEach begin="1" end="${fb.rating}">
+
+                        <c:forEach begin="1" end="${fb.rating}">
                             <span  style="color: orangered;font-size: 25px;margin-left:10px;">☆</span>
                         </c:forEach>
-                            <br>
+                        <br>
                         <span class="text1">${fb.content}</span>
                         <div class="d-flex justify-content-between py-1 pt-2">
 
@@ -407,11 +441,8 @@
 
                 </div>
             </c:forEach>
-          
         </div>
-
         <br>
-
         <form action="tour" method="post" ${page.totalItems==0?'hidden':''}>
             <input type="hidden" min="1" name="index" value="${page.index}"> 
             <nav class="mt-4">
@@ -486,8 +517,26 @@
         };
         startDate.min = new Date().addDays(3).toISOString().split("T")[0];
         startDate.valueAsDate = new Date().addDays(3);
-        startDate.max = new Date('${tour.availableTo}').addDays(3);
+        startDate.max = new Date('${tour.availableTo}').addDays(3).toISOString().split("T")[0];
         if ('${book}'.length !== 0)
             $('#book').click();
+        $('#onlinePay').hide();
+        $('#payment').on("change", (e) => {
+            if (e.target.value === 'Bank') {
+                $('#onlinePay').show();
+                $('#bank').attr("required", "required");
+                $('#account').attr("required", "required");
+                $('#account').attr("pattern", "^[0-9]{6,30}$");
+            } else {
+                $('#onlinePay').hide();
+                $('#bank').removeAttr()("required");
+                $('#account').removeAttr()("required");
+                $('#account ').removeAttr()("pattern");
+            }
+        });
+        $('#cost').val(Number(${tour.price} *${tour.maxQuantity}).toFixed());
+        $('#tourists_quantity').on("change", (e) => {
+            $('#cost').val(${tour.price} * e.target.value);
+        });
     </script>
 </html>

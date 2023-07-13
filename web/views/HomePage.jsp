@@ -25,6 +25,7 @@
     </head>
     <body>
         <c:import url="./Layout/Header.jsp"></c:import>
+        <img src="./images/home.jpg" class="img-fluid" style="width: 100vw; height: 40vh;">
             <div class="d-flex justify-content-end mr-5 mt-3">
                 <form class="form-inline my-2 my-lg-0" action="home" method="get">
                     <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"

@@ -16,10 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import entity.Hotel;
-import entity.User;
 import dao.BasicDAO;
-import dao.impl.VehicleDAOImpl;
-import entity.Vehicle;
 import jakarta.servlet.annotation.WebServlet;
 
 /**
@@ -97,7 +94,6 @@ public class HotelController extends HttpServlet {
         try {
             BasicDAO dao = new HotelDAOImpl();
             dao.save(new Hotel(name, stars, room_available, phone, location));
-            response.sendRedirect("hotels");
         } catch (Exception ex) {
             request.setAttribute("message", ex.getMessage());
             request.setAttribute("hotel", new Hotel(name, stars, room_available, phone, location));

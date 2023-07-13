@@ -22,7 +22,6 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <script src="js/jquery-3.7.0.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="js/AddNewTour.js"></script>
         <title>Easy Travel | Add tour</title>
     </head>
     <body>
@@ -133,4 +132,5 @@
             </c:if>
         </form>
     </body>
+    <script src="js/AddNewTour.js"></script>
 </html>

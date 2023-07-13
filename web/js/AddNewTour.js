@@ -33,7 +33,7 @@ to.max = dateNow.addYears(10).addDays(1).toISOString().split("T")[0];
 
 let id = document.getElementById("id");
 from.valueAsDate = dateNow;
-if (id.value.length === 0) {
+if (to.valueAsDate < from.valueAsDate) {
     to.valueAsDate = dateNow.addDays(1);
 }
 
@@ -67,7 +67,6 @@ function loadURLToInputFiled(url) {
         // Load img blob to input
         // WIP: UTF8 character error
         let fileName = imageDisplay.src.substring(imageDisplay.src.lastIndexOf('/')+1);
-        console.log(fileName);
         let file = new File([imgBlob], fileName, {type: "image/*", lastModified: new Date().getTime()}, 'utf-8');
         let container = new DataTransfer();
         container.items.add(file);

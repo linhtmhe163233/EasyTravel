@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS EasyTravel;
 create database EasyTravel
 go 
 
@@ -133,11 +134,11 @@ constraint booking_to_restaurants foreign key(restaurant_id) references restaura
 
 insert into tours(name, type, is_enabled, destination, trip_length, available_from, available_to, max_quantity, price, description, agent_id, image )
 values
-(N'Du lịch biển Sầm Sơn', N'du lịch biển', 1, N'Thanh Hoá', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 3, ''),
-(N'Du lịch biển Nha Trang', N'du lịch biển', 1, N'Khánh Hoà', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 3, ''),
-(N'Du lịch biển Phú Quốc', N'du lịch biển', 1, N'Kiên Giang', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 3, ''),
-(N'Du lịch sinh thái Cát Tiên', N'du lịch sinh thái', 1, N'Đồng Nai, Lâm Đồng, Bình Phước', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 3, ''),
-(N'Du lịch nghỉ dưỡng Sa Pa', N'nghỉ dưỡng', 1, N'Lào Cai', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 3, '')
+(N'Du lịch biển Sầm Sơn', N'du lịch biển', 1, N'Thanh Hoá', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 2, ''),
+(N'Du lịch biển Nha Trang', N'du lịch biển', 1, N'Khánh Hoà', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 2, ''),
+(N'Du lịch biển Phú Quốc', N'du lịch biển', 1, N'Kiên Giang', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 2, ''),
+(N'Du lịch sinh thái Cát Tiên', N'du lịch sinh thái', 1, N'Đồng Nai, Lâm Đồng, Bình Phước', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 2, ''),
+(N'Du lịch nghỉ dưỡng Sa Pa', N'nghỉ dưỡng', 1, N'Lào Cai', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 2, '')
 
 insert into staff(name, DOB, phone, gender, agent_id)
 values
@@ -225,5 +226,8 @@ WHERE TABLE_NAME = 'booking'
 AND CONSTRAINT_TYPE = 'check'
 exec('alter table booking drop constraint '+@booking_status_check)
 alter table booking 
-add check(status in('Processing','Declined', 'Canceled', 'Ready', 'Done')),
+add check(status in('Unpaid', 'Paid', 'Declined', 'Canceled', 'Ready', 'Done')),
 reason nvarchar(300)
+
+alter table booking
+add payment varchar(4) check(payment in('Cash', 'Bank'))

@@ -27,6 +27,15 @@ public class Booking {
     private String touristEmail;
     private int tourLength;
     private String reason;
+    private String payment;
+
+    public String getPayment() {
+        return payment;
+    }
+
+    public void setPayment(String payment) {
+        this.payment = payment;
+    }
 
     public Booking() {
     }
@@ -42,12 +51,11 @@ public class Booking {
         this.tourId = tourId;
         this.status = status;
     }
-    
-    
+
     //use this when load booking list of travel agent
     public Booking(int id, int touristId, int tourId, Timestamp bookTime, Date startDate, int touristsQuantity,
             String status, String note, String touristName, String tourName, String touristPhone, String touristEmail,
-            int tourLength, String reason) {
+            int tourLength, String reason, String payment) {
         this.id = id;
         this.touristId = touristId;
         this.tourId = tourId;
@@ -62,7 +70,9 @@ public class Booking {
         this.touristEmail = touristEmail;
         this.tourLength = tourLength;
         this.reason = reason;
+        this.payment = payment;
     }
+
     //use this when load tour history of tourist
     public Booking(int id, int touristId, int tourId, Timestamp bookTime, Date startDate, int touristsQuantity,
             String status, String note, String tourName, String reason) {
@@ -77,9 +87,10 @@ public class Booking {
         this.tourName = tourName;
         this.reason = reason;
     }
+
     //use this when create a new booking entry
     public Booking(int touristId, int tourId, Timestamp bookTime, Date startDate, int touristsQuantity,
-            String status, String note) {
+            String status, String note, String payment) {
         this.touristId = touristId;
         this.tourId = tourId;
         this.bookTime = bookTime;
@@ -87,6 +98,7 @@ public class Booking {
         this.touristsQuantity = touristsQuantity;
         this.status = status;
         this.note = note;
+        this.payment = payment;
     }
 
     public String getReason() {
