@@ -381,46 +381,8 @@
         </form>
         <br><!-- commented -->
 
-        <!--        <div class="container mt-4">
-        <c:forEach items="${listfb}" var="fb" varStatus="loop">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="media g-mb-30 media-comment">
-
-                        <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30"  style="border:1px  outset #999999">
-                            <div class="g-mb-15" >
-                                <h5 class="h5 g-color-gray-dark-v1 mb-0">${fb.fullName}</h5>
-            <c:forEach begin="1" end="${fb.rating}">
-                <span style="color: orangered;font-size: 25px;">☆</span>
-            </c:forEach>
-            <br>
-
-            <small class="g-color-gray-dark-v4 g-font-size-10">${fb.time}</small>
-
-        </div>
-
-        <p Style="font-size:20px">${fb.content}</p>
-
-        <ul class="list-inline d-sm-flex my-0">
-
-            <li class="list-inline-item ml-auto">
-                <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
-                    <i class="fa fa-reply g-pos-rel g-top-1 g-mr-3"></i>
-                    Reply
-                </a>
-            </li>
-        </ul>
-    </div>
-</div>
-</div>
-</div>
-        </c:forEach>
-    </div>-->
-
         <div class="container justify-content-center mt-5 border-left border-right">
-            <!--            <div class="d-flex justify-content-center pt-3 pb-2"> 
-                            <input type="text" name="text" placeholder="+ Add a note" class="form-control addtxt"> 
-                        </div>-->
+           
             <c:forEach items="${listfb}" var="fb" varStatus="loop">
                 <div class="d-flex justify-content-center py-2">
 

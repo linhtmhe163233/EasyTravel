@@ -68,7 +68,7 @@
                 </c:forEach>
         </table>
     </tbody>
-    <form action="manageuser" method="post" ${page.totalItems==0?'hidden':''}>
+    <form action="usermanage" method="post" ${page.totalItems==0?'hidden':''}>
         <input type="hidden" min="1" name="index" value="${page.index}"> 
         <nav class="mt-4">
             <ul class="pagination justify-content-center">
