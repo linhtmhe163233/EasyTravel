@@ -23,7 +23,7 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
 
     @Override
     public List<Booking> get(int id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     @Override
@@ -237,6 +237,31 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
             closePs(ps);
             closeConnection(conn);
         }
+    }
+
+    @Override
+    public boolean checkSchedule(int touristId, Date from, Date to) {
+        throw new UnsupportedOperationException("Not supported yet."); 
+//        String query = "select count(*) from booking where tourist_id=? and status in ('Unpaid', 'Paid', 'Ready') and";
+//
+//        Connection conn = null;
+//        PreparedStatement ps = null;
+//        ResultSet rs = null;
+//
+//        try {
+//            conn = getConnection();
+//            ps = conn.prepareStatement(query);
+//            ps.setInt(1, searchBy);
+//            rs = ps.executeQuery();
+//            rs.next();
+//            return rs.getInt(1);
+//        } catch (Exception e) {
+//            throw new Exception("Unable to get data from database");
+//        } finally {
+//            closeRs(rs);
+//            closePs(ps);
+//            closeConnection(conn);
+//        }
     }
 
 }

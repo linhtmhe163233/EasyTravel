@@ -103,24 +103,6 @@
         </nav>
     </body>
     <script>
-//        function handleSearch(param){
-//            let search = param.value;
-//                $.ajax({
-//                    url: "/EasyTravel/home",
-//                    type: "get", //send it through get method
-//                    data: {
-//                        search: search
-//                    },
-//                    success: function (data) {
-//                        var deck = document.getElementById("deck");
-//                        deck.innerHTML = data;
-//                    },
-//                    error: function (xhr) {
-//                        //Do Something to handle error
-//                    }
-//                });
-//        };
-        
         $('a.page-link').click((e)=>{
             e.target.href+='&search='+$('#search')[0].value;
         });

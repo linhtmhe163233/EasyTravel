@@ -23,8 +23,6 @@ import entity.Tour;
 import entity.User;
 import dao.TourDAO;
 import dao.UserDAO;
-import java.io.PrintWriter;
-import java.text.DecimalFormat;
 
 /*
  * This class controls the home page of the website

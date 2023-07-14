@@ -26,9 +26,10 @@ import utils.Pagination;
 
 /**
  *
- * @author tranm
+ * @author DucTM
  */
 public class TourDetailController extends HttpServlet {
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -63,12 +64,11 @@ public class TourDetailController extends HttpServlet {
             request.setAttribute("checkFeedback", checkFeedback);
             request.setAttribute("tour", list.get(0));
             int totalItems = daoo.getTotalItems(id);
-            Object indexObj = request.getAttribute("index");
-            int index;
-            if (indexObj == null) {
-                index = 1;
-            } else {
-                index = (int) indexObj;
+            int index = 1;
+            String indexStr = request.getParameter("index");
+            if (indexStr != null && indexStr.matches("^[0-9]+$")) {
+                index = Integer.parseInt(indexStr);
+                request.setAttribute("scroll", "scroll");
             }
             Pagination page = new Pagination(totalItems, 10, index);
             List<FeedbackThread> listfb = daoo.getPage(page, id);
@@ -93,32 +93,6 @@ public class TourDetailController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getParameter("disable") == null && request.getParameter("enable") == null) {
-            int index = Integer.parseInt(request.getParameter("index"));
-            if (request.getParameter("first") != null) //click first
-            {
-                index = 1;
-            }
-            if (request.getParameter("last") != null) //click last
-            {
-                index = Integer.parseInt(request.getParameter("last"));
-            }
-            if (request.getParameter("Prev") != null) //click prev
-            {
-                index--;
-            }
-            if (request.getParameter("Next") != null) //click next
-            {
-                index++;
-            }
-            if (request.getParameter("btnIdx") != null) // click button number
-            {
-                index = Integer.parseInt(request.getParameter("btnIdx"));
-            }
-            request.setAttribute("index", index);
-            doGet(request, response);
-            return;
-        }
         try {
             TourDAO dao = new TourDAOImpl();
             int id = Integer.parseInt(request.getParameter("id"));
@@ -133,7 +107,6 @@ public class TourDetailController extends HttpServlet {
             request.setAttribute("error", ex.getMessage());
             request.getRequestDispatcher("views/Error.jsp").forward(request, response);
         }
-
     }
 
     /**
