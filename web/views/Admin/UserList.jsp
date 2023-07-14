@@ -22,6 +22,15 @@
     </head>
     <body>
         <c:import url="../Layout/Header.jsp"></c:import>
+        <h1 style =" margin-left: 200px;">LIST USERS</h1>
+       <div class="d-flex justify-content-end mr-5 mt-3">
+                <form class="form-inline my-2 my-lg-0" action="home" method="get">
+                    <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                           id="search" value="${param.search}">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+                <br>
             <table class="table table-hover table-bordered w-75 mx-auto" id="staffTable">
                 <thead>
                     <tr>

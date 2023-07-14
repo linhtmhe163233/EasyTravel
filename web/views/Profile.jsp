@@ -113,7 +113,7 @@
                                             <input type="email" class="form-control" name="email" id="email" 
                                                    placeholder="example@gmail.com" required maxlength=80 value="${user.email}">
                                             <p style="color:red">${message1}</p>   
-                                            <p style="color:blue">${message2}</p>   
+<!--                                            <p style="color:blue">${message2}</p>   -->
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">

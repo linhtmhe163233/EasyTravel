@@ -371,7 +371,7 @@
                                 <input type="radio" name="rating" value="1" id="1" required><label for="1">☆</label>
                             </div>
                             <div class="comment-area">
-                                <textarea class="form-control" name ="content" placeholder="Give your feedback" rows="4"></textarea>
+                                <textarea class="form-control" name ="content" placeholder="Give your feedback" rows="4" maxlength="800"></textarea>
                             </div>
                             <button class="btn btn-success float-left" type="submit">Send</button>  
                         </div>
@@ -443,7 +443,7 @@
             </c:forEach>
         </div>
         <br>
-        <form action="tour" method="post" ${page.totalItems==0?'hidden':''}>
+<!--        <form action="tour" method="post" ${page.totalItems==0?'hidden':''}>
             <input type="hidden" min="1" name="index" value="${page.index}"> 
             <nav class="mt-4">
                 <ul class="pagination justify-content-center">
@@ -484,7 +484,7 @@
                     </li>
                 </ul>
             </nav>
-        </form>
+        </form>-->
     </body>
     <script>
         (function () {

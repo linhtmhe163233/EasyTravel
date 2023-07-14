@@ -515,6 +515,62 @@ public class UserDaoImpl extends DBContext implements UserDAO {
             closeConnection(conn);
         }
     }
+    
+     public List<User> getPage(String search, Pagination page) throws Exception {
+//        closeOutdated();
+        
+        List<User> list = new ArrayList<>();
+        String query = "select * from users where name like ? or type like ? or destination like ? "
+                + "order by id offset ? rows fetch next ? rows only";
+
+        int id = 0;
+        String fullname = null;
+        String username = null;
+        Date dob = null;
+        String phone = null;
+        String email = null;
+        String role = null;
+        String status = null;
+        
+        User user = null;
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, "%"+search+"%");
+            ps.setString(2, "%"+search+"%");
+            ps.setString(3, "%"+search+"%");
+            ps.setInt(4, page.getOffset());
+            ps.setInt(5, page.getItemsPerPage());
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                id = rs.getInt("id");
+                fullname = rs.getString("full_name");
+                username = rs.getString("account_name");
+                dob = rs.getDate("DOB");
+                phone = rs.getString("phone");
+                email = rs.getString("email");
+                role = rs.getString("role");
+                status = rs.getString("status");
+
+                user = new User(id, username, fullname, dob, email, phone, role, status);
+                list.add(user);
+            }
+        } catch (SQLException ex) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
+        return list;
+    }
     public static void main(String[] args) {
         try {
 //            User u = new User(2, "agent_demos", "1234567", "Nguyen Van Bane", Date.valueOf("2003-01-01"), "ANV345s@gmail.com", "0123456782", "Travel Agent", "Active", null);

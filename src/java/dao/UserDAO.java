@@ -20,4 +20,5 @@ public interface UserDAO extends BasicDAO<User> {
     List<User> getPage(Pagination page) throws Exception;
     boolean isPhoneUnique(String phone, int id) throws Exception;
     boolean isEmailUnique(String email, int id) throws Exception;
+    List<User> getPage(String search, Pagination page) throws Exception;
 }

@@ -82,7 +82,7 @@ public class FeedbackController extends HttpServlet {
         int tourID = Integer.parseInt(request.getParameter("tourID"));
         int touristID = acc.getId();
         int rating = Integer.parseInt(request.getParameter("rating"));
-        String content = request.getParameter("content");
+        String content = request.getParameter("content").trim();
         Timestamp time = new Timestamp(System.currentTimeMillis());
         try {
             FeedbackDAO dao = new FeedbackDAOImpl();           

@@ -105,9 +105,10 @@ public class ProfileController extends HttpServlet {
             }
             if (!dao.isEmailUnique(email, id)) {
                 request.setAttribute("message1", "This email already exists in the list!");
-            }else{
-                request.setAttribute("message2", "Please check your email for confirmation");
             }
+//            else{
+//                request.setAttribute("message2", "Please check your email for confirmation");
+//            }
             if (dao.isEmailUnique(email, id) && dao.isPhoneUnique(phone, id)) {
                 dao.update(user);
                 session.removeAttribute("user");

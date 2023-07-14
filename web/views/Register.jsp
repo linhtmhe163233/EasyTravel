@@ -52,7 +52,7 @@
                                                 <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
                                             </div>
                                             <input type="text" class="form-control" id="fullname" name="fullname" 
-                                                   placeholder="Full Name" required pattern="^\s*\p{L}+(\s\p{L}+)*\s*$"
+                                                   placeholder="Full Name(*)" required pattern="^\s*\p{L}+(\s\p{L}+)*\s*$"
                                                    maxlength="80"></input>
                                         </div>
                                     </div>
@@ -63,7 +63,7 @@
                                                 <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
                                             </div>
                                             <input type="text" class="form-control" id="username" name="username" 
-                                                   placeholder="User Name" required pattern="^[a-zA-z0-9]+$" maxlength="50"></input>
+                                                   placeholder="User Name(*)" required pattern="^[a-zA-z0-9]+$" maxlength="50"></input>
                                         </div>
                                     </div>
 
@@ -73,7 +73,7 @@
                                                 <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
                                             </div>
                                             <input type="password" class="form-control" id="password" name="password" 
-                                                   placeholder="Your Password" required maxlength="50" minlength="8"
+                                                   placeholder="Your Password(*)" required maxlength="50" minlength="8"
                                                    pattern="^[a-zA-z0-9]{8, 50}$"></input>
                                         </div>
                                     </div>
@@ -84,7 +84,7 @@
                                                 <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
                                             </div>
                                             <input type="password" class="form-control" id="cfpassword" name="cfpassword" 
-                                                   placeholder="Confirm password"  maxlength="50" minlength="8"
+                                                   placeholder="Confirm password(*)"  maxlength="50" minlength="8"
                                                    required pattern="^[a-zA-z0-9]{8, 50}$"></input>
                                         </div>
                                     </div>
@@ -105,7 +105,7 @@
                                                 <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
                                             </div>
                                             <input type="text" class="form-control" id="phone" name="phone" 
-                                                   placeholder="Your phone number" required pattern="^0[0-9]{9}$"></input>
+                                                   placeholder="Your phone number(*)" required pattern="^0[0-9]{9}$"></input>
                                         </div>
                                     </div>
 
