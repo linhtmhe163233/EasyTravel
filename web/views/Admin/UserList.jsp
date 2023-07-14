@@ -19,19 +19,30 @@
     </head>
     <body>
         <c:import url="../Layout/Header.jsp"></c:import>
-            <table class="table table-hover table-bordered w-75 mx-auto" id="staffTable">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Fullname</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">DOB</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Role</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <h1 style =" margin-left: 200px;">LIST USERS</h1>
+            <div class="d-flex justify-content-end mt-3 w-75 mx-auto">
+                <form class="form-inline my-2 my-lg-0" action="usermanage" method="get">
+                    <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                           id="search" value="${param.search}">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+        <br>
+        <table class="table table-hover table-bordered w-75 mx-auto" id="staffTable">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Fullname</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">DOB</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Role</th>
+                    <th scope="col" >Status</th>
+                    <th scope="col" colspan="2"></th>
+                </tr>
+            </thead>
+            <tbody>
                 <c:forEach items="${list}" var="user" varStatus="loop">
                     <tr>
                         <th scope="row">${loop.count+page.itemsPerPage*(page.index-1)}</th>
@@ -41,53 +52,59 @@
                         <td>${user.dob}</td>
                         <td>${user.phone}</td>
                         <td>${user.role}</td>
+                        <td>${user.status}</td>
+
+                        <td><a href=# class="badge badge-info">Active</a></td>
+<!--                                                <td><a href="edit?HotelId=${hotel.id}" class="badge badge-info">Ban</a></td>-->
+                        <td><a href="#"  onclick="showMess(${hotel.id})" class="badge badge-danger">Ban</a></td>
+
                     </tr>
                 </c:forEach>
             </tbody>
         </table>
-        <form action="usermanage" method="post" ${page.totalItems==0?'hidden':''}>
-            <input type="hidden" min="1" name="index" value="${page.index}"> 
-            <nav class="mt-4">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                        <button type="submit" class="page-link" name="Prev" ${page.index==1?"hidden":""}>
-                            <<
-                        </button>
-                    </li>
-                    <li class="page-item ${page.index==1?"active":""}">
-                        <button type="submit" class="page-link" name="first">1</button>
-                    </li>
-                    <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
-                        <span class="page-link">...</span>
-                    </li>
-                    <c:if test="${page.totalPage>2}">
-                        <c:forEach var="p" begin="${page.pageStart}" end="${page.pageEnd}">
-                            <li class="page-item ${page.index==p?"active":""}">
-                                <button type="submit" class="page-link" value="${p}" name="btnIdx">
-                                    ${p}
-                                </button>
-                            </li>
-                        </c:forEach>
-                    </c:if>
-                    <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
-                        <span class="page-link">...</span>
-                    </li>
-                    <li class="page-item ${page.index==page.totalPage?"active":""}" ${page.totalPage==1?"hidden":""}>
-                        <button type="submit" class="page-link"
-                                name="last" value="${page.totalPage}">
-                            ${page.totalPage}
-                        </button>
-                    </li>
-                    <li class="page-item">
-                        <button type="submit" class="page-link" name="Next" 
-                                ${page.index==page.totalPage?"hidden":""}>
-                            >>
-                        </button>
-                    </li>
-                </ul>
-            </nav>
-        </form>
+        <nav class="mt-4" ${page.totalItems==0?'hidden':''}>
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" href="usermanage?index=${page.index-1}" ${page.index==1?"hidden":""}>
+                        <
+                    </a>
+                </li>
+                <li class="page-item ${page.index==1?"active":""}">
+                    <a class="page-link" href="usermanage?index=1">1</a>
+                </li>
+                <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
+                    <span class="page-link">...</span>
+                </li>
+                <c:if test="${page.totalPage>2}">
+                    <c:forEach var="p" begin="${page.pageStart}" end="${page.pageEnd}">
+                        <li class="page-item ${page.index==p?"active":""}">
+                            <a class="page-link" href="usermanage?index=${p}">
+                                ${p}
+                            </a>
+                        </li>
+                    </c:forEach>
+                </c:if>
+                <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
+                    <span class="page-link">...</span>
+                </li>
+                <li class="page-item ${page.index==page.totalPage?"active":""}" ${page.totalPage==1?"hidden":""}>
+                    <a class="page-link" href="usermanage?index=${page.totalPage}">
+                        ${page.totalPage}
+                    </a>
+                </li>
+                <li class="page-item" ${page.index==page.totalPage?"hidden":""}>
+                    <a class="page-link" href="usermanage?index=${page.index+1}">
+                        >
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </body>
     <script src="js/jquery-3.7.0.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script>
+                                                    $('a.page-link').click((e) => {
+                                                        e.target.href += '&search=' + $('#search')[0].value;
+                                                    });
+    </script>
 </html>

@@ -356,9 +356,30 @@ public class UserDaoImpl extends DBContext implements UserDAO {
 
     }
 
-    @Override
-    public int getTotalItems() throws Exception {
-        String query = "select count(*) from users";
+//    @Override
+//    public int getTotalItems() throws Exception {
+//        String query = "select count(*) from users";
+//
+//        Connection conn = null;
+//        PreparedStatement ps = null;
+//        ResultSet rs = null;
+//
+//        try {
+//            conn = getConnection();
+//            ps = conn.prepareStatement(query);
+//            rs = ps.executeQuery();
+//            rs.next();
+//            return rs.getInt(1);
+//        } catch (Exception e) {
+//            throw new Exception("Unable to get data from database");
+//        } finally {
+//            closeRs(rs);
+//            closePs(ps);
+//            closeConnection(conn);
+//        }
+//    }
+    public int getTotalItems(String search) throws Exception {
+        String query = "select count(*) from users where account_name like ? or phone like ? or email like ?";
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -367,6 +388,9 @@ public class UserDaoImpl extends DBContext implements UserDAO {
         try {
             conn = getConnection();
             ps = conn.prepareStatement(query);
+            ps.setString(1, "%" + search + "%");
+            ps.setString(2, "%" + search + "%");
+            ps.setString(3, "%" + search + "%");
             rs = ps.executeQuery();
             rs.next();
             return rs.getInt(1);
@@ -379,23 +403,95 @@ public class UserDaoImpl extends DBContext implements UserDAO {
         }
     }
 
-    @Override
-    public List<User> getPage(Pagination page) throws Exception {
-        List<User> list = new ArrayList<>();
-        String query = "select * from users order by id offset ? rows fetch next ? rows only";
+//    @Override
+//    public List<User> getPage(Pagination page) throws Exception {
+//        List<User> list = new ArrayList<>();
+//        String query = "select * from users order by id offset ? rows fetch next ? rows only";
+//
+//        int id;
+//        String fullname;
+//        String username;
+//        String email;
+//
+//        Date DOB;
+//        String phone;
+//        String role;
+//        String status;
+//
+//        User user;
+//
+//        Connection conn = null;
+//        PreparedStatement ps = null;
+//        ResultSet rs = null;
+//
+//        try {
+//            conn = getConnection();
+//            ps = conn.prepareStatement(query);
+//
+//            ps.setInt(1, page.getOffset());
+//            ps.setInt(2, page.getItemsPerPage());
+//
+//            rs = ps.executeQuery();
+//            while (rs.next()) {
+//                id = rs.getInt("id");
+//                fullname = rs.getString("full_name");
+//                username = rs.getString("account_name");
+//                email = rs.getString("email");
+//                DOB = rs.getDate("DOB");
+//                phone = rs.getString("phone");
+//                role = rs.getString("role");
+//                status = rs.getString("status");
+//
+//                user = new User(id, username, fullname, DOB, email, phone, role, status);
+//
+//                list.add(user);
+//            }
+//        } catch (SQLException ex) {
+//            throw new Exception("Unable to get data from database");
+//        } finally {
+//            closeRs(rs);
+//            closePs(ps);
+//            closeConnection(conn);
+//        }
+//        return list;
+//    }
+    public void toggleUserStatus(int id) throws Exception {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        String activeUser = "update users set status ='Active' Where id = ?";
+        String banUser = "update users set status = 'Banned' Where id = ?";
+        String findUserStatusByUserID = "select status from users where id = ?";
+        String status = null;
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(findUserStatusByUserID);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                status = rs.getString(activeUser);
+            }
 
-        int id;
-        String fullname;
-        String username;
-        String email;
-        
-        Date DOB;
-        String phone;
-        String role;
-        String status;
-     
+            if (status.equalsIgnoreCase("Active")) {
+                ps = conn.prepareStatement(banUser);
+            } else {
+                ps = conn.prepareStatement(activeUser);
+            }
 
-        User user;
+            ps.setInt(1, id);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
+    }
+
+    public boolean isPhoneUnique(String phone, int id) throws Exception {
+        String query = "select phone from users where phone=? and id !=? ";
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -404,26 +500,12 @@ public class UserDaoImpl extends DBContext implements UserDAO {
         try {
             conn = getConnection();
             ps = conn.prepareStatement(query);
-
-            ps.setInt(1, page.getOffset());
-            ps.setInt(2, page.getItemsPerPage());
+            ps.setString(1, phone);
+            ps.setInt(2, id);
 
             rs = ps.executeQuery();
-            while (rs.next()) {
-                id = rs.getInt("id");
-                fullname = rs.getString("full_name");
-                username = rs.getString("account_name");
-                email = rs.getString("email");
-                DOB = rs.getDate("DOB");
-                phone = rs.getString("phone");
-                role = rs.getString("role");
-                status = rs.getString("status");
-              
-              
-                user = new User(id, username, fullname, DOB, email, phone, role, status);
 
-                list.add(user);
-            }
+            return !rs.next();
         } catch (SQLException ex) {
             throw new Exception("Unable to get data from database");
         } finally {
@@ -431,17 +513,105 @@ public class UserDaoImpl extends DBContext implements UserDAO {
             closePs(ps);
             closeConnection(conn);
         }
+    }
+
+    public boolean isEmailUnique(String email, int id) throws Exception {
+        String query = "select email from users where email=? and id !=?";
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, email);
+            ps.setInt(2, id);
+
+            rs = ps.executeQuery();
+
+            return !rs.next();
+        } catch (SQLException ex) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
+    }
+
+    public List<User> getPage(String search, Pagination page) throws Exception {
+//        closeOutdated();
+
+        List<User> list = new ArrayList<>();
+        String query = "select * from users where account_name like ? or phone like ? or email like ? "
+                + "order by id offset ? rows fetch next ? rows only";
+
+        int id = 0;
+        String fullname = null;
+        String username = null;
+        Date DOB = null;
+        String phone = null;
+        String email = null;
+        String role = null;
+        String status = null;
+
+        User user = null;
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, "%" + search + "%");
+            ps.setString(2, "%" + search + "%");
+            ps.setString(3, "%" + search + "%");
+            ps.setInt(4, page.getOffset());
+            ps.setInt(5, page.getItemsPerPage());
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                id = rs.getInt("id");
+                fullname = rs.getString("full_name");
+                username = rs.getString("account_name");
+                DOB = rs.getDate("DOB");
+                phone = rs.getString("phone");
+                email = rs.getString("email");
+                role = rs.getString("role");
+                status = rs.getString("status");
+
+                user = new User(id, username, fullname, DOB, email, phone, role, status);
+                list.add(user);
+
+            }
+        } catch (SQLException ex) {
+//            throw new Exception("Unable to get data from database");
+            throw ex;
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
         return list;
     }
-//    public static void main(String[] args) {
-//        try {
-//            User u = new User(2, "agent_demos", "1234567", "Nguyen Van Bane", Date.valueOf("2003-01-01"), "ANV345s@gmail.com", "0123456782", "Travel Agent", "Active", null);
-//            UserDaoImpl ud = new UserDaoImpl();
-//            ud.save(u);
-//            System.out.println(ud.checkKey("16871629842350.75986604125715921687162984235"));
-////            ud.update(u);
-//        } catch (Exception ex) {
-//            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
+
+    public static void main(String[] args) {
+        try {
+//            
+            UserDaoImpl dao = new UserDaoImpl();
+//            int index = 1;
+//            int totalItems = dao.getTotalItems("");
+//            Pagination page = new Pagination(totalItems, 2, index);
+//            List<User> list = dao.getPage("", page);
+//            System.out.println(list);
+               dao.toggleUserStatus(1);
+               System.out.println(dao.getAll());
+      
+        } catch (Exception ex) {
+            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

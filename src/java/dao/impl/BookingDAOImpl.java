@@ -140,7 +140,11 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
         }
         return list;
     }
-
+    public static void main(String[] args) throws Exception {
+        BookingDAOImpl dao = new BookingDAOImpl();
+        Pagination page = new Pagination(1, 10, 1);
+        dao.getTourHistory(1, page);
+    }
     @Override
     public List<Booking> getBookingList(int agentId, Pagination page) throws Exception {
         String sql = "select booking.id, tour_id, book_time, start_date, tourists_quantity, booking.status, "
