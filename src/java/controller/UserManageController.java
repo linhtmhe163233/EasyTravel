@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller;
 
+import dao.UserDAO;
 import dao.impl.UserDaoImpl;
 import entity.User;
 import java.io.IOException;
@@ -23,34 +23,37 @@ import utils.Pagination;
  * @author My Laptop
  */
 public class UserManageController extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ManageuserController</title>");  
+            out.println("<title>Servlet ManageuserController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ManageuserController at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ManageuserController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -58,35 +61,34 @@ public class UserManageController extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         try {
-            UserDaoImpl dao = new UserDaoImpl();
-//            List<User> list = dao.getAll();
-//            request.setAttribute("list", list);
-            int totalItems = dao.getTotalItems();
-
-            Object indexObj = request.getAttribute("index");
-            int index;
-            if (indexObj == null) {
-                index = 1;
-            } else {
-                index = (int) indexObj;
+            UserDAO dao = new UserDaoImpl();
+            int index = 1;
+            String indexStr = request.getParameter("index");
+            if (indexStr != null && indexStr.matches("^[0-9]+$")) {
+                index = Integer.parseInt(indexStr);
             }
-
-            Pagination page = new Pagination(totalItems, 10, index);
-            List<User> list = dao.getPage(page);
+            String search = request.getParameter("search");
+            if (search == null) {
+                search = "";
+            }
+            int totalItems = dao.getTotalItems(search);
+            Pagination page = new Pagination(totalItems, 3, index);
+            List<User> list = dao.getPage(search, page);
 
             request.setAttribute("page", page);
             request.setAttribute("list", list);
         } catch (Exception ex) {
             Logger.getLogger(HotelController.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
-         request.getRequestDispatcher("views/Admin/UserList.jsp").forward(request, response);
-         }
 
-    /** 
+        request.getRequestDispatcher("views/Admin/UserList.jsp").forward(request, response);
+    }
+
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -94,36 +96,12 @@ public class UserManageController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        int index = Integer.parseInt(request.getParameter("index"));
-        if (request.getParameter("first") != null) //click first
-        {
-            index = 1;
-        }
-        if (request.getParameter("last") != null) //click last
-        {
-            index = Integer.parseInt(request.getParameter("last"));
-        }
-        if (request.getParameter("Prev") != null) //click prev
-        {
-            index--;
-        }
-        if (request.getParameter("Next") != null) //click next
-        {
-            index++;
-        }
-        if (request.getParameter("btnIdx") != null) // click button number
-        {
-            index = Integer.parseInt(request.getParameter("btnIdx"));
-        }
-        request.setAttribute("index", index);
-        doGet(request, response);
-
-
+            throws ServletException, IOException {
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

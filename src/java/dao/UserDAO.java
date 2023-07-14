@@ -13,12 +13,22 @@ import utils.Pagination;
  * @author My Laptop
  */
 public interface UserDAO extends BasicDAO<User> {
+
     User checkLogin(String username, String password) throws Exception;
+
     User checkEmail(String email) throws Exception;
+
     User checkKey(String key) throws Exception;
-    int getTotalItems() throws Exception;
-    List<User> getPage(Pagination page) throws Exception;
+
+//    int getTotalItems() throws Exception;
+
+    int getTotalItems(String search) throws Exception;
+
+//    List<User> getPage(Pagination page) throws Exception;
+
     boolean isPhoneUnique(String phone, int id) throws Exception;
+
     boolean isEmailUnique(String email, int id) throws Exception;
+
     List<User> getPage(String search, Pagination page) throws Exception;
 }
