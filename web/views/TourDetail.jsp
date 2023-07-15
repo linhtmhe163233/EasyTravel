@@ -19,15 +19,16 @@
         <meta name="author" content="Group6">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/bootstrap.min.css">
-        <script src="js/jquery-3.7.0.js" type="text/javascript"></script>
-        <script src="js/bootstrap.min.js" type="text/javascript"></script>
         <link rel="stylesheet" href="css/TourDetail.css">
         <title>Easy Travel | Tour detail</title>
     </head>
     <body>
         <c:import url="./Layout/Header.jsp"></c:import>
-            <div class="rounded w-75 mx-auto" style="background: #DDD0C8;">
-                <h1 class="text-center mt-2" style="color: #323232;">${tour.name}</h1>
+        <c:if test="${toast!=null}">
+            <c:import url="./Layout/Toast.jsp"></c:import>
+        </c:if>
+        <div class="rounded w-75 mx-auto" style="background: #DDD0C8;">
+            <h1 class="text-center mt-2" style="color: #323232;">${tour.name}</h1>
             <img class="img-fluid img-thumbnail d-block mx-auto" 
                  src="./images/${tour.image}" alt="${tour.name}"
                  style="height: 50vh;">
@@ -110,6 +111,7 @@
                                   </div>
                                   <form action="book" method="POST" novalidate id="form" class="needs-validation">
                                       <input type="hidden" value="${tour.id}" name="tourId">
+                                      <input type="hidden" value="${tour.tripLength}" name="tripLength">
                                       <div class="modal-body mx-3" id="bookForm">
                                           <div class="md-form mb-3">
                                               <label data-error="wrong" data-success="right" for="dob">Start date</label>
@@ -301,6 +303,8 @@
             </ul>
         </nav>
     </body>
+    <script src="js/jquery-3.7.0.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
     <script>
         (function () {
             'use strict';
@@ -319,7 +323,7 @@
                 });
             }, false);
         })();
-        let startDate = $('#startDate');
+        let startDate = $("#startDate")[0];
         Date.prototype.addYears = function (years) {
             let date = new Date(this);
             date.setYear(date.getFullYear() + years);
@@ -344,9 +348,9 @@
                 $('#account').attr("pattern", "^[0-9]{6,30}$");
             } else {
                 $('#onlinePay').hide();
-                $('#bank').removeAttr()("required");
-                $('#account').removeAttr()("required");
-                $('#account ').removeAttr()("pattern");
+                $('#bank').removeAttr("required");
+                $('#account').removeAttr("required");
+                $('#account ').removeAttr("pattern");
             }
         });
         $('#cost').val(Number(${tour.price} *${tour.maxQuantity}).toFixed());
@@ -355,8 +359,9 @@
         });
         if ('${scroll}'.length !== 0) {
             $('#fb')[0].scrollIntoView({
-               behaviour: "smooth"
+                behaviour: "smooth"
             });
         }
+        $('.toast').toast('show');
     </script>
 </html>

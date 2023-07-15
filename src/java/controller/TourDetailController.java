@@ -72,6 +72,9 @@ public class TourDetailController extends HttpServlet {
             }
             Pagination page = new Pagination(totalItems, 10, index);
             List<FeedbackThread> listfb = daoo.getPage(page, id);
+            String toast = (String)session.getAttribute("toast");
+            session.removeAttribute("toast");
+            request.setAttribute("toast", toast);
             request.setAttribute("page", page);
             request.setAttribute("listfb", listfb);
         } catch (Exception ex) {

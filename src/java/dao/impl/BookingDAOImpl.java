@@ -142,8 +142,7 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
     }
     public static void main(String[] args) throws Exception {
         BookingDAOImpl dao = new BookingDAOImpl();
-        Pagination page = new Pagination(1, 10, 1);
-        dao.getTourHistory(1, page);
+        System.out.println(dao.checkSchedule(1, Date.valueOf("2023-01-01"), Date.valueOf("2023-12-31")));
     }
     @Override
     public List<Booking> getBookingList(int agentId, Pagination page) throws Exception {
@@ -244,28 +243,34 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
     }
 
     @Override
-    public boolean checkSchedule(int touristId, Date from, Date to) {
-        throw new UnsupportedOperationException("Not supported yet."); 
-//        String query = "select count(*) from booking where tourist_id=? and status in ('Unpaid', 'Paid', 'Ready') and";
-//
-//        Connection conn = null;
-//        PreparedStatement ps = null;
-//        ResultSet rs = null;
-//
-//        try {
-//            conn = getConnection();
-//            ps = conn.prepareStatement(query);
-//            ps.setInt(1, searchBy);
-//            rs = ps.executeQuery();
-//            rs.next();
-//            return rs.getInt(1);
-//        } catch (Exception e) {
-//            throw new Exception("Unable to get data from database");
-//        } finally {
-//            closeRs(rs);
-//            closePs(ps);
-//            closeConnection(conn);
-//        }
+    public boolean checkSchedule(int touristId, Date from, Date to)  throws Exception{
+        String query = "select count(*) from booking join tours on booking.tour_id=tours.id "
+                + "where tourist_id=? and status in ('Unpaid', 'Paid', 'Ready') and "
+                + "((start_date>=? and start_date<=?) or"
+                + "(dateadd(day, trip_length, start_date)>=? and dateadd(day, trip_length, start_date)<=?))";
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, touristId);
+            ps.setDate(2, from);
+            ps.setDate(3, to);
+            ps.setDate(4, from);
+            ps.setDate(5, to);
+            rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt(1)==0;
+        } catch (Exception e) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
     }
 
 }
