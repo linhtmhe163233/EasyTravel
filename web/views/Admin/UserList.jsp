@@ -8,7 +8,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-
         <meta name="description" content="EasyTravel">
         <meta name="keywords" content="travel">
         <meta name="author" content="Group6">
@@ -17,8 +16,6 @@
         <link href="css/fontawesome.min.css" rel="stylesheet"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>EasyTravel | Staff</title>
-
-
     </head>
     <body>
         <c:import url="../Layout/Header.jsp"></c:import>
@@ -47,15 +44,12 @@
             </thead>
             <tbody>
                 <c:forEach items="${list}" var="user" varStatus="loop">
-
                     <tr>
-<!--                        <th scope="row">${user.id}</th>-->
                         <th scope="row">${loop.count+page.itemsPerPage*(page.index-1)}</th>
                         <td>${user.fullname}</td>
                         <td>${user.username}</td>
                         <td>${user.email}</td>
                         <td>${user.dob}</td>
-<!--                        <td>${user.email}</td>-->
                         <td>${user.phone}</td>
                         <td>${user.role}</td>
                         <td>${user.status}</td>

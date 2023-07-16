@@ -19,151 +19,16 @@
         <meta name="author" content="Group6">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/bootstrap.min.css">
-        <script src="js/jquery-3.7.0.js" type="text/javascript"></script>
-        <script src="js/bootstrap.min.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="css/TourDetail.css">
         <title>Easy Travel | Tour detail</title>
-        <style>
-            .comment-box{
-                padding:5px;
-            }
-
-            .comment-area textarea{
-                resize: none;
-                border: 1px solid #ad9f9f;
-            }
-
-            .form-control:focus {
-                color: #495057;
-                border-color: #00FFFF;
-                outline: 0;
-                box-shadow: 0 0 0 1px !important;
-            }
-
-            .send {
-                color: #fff;
-                background-color: #ff0000;
-                border-color: #ff0000;
-            }
-
-            .send:hover {
-                color: #fff;
-                background-color: #f50202;
-                border-color: #f50202;
-            }
-
-
-            .rating {
-                display: flex;
-                margin-top: -10px;
-                flex-direction: row-reverse;
-                margin-left: -4px;
-                float: left;
-            }
-
-            .rating>input {
-                display: none
-            }
-
-            .rating>label {
-                position: relative;
-                width: 19px;
-                font-size: 25px;
-                color: #ff0000;
-                cursor: pointer;
-            }
-
-            .rating>label::before {
-                content: "\2605";
-                position: absolute;
-                opacity: 0
-            }
-
-            .rating>label:hover:before,
-            .rating>label:hover~label:before {
-                opacity: 1 !important
-            }
-
-            .rating>input:checked~label:before {
-                opacity: 1
-            }
-
-            .rating:hover>input:checked~label:before {
-                opacity: 0.4
-            }
-
-
-            body{
-                background-color: #fff;
-            }
-            .container{
-                background-color: #eef2f5;
-                width: 1100px;
-            }
-            .addtxt{
-                padding-top: 10px;
-                padding-bottom: 10px;
-                text-align: center;
-                font-size: 13px;
-                width: 1000px;
-                background-color: #e5e8ed;
-                font-weight: 500;
-            }
-            .second{
-                width: 1200px;
-                background-color: white;
-                border-radius: 4px;
-                box-shadow: 10px 10px 5px #aaaaaa;
-                margin-left:4px;
-            }
-            .text1{
-                font-size: 15px;
-                font-weight: 500;
-                color: #56575b;
-                margin-left:10px;
-            }
-            .text2{
-                font-size: 13px;
-                font-weight: 500;
-                margin-left: 6px;
-                color: #56575b;
-            }
-            .text3{
-                font-size: 13px;
-                font-weight: 500;
-                color: #828386;
-                margin-left:900px;
-            }
-            .text3o{
-                color: #00a5f4;
-
-            }
-            .text4{
-                font-size: 20px;
-                font-weight: 500;
-                color:black;
-                margin-left:10px;
-            }
-            .text4i{
-                color: #00a5f4;
-            }
-            .text4o{
-                color: white;
-            }
-            .thumbup{
-                font-size: 13px;
-                font-weight: 500;
-                margin-right: 5px;
-            }
-            .thumbupo{
-                color: #17a2b8;
-            }
-
-        </style>
     </head>
     <body>
         <c:import url="./Layout/Header.jsp"></c:import>
-            <div class="rounded w-75 mx-auto" style="background: #DDD0C8;">
-                <h1 class="text-center mt-2" style="color: #323232;">${tour.name}</h1>
+        <c:if test="${toast!=null}">
+            <c:import url="./Layout/Toast.jsp"></c:import>
+        </c:if>
+        <div class="rounded w-75 mx-auto" style="background: #DDD0C8;">
+            <h1 class="text-center mt-2" style="color: #323232;">${tour.name}</h1>
             <img class="img-fluid img-thumbnail d-block mx-auto" 
                  src="./images/${tour.image}" alt="${tour.name}"
                  style="height: 50vh;">
@@ -246,6 +111,7 @@
                                   </div>
                                   <form action="book" method="POST" novalidate id="form" class="needs-validation">
                                       <input type="hidden" value="${tour.id}" name="tourId">
+                                      <input type="hidden" value="${tour.tripLength}" name="tripLength">
                                       <div class="modal-body mx-3" id="bookForm">
                                           <div class="md-form mb-3">
                                               <label data-error="wrong" data-success="right" for="dob">Start date</label>
@@ -357,7 +223,7 @@
         </div>
         <form action="feedback" method="post">
             <div class="text-center text-uppercase mt-4">
-                <h1>Feedback</h1>
+                <h1 id="fb">Feedback</h1>
                 <p style="color:red">${mess}</p>   
                 <div>
                     <c:if test="${checkFeedback}">
@@ -379,75 +245,66 @@
                 </div>
             </div>
         </form>
-        <br><!-- commented -->
-
+        <br>
         <div class="container justify-content-center mt-5 border-left border-right">
-           
             <c:forEach items="${listfb}" var="fb" varStatus="loop">
                 <div class="d-flex justify-content-center py-2">
-
                     <div class="second py-2 px-2"> 
                         <span class="text3  ">${fb.time}</span>
                         <div><p class="text4">${fb.fullName}</p></div>
-
-                        <c:forEach begin="1" end="${fb.rating}">
+                            <c:forEach begin="1" end="${fb.rating}">
                             <span  style="color: orangered;font-size: 25px;margin-left:10px;">☆</span>
                         </c:forEach>
                         <br>
                         <span class="text1">${fb.content}</span>
                         <div class="d-flex justify-content-between py-1 pt-2">
-
                             <div><span class="text1 text3o">Reply</span></div>
                         </div>
                     </div>
-
                 </div>
             </c:forEach>
         </div>
         <br>
-<!--        <form action="tour" method="post" ${page.totalItems==0?'hidden':''}>
-            <input type="hidden" min="1" name="index" value="${page.index}"> 
-            <nav class="mt-4">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                        <button type="submit" class="page-link" name="Prev" ${page.index==1?"hidden":""}>
-                            <<
-                        </button>
-                    </li>
-                    <li class="page-item ${page.index==1?"active":""}">
-                        <button type="submit" class="page-link" name="first">1</button>
-                    </li>
-                    <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
-                        <span class="page-link">...</span>
-                    </li>
-                    <c:if test="${page.totalPage>2}">
-                        <c:forEach var="p" begin="${page.pageStart}" end="${page.pageEnd}">
-                            <li class="page-item ${page.index==p?"active":""}">
-                                <button type="submit" class="page-link" value="${p}" name="btnIdx">
-                                    ${p}
-                                </button>
-                            </li>
-                        </c:forEach>
-                    </c:if>
-                    <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
-                        <span class="page-link">...</span>
-                    </li>
-                    <li class="page-item ${page.index==page.totalPage?"active":""}" ${page.totalPage==1?"hidden":""}>
-                        <button type="submit" class="page-link"
-                                name="last" value="${page.totalPage}">
-                            ${page.totalPage}
-                        </button>
-                    </li>
-                    <li class="page-item">
-                        <button type="submit" class="page-link" name="Next" 
-                                ${page.index==page.totalPage?"hidden":""}>
-                            >>
-                        </button>
-                    </li>
-                </ul>
-            </nav>
-        </form>-->
+        <nav class="mt-4" ${page.totalItems==0?'hidden':''}>
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" href="tour?id=${tour.id}&index=${page.index-1}" ${page.index==1?"hidden":""}>
+                        <
+                    </a>
+                </li>
+                <li class="page-item ${page.index==1?"active":""}">
+                    <a class="page-link" href="tour?id=${tour.id}&index=1">1</a>
+                </li>
+                <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
+                    <span class="page-link">...</span>
+                </li>
+                <c:if test="${page.totalPage>2}">
+                    <c:forEach var="p" begin="${page.pageStart}" end="${page.pageEnd}">
+                        <li class="page-item ${page.index==p?"active":""}">
+                            <a class="page-link" href="tour?id=${tour.id}&index=${p}">
+                                ${p}
+                            </a>
+                        </li>
+                    </c:forEach>
+                </c:if>
+                <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
+                    <span class="page-link">...</span>
+                </li>
+                <li class="page-item ${page.index==page.totalPage?"active":""}" ${page.totalPage==1?"hidden":""}>
+                    <a class="page-link" href="tour?id=${tour.id}&index=${page.totalPage}">
+                        ${page.totalPage}
+                    </a>
+                </li>
+                <li class="page-item" ${page.index==page.totalPage?"hidden":""}>
+                    <a class="page-link" href="tour?id=${tour.id}&index=${page.index+1}">
+                        >
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </body>
+    <script src="js/jquery-3.7.0.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
     <script>
         (function () {
             'use strict';
@@ -466,7 +323,7 @@
                 });
             }, false);
         })();
-        let startDate = document.getElementById("startDate");
+        let startDate = $("#startDate")[0];
         Date.prototype.addYears = function (years) {
             let date = new Date(this);
             date.setYear(date.getFullYear() + years);
@@ -491,14 +348,20 @@
                 $('#account').attr("pattern", "^[0-9]{6,30}$");
             } else {
                 $('#onlinePay').hide();
-                $('#bank').removeAttr()("required");
-                $('#account').removeAttr()("required");
-                $('#account ').removeAttr()("pattern");
+                $('#bank').removeAttr("required");
+                $('#account').removeAttr("required");
+                $('#account ').removeAttr("pattern");
             }
         });
         $('#cost').val(Number(${tour.price} *${tour.maxQuantity}).toFixed());
         $('#tourists_quantity').on("change", (e) => {
             $('#cost').val(${tour.price} * e.target.value);
         });
+        if ('${scroll}'.length !== 0) {
+            $('#fb')[0].scrollIntoView({
+                behaviour: "smooth"
+            });
+        }
+        $('.toast').toast('show');
     </script>
 </html>

@@ -1,0 +1,138 @@
+/* 
+    Created on : Jul 13, 2023, 7:52:12 AM
+    Author     : DucTM
+*/
+.comment-box{
+    padding:5px;
+}
+
+.comment-area textarea{
+    resize: none;
+    border: 1px solid #ad9f9f;
+}
+
+.form-control:focus {
+    color: #495057;
+    border-color: #00FFFF;
+    outline: 0;
+    box-shadow: 0 0 0 1px !important;
+}
+
+.send {
+    color: #fff;
+    background-color: #ff0000;
+    border-color: #ff0000;
+}
+
+.send:hover {
+    color: #fff;
+    background-color: #f50202;
+    border-color: #f50202;
+}
+
+
+.rating {
+    display: flex;
+    margin-top: -10px;
+    flex-direction: row-reverse;
+    margin-left: -4px;
+    float: left;
+}
+
+.rating>input {
+    display: none
+}
+
+.rating>label {
+    position: relative;
+    width: 19px;
+    font-size: 25px;
+    color: #ff0000;
+    cursor: pointer;
+}
+
+.rating>label::before {
+    content: "\2605";
+    position: absolute;
+    opacity: 0
+}
+
+.rating>label:hover:before,
+.rating>label:hover~label:before {
+    opacity: 1 !important
+}
+
+.rating>input:checked~label:before {
+    opacity: 1
+}
+
+.rating:hover>input:checked~label:before {
+    opacity: 0.4
+}
+
+
+body{
+    background-color: #fff;
+}
+.container{
+    background-color: #eef2f5;
+    width: 1100px;
+}
+.addtxt{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    font-size: 13px;
+    width: 1000px;
+    background-color: #e5e8ed;
+    font-weight: 500;
+}
+.second{
+    width: 1200px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 10px 10px 5px #aaaaaa;
+    margin-left:4px;
+}
+.text1{
+    font-size: 15px;
+    font-weight: 500;
+    color: #56575b;
+    margin-left:10px;
+}
+.text2{
+    font-size: 13px;
+    font-weight: 500;
+    margin-left: 6px;
+    color: #56575b;
+}
+.text3{
+    font-size: 13px;
+    font-weight: 500;
+    color: #828386;
+    margin-left:900px;
+}
+.text3o{
+    color: #00a5f4;
+
+}
+.text4{
+    font-size: 20px;
+    font-weight: 500;
+    color:black;
+    margin-left:10px;
+}
+.text4i{
+    color: #00a5f4;
+}
+.text4o{
+    color: white;
+}
+.thumbup{
+    font-size: 13px;
+    font-weight: 500;
+    margin-right: 5px;
+}
+.thumbupo{
+    color: #17a2b8;
+}

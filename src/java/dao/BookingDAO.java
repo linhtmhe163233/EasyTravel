@@ -9,6 +9,7 @@
 package dao;
 
 import entity.Booking;
+import java.sql.Date;
 import java.util.List;
 import utils.Pagination;
 
@@ -20,4 +21,5 @@ public interface BookingDAO extends BasicDAO<Booking> {
     List<Booking> getTourHistory(int touristId, Pagination page) throws Exception;
     List<Booking> getBookingList(int agentId, Pagination page) throws Exception;
     int getTotalItems(int searchBy, String type) throws Exception;
+    boolean checkSchedule(int touristId, Date from, Date to) throws Exception;
 }

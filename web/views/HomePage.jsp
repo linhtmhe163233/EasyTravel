@@ -102,7 +102,7 @@
             </ul>
         </nav>
     </body>
-    <script>        
+    <script>
         $('a.page-link').click((e)=>{
             e.target.href+='&search='+$('#search')[0].value;
         });
