@@ -86,18 +86,33 @@ public class RegisterController extends HttpServlet {
         String key = Math.random() % 1000000 + String.valueOf(System.currentTimeMillis()) + Math.random() % 1000000;
         try {
             UserDAO dao = new UserDaoImpl();
-            dao.save(new User(username, password, fullname, dob, email, phone, role, "Inactive", key));
+            if (!dao.registerUsernameUnique(username)) {
+                request.setAttribute("message", "Username available");
+                doGet(request, response);
+            }
 
-            Mail mail = new Mail();
+            if (!dao.registerEmailUnique(email)) {
+                request.setAttribute("message1", "This email already exists in the list!");
+                doGet(request, response);
+            }
+            if (!dao.registerPhoneUnique(phone)) {
+                request.setAttribute("message2", "Duplicate phone number");
+                doGet(request, response);
+            }
+            if (dao.registerEmailUnique(email) && dao.registerPhoneUnique(phone) && dao.registerUsernameUnique(username)) {
+                dao.save(new User(username, password, fullname, dob, email, phone, role, "Inactive", key));
+                Mail mail = new Mail();
 
-            String contextPath = "http://localhost:9999/EasyTravel/"; //request.getContextPath()
-            mail.sentEmail(email, "Easy Travel verification mail", contextPath + "home?key=" + key, "link");
-            request.setAttribute("registered", true);
-            doGet(request, response);
+                String contextPath = "http://localhost:9999/EasyTravel/"; //request.getContextPath()
+                mail.sentEmail(email, "Easy Travel verification mail", contextPath + "home?key=" + key, "link");
+                request.setAttribute("registered", true);
+                doGet(request, response);
 //            request.getRequestDispatcher("views/Register.jsp").forward(request, response);
+            }
         } catch (Exception ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
+//        doGet(request, response);
     }
 
     /**

@@ -74,7 +74,7 @@ public class UserManageController extends HttpServlet {
                 search = "";
             }
             int totalItems = dao.getTotalItems(search);
-            Pagination page = new Pagination(totalItems, 3, index);
+            Pagination page = new Pagination(totalItems, 5, index);
             List<User> list = dao.getPage(search, page);
 
             request.setAttribute("page", page);

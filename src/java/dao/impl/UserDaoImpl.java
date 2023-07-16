@@ -482,7 +482,8 @@ public class UserDaoImpl extends DBContext implements UserDAO {
             ps.executeUpdate();
 
         } catch (Exception e) {
-            throw new Exception("Unable to get data from database");
+//            throw new Exception("Unable to get data from database");
+            throw e;
         } finally {
             closeRs(rs);
             closePs(ps);
@@ -502,6 +503,78 @@ public class UserDaoImpl extends DBContext implements UserDAO {
             ps = conn.prepareStatement(query);
             ps.setString(1, phone);
             ps.setInt(2, id);
+
+            rs = ps.executeQuery();
+
+            return !rs.next();
+        } catch (SQLException ex) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
+    }
+
+    public boolean registerPhoneUnique(String phone) throws Exception {
+        String query = "select phone from users where phone=?";
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, phone);
+
+            rs = ps.executeQuery();
+
+            return !rs.next();
+        } catch (SQLException ex) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
+    }
+
+    public boolean registerEmailUnique(String email) throws Exception {
+        String query = "select email from users where email=?";
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, email);
+
+            rs = ps.executeQuery();
+
+            return !rs.next();
+        } catch (SQLException ex) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
+    }
+
+    public boolean registerUsernameUnique(String username) throws Exception {
+        String query = "select account_name from users where account_name=?";
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, username);
 
             rs = ps.executeQuery();
 
@@ -598,18 +671,38 @@ public class UserDaoImpl extends DBContext implements UserDAO {
         return list;
     }
 
+    public void updateStatus(String status,int id) throws Exception {
+        Connection conn = super.getConnection();
+        String query = "update users set status = ? where id=?";
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement(query);
+            ps.setString(1,status);
+            ps.setInt(2,id);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            throw new Exception("Unable to update data to database");
+        } finally {
+            super.close(conn, ps, null);
+        }
+    }
+
     public static void main(String[] args) {
         try {
-//            
             UserDaoImpl dao = new UserDaoImpl();
+//            String email = null;
 //            int index = 1;
 //            int totalItems = dao.getTotalItems("");
 //            Pagination page = new Pagination(totalItems, 2, index);
 //            List<User> list = dao.getPage("", page);
 //            System.out.println(list);
-               dao.toggleUserStatus(1);
-               System.out.println(dao.getAll());
-      
+//               dao.toggleUserStatus(1);
+//               System.out.println(dao.getAll());
+//            boolean u = dao.registerUsernameUnique(email);
+//            System.out.println(u);
+
+            dao.updateStatus("Banned",1);
+   
         } catch (Exception ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

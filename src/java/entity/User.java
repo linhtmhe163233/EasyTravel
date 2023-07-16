@@ -21,6 +21,11 @@ public class User {
         this.id = id;
         this.fullname = fullname;
     }
+    
+    public User(String username, String status) {
+        this.username = username;
+        this.status = status;
+    }
 
     public User(int id, String username, String fullname, Date dob, String email, String phone, String role, String status) {
         this.id = id;

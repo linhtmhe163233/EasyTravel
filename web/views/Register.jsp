@@ -64,6 +64,7 @@
                                             </div>
                                             <input type="text" class="form-control" id="username" name="username" 
                                                    placeholder="User Name(*)" required pattern="^[a-zA-z0-9]+$" maxlength="50"></input>
+                                            <br><p style="color:red">${message}</p>
                                         </div>
                                     </div>
 
@@ -96,6 +97,7 @@
                                             </div>
                                             <input type="email" class="form-control" id="email" name="email" 
                                                    placeholder="example@gmail.com" required maxlength=80></input>
+                                            <p style="color:red">${message1}</p>
                                         </div>
                                     </div>
 
@@ -106,6 +108,7 @@
                                             </div>
                                             <input type="text" class="form-control" id="phone" name="phone" 
                                                    placeholder="Your phone number(*)" required pattern="^0[0-9]{9}$"></input>
+                                            <p style="color:red">${message2}</p>
                                         </div>
                                     </div>
 
@@ -149,21 +152,21 @@
                 </div>
             </div>
         </c:if>
-</body>
-<script>
-    Date.prototype.addYears = function (years) {
-        let date = new Date(this);
-        date.setYear(date.getFullYear() + years);
-        return date;
-    };
-    let dob = document.getElementById("dob");
-    dob.max = new Date().addYears(-18).toISOString().split("T")[0];
+    </body>
+    <script>
+        Date.prototype.addYears = function (years) {
+            let date = new Date(this);
+            date.setYear(date.getFullYear() + years);
+            return date;
+        };
+        let dob = document.getElementById("dob");
+        dob.max = new Date().addYears(-18).toISOString().split("T")[0];
 
-    let form = document.getElementById("form");
-    let password = document.getElementById("password");
-    let cfpassword = document.getElementById("cfpassword");
-    form.oninput = () => {
-        cfpassword.setCustomValidity(cfpassword.value !== password.value ? "Passwords do not match." : "");
-    };
-</script>
+        let form = document.getElementById("form");
+        let password = document.getElementById("password");
+        let cfpassword = document.getElementById("cfpassword");
+        form.oninput = () => {
+            cfpassword.setCustomValidity(cfpassword.value !== password.value ? "Passwords do not match." : "");
+        };
+    </script>
 </html>
