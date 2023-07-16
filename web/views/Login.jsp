@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Easy Travel | Login</title>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
     </head
     <body>
         <div id="login">
@@ -23,10 +23,10 @@
                                 <h3 class="text-center text-info">Login</h3>
                                 <div class="form-group">
                                     <label for="username" class="text-info">Username:</label><br>
-                                  
-                                        <input type="text" name="username" id="username" class="form-control" placeholder="your username" required value="${param.username}">
-                                  
-                                  
+
+                                    <input type="text" name="username" id="username" class="form-control" placeholder="your username" required value="${param.username}">
+
+
                                 </div>
                                 <div class="form-group">
                                     <label for="password" class="text-info">Password:</label><br>
@@ -46,8 +46,7 @@
                 </div>
             </div>
         </div>
-
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="js/jquery-3.7.0.js"></script>
+        <script src="js/bootstrap.min.js"></script>
     </body>
 </html>

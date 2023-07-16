@@ -24,7 +24,7 @@
     </head>
     <body>
         <c:import url="./Layout/Header.jsp"></c:import>
-        <c:if test="${toast!=null}">
+        <c:if test="${requestScope.toast!=null}">
             <c:import url="./Layout/Toast.jsp"></c:import>
         </c:if>
         <div class="rounded w-75 mx-auto" style="background: #DDD0C8;">
@@ -100,6 +100,7 @@
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalBookTour" id="book">
                           Book
                       </button>
+
                       <div class="modal fade" id="modalBookTour" tabindex="-1" role="dialog">
                           <div class="modal-dialog" role="document">
                               <div class="modal-content">
@@ -163,29 +164,7 @@
                                               <div class="invalid-feedback">Choose a payment method!</div>
                                           </div>
                                           <div id="onlinePay">
-                                              <div class="form-group mb-3">
-                                                  <label data-error="wrong" data-success="right" for="bank">
-                                                      Bank name
-                                                  </label>
-                                                  <select name="bank" id="bank" class="form-control validate">
-                                                      <option disabled selected hidden value>Select an option</option>
-                                                      <option value="MB">MB</option>
-                                                      <option value="BIDV">BIDV</option>
-                                                      <option value="TPBank">TPBank</option>
-                                                      <option value="VCBank">VCBank</option>
-                                                      <option value="Techcombank">Techcombank</option>
-                                                  </select>
-                                                  <div class="valid-feedback">Looks good!</div>
-                                                  <div class="invalid-feedback">Choose a supported bank from the list!</div>
-                                              </div>
-                                              <div class="form-group mb-3">
-                                                  <label data-error="wrong" data-success="right" for="account">
-                                                      Account number
-                                                  </label>
-                                                  <input type="text" class="form-control validate" name="account" id="account">
-                                                  <div class="valid-feedback">Looks good!</div>
-                                                  <div class="invalid-feedback">Enter a valid bank account!</div>
-                                              </div>
+                                              Banking info
                                           </div>
                                       </div>
                                       <div class="modal-footer d-flex justify-content-center">
@@ -323,34 +302,31 @@
                 });
             }, false);
         })();
+        $('.toast').toast('show');
         let startDate = $("#startDate")[0];
-        Date.prototype.addYears = function (years) {
-            let date = new Date(this);
-            date.setYear(date.getFullYear() + years);
-            return date;
-        };
-        Date.prototype.addDays = function (days) {
-            let date = new Date(this);
-            date.setDate(date.getDate() + days);
-            return date;
-        };
-        startDate.min = new Date().addDays(3).toISOString().split("T")[0];
-        startDate.valueAsDate = new Date().addDays(3);
-        startDate.max = new Date('${tour.availableTo}').addDays(3).toISOString().split("T")[0];
+        if (startDate) {
+            Date.prototype.addYears = function (years) {
+                let date = new Date(this);
+                date.setYear(date.getFullYear() + years);
+                return date;
+            };
+            Date.prototype.addDays = function (days) {
+                let date = new Date(this);
+                date.setDate(date.getDate() + days);
+                return date;
+            };
+            startDate.min = new Date().addDays(3).toISOString().split("T")[0];
+            startDate.valueAsDate = new Date().addDays(3);
+            startDate.max = new Date('${tour.availableTo}').addDays(3).toISOString().split("T")[0];
+        }
         if ('${book}'.length !== 0)
             $('#book').click();
         $('#onlinePay').hide();
         $('#payment').on("change", (e) => {
             if (e.target.value === 'Bank') {
                 $('#onlinePay').show();
-                $('#bank').attr("required", "required");
-                $('#account').attr("required", "required");
-                $('#account').attr("pattern", "^[0-9]{6,30}$");
             } else {
                 $('#onlinePay').hide();
-                $('#bank').removeAttr("required");
-                $('#account').removeAttr("required");
-                $('#account ').removeAttr("pattern");
             }
         });
         $('#cost').val(Number(${tour.price} *${tour.maxQuantity}).toFixed());
@@ -362,6 +338,5 @@
                 behaviour: "smooth"
             });
         }
-        $('.toast').toast('show');
     </script>
 </html>

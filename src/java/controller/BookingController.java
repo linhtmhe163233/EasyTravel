@@ -10,9 +10,7 @@
 package controller;
 
 import dao.BookingDAO;
-import dao.TourDAO;
 import dao.impl.BookingDAOImpl;
-import dao.impl.TourDAOImpl;
 import entity.Booking;
 import entity.User;
 import java.io.IOException;
@@ -20,7 +18,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.Timestamp;
 

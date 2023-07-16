@@ -44,9 +44,9 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         try {
             conn = getConnection();
             ps = conn.prepareStatement(query);
-            ps.setString(1, "%"+search+"%");
-            ps.setString(2, "%"+search+"%");
-            ps.setString(3, "%"+search+"%");
+            ps.setString(1, "%" + search + "%");
+            ps.setString(2, "%" + search + "%");
+            ps.setString(3, "%" + search + "%");
             rs = ps.executeQuery();
             rs.next();
             return rs.getInt(1);
@@ -62,10 +62,10 @@ public class TourDAOImpl extends DBContext implements TourDAO {
     @Override
     public List<Tour> getPage(String search, Pagination page) throws Exception {
         closeOutdated();
-        
+
         List<Tour> list = new ArrayList<>();
         String query = "select * from tours where name like ? or type like ? or destination like ? "
-                + "order by id offset ? rows fetch next ? rows only";
+                + "order by id desc offset ? rows fetch next ? rows only";
 
         int ID = 0;
         String name = null;
@@ -90,9 +90,9 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         try {
             conn = getConnection();
             ps = conn.prepareStatement(query);
-            ps.setString(1, "%"+search+"%");
-            ps.setString(2, "%"+search+"%");
-            ps.setString(3, "%"+search+"%");
+            ps.setString(1, "%" + search + "%");
+            ps.setString(2, "%" + search + "%");
+            ps.setString(3, "%" + search + "%");
             ps.setInt(4, page.getOffset());
             ps.setInt(5, page.getItemsPerPage());
 
@@ -126,6 +126,7 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         }
         return list;
     }
+
     @Override
     public List<Tour> getAll() throws Exception {
         List<Tour> list = new ArrayList<>();
@@ -244,6 +245,7 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         }
         return list;
     }
+
     @Override
     public void save(Tour t) throws Exception {
         String query = "insert into tours(name, type, is_enabled, destination, trip_length, available_from, available_to,"
@@ -284,7 +286,6 @@ public class TourDAOImpl extends DBContext implements TourDAO {
             save(t);
             return;
         }
-
         String query = "update tours set name=?, type=?, is_enabled=?, destination=?, trip_length=?, "
                 + "available_from=?, available_to=?, max_quantity=?, price=?, description=?, agent_id=?, image=? "
                 + "where id=?";
@@ -357,12 +358,12 @@ public class TourDAOImpl extends DBContext implements TourDAO {
             ps = conn.prepareStatement(query);
             ps.setInt(1, id);
             ps.executeUpdate();
-            query="update tours set available_from=GETDATE() where id=? and available_from<GETDATE()";
-            ps=conn.prepareStatement(query);
+            query = "update tours set available_from=GETDATE() where id=? and available_from<GETDATE()";
+            ps = conn.prepareStatement(query);
             ps.setInt(1, id);
             ps.executeUpdate();
-            query="update tours set available_to=DATEADD(day, 1, GETDATE()) where id=? and available_to<GETDATE()";
-            ps=conn.prepareStatement(query);
+            query = "update tours set available_to=DATEADD(day, 1, GETDATE()) where id=? and available_to<GETDATE()";
+            ps = conn.prepareStatement(query);
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (Exception e) {
@@ -372,7 +373,7 @@ public class TourDAOImpl extends DBContext implements TourDAO {
             closeConnection(conn);
         }
     }
-    
+
     @Override
     public boolean checkAllBookingDone(int tourId) throws Exception {
         String sql = "select count(*) from booking where tour_id=? and status in ('Unpaid', 'Paid', 'Ready')";
@@ -402,12 +403,13 @@ public class TourDAOImpl extends DBContext implements TourDAO {
     public void closeOutdated() throws Exception {
         String sql = "update tours set is_enabled=0 where available_to < getdate()";
         Connection conn = null;
-        PreparedStatement ps = null; ResultSet rs = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
         try {
             conn = getConnection();
             ps = conn.prepareStatement(sql);
-            
+
             ps.executeUpdate();
         } catch (Exception e) {
             throw new Exception("Database fails");

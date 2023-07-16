@@ -13,7 +13,7 @@
         </button>
     </div>
     <div class="toast-body">
-        ${toast}
+        ${requestScope.toast}
     </div>
 </div>
 

@@ -90,7 +90,6 @@ public class HomeController extends HttpServlet {
             int totalItems = dao.getTotalItems(search);
             Pagination page = new Pagination(totalItems, 6, index);
             List<Tour> list = dao.getPage(search, page);
-
             request.setAttribute("page", page);
             request.setAttribute("list", list);
         } catch (Exception ex) {

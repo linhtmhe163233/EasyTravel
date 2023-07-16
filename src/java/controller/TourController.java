@@ -22,6 +22,7 @@ import java.sql.Date;
 import entity.Tour;
 import entity.User;
 import dao.BasicDAO;
+import dao.TourDAO;
 
 /**
  * This controller is responsible for the adding tour function
@@ -85,11 +86,13 @@ public class TourController extends HttpServlet {
             String image = System.currentTimeMillis() + file.getSubmittedFileName();
             String realPath = request.getServletContext().getRealPath("images");
             file.write(realPath + "/" + image);
-            
-            BasicDAO dao = new TourDAOImpl();
+            TourDAO dao = new TourDAOImpl();
             if (id != null && !id.isEmpty()) {
                 dao.update(new Tour(Integer.parseInt(id), name, type, true, destination, tripLength,
                         availableFrom, availableTo, maxQuantity, price, description, agentID, image));
+                if (!dao.checkAllBookingDone(Integer.parseInt(id))) {
+                    session.setAttribute("toast", "Some tourists haven't finished that tour, a copy  is created instead");
+                }
                 response.sendRedirect(request.getContextPath() + "/tour?id=" + id);
             } else {
                 dao.save(new Tour(name, type, true, destination, tripLength,
