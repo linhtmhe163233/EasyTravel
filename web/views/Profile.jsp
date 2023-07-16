@@ -14,95 +14,24 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <script src="js/jquery-3.7.0.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
-        <style>
-            body {
-                margin: 0;
-                padding-top: 0px;
-                color: #2e323c;
-                background: #f5f6fa;
-                position: relative;
-                height: 100%;
-            }
-            .account-settings .user-profile {
-                margin: 0 0 1rem 0;
-                padding-bottom: 1rem;
-                text-align: center;
-            }
-            .account-settings .user-profile .user-avatar {
-                margin: 0 0 1rem 0;
-            }
-            .account-settings .user-profile .user-avatar img {
-                width: 90px;
-                height: 90px;
-                -webkit-border-radius: 100px;
-                -moz-border-radius: 100px;
-                border-radius: 100px;
-            }
-            .account-settings .user-profile h5.user-name {
-                margin: 0 0 0.5rem 0;
-            }
-            .account-settings .user-profile h6.user-email {
-                margin: 0;
-                font-size: 0.8rem;
-                font-weight: 400;
-                color: #9fa8b9;
-            }
-            .account-settings .about {
-                margin: 2rem 0 0 0;
-                text-align: center;
-            }
-            .account-settings .about h5 {
-                margin: 0 0 15px 0;
-                color: #007ae1;
-            }
-            .account-settings .about p {
-                font-size: 0.825rem;
-            }
-            .form-control {
-                border: 1px solid #cfd1d8;
-                -webkit-border-radius: 2px;
-                -moz-border-radius: 2px;
-                border-radius: 2px;
-                font-size: .825rem;
-                background: #ffffff;
-                color: #2e323c;
-            }
-
-            .card {
-                background: #ffffff;
-                -webkit-border-radius: 5px;
-                -moz-border-radius: 5px;
-                border-radius: 5px;
-                border: 0;
-                margin-bottom: 1rem;
-            }
-            a{
-                color: blue
-            }
-            .centered{
-
-                margin-left: 400px;
-            }
-        </style>
+        <link rel="stylesheet" href="css/Profile.css">
     </head>
     <body>
         <c:import url="./Layout/Header.jsp"></c:import>
-        <h1 class="centered">My profile</h1>
-        <form action ="profile" method="post">
-            <div class="container">
-                <div class="row gutters">
-
-                    <div class="mx-auto">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <div class="row gutters">
-                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                        <!--                                    <h6 class="mb-2 text-primary">Personal Details</h6>-->
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            <label for="fullname">Full Name</label>
-                                            <input type="text" class="form-control"name="fullname" id="fullname" placeholder="Enter full name" value="${user.fullname}"
+            <h1 class="centered">My profile</h1>
+            <form action ="profile" method="post">
+                <div class="container">
+                    <div class="row gutters">
+                        <div class="mx-auto">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="row gutters">
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label for="fullname">Full Name</label>
+                                                <input type="text" class="form-control"name="fullname" id="fullname" placeholder="Enter full name" value="${user.fullname}"
                                                    required pattern="^\s*\p{L}+(\s\p{L}+)*\s*$"
                                                    maxlength="80">
                                         </div>
@@ -112,8 +41,7 @@
                                             <label for="email">Email</label>
                                             <input type="email" class="form-control" name="email" id="email" 
                                                    placeholder="example@gmail.com" required maxlength=80 value="${user.email}">
-                                            <p style="color:red">${message1}</p>   
-<!--                                            <p style="color:blue">${message2}</p>   -->
+                                            <p style="color:red">${message1}</p>
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -132,36 +60,22 @@
                                     </div>
                                 </div>
                                 <div class="row gutters">
-                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                        <!--                                    <h6 class="mt-3 mb-2 text-primary">Address</h6>-->
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"><!--                                    <h6 class="mt-3 mb-2 text-primary">Address</h6>-->
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            <!--                                        <label for="Street">Password</label>-->
-                                            <a href="/EasyTravel/changepassword">Change password</a>
-
+                                        <div class="form-group"><a href="/EasyTravel/changepassword">Change password</a>
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
                                             <label for="role">Role: ${user.role}</label>
-    <!--                                        <input type="text" class="form-control" id="role" placeholder="" value="${user.role}">-->
                                         </div>
                                     </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
-<!--                                            <label for="id">ID: ${user.id}</label>-->
-
-<!--                                        <input type="text" class="form-control" id="role" placeholder="" value="${user.id}">-->
-                                        </div>
-                                    </div>
-
                                 </div>
                                 <div class="row gutters">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                         <div class="text-right">
                                             <a href="/EasyTravel/home"class="btn btn-secondary">Cancel</a>
-                                         
                                             <button type="submit" id="submit" name="submit" class="btn btn-primary">Update</button>
                                         </div>
                                     </div>
@@ -172,16 +86,54 @@
                 </div>
             </div>
         </form>
+        <div class="container mt-4 w-50">
+            <table class="table table-hover table-bordered" id="staffTable">
+                <tbody>
+                    <tr>
+                        <td>${payment.bank}</td>
+                        <td>${payment.code}</td>
+                        <td><<img src="images/Payment/${payment.qr}" alt="QR" class="img-fluid"/></td>
+                    </tr> 
+                </tbody>
+            </table>
+            <button class="btn btn-info mb-4" type="button" id="addPayment">Add payment info</button>
+            <div id="paymentForm">
+                <form method="post" action="payment" enctype="multipart/form-data" novalidate class="needs-validation">
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <label for="bank" data-error="wrong" data-success="right">Bank(*)</label>
+                            <input type="text" id="bank" name="bank" class="form-control validate" required>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Enter a valid bank!</div>
+                        </div>
+                        <div class="form-group col-9">
+                            <label for="bank" data-error="wrong" data-success="right">Code(*)</label>
+                            <input type="text" id="code" name="code" class="form-control validate" required 
+                                   pattern="^[0-9]{6,40}$">
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Enter a valid code!</div>
+                        </div>  
+                    </div>
+                    <div class="form-group">
+                        <p>QR</p>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input validate" id="qr" name="qr" required  
+                                   accept="image/*">
+                            <label data-error="wrong" data-success="right" class="custom-file-label" for="qr">
+                                Choose image
+                            </label>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Update image!</div>
+                        </div>
+                        <img id="qrDisplay" class="img-fluid mt-2">
+                    </div>
+                    <div class="text-right">
+                        <button class="btn btn-danger" type="button" id="cancel">Cancel</button>
+                        <button class="btn btn-primary" type="submit">Confirm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </body>
-
-    <script>
-        Date.prototype.addYears = function (years) {
-            let date = new Date(this);
-            date.setYear(date.getFullYear() + years);
-            return date;
-        };
-        let dob = document.getElementById("dob");
-        dob.max = new Date().addYears(-18).toISOString().split("T")[0];
-    </script>
-
+    <script src="js/Profile.js" type="text/javascript"></script>
 </html>

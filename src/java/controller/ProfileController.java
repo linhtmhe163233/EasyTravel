@@ -6,16 +6,15 @@ package controller;
 
 import dao.BasicDAO;
 import dao.UserDAO;
+import dao.impl.PaymentDAOImpl;
 import dao.impl.UserDaoImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import entity.User;
@@ -25,21 +24,6 @@ import entity.User;
  * @author My Laptop
  */
 public class ProfileController extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -54,19 +38,12 @@ public class ProfileController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-
-            UserDAO dao = new UserDaoImpl();
-//            HttpSession session = request.getSession();
-//            User acc = (User) session.getAttribute("user");
-////            int id = ((User) session.getAttribute("user")).getId();
-////            System.out.println(id);
-////            List<User> list = dao.get(id);
-//            request.setAttribute("list", acc);
-
+            BasicDAO dao = new PaymentDAOImpl();
+            int id = ((User)request.getSession().getAttribute("user")).getId();
+            request.setAttribute("payment", dao.get(id).get(0));
         } catch (Exception ex) {
             Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         request.getRequestDispatcher("views/Profile.jsp").forward(request, response);
     }
 

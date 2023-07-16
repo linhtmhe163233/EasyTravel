@@ -16,7 +16,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link href="css/fontawesome.min.css" rel="stylesheet"/>
-        <title>EasyTravel | Staff</title>
+        <title>Easy Travel | Staff</title>
     </head>
     <body>
         <c:import url="../Layout/Header.jsp"></c:import>
@@ -107,14 +107,18 @@
                         <input type="hidden" min="1" name="index" value="${page.index}"> 
                         <div class="modal-body mx-3">
                             <div class="md-form mb-5">
-                                <label data-error="wrong" data-success="right" for="name">Staff name(*)</label>
+                                <label data-error="wrong" data-success="right" for="name">
+                                    Staff name<span class="text-danger">*</span>
+                                </label>
                                 <input type="text" id="name" class="form-control validate" name="name" required maxlength="80"
                                        pattern="^\s*\p{L}+(\s\p{L}+)*\s*$" value="${staff.name}">
                                 <div class="valid-feedback">Looks good!</div>
                                 <div class="invalid-feedback">Name must be fewer than 80 letters and spaces and not empty!</div>
                             </div>
                             <div class="md-form mb-5">
-                                <label data-error="wrong" data-success="right" for="phone">Phone number(*)</label>
+                                <label data-error="wrong" data-success="right" for="phone">
+                                    Phone number<span class="text-danger">*</span>
+                                </label>
                                 <input type="text" id="phone" class="form-control validate" name="phone" required 
                                        pattern="^0[0-9]{9}$" value="${staff.phone}">
                                 <div class="valid-feedback">Looks good!</div>
@@ -124,7 +128,9 @@
                                 <%--</c:if>--%>
                             </div>
                             <div class="md-form mb-5">
-                                <label data-error="wrong" data-success="right" for="dob">Date of birth(*)</label>
+                                <label data-error="wrong" data-success="right" for="dob">
+                                    Date of birth<span class="text-danger">*</span>
+                                </label>
                                 <input type="date" id="dob" class="form-control" name="DOB" required value="${staff.DOB}">
                                 <div class="valid-feedback">Looks good!</div>
                                 <div class="invalid-feedback">Staff must be over 18 years old</div>

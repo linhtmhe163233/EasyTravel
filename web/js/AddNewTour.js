@@ -60,13 +60,12 @@ function getImgURL(url, callback) {
     xhr.responseType = 'blob';
     xhr.send();
 }
-;
 
 function loadURLToInputFiled(url) {
     getImgURL(url, (imgBlob) => {
         // Load img blob to input
         // WIP: UTF8 character error
-        let fileName = imageDisplay.src.substring(imageDisplay.src.lastIndexOf('/')+1);
+        let fileName = imageDisplay.src.substring(imageDisplay.src.lastIndexOf('/') + 1);
         let file = new File([imgBlob], fileName, {type: "image/*", lastModified: new Date().getTime()}, 'utf-8');
         let container = new DataTransfer();
         container.items.add(file);
@@ -74,7 +73,7 @@ function loadURLToInputFiled(url) {
 
     });
 }
-;
+
 if (id.value.length !== 0) {
     loadURLToInputFiled(imageDisplay.src);
 }

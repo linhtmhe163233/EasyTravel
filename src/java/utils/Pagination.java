@@ -19,9 +19,6 @@ public class Pagination {
     private int pageStart;
     private int pageEnd;
 
-    public Pagination() {
-    }
-
     /**
      *
      * @param totalItems the total number of items in the web

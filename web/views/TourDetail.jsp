@@ -123,7 +123,7 @@
                                           </div>
                                           <div class="md-form mb-3">
                                               <label data-error="wrong" data-success="right" for="phone">
-                                                  Number of tourists(*)
+                                                  Number of tourists<span class="text-danger">*</span>
                                               </label>
                                               <input type="number" id="tourists_quantity" class="form-control validate" 
                                                      name="touristsQuantity" required max="${tour.maxQuantity}"
