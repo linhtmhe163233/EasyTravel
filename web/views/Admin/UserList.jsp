@@ -54,12 +54,15 @@
                         <td>${user.role}</td>
                         <td>${user.status}</td>
                 <form action="usermanage" method="post">
-                    <td>                        
+                    <td>
+                        <input type="hidden" name="id" value="${user.id}">                   
                         <c:if test="${user.status=='Banned'}">
-                            <input type="submit" value="Unban" name="status">
+                            <input type="submit" value="Unban">
+                            <input type="hidden" name="status" value="Active">   
                         </c:if>
                         <c:if test="${user.status!='Banned'}">  
-                            <input type="submit" value="Banned" name="status">
+                            <input type="submit" value="Ban">
+                            <input type="hidden" name="status" value="Banned">
                         </c:if>
                     </td>
                 </form>

@@ -39,7 +39,7 @@
 
             <form class="w-25 mx-auto" action="changepassword" method="post">
                 <div class="form-group">
-                    <label for="crpassword">Current password</label>
+                    <label for="crpassword">Current password<span class="text-danger"> *</span></label>
                     <input type="password" name="crpassword" class="form-control" id="crpassword"  
                            placeholder="Your current password"
                            data-validation="required"
@@ -48,7 +48,7 @@
                     <small style="color:red">${mess1}</small>
             </div>
             <div class="form-group">
-                <label for="password">New password</label>
+                <label for="password">New password<span class="text-danger"> *</span></label>
                 <input type="password" name="password" class="form-control" id="exampleInputPassword1" 
                        placeholder="New password"
                        data-validation="required"
@@ -57,7 +57,7 @@
                 <small style="color:red">${mess2}</small>
             </div>               
             <div class="form-group">
-                <label for="cfpassword">Confirm password</label>
+                <label for="cfpassword">Confirm password<span class="text-danger"> *</span></label>
                 <input type="password" name="cfpassword" class="form-control" id="exampleInputPassword1" 
                        placeholder="Confirm password"
                        data-validation="required"

@@ -35,4 +35,6 @@ public interface UserDAO extends BasicDAO<User> {
     boolean registerUsernameUnique(String username) throws Exception;
 
     List<User> getPage(String search, Pagination page) throws Exception;
+
+    void updateStatus(String status, int id) throws Exception;
 }

@@ -13,6 +13,9 @@
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     </head
     <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #DDDDDD">
+            <a class="navbar-brand" href="home">Home</a>
+        </nav>
         <div id="login">
             <h3 class="text-center text-white pt-5">Login form</h3>
             <div class="container">
@@ -23,10 +26,10 @@
                                 <h3 class="text-center text-info">Login</h3>
                                 <div class="form-group">
                                     <label for="username" class="text-info">Username:</label><br>
-                                  
-                                        <input type="text" name="username" id="username" class="form-control" placeholder="your username" required value="${param.username}">
-                                  
-                                  
+
+                                    <input type="text" name="username" id="username" class="form-control" placeholder="your username" required value="${param.username}">
+
+
                                 </div>
                                 <div class="form-group">
                                     <label for="password" class="text-info">Password:</label><br>

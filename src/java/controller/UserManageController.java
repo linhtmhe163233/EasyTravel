@@ -97,6 +97,16 @@ public class UserManageController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String status = request.getParameter("status");
+        int id = Integer.parseInt(request.getParameter("id"));
+      
+        try {
+            UserDAO dao = new UserDaoImpl();
+            dao.updateStatus(status, id);
+            response.sendRedirect("usermanage");
+        } catch (Exception ex) {
+            Logger.getLogger(UserManageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

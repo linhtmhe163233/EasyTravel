@@ -265,6 +265,7 @@
             </c:forEach>
         </div>
         <br>
+        
         <nav class="mt-4" ${page.totalItems==0?'hidden':''}>
             <ul class="pagination justify-content-center">
                 <li class="page-item">
@@ -302,6 +303,7 @@
                 </li>
             </ul>
         </nav>
+       
     </body>
     <script src="js/jquery-3.7.0.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
