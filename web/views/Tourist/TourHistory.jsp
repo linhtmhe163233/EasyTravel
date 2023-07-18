@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <script src="js/jquery-3.7.0.js"></script>
         <script src="js/bootstrap.min.js"></script>
-        <title>EasyTravel | Tour History</title>
+        <title>Easy Travel | Tour History</title>
     </head>
     <body>
         <c:import url="../Layout/Header.jsp"></c:import>
@@ -76,6 +76,14 @@
                             <div class="card-body row">
                                 <div class="col-8">
                                     <b>Note: </b>${booking.note}
+                                    <c:if test="${booking.payment=='Bank' && booking.reason==null}">
+                                        <br>
+                                        <b>Online payment: </b>${booking.bank} - ${booking.code}
+                                        <div class="card-body d-flex justify-content-center">
+                                            <img src="images/Payment/${booking.qr}" alt="QR" class="img-fluid"
+                                                 style="max-height: 30rem; max-width: 30rem"/>
+                                        </div>
+                                    </c:if>
                                     <c:if test="${booking.reason!=null}">
                                         <br>
                                         <b>Reason for cancel:  </b>${booking.reason}
@@ -185,21 +193,21 @@
         </body>
         <script>
             (function () {
-            'use strict';
-            window.addEventListener('load', function () {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                let forms = document.getElementsByClassName('needs-validation');
-                // Loop over them and prevent submission
-                let validation = Array.prototype.filter.call(forms, function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
-        })();
+                'use strict';
+                window.addEventListener('load', function () {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    let forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    let validation = Array.prototype.filter.call(forms, function (form) {
+                        form.addEventListener('submit', function (event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
         </script>
     </html>

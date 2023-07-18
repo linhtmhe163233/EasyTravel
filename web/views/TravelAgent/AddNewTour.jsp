@@ -136,7 +136,20 @@
                           name="description" required maxlength="300">${requestScope.tour.description}</textarea>
                 <div class="valid-feedback">Looks good!</div>
                 <div class="invalid-feedback">Write something about your tour</div>
-            </div>  
+            </div>
+            <div class="form-group mb-3">
+                <label data-error="wrong" data-success="right" for="payment_id">
+                    Add an online payment method
+                </label>
+                <select name="payment_id" id="payment_id" required class="form-control validate" ${requestScope.tour!=null? 'readonly':''}>
+                    <option disabled ${requestScope.tour==null? 'selected':''} hidden value>Select an option</option>
+                    <c:forEach items="${list}" var="payment">
+                        <option value="${payment.id}">${payment.bank} - ${payment.code}</option>
+                    </c:forEach>
+                </select>
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Choose a payment method, you can create new payment method in your profile!</div>
+            </div>    
             <button type="submit" class="btn btn-primary">Save</button>
             <c:if test="${requestScope.tour==null}">
                 <a href="home" class="btn btn-danger">Cancel</a>

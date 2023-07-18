@@ -28,6 +28,9 @@ public class Booking {
     private int tourLength;
     private String reason;
     private String payment;
+    private String bank;
+    private String code;
+    private String qr;
 
     public String getPayment() {
         return payment;
@@ -75,7 +78,7 @@ public class Booking {
 
     //use this when load tour history of tourist
     public Booking(int id, int touristId, int tourId, Timestamp bookTime, Date startDate, int touristsQuantity,
-            String status, String note, String tourName, String reason) {
+            String status, String note, String tourName, String reason, String payment, String bank, String code, String qr) {
         this.id = id;
         this.touristId = touristId;
         this.tourId = tourId;
@@ -86,6 +89,10 @@ public class Booking {
         this.note = note;
         this.tourName = tourName;
         this.reason = reason;
+        this.payment = payment;
+        this.bank = bank;
+        this.code = code;
+        this.qr = qr;
     }
 
     //use this when create a new booking entry
@@ -99,6 +106,30 @@ public class Booking {
         this.status = status;
         this.note = note;
         this.payment = payment;
+    }
+
+    public String getBank() {
+        return bank;
+    }
+
+    public void setBank(String bank) {
+        this.bank = bank;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getQr() {
+        return qr;
+    }
+
+    public void setQr(String qr) {
+        this.qr = qr;
     }
 
     public String getReason() {

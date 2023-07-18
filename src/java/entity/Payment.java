@@ -9,6 +9,7 @@
 package entity;
 
 public class Payment {
+    private int id;
     private int agentId;
     private String bank;
     private String code;
@@ -19,6 +20,18 @@ public class Payment {
         this.bank = bank;
         this.code = code;
         this.qr = qr;
+    }
+
+    public Payment(int id, int agentId, String bank, String code, String qr) {
+        this.id = id;
+        this.agentId = agentId;
+        this.bank = bank;
+        this.code = code;
+        this.qr = qr;
+    }
+
+    public Payment(int id) {
+        this.id=id;
     }
 
     public String getQr() {
@@ -51,6 +64,14 @@ public class Payment {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     
 }

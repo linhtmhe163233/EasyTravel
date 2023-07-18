@@ -18,6 +18,9 @@ import java.util.List;
 
 public class PaymentDAOImpl extends DBContext implements BasicDAO<Payment> {
 
+    public PaymentDAOImpl() throws Exception {
+    }
+
     @Override
     public List<Payment> getAll() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -30,14 +33,14 @@ public class PaymentDAOImpl extends DBContext implements BasicDAO<Payment> {
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<Payment> list = new ArrayList<>();
-        Payment payment = null;
         try {
             conn = getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, agentId);
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Payment(rs.getInt("agent_id"),
+                list.add(new Payment(rs.getInt("id"),
+                        rs.getInt("agent_id"),
                         rs.getString("bank"),
                         rs.getString("code"),
                         rs.getString("qr")));
@@ -54,7 +57,23 @@ public class PaymentDAOImpl extends DBContext implements BasicDAO<Payment> {
 
     @Override
     public void save(Payment t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String query = "insert into payment(agent_id, bank, code, qr) values(?,?,?,?)";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, t.getAgentId());
+            ps.setString(2, t.getBank());
+            ps.setString(3, t.getCode());
+            ps.setString(4, t.getQr());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            closePs(ps);
+            closeConnection(conn);
+        }
     }
 
     @Override
@@ -64,7 +83,7 @@ public class PaymentDAOImpl extends DBContext implements BasicDAO<Payment> {
 
     @Override
     public void delete(Payment t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

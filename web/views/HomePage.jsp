@@ -25,14 +25,17 @@
     </head>
     <body>
         <c:import url="./Layout/Header.jsp"></c:import>
-        <img src="./images/home.jpg" class="img-fluid" style="width: 100vw; height: 40vh;">
-            <div class="d-flex justify-content-end mr-5 mt-3">
-                <form class="form-inline my-2 my-lg-0" action="home" method="get">
-                    <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+        <img src="./images/home.jpg" class="img-fluid" style="width: 100vw; height: 45vh;">
+        <div class="d-flex justify-content-end mr-5 mt-3">
+            <form class="form-inline my-2 my-lg-0" action="home" method="get">
+                <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
                            id="search" value="${param.search}">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
+        <c:if test="${list.isEmpty()}">
+            <h2 class="text-center mt-2">No tour found!</h2>
+        </c:if>
         <div class="d-flex flex-wrap flex-row justify-content-start w-75 mx-auto mt-4" 
              style="column-gap: 8.5rem; row-gap: 2rem" id="deck">
             <c:forEach items="${list}" var="tour">
@@ -103,8 +106,8 @@
         </nav>
     </body>
     <script>
-        $('a.page-link').click((e)=>{
-            e.target.href+='&search='+$('#search')[0].value;
+        $('a.page-link').click((e) => {
+            e.target.href += '&search=' + $('#search')[0].value;
         });
     </script>
 </html>

@@ -23,7 +23,7 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
 
     @Override
     public List<Booking> get(int id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -60,12 +60,12 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
 
     @Override
     public void update(Booking t) throws Exception {
-        String query="update booking set status=?, reason=? where id=?";
+        String query = "update booking set status=?, reason=? where id=?";
         Connection conn = null;
         PreparedStatement ps = null;
         try {
-            conn=getConnection();
-            ps=conn.prepareStatement(query);
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
             ps.setString(1, t.getStatus());
             ps.setString(2, t.getReason());
             ps.setInt(3, t.getId());
@@ -90,9 +90,11 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
 
     @Override
     public List<Booking> getTourHistory(int touristId, Pagination page) throws Exception {
-        String sql = "select booking.id, tour_id, book_time, start_date, tourists_quantity, booking.status, note, name, reason  "
+        String sql = "select booking.id, tour_id, book_time, start_date, tourists_quantity, booking.status, note, name, reason, payment, bank, code, qr  "
                 + "from booking join tours "
-                + "on tour_id=tours.id where tourist_id=? "
+                + "on tour_id=tours.id "
+                + "join payment on payment.id=tours.payment_id "
+                + "where tourist_id=? "
                 + "order by book_time desc "
                 + "offset ? rows fetch next ? rows only";
         List<Booking> list = new ArrayList();
@@ -105,6 +107,10 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
         String note;
         String tourName;
         String reason;
+        String payment;
+        String bank;
+        String code;
+        String qr;
         Booking booking = null;
         Connection conn = null;
         PreparedStatement ps = null;
@@ -127,8 +133,12 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
                 note = rs.getString("note");
                 tourName = rs.getString("name");
                 reason = rs.getString("reason");
-                booking = new Booking(id, touristId, tourId, bookTime, startDate, 
-                        touristsQuantity, status, note, tourName, reason);
+                payment = rs.getString("payment");
+                bank = rs.getString("bank");
+                code = rs.getString("code");
+                qr = rs.getString("qr");
+                booking = new Booking(id, touristId, tourId, bookTime, startDate,
+                        touristsQuantity, status, note, tourName, reason, payment, bank, code, qr);
                 list.add(booking);
             }
         } catch (Exception e) {
@@ -140,10 +150,7 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
         }
         return list;
     }
-    public static void main(String[] args) throws Exception {
-        BookingDAOImpl dao = new BookingDAOImpl();
-        System.out.println(dao.checkSchedule(1, Date.valueOf("2023-01-01"), Date.valueOf("2023-12-31")));
-    }
+
     @Override
     public List<Booking> getBookingList(int agentId, Pagination page) throws Exception {
         String sql = "select booking.id, tour_id, book_time, start_date, tourists_quantity, booking.status, "
@@ -198,7 +205,7 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
                 tourLength = rs.getInt("trip_length");
                 reason = rs.getString("reason");
                 payment = rs.getString("payment");
-                booking = new Booking(id, touristId, tourId, bookTime, startDate, touristsQuantity, status, note, 
+                booking = new Booking(id, touristId, tourId, bookTime, startDate, touristsQuantity, status, note,
                         touristName, tourName, touristPhone, touristEmail, tourLength, reason, payment);
                 list.add(booking);
             }
@@ -211,7 +218,7 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
         }
         return list;
     }
-    
+
     @Override
     public int getTotalItems(int searchBy, String type) throws Exception {
         String query = null;
@@ -243,7 +250,7 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
     }
 
     @Override
-    public boolean checkSchedule(int touristId, Date from, Date to)  throws Exception{
+    public boolean checkSchedule(int touristId, Date from, Date to) throws Exception {
         String query = "select count(*) from booking join tours on booking.tour_id=tours.id "
                 + "where tourist_id=? and status in ('Unpaid', 'Paid', 'Ready') and "
                 + "((start_date>=? and start_date<=?) or"
@@ -263,7 +270,7 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
             ps.setDate(5, to);
             rs = ps.executeQuery();
             rs.next();
-            return rs.getInt(1)==0;
+            return rs.getInt(1) == 0;
         } catch (Exception e) {
             throw new Exception("Unable to get data from database");
         } finally {

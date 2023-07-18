@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import entity.Tour;
+import org.eclipse.jdt.internal.compiler.ast.SuperReference;
 import utils.Pagination;
 
 /*
@@ -67,15 +68,11 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         String query = "select * from tours where name like ? or type like ? or destination like ? "
                 + "order by id desc offset ? rows fetch next ? rows only";
 
-        int ID = 0;
+        int id = 0;
         String name = null;
-        String type = null;
         boolean isEnabled = false;
         String destination = null;
-        int tripLength = 0;
-        Date availableFrom = null;
         Date availableTo = null;
-        int maxQuantity = 0;
         float price = 0f;
         String description = null;
         int agentID = 0;
@@ -99,22 +96,17 @@ public class TourDAOImpl extends DBContext implements TourDAO {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                ID = rs.getInt("id");
+                id = rs.getInt("id");
                 name = rs.getString("name");
-                type = rs.getString("type");
                 isEnabled = rs.getBoolean("is_enabled");
                 destination = rs.getString("destination");
-                tripLength = rs.getInt("trip_length");
-                availableFrom = rs.getDate("available_from");
                 availableTo = rs.getDate("available_to");
-                maxQuantity = rs.getInt("max_quantity");
                 price = rs.getFloat("price");
                 description = rs.getString("description");
                 agentID = rs.getInt("agent_id");
                 image = rs.getString("image");
 
-                tour = new Tour(ID, name, type, isEnabled, destination, tripLength, availableFrom,
-                        availableTo, maxQuantity, price, description, agentID, image);
+                tour = new Tour(id, name, isEnabled, destination, availableTo, price, description, agentID, image);
                 list.add(tour);
             }
         } catch (SQLException ex) {
@@ -129,68 +121,16 @@ public class TourDAOImpl extends DBContext implements TourDAO {
 
     @Override
     public List<Tour> getAll() throws Exception {
-        List<Tour> list = new ArrayList<>();
-        String query = "select * from tours";
-
-        int ID = 0;
-        String name = null;
-        String type = null;
-        boolean isEnabled = false;
-        String destination = null;
-        int tripLength = 0;
-        Date availableFrom = null;
-        Date availableTo = null;
-        int maxQuantity = 0;
-        float price = 0f;
-        String description = null;
-        int agentID = 0;
-        String image = null;
-
-        Tour tour = null;
-
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            conn = getConnection();
-            ps = conn.prepareStatement(query);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                ID = rs.getInt("id");
-                name = rs.getString("name");
-                type = rs.getString("type");
-                isEnabled = rs.getBoolean("is_enabled");
-                destination = rs.getString("destination");
-                tripLength = rs.getInt("trip_length");
-                availableFrom = rs.getDate("available_from");
-                availableTo = rs.getDate("available_to");
-                maxQuantity = rs.getInt("max_quantity");
-                price = rs.getFloat("price");
-                description = rs.getString("description");
-                agentID = rs.getInt("agent_id");
-                image = rs.getString("image");
-
-                tour = new Tour(ID, name, type, isEnabled, destination, tripLength, availableFrom,
-                        availableTo, maxQuantity, price, description, agentID, image);
-                list.add(tour);
-            }
-        } catch (SQLException ex) {
-            throw new Exception("Unable to get data from database");
-        } finally {
-            closeRs(rs);
-            closePs(ps);
-            closeConnection(conn);
-        }
-        return list;
+        throw new UnsupportedOperationException("Not supported yet!");
     }
 
     @Override
     public List<Tour> get(int id) throws Exception {
         List<Tour> list = new ArrayList<>();
         String query = "select tours.id, name, type, is_enabled, destination, trip_length, available_from, available_to, "
-                + "max_quantity, price, description, agent_id, image, full_name "
-                + "from tours join users on tours.agent_id=users.id where tours.id=?";
+                + "max_quantity, price, description, tours.agent_id, image, full_name, bank, code, qr "
+                + "from tours join payment on tours.payment_id = payment.id "
+                + "join users on tours.agent_id=users.id where tours.id=?";
         String name = null;
         String type = null;
         boolean isEnabled = false;
@@ -204,6 +144,9 @@ public class TourDAOImpl extends DBContext implements TourDAO {
         int agentID = 0;
         String image = null;
         String agentName = null;
+        String bank = null;
+        String code = null;
+        String qr = null;
 
         Tour tour = null;
 
@@ -232,9 +175,11 @@ public class TourDAOImpl extends DBContext implements TourDAO {
             agentID = rs.getInt("agent_id");
             image = rs.getString("image");
             agentName = rs.getString("full_name");
-
+            bank = rs.getString("bank");
+            code = rs.getString("code");
+            qr = rs.getString("qr");
             tour = new Tour(id, name, type, isEnabled, destination, tripLength, availableFrom,
-                    availableTo, maxQuantity, price, description, agentID, image, agentName);
+                    availableTo, maxQuantity, price, description, agentID, image, agentName, bank, code, qr);
             list.add(tour);
         } catch (SQLException ex) {
             throw new Exception("Unable to get data from database");
@@ -249,8 +194,8 @@ public class TourDAOImpl extends DBContext implements TourDAO {
     @Override
     public void save(Tour t) throws Exception {
         String query = "insert into tours(name, type, is_enabled, destination, trip_length, available_from, available_to,"
-                + "max_quantity, price, description, agent_id, image)"
-                + "values(?,?,?,?,?,?,?,?,?,?,?,?)";
+                + "max_quantity, price, description, agent_id, image, payment_id)"
+                + "values(?,?,?,?,?,?,?,?,?,?,?,?, ?)";
         Connection conn = null;
         PreparedStatement ps = null;
 
@@ -270,7 +215,7 @@ public class TourDAOImpl extends DBContext implements TourDAO {
             ps.setString(10, t.getDescription());
             ps.setInt(11, t.getAgentId());
             ps.setString(12, t.getImage());
-
+            ps.setInt(13, t.getPaymentId());
             ps.execute();
         } catch (SQLException ex) {
             throw new Exception("Unable to save data to database");

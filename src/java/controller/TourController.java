@@ -9,6 +9,7 @@
  */
 package controller;
 
+import dao.BasicDAO;
 import dao.impl.TourDAOImpl;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -21,8 +22,10 @@ import jakarta.servlet.http.Part;
 import java.sql.Date;
 import entity.Tour;
 import entity.User;
-import dao.BasicDAO;
 import dao.TourDAO;
+import dao.impl.PaymentDAOImpl;
+import entity.Payment;
+import java.util.List;
 
 /**
  * This controller is responsible for the adding tour function
@@ -49,8 +52,18 @@ public class TourController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String act = request.getParameter("act");
+        HttpSession session = request.getSession();
+        int id = ((User) session.getAttribute("user")).getId();
+        try {
+            BasicDAO dao = new PaymentDAOImpl();
+            List<Payment> list = dao.get(id);
+            request.setAttribute("list", list);
+        } catch (Exception e) {
+            request.setAttribute("error", e.getMessage());
+            request.getRequestDispatcher("views/Error.jsp").forward(request, response);
+        } 
         if (act != null && act.equals("update")) {
-            Tour tour = (Tour) request.getSession().getAttribute("tour");
+            Tour tour = (Tour) session.getAttribute("tour");
             request.setAttribute("tour", tour);
             request.getSession().removeAttribute("tour");
         }
@@ -79,8 +92,8 @@ public class TourController extends HttpServlet {
         int maxQuantity = Integer.parseInt(request.getParameter("max_quantity"));
         HttpSession session = request.getSession();
         int agentID = ((User) session.getAttribute("user")).getId();
-
         String description = request.getParameter("description").trim();
+        int paymentId = Integer.parseInt(request.getParameter("payment_id"));
         try {
             Part file = request.getPart("image");
             String image = System.currentTimeMillis() + file.getSubmittedFileName();
@@ -89,14 +102,14 @@ public class TourController extends HttpServlet {
             TourDAO dao = new TourDAOImpl();
             if (id != null && !id.isEmpty()) {
                 dao.update(new Tour(Integer.parseInt(id), name, type, true, destination, tripLength,
-                        availableFrom, availableTo, maxQuantity, price, description, agentID, image));
+                        availableFrom, availableTo, maxQuantity, price, description, agentID, image, paymentId));
                 if (!dao.checkAllBookingDone(Integer.parseInt(id))) {
                     session.setAttribute("toast", "Some tourists haven't finished that tour, a copy  is created instead");
                 }
                 response.sendRedirect(request.getContextPath() + "/tour?id=" + id);
             } else {
                 dao.save(new Tour(name, type, true, destination, tripLength,
-                        availableFrom, availableTo, maxQuantity, price, description, agentID, image));
+                        availableFrom, availableTo, maxQuantity, price, description, agentID, image, paymentId));
                 response.sendRedirect(request.getContextPath() + "/home");
             }
         } catch (Exception ex) {

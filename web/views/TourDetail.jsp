@@ -164,7 +164,11 @@
                                               <div class="invalid-feedback">Choose a payment method!</div>
                                           </div>
                                           <div id="onlinePay">
-                                              Banking info
+                                              ${tour.bank} - ${tour.code}
+                                              <div class="card-body d-flex justify-content-center">
+                                                  <img src="images/Payment/${tour.qr}" alt="QR" class="img-fluid"
+                                                       style="max-height: 30rem; max-width: 30rem"/>
+                                              </div>
                                           </div>
                                       </div>
                                       <div class="modal-footer d-flex justify-content-center">
@@ -194,6 +198,11 @@
                 ${tour.maxQuantity} people
             </div>
             <div class="ml-4 mt-2">Vehicle, hotel, ... will be assigned after you book</div>
+            <c:if test="${sessionScope.user!=null 
+                          && sessionScope.user.role=='Travel Agent'
+                          && sessionScope.user.id==tour.agentId}">
+                  <div class="ml-4 mt-2"><b>Online payment:</b> ${tour.bank} - ${tour.code}</div>
+            </c:if>
         </div>
         <div class="rounded w-75 mx-auto" style="background: #DDD0C8;
              color: #323232;">
