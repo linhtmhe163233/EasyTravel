@@ -46,7 +46,7 @@
 
             <form class="w-25 mx-auto" action="newpassword" method="post">
                 <div class="form-group">
-                    <label for="password">New password</label>
+                    <label for="password">New password<span class="text-danger"> *</span></label>
                     <input type="password" name="password" class="form-control" id="password"  
                            placeholder="Your new password"
                            data-validation="required"
@@ -55,7 +55,7 @@
 
                 </div>
                 <div class="form-group">
-                    <label for="cfpassword">Confirm password</label>
+                    <label for="cfpassword">Confirm password<span class="text-danger"> *</span></label>
                     <input type="password" name="cfpassword" class="form-control" id="cfpassword" 
                            placeholder="New password"
                            data-validation="required"

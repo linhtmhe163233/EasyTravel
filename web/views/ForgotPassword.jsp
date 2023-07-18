@@ -3,7 +3,7 @@
     Created on : Jun 19, 2023, 9:09:31 AM
     Author     : linhtm
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -22,8 +22,9 @@
         </style>
     </head>
     <body>
-
-
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #DDDDDD">
+            <a class="navbar-brand" href="home">Home</a>
+        </nav>
         <div class="form-gap"></div>
         <div class="container">
             <div class="row">

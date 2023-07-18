@@ -13,6 +13,9 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
     </head
     <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #DDDDDD">
+            <a class="navbar-brand" href="home">Home</a>
+        </nav>
         <div id="login">
             <h3 class="text-center text-white pt-5">Login form</h3>
             <div class="container">

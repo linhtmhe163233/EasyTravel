@@ -74,7 +74,7 @@ public class UserManageController extends HttpServlet {
                 search = "";
             }
             int totalItems = dao.getTotalItems(search);
-            Pagination page = new Pagination(totalItems, 3, index);
+            Pagination page = new Pagination(totalItems, 5, index);
             List<User> list = dao.getPage(search, page);
 
             request.setAttribute("page", page);
@@ -97,6 +97,16 @@ public class UserManageController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String status = request.getParameter("status");
+        int id = Integer.parseInt(request.getParameter("id"));
+      
+        try {
+            UserDAO dao = new UserDaoImpl();
+            dao.updateStatus(status, id);
+            response.sendRedirect("usermanage");
+        } catch (Exception ex) {
+            Logger.getLogger(UserManageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

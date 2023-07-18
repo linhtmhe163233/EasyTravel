@@ -46,8 +46,6 @@ public class Mail {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
             message.setSubject(subject);
       
-//            message.setContent("<a href='" + link + "'>Click this to verify your mail</a>",
-//                        "text/html");
             if (type.equals("link")) {
                 message.setContent("<a href='" + content + "'>Click this to verify your mail</a>",
                         "text/html");

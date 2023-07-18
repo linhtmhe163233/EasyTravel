@@ -21,14 +21,20 @@ public interface UserDAO extends BasicDAO<User> {
     User checkKey(String key) throws Exception;
 
 //    int getTotalItems() throws Exception;
-
     int getTotalItems(String search) throws Exception;
 
 //    List<User> getPage(Pagination page) throws Exception;
-
     boolean isPhoneUnique(String phone, int id) throws Exception;
 
     boolean isEmailUnique(String email, int id) throws Exception;
 
+    boolean registerPhoneUnique(String phone) throws Exception;
+
+    boolean registerEmailUnique(String email) throws Exception;
+
+    boolean registerUsernameUnique(String username) throws Exception;
+
     List<User> getPage(String search, Pagination page) throws Exception;
+
+    void updateStatus(String status, int id) throws Exception;
 }

@@ -28,6 +28,9 @@
             </div>
         </c:if>
         <c:if test="${!registered}">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #DDDDDD">
+                <a class="navbar-brand" href="home">Home</a>
+            </nav>
             <div class="container">
                 <h2 class="">&nbsp</h2>
                 <div class="row">
@@ -53,7 +56,7 @@
                                             </div>
                                             <input type="text" class="form-control" id="fullname" name="fullname" 
                                                    placeholder="Full Name(*)" required pattern="^\s*\p{L}+(\s\p{L}+)*\s*$"
-                                                   maxlength="80"></input>
+                                                   maxlength="80" value="${param.fullname}"></input>
                                         </div>
                                     </div>
 
@@ -63,7 +66,8 @@
                                                 <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
                                             </div>
                                             <input type="text" class="form-control" id="username" name="username" 
-                                                   placeholder="User Name(*)" required pattern="^[a-zA-z0-9]+$" maxlength="50"></input>
+                                                   placeholder="User Name(*)" required pattern="^[a-zA-z0-9]+$" maxlength="50" value="${param.username}"></input>
+                                            <br><p style="color:red">${message}</p>
                                         </div>
                                     </div>
 
@@ -95,7 +99,8 @@
                                                 <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
                                             </div>
                                             <input type="email" class="form-control" id="email" name="email" 
-                                                   placeholder="example@gmail.com" required maxlength=80></input>
+                                                   placeholder="example@gmail.com" required maxlength=80 value="${param.email}"></input>
+                                            <p style="color:red">${message1}</p>
                                         </div>
                                     </div>
 
@@ -105,7 +110,8 @@
                                                 <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
                                             </div>
                                             <input type="text" class="form-control" id="phone" name="phone" 
-                                                   placeholder="Your phone number(*)" required pattern="^0[0-9]{9}$"></input>
+                                                   placeholder="Your phone number(*)" required pattern="^0[0-9]{9}$" value="${param.phone}"></input>
+                                            <p style="color:red">${message2}</p>
                                         </div>
                                     </div>
 
@@ -127,7 +133,7 @@
                                                 <div class="input-group-text">Date of birth</div>
                                             </div>
                                             <input type="date" class="form-control" id="dob" name="dob" 
-                                                   placeholder="Your birthday" required></input>
+                                                   placeholder="Your birthday" value="${param.dob}" required ></input>
                                         </div>
                                     </div>                                
 
@@ -149,21 +155,21 @@
                 </div>
             </div>
         </c:if>
-</body>
-<script>
-    Date.prototype.addYears = function (years) {
-        let date = new Date(this);
-        date.setYear(date.getFullYear() + years);
-        return date;
-    };
-    let dob = document.getElementById("dob");
-    dob.max = new Date().addYears(-18).toISOString().split("T")[0];
+    </body>
+    <script>
+        Date.prototype.addYears = function (years) {
+            let date = new Date(this);
+            date.setYear(date.getFullYear() + years);
+            return date;
+        };
+        let dob = document.getElementById("dob");
+        dob.max = new Date().addYears(-18).toISOString().split("T")[0];
 
-    let form = document.getElementById("form");
-    let password = document.getElementById("password");
-    let cfpassword = document.getElementById("cfpassword");
-    form.oninput = () => {
-        cfpassword.setCustomValidity(cfpassword.value !== password.value ? "Passwords do not match." : "");
-    };
-</script>
+        let form = document.getElementById("form");
+        let password = document.getElementById("password");
+        let cfpassword = document.getElementById("cfpassword");
+        form.oninput = () => {
+            cfpassword.setCustomValidity(cfpassword.value !== password.value ? "Passwords do not match." : "");
+        };
+    </script>
 </html>

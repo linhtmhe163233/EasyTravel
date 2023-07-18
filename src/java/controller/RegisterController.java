@@ -76,28 +76,40 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String email = request.getParameter("email");
-        String fullname = request.getParameter("fullname");
-        String password = request.getParameter("password");
-        String phone = request.getParameter("phone");
-        String role = request.getParameter("role");
+        String username = request.getParameter("username").trim();
+        String email = request.getParameter("email").trim();
+        String fullname = request.getParameter("fullname").trim();
+        String password = request.getParameter("password").trim();
+        String phone = request.getParameter("phone").trim();
+        String role = request.getParameter("role").trim();
         Date dob = Date.valueOf(request.getParameter("dob"));
         String key = Math.random() % 1000000 + String.valueOf(System.currentTimeMillis()) + Math.random() % 1000000;
         try {
             UserDAO dao = new UserDaoImpl();
-            dao.save(new User(username, password, fullname, dob, email, phone, role, "Inactive", key));
+            if (!dao.registerUsernameUnique(username)) {
+                request.setAttribute("message", "Username available");
+            }
+            if (!dao.registerEmailUnique(email)) {
+                request.setAttribute("message1", "This email already exists in the list!");
+            }
+            if (!dao.registerPhoneUnique(phone)) {
+                request.setAttribute("message2", "Duplicate phone number");
+            }
+            if (dao.registerEmailUnique(email) && dao.registerPhoneUnique(phone) && dao.registerUsernameUnique(username)) {
+                dao.save(new User(username, password, fullname, dob, email, phone, role, "Inactive", key));
+                Mail mail = new Mail();
 
-            Mail mail = new Mail();
-
-            String contextPath = "http://localhost:9999/EasyTravel/"; //request.getContextPath()
-            mail.sentEmail(email, "Easy Travel verification mail", contextPath + "home?key=" + key, "link");
-            request.setAttribute("registered", true);
-            doGet(request, response);
+                String contextPath = "http://localhost:9999/EasyTravel/"; //request.getContextPath()
+                mail.sentEmail(email, "Easy Travel verification mail", contextPath + "home?key=" + key, "link");
+                request.setAttribute("registered", true);
+                
 //            request.getRequestDispatcher("views/Register.jsp").forward(request, response);
+            }
+            doGet(request, response);
         } catch (Exception ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
+//        doGet(request, response);
     }
 
     /**
