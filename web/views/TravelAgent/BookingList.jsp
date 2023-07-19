@@ -77,7 +77,7 @@
                         </div>
                         <div id="collapse${idx}" class="collapse" data-parent="#accordion" aria-labelledby="heading${idx}">
                             <div class="card-body row">
-                                <div class="col-8">
+                                <div class="col-7">
                                     <b>Tourist name </b>${booking.touristName}
                                     <br>
                                     <b>Tourist phone: </b>${booking.touristPhone}
@@ -94,204 +94,233 @@
                                         <b>Reason for cancel:  </b>${booking.reason}
                                     </c:if>
                                 </div>
-                                <div class="col-4">
-                                    <c:if test="${booking.status=='Paid'
-                                                  ||booking.status=='Unpaid'}">
-                                          <button class="btn btn-primary" data-toggle="modal" 
-                                                  data-target="#modalRequest${booking.id}">
-                                              Process
-                                          </button>
-                                          <button class="btn btn-danger" data-toggle="modal" 
-                                                  data-target="#modalDecline${booking.id}">
-                                              Decline request
-                                          </button>  
+                                <div class="col-5 d-flex justify-content-lg-end align-items-end">
+                                    <c:if test="${booking.status=='Unpaid'}">
+                                        <button class="btn btn-success" data-toggle="modal" 
+                                                data-target="#modalPaid${booking.id}">
+                                            Confirm paid
+                                        </button>
+                                        <div class="modal fade" id="modalPaid${booking.id}" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header text-center">
+                                                        <h4 class="modal-title w-100 font-weight-bold">Are you sure?</h4>
+                                                        <button type="button" class="close btn btn-danger" data-dismiss="modal" 
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body text-center">
+                                                        This action can't be undone, be careful to process.
+                                                    </div>
+                                                    <form action="handlebooking" method="POST" novalidate id="paidform${booking.id}" 
+                                                          class="needs-validation">
+                                                        <input type="hidden" name="id" value="${booking.id}">
+                                                        <input type="hidden" min="1" name="index" value="${page.index}"> 
+                                                        <div class="modal-footer d-flex justify-content-center">
+                                                            <button class="btn btn-primary" type="submit" name="paid">
+                                                                Confirm
+                                                            </button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                                Close
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${booking.status=='Paid'}">
+                                        <button class="btn btn-primary" data-toggle="modal" 
+                                                data-target="#modalRequest${booking.id}">
+                                            Process
+                                        </button>
+                                        <div class="modal fade" id="modalRequest${booking.id}" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header text-center">
+                                                        <h4 class="modal-title w-100 font-weight-bold">Process this request</h4>
+                                                        <button type="button" class="close btn btn-danger" data-dismiss="modal" 
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <form action="handlebooking" method="POST" novalidate id="processForm${booking.id}" 
+                                                          class="needs-validation">
+                                                        <input type="hidden" name="id" value="${booking.id}">
+                                                        <div class="modal-body mx-3">
+                                                            <div class="md-form mb-2">
+                                                                <label data-error="wrong" data-success="right" for="vehicle">
+                                                                    Assign a vehicle: 
+                                                                </label>
+                                                                <%--<fmt:parseDate value ="${booking.startDate}" var="temp" pattern="yyyy-MM-dd" />--%>
+                                                                <%--<c:set var="end" value="${temp}" />--%>
+                                                                <%--<c:set target="${end}" property="time" value="${end.time + 4*24*60*60*1000}" />--%>
+                                                                <%--<fmt:formatDate var="end" value="${end}" pattern="yyyy-MM-dd" />--%>
+                                                                <select id="vehicle" 
+                                                                        class="form-control validate" 
+                                                                        name="vehicle" required>
+                                                                    <c:forEach items="${vehicles}" var="vehicle">
+                                                                        <option value="${vehicle.ID}">
+                                                                            ${vehicle.type} - ${vehicle.driverPhone} - ${vehicle.maxPassenger} seats
+                                                                        </option>
+                                                                    </c:forEach>
+                                                                </select>
+                                                                <div class="valid-feedback">Looks good!</div>
+                                                                <div class="invalid-feedback">
+                                                                    Choose a vehicle!
+                                                                </div>
+                                                            </div>
+                                                            <div class="md-form mb-2">
+                                                                <label data-error="wrong" data-success="right" for="staff">
+                                                                    Assign a staff: 
+                                                                </label>
+                                                                <select id="staff" 
+                                                                        class="form-control validate" 
+                                                                        name="staff" required>
+                                                                    <c:forEach items="${staff}" var="staff">
+                                                                        <option value="${staff.id}">
+                                                                            ${staff.name} - ${staff.phone}
+                                                                        </option>
+                                                                    </c:forEach>
+                                                                </select>
+                                                                <div class="valid-feedback">Looks good!</div>
+                                                                <div class="invalid-feedback">
+                                                                    Choose a staff!
+                                                                </div>
+                                                            </div>
+                                                            <div class="md-form mb-2">
+                                                                <label data-error="wrong" data-success="right" for="hotel">
+                                                                    Assign a hotel: 
+                                                                </label>
+                                                                <select id="hotel" 
+                                                                        class="form-control validate" 
+                                                                        name="hotel" required>
+                                                                    <c:forEach items="${hotels}" var="hotel">
+                                                                        <option value="${hotel.id}">
+                                                                            ${hotel.name} - ${hotel.location} - ${hotel.phone}
+                                                                        </option>
+                                                                    </c:forEach>
+                                                                </select>
+                                                                <div class="valid-feedback">Looks good!</div>
+                                                                <div class="invalid-feedback">
+                                                                    Choose a hotel!
+                                                                </div>
+                                                            </div>
+                                                            <div class="md-form mb-2">
+                                                                <label data-error="wrong" data-success="right" for="restaurant">
+                                                                    Assign a restaurant: 
+                                                                </label>
+                                                                <select id="restaurant" 
+                                                                        class="form-control validate" 
+                                                                        name="restaurant" required>
+                                                                    <option>
+                                                                        1
+                                                                    </option>
+                                                                </select>
+                                                                <div class="valid-feedback">Looks good!</div>
+                                                                <div class="invalid-feedback">
+                                                                    Choose a restaurant!
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer d-flex justify-content-center">
+                                                            <button class="btn btn-primary" type="submit" name="process">
+                                                                Confirm
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${booking.status=='Paid' || booking.status=='Unpaid'}">
+                                        <button class="btn btn-danger" data-toggle="modal" 
+                                                data-target="#modalDecline${booking.id}">
+                                            Decline request
+                                        </button>  
+                                        <div class="modal fade" id="modalDecline${booking.id}" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header text-center">
+                                                        <h4 class="modal-title w-100 font-weight-bold">Decline this request</h4>
+                                                        <button type="button" class="close btn btn-danger" data-dismiss="modal" 
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <form action="handlebooking" method="POST" novalidate id="declineform${booking.id}" 
+                                                          class="needs-validation">
+                                                        <input type="hidden" name="id" value="${booking.id}">
+                                                        <input type="hidden" min="1" name="index" value="${page.index}"> 
+                                                        <div class="modal-body mx-3">
+                                                            <div class="md-form mb-2">
+                                                                <label data-error="wrong" data-success="right" for="reason">
+                                                                    Add reason(*)
+                                                                </label>
+                                                                <textarea class="form-control validate" 
+                                                                          id="reason" rows="3" name="reason" 
+                                                                          maxlength="300" required></textarea>
+                                                                <div class="valid-feedback">Looks good!</div>
+                                                                <div class="invalid-feedback">
+                                                                    Add some reason about your decline
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer d-flex justify-content-center">
+                                                            <button class="btn btn-primary" type="submit" name="decline">
+                                                                Confirm
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>   
                                     </c:if>
                                     <a href="tour?id=${booking.tourId}" class="btn btn-info">Go to tour</a>
                                 </div>
-                                <c:if test="${booking.status!='Done' && booking.status!='Declined'}">
-                                    <div class="modal fade" id="modalRequest${booking.id}" tabindex="-1" role="dialog">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header text-center">
-                                                    <h4 class="modal-title w-100 font-weight-bold">Process this request</h4>
-                                                    <button type="button" class="close btn btn-danger" data-dismiss="modal" 
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <form action="handlebooking" method="POST" novalidate id="processForm${booking.id}" 
-                                                      class="needs-validation">
-                                                    <input type="hidden" name="id" value="${booking.id}">
-                                                    <div class="modal-body mx-3">
-                                                        <div class="md-form mb-2">
-                                                            <label data-error="wrong" data-success="right" for="vehicle">
-                                                                Assign a vehicle: 
-                                                            </label>
-                                                            <%--<fmt:parseDate value ="${booking.startDate}" var="temp" pattern="yyyy-MM-dd" />--%>
-                                                            <%--<c:set var="end" value="${temp}" />--%>
-                                                            <%--<c:set target="${end}" property="time" value="${end.time + 4*24*60*60*1000}" />--%>
-                                                            <%--<fmt:formatDate var="end" value="${end}" pattern="yyyy-MM-dd" />--%>
-                                                            <select id="vehicle" 
-                                                                    class="form-control validate" 
-                                                                    name="vehicle" required>
-                                                                <c:forEach items="${vehicles}" var="vehicle">
-                                                                    <option value="${vehicle.ID}">
-                                                                        ${vehicle.type} - ${vehicle.driverPhone} - ${vehicle.maxPassenger} seats
-                                                                    </option>
-                                                                </c:forEach>
-                                                            </select>
-                                                            <div class="valid-feedback">Looks good!</div>
-                                                            <div class="invalid-feedback">
-                                                                Choose a vehicle!
-                                                            </div>
-                                                        </div>
-                                                        <div class="md-form mb-2">
-                                                            <label data-error="wrong" data-success="right" for="staff">
-                                                                Assign a staff: 
-                                                            </label>
-                                                            <select id="staff" 
-                                                                    class="form-control validate" 
-                                                                    name="staff" required>
-                                                                <c:forEach items="${staff}" var="staff">
-                                                                    <option value="${staff.id}">
-                                                                        ${staff.name} - ${staff.phone}
-                                                                    </option>
-                                                                </c:forEach>
-                                                            </select>
-                                                            <div class="valid-feedback">Looks good!</div>
-                                                            <div class="invalid-feedback">
-                                                                Choose a staff!
-                                                            </div>
-                                                        </div>
-                                                        <div class="md-form mb-2">
-                                                            <label data-error="wrong" data-success="right" for="hotel">
-                                                                Assign a hotel: 
-                                                            </label>
-                                                            <select id="hotel" 
-                                                                    class="form-control validate" 
-                                                                    name="hotel" required>
-                                                                <c:forEach items="${hotels}" var="hotel">
-                                                                    <option value="${hotel.id}">
-                                                                        ${hotel.name} - ${hotel.location} - ${hotel.phone}
-                                                                    </option>
-                                                                </c:forEach>
-                                                            </select>
-                                                            <div class="valid-feedback">Looks good!</div>
-                                                            <div class="invalid-feedback">
-                                                                Choose a hotel!
-                                                            </div>
-                                                        </div>
-                                                        <div class="md-form mb-2">
-                                                            <label data-error="wrong" data-success="right" for="restaurant">
-                                                                Assign a restaurant: 
-                                                            </label>
-                                                            <select id="restaurant" 
-                                                                    class="form-control validate" 
-                                                                    name="restaurant" required>
-                                                                <option>
-                                                                    1
-                                                                </option>
-                                                            </select>
-                                                            <div class="valid-feedback">Looks good!</div>
-                                                            <div class="invalid-feedback">
-                                                                Choose a restaurant!
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer d-flex justify-content-center">
-                                                        <button class="btn btn-primary" type="submit" name="process">
-                                                            Confirm
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal fade" id="modalDecline${booking.id}" tabindex="-1" role="dialog">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header text-center">
-                                                    <h4 class="modal-title w-100 font-weight-bold">Decline this request</h4>
-                                                    <button type="button" class="close btn btn-danger" data-dismiss="modal" 
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <form action="handlebooking" method="POST" novalidate id="declineform${booking.id}" 
-                                                      class="needs-validation">
-                                                    <input type="hidden" name="id" value="${booking.id}">
-                                                    <input type="hidden" min="1" name="index" value="${page.index}"> 
-                                                    <div class="modal-body mx-3">
-                                                        <div class="md-form mb-2">
-                                                            <label data-error="wrong" data-success="right" for="reason">
-                                                                Add reason(*)
-                                                            </label>
-                                                            <textarea class="form-control validate" 
-                                                                      id="reason" rows="3" name="reason" 
-                                                                      maxlength="300" required></textarea>
-                                                            <div class="valid-feedback">Looks good!</div>
-                                                            <div class="invalid-feedback">
-                                                                Add some reason about your decline
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer d-flex justify-content-center">
-                                                        <button class="btn btn-primary" type="submit" name="decline">
-                                                            Confirm
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </c:if>
                             </div>
                         </div>
                     </div>
                 </c:forEach>
             </div>
-            <form action="bookinglist" method="POST" ${page.totalItems==0?'hidden':''}>
-                <input type="hidden" min="1" name="index" value="${page.index}"> 
-                <nav class="mt-4">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item">
-                            <button type="submit" class="page-link" name="Prev" ${page.index==1?"hidden":""}>
-                                <<
-                            </button>
+            <nav class="mt-4" ${page.totalItems==0?'hidden':''}>
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" href="bookinglist?index=${page.index-1}" ${page.index==1?"hidden":""}>
+                        <
+                    </a>
+                </li>
+                <li class="page-item ${page.index==1?"active":""}">
+                    <a class="page-link" href="bookinglist?index=1">1</a>
+                </li>
+                <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
+                    <span class="page-link">...</span>
+                </li>
+                <c:if test="${page.totalPage>2}">
+                    <c:forEach var="p" begin="${page.pageStart}" end="${page.pageEnd}">
+                        <li class="page-item ${page.index==p?"active":""}">
+                            <a class="page-link" href="bookinglist?index=${p}">
+                                ${p}
+                            </a>
                         </li>
-                        <li class="page-item ${page.index==1?"active":""}">
-                            <button type="submit" class="page-link" name="first">1</button>
-                        </li>
-                        <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
-                            <span class="page-link">...</span>
-                        </li>
-                        <c:if test="${page.totalPage>2}">
-                            <c:forEach var="p" begin="${page.pageStart}" end="${page.pageEnd}">
-                                <li class="page-item ${page.index==p?"active":""}">
-                                    <button type="submit" class="page-link" value="${p}" name="btnIdx">
-                                        ${p}
-                                    </button>
-                                </li>
-                            </c:forEach>
-                        </c:if>
-                        <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
-                            <span class="page-link">...</span>
-                        </li>
-                        <li class="page-item ${page.index==page.totalPage?"active":""}" ${page.totalPage==1?"hidden":""}>
-                            <button type="submit" class="page-link"
-                                    name="last" value="${page.totalPage}">
-                                ${page.totalPage}
-                            </button>
-                        </li>
-                        <li class="page-item">
-                            <button type="submit" class="page-link" name="Next" 
-                                    ${page.index==page.totalPage?"hidden":""}>
-                                >>
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
-            </form>
+                    </c:forEach>
+                </c:if>
+                <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
+                    <span class="page-link">...</span>
+                </li>
+                <li class="page-item ${page.index==page.totalPage?"active":""}" ${page.totalPage==1?"hidden":""}>
+                    <a class="page-link" href="bookinglist?index=${page.totalPage}">
+                        ${page.totalPage}
+                    </a>
+                </li>
+                <li class="page-item" ${page.index==page.totalPage?"hidden":""}>
+                    <a class="page-link" href="bookinglist?index=${page.index+1}">
+                        >
+                    </a>
+                </li>
+            </ul>
+        </nav>
         </body>
         <script>
             (function () {

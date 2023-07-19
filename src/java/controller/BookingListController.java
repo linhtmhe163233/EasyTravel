@@ -27,15 +27,16 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import utils.Pagination;
 
 /**
  *
- * @author tranm
+ * @author DucTM
  */
 public class BookingListController extends HttpServlet {
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -49,27 +50,29 @@ public class BookingListController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            int agentId = ((User) request.getSession().getAttribute("user")).getId();
+            HttpSession session = request.getSession();
+            int agentId = ((User) session.getAttribute("user")).getId();
             BookingDAO dao = new BookingDAOImpl();
             int totalItems = dao.getTotalItems(agentId, "request");
-            Object indexObj = request.getAttribute("index");
-            int index;
-            if (indexObj == null) {
-                index = 1;
-            } else {
-                index = (int) indexObj;
+            String indexStr = request.getParameter("index");
+            if (session.getAttribute("indexStr") != null) {
+                indexStr = (String) session.getAttribute("index");
             }
-            BasicDAO basicDao = new VehicleDAOImpl();
-            List<Vehicle> listVehicles = basicDao.getAll();
-            basicDao=new HotelDAOImpl();
-            List<Hotel> listHotels = basicDao.getAll();
+            int index = 1;
+            if (indexStr != null && indexStr.matches("^[0-9]+$")) {
+                index = Integer.parseInt(indexStr);
+            }
+            BasicDAO vDAO = new VehicleDAOImpl();
+            List<Vehicle> listVehicles = vDAO.getAll();
+            vDAO = new HotelDAOImpl();
+            List<Hotel> listHotels = vDAO.getAll();
 //            basicDao=new RestaurantDAOlmpl();
 //            List<Restaurant> listRestaurants = basicDao.getAll();
             StaffDAO sDao = new StaffDAOImpl();
             List<Staff> listStaff = sDao.getPageByAgent(agentId, new Pagination(sDao.getTotalItems(agentId), 100000, 1));
             Pagination page = new Pagination(totalItems, 10, index);
             List<Booking> list = dao.getBookingList(agentId, page);
-            
+
             request.setAttribute("list", list);
             request.setAttribute("vehicles", listVehicles);
             request.setAttribute("hotels", listHotels);
@@ -94,28 +97,6 @@ public class BookingListController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int index = Integer.parseInt(request.getParameter("index"));
-        if (request.getParameter("first") != null) //click first
-        {
-            index = 1;
-        }
-        if (request.getParameter("last") != null) //click last
-        {
-            index = Integer.parseInt(request.getParameter("last"));
-        }
-        if (request.getParameter("Prev") != null) //click prev
-        {
-            index--;
-        }
-        if (request.getParameter("Next") != null) //click next
-        {
-            index++;
-        }
-        if (request.getParameter("btnIdx") != null) // click button number
-        {
-            index = Integer.parseInt(request.getParameter("btnIdx"));
-        }
-        request.setAttribute("index", index);
         doGet(request, response);
     }
 
