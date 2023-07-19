@@ -78,7 +78,7 @@ public class VehicleDAOImpl extends DBContext implements BasicDAO<Vehicle> {
     }
 
     @Override
-    public List<Vehicle> get(int agentid) throws Exception {
+    public List<Vehicle> get(int agentId) throws Exception {
         Connection conn = super.getConnection();
         List<Vehicle> list = new ArrayList<>();
         String query = "select * from vehicles where agent_id=?";
@@ -88,7 +88,7 @@ public class VehicleDAOImpl extends DBContext implements BasicDAO<Vehicle> {
 
         try {
             ps = conn.prepareStatement(query);
-            ps.setInt(1, agentid);
+            ps.setInt(1, agentId);
             
             rs = ps.executeQuery();
             while (rs.next()) {

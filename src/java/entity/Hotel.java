@@ -1,6 +1,5 @@
 package entity;
 
-
 public class Hotel {
 
     private int id;
@@ -10,10 +9,9 @@ public class Hotel {
     private String phone;
     private int agent_id;
     private String location;
-    
 
     public Hotel() {
-        
+
     }
 
     public Hotel(int id, String name, int stars, int room_available, String phone, int agent_id, String location) {
@@ -26,8 +24,8 @@ public class Hotel {
         this.location = location;
     }
 
-    public Hotel( String name, int stars, int room_available, String phone, String location) {
-        
+    public Hotel(String name, int stars, int room_available, String phone, String location) {
+
         this.name = name;
         this.stars = stars;
         this.room_available = room_available;
@@ -43,7 +41,6 @@ public class Hotel {
         this.agent_id = agent_id;
         this.location = location;
     }
-
 
     public int getId() {
         return id;
@@ -105,10 +102,5 @@ public class Hotel {
     public String toString() {
         return "Hotel{" + "id=" + id + ", name=" + name + ", stars=" + stars + ", room_available=" + room_available + ", phone=" + phone + ", agent_id=" + agent_id + ", location=" + location + '}';
     }
-        
 
-   
-    
-
-    
 }

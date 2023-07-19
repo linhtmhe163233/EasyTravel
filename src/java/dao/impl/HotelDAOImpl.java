@@ -108,16 +108,16 @@ public class HotelDAOImpl extends DBContext implements BasicDAO<Hotel> {
     }
 
     @Override
-    public List<Hotel> get(int id) throws Exception {
+    public List<Hotel> get(int agentId) throws Exception {
         Connection conn = super.getConnection();
         List<Hotel> list = new ArrayList();
-        String query = "select * from hotels where id=?";
-
+        String query = "select * from hotels where agent_id=?";
+        
+        int id;
         String name;
         int stars;
         int room_available;
         String phone;
-        int agent_id;
         String location;
 
         Hotel hotel;
@@ -127,15 +127,16 @@ public class HotelDAOImpl extends DBContext implements BasicDAO<Hotel> {
 
         try {
             ps = conn.prepareStatement(query);
-            ps.setInt(1, id);
+            ps.setInt(1, agentId);
             rs = ps.executeQuery();
             while (rs.next()) {
+                id=rs.getInt("id");
                 name = rs.getString("name");
                 stars = rs.getInt("stars");
                 room_available = rs.getInt("room_available");
                 phone = rs.getString("phone");
                 location = rs.getString("location");
-                hotel = new Hotel(name, stars, room_available, phone, location);
+                hotel = new Hotel(id, name, stars, room_available, phone, agentId, location);
                 list.add(hotel);
             }
         } catch (SQLException ex) {
@@ -247,7 +248,7 @@ public class HotelDAOImpl extends DBContext implements BasicDAO<Hotel> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public void updateHotle(int id, String name, int stars, int room_available, String phone, String location) throws Exception {
+    public void updateHotel(int id, String name, int stars, int room_available, String phone, String location) throws Exception {
         Connection conn = super.getConnection();
         String query = "UPDATE hotels "
                 + "SET name = ?, stars = ?, room_available = ?, phone = ?, location = ? "

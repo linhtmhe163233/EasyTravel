@@ -71,7 +71,8 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
             ps.setInt(3, t.getId());
             ps.executeUpdate();
         } catch (Exception e) {
-            throw new Exception("Can't process this request now, try again later!");
+//            throw new Exception("Can't process this request now, try again later!");
+            throw e;
         } finally {
             closePs(ps);
             closeConnection(conn);
@@ -280,4 +281,33 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
         }
     }
 
+    @Override
+    public void addFacilities(int id, int vehicleId, int staffId, int hotelId, int restaurantId) throws Exception {
+        String query = "insert into bookingDetails(booking_id, vehicle_id, hotel_id, staff_id, restaurant_id) "
+                + "values(?,?,?,?,?)";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, id);
+            ps.setInt(2, vehicleId);
+            ps.setInt(3, hotelId);
+            ps.setInt(4, staffId);
+            ps.setInt(5, restaurantId);
+            ps.execute();
+        } catch (Exception e) {
+//            throw new Exception("Unable to save data to database");
+            throw e;
+        } finally {
+            closePs(ps);
+            closeConnection(conn);
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        BookingDAOImpl dao = new BookingDAOImpl();
+        dao.update(new Booking(13, "Ready", null));
+
+    }
 }

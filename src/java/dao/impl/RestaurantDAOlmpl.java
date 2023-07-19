@@ -84,7 +84,7 @@ public class RestaurantDAOlmpl extends DBContext implements BasicDAO<Restaurant>
             ps = db.getConnection().prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
-                 CustomRestaurant v = new CustomRestaurant(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getInt(5));
+                CustomRestaurant v = new CustomRestaurant(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getInt(5));
                 return v;
             }
         } catch (Exception ex) {
@@ -92,8 +92,6 @@ public class RestaurantDAOlmpl extends DBContext implements BasicDAO<Restaurant>
 
         }
         return null;
-        
-        
     }
 
     @Override
@@ -191,7 +189,29 @@ public class RestaurantDAOlmpl extends DBContext implements BasicDAO<Restaurant>
     }
 
     @Override
-    public List<Restaurant> get(int id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Restaurant> get(int agentId) throws Exception {
+        String query = "select * from restaurants where agent_id=?";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Restaurant restaurant = null;
+        List<Restaurant> list = new ArrayList<>();
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, agentId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                restaurant = new Restaurant(rs.getInt("id"),
+                        rs.getString("type"),
+                        rs.getInt("table_available"),
+                        rs.getString("phone"),
+                        agentId);
+                list.add(restaurant);
+            }
+        } catch (Exception ex) {
+            throw new Exception("Unable to get data from database");
+        }
+        return list;
     }
 }

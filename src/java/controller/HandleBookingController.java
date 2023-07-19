@@ -51,9 +51,9 @@ public class HandleBookingController extends HttpServlet {
             throws ServletException, IOException {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
-            BookingDAO dao = new BookingDAOImpl();
             String index = request.getParameter("index");
             request.getSession().setAttribute("index", index);
+            BookingDAO dao = new BookingDAOImpl();
             if (request.getParameter("decline") != null) {
                 String reason = request.getParameter("reason").trim();
                 dao.update(new Booking(id, "Declined", reason));
@@ -66,6 +66,15 @@ public class HandleBookingController extends HttpServlet {
             }
             if (request.getParameter("paid") != null) {
                 dao.update(new Booking(id, "Paid", null));
+                response.sendRedirect("bookinglist");
+            }
+            if (request.getParameter("process") != null) {
+                int vehicleId = Integer.parseInt(request.getParameter("vehicle"));
+                int staffId = Integer.parseInt(request.getParameter("staff"));
+                int hotelId = Integer.parseInt(request.getParameter("hotel"));
+                int restaurantId = Integer.parseInt(request.getParameter("restaurant"));
+                dao.addFacilities(id, vehicleId, staffId, hotelId, restaurantId);
+                dao.update(new Booking(id, "Ready", null));
                 response.sendRedirect("bookinglist");
             }
         } catch (Exception e) {

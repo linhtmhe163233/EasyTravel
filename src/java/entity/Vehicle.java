@@ -9,10 +9,8 @@
  */
 package entity;
 
-import java.sql.Date;
-
 public class Vehicle {
-    private int ID;
+    private int id;
     private String type;
     private String driverName;
     private String driverPhone;
@@ -23,7 +21,7 @@ public class Vehicle {
     }
 
     public Vehicle(int ID, String type, String driverName, String driverPhone, int maxPassenger, int agentID) {
-        this.ID = ID;
+        this.id = ID;
         this.type = type;
         this.driverName = driverName;
         this.driverPhone = driverPhone;
@@ -39,12 +37,12 @@ public class Vehicle {
         this.agentID = agentID;
     }
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getType() {

@@ -13,12 +13,12 @@ import dao.BookingDAO;
 import dao.StaffDAO;
 import dao.impl.BookingDAOImpl;
 import dao.impl.HotelDAOImpl;
-//import dao.impl.RestaurantDAOlmpl;
+import dao.impl.RestaurantDAOlmpl;
 import dao.impl.StaffDAOImpl;
 import dao.impl.VehicleDAOImpl;
 import entity.Booking;
 import entity.Hotel;
-//import entity.Restaurant;
+import entity.Restaurant;
 import entity.Staff;
 import entity.User;
 import entity.Vehicle;
@@ -62,22 +62,21 @@ public class BookingListController extends HttpServlet {
             if (indexStr != null && indexStr.matches("^[0-9]+$")) {
                 index = Integer.parseInt(indexStr);
             }
-            BasicDAO vDAO = new VehicleDAOImpl();
-            List<Vehicle> listVehicles = vDAO.getAll();
-            vDAO = new HotelDAOImpl();
-            List<Hotel> listHotels = vDAO.getAll();
-//            basicDao=new RestaurantDAOlmpl();
-//            List<Restaurant> listRestaurants = basicDao.getAll();
+            BasicDAO bDAO = new VehicleDAOImpl();
+            List<Vehicle> vehicles = bDAO.get(agentId);
+            bDAO = new HotelDAOImpl();
+            List<Hotel> hotels = bDAO.get(agentId);
+            bDAO = new RestaurantDAOlmpl();
+            List<Restaurant> restaurants = bDAO.get(agentId);
             StaffDAO sDao = new StaffDAOImpl();
-            List<Staff> listStaff = sDao.getPageByAgent(agentId, new Pagination(sDao.getTotalItems(agentId), 100000, 1));
+            List<Staff> staff = sDao.getAllByAgent(agentId);
             Pagination page = new Pagination(totalItems, 10, index);
             List<Booking> list = dao.getBookingList(agentId, page);
-
             request.setAttribute("list", list);
-            request.setAttribute("vehicles", listVehicles);
-            request.setAttribute("hotels", listHotels);
-//            request.setAttribute("restaurants", listRestaurants);
-            request.setAttribute("staff", listStaff);
+            request.setAttribute("vehicles", vehicles);
+            request.setAttribute("hotels", hotels);
+            request.setAttribute("restaurants", restaurants);
+            request.setAttribute("staff", staff);
             request.setAttribute("page", page);
             request.getRequestDispatcher("views/TravelAgent/BookingList.jsp").forward(request, response);
         } catch (Exception e) {

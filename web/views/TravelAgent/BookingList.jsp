@@ -148,20 +148,18 @@
                                                     <form action="handlebooking" method="POST" novalidate id="processForm${booking.id}" 
                                                           class="needs-validation">
                                                         <input type="hidden" name="id" value="${booking.id}">
+                                                        <input type="hidden" name="index" value="${page.index}">
                                                         <div class="modal-body mx-3">
                                                             <div class="md-form mb-2">
                                                                 <label data-error="wrong" data-success="right" for="vehicle">
                                                                     Assign a vehicle: 
                                                                 </label>
-                                                                <%--<fmt:parseDate value ="${booking.startDate}" var="temp" pattern="yyyy-MM-dd" />--%>
-                                                                <%--<c:set var="end" value="${temp}" />--%>
-                                                                <%--<c:set target="${end}" property="time" value="${end.time + 4*24*60*60*1000}" />--%>
-                                                                <%--<fmt:formatDate var="end" value="${end}" pattern="yyyy-MM-dd" />--%>
                                                                 <select id="vehicle" 
                                                                         class="form-control validate" 
                                                                         name="vehicle" required>
+                                                                    <option disabled selected hidden value>Select a vehicle</option>
                                                                     <c:forEach items="${vehicles}" var="vehicle">
-                                                                        <option value="${vehicle.ID}">
+                                                                        <option value="${vehicle.id}">
                                                                             ${vehicle.type} - ${vehicle.driverPhone} - ${vehicle.maxPassenger} seats
                                                                         </option>
                                                                     </c:forEach>
@@ -178,6 +176,7 @@
                                                                 <select id="staff" 
                                                                         class="form-control validate" 
                                                                         name="staff" required>
+                                                                    <option disabled selected hidden value>Select a staff</option>
                                                                     <c:forEach items="${staff}" var="staff">
                                                                         <option value="${staff.id}">
                                                                             ${staff.name} - ${staff.phone}
@@ -196,6 +195,7 @@
                                                                 <select id="hotel" 
                                                                         class="form-control validate" 
                                                                         name="hotel" required>
+                                                                    <option disabled selected hidden value>Select a hotel</option>
                                                                     <c:forEach items="${hotels}" var="hotel">
                                                                         <option value="${hotel.id}">
                                                                             ${hotel.name} - ${hotel.location} - ${hotel.phone}
@@ -214,9 +214,12 @@
                                                                 <select id="restaurant" 
                                                                         class="form-control validate" 
                                                                         name="restaurant" required>
-                                                                    <option>
-                                                                        1
-                                                                    </option>
+                                                                    <option disabled selected hidden value>Select a restaurant</option>
+                                                                    <c:forEach items="${restaurants}" var="restaurant">
+                                                                        <option value="${restaurant.id}">
+                                                                            ${restaurant.type} - ${restaurant.phone}
+                                                                        </option>
+                                                                    </c:forEach>
                                                                 </select>
                                                                 <div class="valid-feedback">Looks good!</div>
                                                                 <div class="invalid-feedback">

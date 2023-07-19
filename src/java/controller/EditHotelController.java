@@ -96,7 +96,7 @@ public class EditHotelController extends HttpServlet {
 
         try {
             HotelDAOImpl dao = new HotelDAOImpl();
-            dao.updateHotle(id, name, stars, room_available, phone, location);
+            dao.updateHotel(id, name, stars, room_available, phone, location);
             response.sendRedirect("./hotels");
         } catch (Exception e) {
             request.setAttribute("message", e.getMessage());

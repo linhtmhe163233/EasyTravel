@@ -180,7 +180,6 @@ public class StaffDAOImpl extends DBContext implements StaffDAO {
                 gender = rs.getBoolean("gender");
                 agentId = rs.getInt("agent_id");
                 staff = new Staff(ID, name, DOB, phone, gender, agentId);
-
                 list.add(staff);
             }
         } catch (SQLException ex) {
@@ -194,20 +193,18 @@ public class StaffDAOImpl extends DBContext implements StaffDAO {
     }
 
     @Override
-    public boolean isPhoneUnique(String phone) throws Exception{
+    public boolean isPhoneUnique(String phone) throws Exception {
         String query = "select phone from staff where phone=?";
-        
+
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        
+
         try {
             conn = getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, phone);
-
             rs = ps.executeQuery();
-         
             return !rs.next();
         } catch (SQLException ex) {
             throw new Exception("Unable to get data from database");
@@ -216,5 +213,48 @@ public class StaffDAOImpl extends DBContext implements StaffDAO {
             closePs(ps);
             closeConnection(conn);
         }
+    }
+
+    @Override
+    public List<Staff> getAllByAgent(int agentId) throws Exception {
+        List<Staff> list = new ArrayList<>();
+        String query = "select * from staff where agent_id=?";
+
+        int ID;
+        String name;
+        Date DOB;
+        String phone;
+        boolean gender;
+
+        Staff staff;
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, agentId);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                ID = rs.getInt("id");
+                name = rs.getString("name");
+                DOB = rs.getDate("DOB");
+                phone = rs.getString("phone");
+                gender = rs.getBoolean("gender");
+                agentId = rs.getInt("agent_id");
+                staff = new Staff(ID, name, DOB, phone, gender, agentId);
+                list.add(staff);
+            }
+        } catch (SQLException ex) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
+        return list;
     }
 }

@@ -20,4 +20,5 @@ public interface StaffDAO extends BasicDAO<Staff> {
     int getTotalItems(int agentId) throws Exception;
     List<Staff> getPageByAgent(int agentId, Pagination page) throws Exception;
     boolean isPhoneUnique(String phone) throws Exception;
+    List<Staff> getAllByAgent(int agentId) throws Exception;
 }

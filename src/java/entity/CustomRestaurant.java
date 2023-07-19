@@ -10,12 +10,12 @@ package entity;
  */
 public class CustomRestaurant {
     
-    int id;
-    String type;
-    int table_available;
-    String phone;
-    int agent_id;
-    String agentName;
+    private int id;
+    private String type;
+    private int table_available;
+    private String phone;
+    private int agent_id;
+    private String agentName;
 
     public CustomRestaurant(int id, String type, int table_available, String phone, int agent_id) {
         this.id = id;
