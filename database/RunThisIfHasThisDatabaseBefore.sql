@@ -1,4 +1,12 @@
-DROP DATABASE IF EXISTS EasyTravel;
+EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'EasyTravel'
+GO
+USE [master]
+GO
+ALTER DATABASE EasyTravel SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+GO
+DROP DATABASE IF EXISTS EasyTravel
+GO
+
 create database EasyTravel
 go 
 
@@ -16,12 +24,6 @@ phone varchar(10) check(phone like '0[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-
 role varchar(12) check(role in ('Admin','Tourist','Travel Agent')) not null,
 status varchar(20) check(status in ('Inactive', 'Active', 'Banned')) not null
 )
-
-insert into users(account_name, full_name, password, DOB, email, phone, role, status)
-values 
-('tourist_demo', 'Nguyen Van C', '123456', '2003-01-01', 'ANV123@gmail.com', '0123456780', 'Tourist', 'Active'),
-('agent_demo', 'Nguyen Van B', '123456', '2003-01-01', 'ANV345@gmail.com', '0123456781', 'Travel Agent', 'Active'),
-('admin_demo', 'Nguyen Van A', '123456', '2003-01-01', 'ANV234@gmail.com', '0123456789', 'Admin', 'Active')
 
 create table tours(
 id int identity(1,1) primary key,
@@ -132,33 +134,8 @@ constraint booking_to_staff foreign key(staff_id) references staff(id),
 constraint booking_to_restaurants foreign key(restaurant_id) references restaurants(id),
 )
 
-insert into tours(name, type, is_enabled, destination, trip_length, available_from, available_to, max_quantity, price, description, agent_id, image )
-values
-(N'Du lịch biển Sầm Sơn', N'du lịch biển', 1, N'Thanh Hoá', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 2, ''),
-(N'Du lịch biển Nha Trang', N'du lịch biển', 1, N'Khánh Hoà', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 2, ''),
-(N'Du lịch biển Phú Quốc', N'du lịch biển', 1, N'Kiên Giang', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 2, ''),
-(N'Du lịch sinh thái Cát Tiên', N'du lịch sinh thái', 1, N'Đồng Nai, Lâm Đồng, Bình Phước', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 2, ''),
-(N'Du lịch nghỉ dưỡng Sa Pa', N'nghỉ dưỡng', 1, N'Lào Cai', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 2, '')
-
-insert into staff(name, DOB, phone, gender, agent_id)
-values
-(N'Nguyễn Văn A', '2000-01-01', '0123456789', 1, 3),
-(N'Nguyễn Văn B', '2000-01-01', '0123456788', 0, 3),
-(N'Nguyễn Văn C', '2000-01-01', '0123456787', 1, 3)
-
 alter table hotels
 add location nvarchar(50) not null
-
-INSERT INTO [dbo].[vehicles]
-           ([type]
-           ,[driver_name]
-           ,[driver_phone]
-           ,[max_passengers]
-           ,[agent_id])
-     VALUES
-           (N'Xe 7 chỗ', N'Nguyễn Văn A', '0123456789', 7, 3),
-			(N'Xe 5 chỗ', N'Nguyễn Văn A', '0123456780', 5, 3),
-			(N'Xe 20 chỗ', N'Nguyễn Văn A', '0123456781', 20, 3)
 
 alter table hotels
 add name nvarchar(80) not null
@@ -253,3 +230,68 @@ constraint payment_to_user foreign key(agent_id) references users(id)
 
 alter table tours
 add payment_id int not null
+
+insert into users(account_name, full_name, password, DOB, email, phone, role, status)
+values 
+('tourist_demo', 'Nguyen Van C', '123456', '2003-01-01', 'ANV123@gmail.com', '0123456780', 'Tourist', 'Active'),
+('agent_demo', 'Nguyen Van B', '123456', '2003-01-01', 'ANV345@gmail.com', '0123456781', 'Travel Agent', 'Active'),
+('admin_demo', 'Nguyen Van A', '123456', '2003-01-01', 'ANV234@gmail.com', '0123456789', 'Admin', 'Active')
+
+insert into staff(name, DOB, phone, gender, agent_id)
+values 
+('Nguyen Van A', '2003-01-01', '0987654321', 1, 2),
+('Nguyen Van B', '2003-01-01', '0987654322', 0, 2),
+('Nguyen Van C', '2003-01-01', '0987654323', 1, 2)
+
+insert into vehicles(type, driver_name, driver_phone, max_passengers, agent_id)
+values 
+(N'Xe con','Nguyen Van A',  '0987654321', 6, 2),
+(N'Xe khách','Nguyen Van B',  '0987654322', 30, 2),
+(N'Xe khách','Nguyen Van B',  '0987654323', 20, 2)
+
+insert into restaurants(type, table_available, phone, agent_id)
+values 
+(N'Nhà hàng truyền thống địa phương', 50,  '0987654321', 2),
+(N'Nhà hàng Nhật', 50,  '0987654322', 2),
+(N'Quán nướng buffet', 50,  '0987654323', 2)
+
+insert into hotels(location, name, phone, room_available, stars, agent_id)
+values
+(N'Lào Cai', N'Khách sạn A', '0123456789', 30, 4, 2),
+(N'Hà Nội', N'Khách sạn B', '0123456788', 30, 4, 2),
+(N'Đà Nẵng', N'Khách sạn C', '0123456780', 30, 4, 2)
+
+insert into payment(agent_id, bank, code, QR)
+values
+(2, 'MB', '9704123456', 'abc.png'),
+(2, 'Techcombank', '9704123457', 'abc.png'),
+(2, 'TPBank', '9704123458', 'abc.png')
+
+insert into tours(name, type, is_enabled, destination, trip_length, available_from, available_to, max_quantity, price, description, agent_id, image, payment_id)
+values
+(N'Du lịch biển Sầm Sơn', N'du lịch biển', 1, N'Thanh Hoá', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 2, 'sapa.png', 1),
+(N'Du lịch biển Nha Trang', N'du lịch biển', 1, N'Khánh Hoà', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 2, 'HaLong.jpg', 2),
+(N'Du lịch biển Phú Quốc', N'du lịch biển', 1, N'Kiên Giang', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 2, 'PhuQuoc.jpg', 3),
+(N'Du lịch sinh thái Cát Tiên', N'du lịch sinh thái', 1, N'Đồng Nai, Lâm Đồng, Bình Phước', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 2, 'CanTho.jpg', 2),
+(N'Du lịch nghỉ dưỡng Sa Pa', N'nghỉ dưỡng', 1, N'Lào Cai', 3, '2023-01-01', '2023-12-31', 5, 5000000, N'Chill out', 2, 'CanTho	.jpg', 1)
+
+insert into booking(book_time, note, payment, reason, start_date, status, tour_id, tourist_id, tourists_quantity)
+values
+('2023-07-18 21:55:23.143', 'test booking', 'Bank', null, '2023-12-01', 'Ready', 1, 1, 3),
+('2023-07-18 21:55:23.143', 'test booking', 'Cash', null, '2023-12-01', 'Paid', 2, 1, 4),
+('2023-07-18 21:55:23.143', 'test booking', 'Bank', null, '2023-12-01', 'Unpaid', 3, 1, 5),
+('2023-07-18 21:55:23.143', 'test booking', 'Cash', 'test decline', '2023-12-01', 'Declined', 4, 1, 6),
+('2023-07-18 21:55:23.143', 'test booking', 'Bank', 'test cancel', '2023-12-01', 'Canceled', 5, 1, 7),
+('2023-07-10 21:55:23.143', 'test booking', 'Cash', null, '2023-07-13', 'Done', 1, 1, 3)
+
+insert into bookingDetails(booking_id, hotel_id, restaurant_id, staff_id, vehicle_id)
+values
+(1, 1, 1, 1, 1),
+(5, 2, 3, 2, 3)
+
+insert into feedback_threads(content, rating, time, tour_id, tourist_id)
+values
+('Good tour', 5, '2023-07-18 21:55:23.143', 1, 1),
+('Bad tour', 5, '2023-07-18 21:55:23.143', 1, 1),
+('Good tour', 5, '2023-07-18 21:55:23.143', 1, 1),
+('Bad tour', 5, '2023-07-18 21:55:23.143', 1, 1)
