@@ -41,7 +41,7 @@
             <tbody>
                 <c:forEach var="vehicle" items="${list}">
                     <tr>
-                        <th scope="row">${vehicle.ID}</th>
+                        <th scope="row">${vehicle.id}</th>
                         <td>${vehicle.type}</td>
                         <td>${vehicle.driverName}</td>
                         <td>${vehicle.driverPhone}</td>
