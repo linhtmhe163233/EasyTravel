@@ -67,26 +67,29 @@ public class LoginController extends HttpServlet {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String mess;
-        
+//        String mess;
+
         try {
 //            DAO dao = new UserDao(); 
 //            User u = dao.checkLogin(username,password);
             UserDAO dao = new UserDaoImpl();
             User user = dao.checkLogin(username, password);
-            
-            if (user == null) {
-//                request.setAttribute("username", username);
-               
-                mess = "Wrong account or password !!! Please re-enter.";
-                request.setAttribute("mess", mess);
+            if (!dao.checkUserBanned(username)) {
+                request.setAttribute("message", "Username banned");
                 doGet(request, response);
+            }else{
+                if (user == null) {
+//                request.setAttribute("username", username);
 
-            } else {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", user);
-                response.sendRedirect(request.getContextPath() + "/home");
+//                    mess = "Wrong account or password !!! Please re-enter.";
+                    request.setAttribute("mess", "Wrong account or password !!! Please re-enter.");
+                    doGet(request, response);
 
+                } else {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", user);
+                    response.sendRedirect(request.getContextPath() + "/home");
+                }
             }
         } catch (Exception ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);

@@ -28,7 +28,7 @@
                                     <label for="username" class="text-info">Username:</label><br>
 
                                     <input type="text" name="username" id="username" class="form-control" placeholder="your username" required value="${param.username}">
-
+                                    <p style="color:red">${message}</p> 
 
                                 </div>
                                 <div class="form-group">

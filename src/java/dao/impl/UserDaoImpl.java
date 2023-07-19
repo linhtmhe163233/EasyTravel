@@ -67,6 +67,33 @@ public class UserDaoImpl extends DBContext implements UserDAO {
         }
         return null;
     }
+    
+    public boolean checkUserBanned(String username) throws Exception {
+        String query = "select status from users where account_name=? and status ='Banned'";
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, username);
+        
+
+            rs = ps.executeQuery();
+
+            return !rs.next();
+        } catch (SQLException ex) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
+    }
+    
+    
 
     public User checkEmail(String email) throws Exception {
         Connection conn = super.getConnection();
@@ -691,6 +718,7 @@ public class UserDaoImpl extends DBContext implements UserDAO {
         try {
             UserDaoImpl dao = new UserDaoImpl();
 //            String email = null;
+            String username = "tranlinhnhoi";
 //            int index = 1;
 //            int totalItems = dao.getTotalItems("");
 //            Pagination page = new Pagination(totalItems, 2, index);
@@ -698,10 +726,13 @@ public class UserDaoImpl extends DBContext implements UserDAO {
 //            System.out.println(list);
 //               dao.toggleUserStatus(1);
 //               System.out.println(dao.getAll());
+            boolean u = dao.checkUserBanned(username);
+            System.out.println(u);
 //            boolean u = dao.registerUsernameUnique(email);
 //            System.out.println(u);
 
-            dao.updateStatus("Banned",1);
+//            dao.updateStatus("Banned",1);
+
    
         } catch (Exception ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
