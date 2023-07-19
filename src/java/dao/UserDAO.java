@@ -16,6 +16,8 @@ public interface UserDAO extends BasicDAO<User> {
 
     User checkLogin(String username, String password) throws Exception;
 
+    boolean checkUserBanned(String username) throws Exception;
+
     User checkEmail(String email) throws Exception;
 
     User checkKey(String key) throws Exception;
