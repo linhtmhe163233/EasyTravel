@@ -725,8 +725,10 @@ public class UserDaoImpl extends DBContext implements UserDAO {
 //            System.out.println(list);
 //               dao.toggleUserStatus(1);
 //               System.out.println(dao.getAll());
-            boolean u = dao.checkUserBanned(username);
-            System.out.println(u);
+
+//            boolean u = dao.checkUserBanned(username);
+//            System.out.println(u);
+            
 //            boolean u = dao.registerUsernameUnique(email);
 //            System.out.println(u);
 
