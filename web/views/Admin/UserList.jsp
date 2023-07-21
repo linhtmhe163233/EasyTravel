@@ -54,6 +54,7 @@
                         <td>${user.role}</td>
                         <td>${user.status}</td>
                 <form action="usermanage" method="post">
+                     <c:if test="${user.role!='Admin'}">
                     <td>
                         <input type="hidden" name="id" value="${user.id}">                   
                         <c:if test="${user.status=='Banned'}">
@@ -65,6 +66,7 @@
                             <input type="hidden" name="status" value="Banned">
                         </c:if>
                     </td>
+                     </c:if>
                 </form>
                 <!--                        <td><a href=# class="badge badge-info">Active</a></td>-->
                 <!--                                                <td><a href="edit?HotelId=${hotel.id}" class="badge badge-info">Ban</a></td>-->
