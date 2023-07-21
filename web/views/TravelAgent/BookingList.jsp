@@ -45,14 +45,10 @@
                         Status
                     </div>
                 </div>
-            <c:forEach items="${list}" var="booking" varStatus="loop">
-                <c:set var="idx" value="${loop.count+page.itemsPerPage*(page.index-1)}"></c:set>
+            <c:forEach items="${list}" var="booking">
+                <c:set var="idx" value="${booking.id}"></c:set>
                     <div class="card">
-                        <div class="card-header row" id="heading${idx}" role="button" 
-                         onclick="this.children[0].click()">
-                        <button class="btn collapsed" data-toggle="collapse" data-target="#collapse${idx}" 
-                                aria-expanded="false" aria-controls="collapse${idx}" type="button" hidden="">
-                        </button>
+                        <div class="card-header row click" id="heading${idx}" role="button">
                         <div class="col-1">
                             ${idx}
                         </div>
@@ -71,13 +67,13 @@
                         <div class="col-2 ${booking.status=='Unpaid'?'text-warning':
                                             booking.status=='Paid'?'text-info':
                                             booking.status=='Ready'?'text-primary':
-                                            booking.status=='Done'?'text-success':'text-danger'}">
+                                            booking.status=='Done'?'text-success':'text-danger'} status">
                                  ${booking.status}
                              </div>
                         </div>
                         <div id="collapse${idx}" class="collapse" data-parent="#accordion" aria-labelledby="heading${idx}">
                             <div class="card-body row">
-                                <div class="col-7">
+                                <div class="${booking.status=='Paid'||booking.status=='Unpaid'?'col-7':'col-4'}">
                                     <b>Tourist name </b>${booking.touristName}
                                     <br>
                                     <b>Tourist phone: </b>${booking.touristPhone}
@@ -94,7 +90,8 @@
                                         <b>Reason for cancel:  </b>${booking.reason}
                                     </c:if>
                                 </div>
-                                <div class="col-5 d-flex justify-content-lg-end align-items-end">
+                                <div id="facility${idx}" class="${booking.status=='Paid'||booking.status=='Unpaid'?'':'col-6'}"></div>
+                                <div class="${booking.status=='Paid'||booking.status=='Unpaid'?'col-5':'col-2'} d-flex justify-content-lg-end align-items-end">
                                     <c:if test="${booking.status=='Unpaid'}">
                                         <button class="btn btn-success" data-toggle="modal" 
                                                 data-target="#modalPaid${booking.id}">
@@ -288,42 +285,42 @@
                 </c:forEach>
             </div>
             <nav class="mt-4" ${page.totalItems==0?'hidden':''}>
-            <ul class="pagination justify-content-center">
-                <li class="page-item">
-                    <a class="page-link" href="bookinglist?index=${page.index-1}" ${page.index==1?"hidden":""}>
-                        <
-                    </a>
-                </li>
-                <li class="page-item ${page.index==1?"active":""}">
-                    <a class="page-link" href="bookinglist?index=1">1</a>
-                </li>
-                <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
-                    <span class="page-link">...</span>
-                </li>
-                <c:if test="${page.totalPage>2}">
-                    <c:forEach var="p" begin="${page.pageStart}" end="${page.pageEnd}">
-                        <li class="page-item ${page.index==p?"active":""}">
-                            <a class="page-link" href="bookinglist?index=${p}">
-                                ${p}
-                            </a>
-                        </li>
-                    </c:forEach>
-                </c:if>
-                <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
-                    <span class="page-link">...</span>
-                </li>
-                <li class="page-item ${page.index==page.totalPage?"active":""}" ${page.totalPage==1?"hidden":""}>
-                    <a class="page-link" href="bookinglist?index=${page.totalPage}">
-                        ${page.totalPage}
-                    </a>
-                </li>
-                <li class="page-item" ${page.index==page.totalPage?"hidden":""}>
-                    <a class="page-link" href="bookinglist?index=${page.index+1}">
-                        >
-                    </a>
-                </li>
-            </ul>
-        </nav>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" href="bookinglist?index=${page.index-1}" ${page.index==1?"hidden":""}>
+                            <
+                        </a>
+                    </li>
+                    <li class="page-item ${page.index==1?"active":""}">
+                        <a class="page-link" href="bookinglist?index=1">1</a>
+                    </li>
+                    <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
+                        <span class="page-link">...</span>
+                    </li>
+                    <c:if test="${page.totalPage>2}">
+                        <c:forEach var="p" begin="${page.pageStart}" end="${page.pageEnd}">
+                            <li class="page-item ${page.index==p?"active":""}">
+                                <a class="page-link" href="bookinglist?index=${p}">
+                                    ${p}
+                                </a>
+                            </li>
+                        </c:forEach>
+                    </c:if>
+                    <li class="page-item disabled" ${page.totalPage<5?"hidden":""}>
+                        <span class="page-link">...</span>
+                    </li>
+                    <li class="page-item ${page.index==page.totalPage?"active":""}" ${page.totalPage==1?"hidden":""}>
+                        <a class="page-link" href="bookinglist?index=${page.totalPage}">
+                            ${page.totalPage}
+                        </a>
+                    </li>
+                    <li class="page-item" ${page.index==page.totalPage?"hidden":""}>
+                        <a class="page-link" href="bookinglist?index=${page.index+1}">
+                            >
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </body>
         <script>
             (function () {
@@ -343,5 +340,13 @@
                     });
                 }, false);
             })();
+            $('.click').click((e) => {
+                let id = e.currentTarget.id.substr(7);
+                $('#collapse' + id).collapse('toggle');
+                let status = $('#heading' + id).children('.status').text().trim();
+                if (status === 'Ready' || status === 'Done') {
+                    $('#facility' + id).load("handlebooking", {facility: true, id: id});
+                }
+            });
         </script>
     </html>

@@ -9,6 +9,7 @@
 package dao;
 
 import entity.Booking;
+import entity.Facility;
 import java.sql.Date;
 import java.util.List;
 import utils.Pagination;
@@ -27,5 +28,7 @@ public interface BookingDAO extends BasicDAO<Booking> {
 
     boolean checkSchedule(int touristId, Date from, Date to) throws Exception;
 
-    public void addFacilities(int id, int vehicleId, int staffId, int hotelId, int restaurantId) throws Exception;
+    public void addFacilities(Facility facility) throws Exception;
+    
+    public Facility getFacilities(int bookingId) throws Exception;
 }

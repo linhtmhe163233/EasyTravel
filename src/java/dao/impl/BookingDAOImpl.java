@@ -2,6 +2,7 @@ package dao.impl;
 
 import dao.BookingDAO;
 import entity.Booking;
+import entity.Facility;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -71,8 +72,7 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
             ps.setInt(3, t.getId());
             ps.executeUpdate();
         } catch (Exception e) {
-//            throw new Exception("Can't process this request now, try again later!");
-            throw e;
+            throw new Exception("Can't process this request now, try again later!");
         } finally {
             closePs(ps);
             closeConnection(conn);
@@ -282,7 +282,7 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
     }
 
     @Override
-    public void addFacilities(int id, int vehicleId, int staffId, int hotelId, int restaurantId) throws Exception {
+    public void addFacilities(Facility facility) throws Exception {
         String query = "insert into bookingDetails(booking_id, vehicle_id, hotel_id, staff_id, restaurant_id) "
                 + "values(?,?,?,?,?)";
         Connection conn = null;
@@ -290,24 +290,58 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
         try {
             conn = getConnection();
             ps = conn.prepareStatement(query);
-            ps.setInt(1, id);
-            ps.setInt(2, vehicleId);
-            ps.setInt(3, hotelId);
-            ps.setInt(4, staffId);
-            ps.setInt(5, restaurantId);
+            ps.setInt(1, facility.getBookingId());
+            ps.setInt(2, facility.getVehicleId());
+            ps.setInt(3, facility.getHotelId());
+            ps.setInt(4, facility.getStaffId());
+            ps.setInt(5, facility.getRestaurantId());
             ps.execute();
         } catch (Exception e) {
-//            throw new Exception("Unable to save data to database");
-            throw e;
+            throw new Exception("Unable to save data to database");
         } finally {
             closePs(ps);
             closeConnection(conn);
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        BookingDAOImpl dao = new BookingDAOImpl();
-        dao.update(new Booking(13, "Ready", null));
-
+    @Override
+    public Facility getFacilities(int bookingId) throws Exception {
+        String query = "select booking_id, vehicles.type as vType, driver_phone, max_passengers, "
+                + "staff.name as sName, staff.phone as sPhone, "
+                + "hotels.name as hName, hotels.phone as hPhone, stars, "
+                + "restaurants.type as rType, restaurants.phone as rPhone "
+                + "from bookingDetails "
+                + "join vehicles on bookingDetails.vehicle_id=vehicles.id "
+                + "join staff on bookingDetails.staff_id=staff.id "
+                + "join hotels on bookingDetails.hotel_id=hotels.id "
+                + "join restaurants on bookingDetails.restaurant_id=restaurants.id "
+                + "where booking_id=?";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String vehicleInfo = "";
+        String staffInfo = "";
+        String hotelInfo = "";
+        String restaurantInfo = "";
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, bookingId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                vehicleInfo += rs.getString("vType") + " - " + rs.getString("driver_phone") + " - " + rs.getInt("max_passengers") + " seats";
+                staffInfo += rs.getString("sName") + " - " + rs.getString("sPhone");
+                hotelInfo += rs.getString("hName") + " - " + rs.getString("hPhone") + " - " + rs.getInt("stars");
+                restaurantInfo += rs.getString("rType") + " - " + rs.getString("rPhone");
+                return new Facility(bookingId, vehicleInfo, staffInfo, hotelInfo, restaurantInfo);
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
+        return null;
     }
 }

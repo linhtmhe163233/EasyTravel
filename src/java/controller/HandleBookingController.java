@@ -11,11 +11,13 @@ package controller;
 import dao.BookingDAO;
 import dao.impl.BookingDAOImpl;
 import entity.Booking;
+import entity.Facility;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 
 /**
  *
@@ -35,7 +37,7 @@ public class HandleBookingController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            response.sendRedirect("home");
+        response.sendRedirect("home");
     }
 
     /**
@@ -73,9 +75,22 @@ public class HandleBookingController extends HttpServlet {
                 int staffId = Integer.parseInt(request.getParameter("staff"));
                 int hotelId = Integer.parseInt(request.getParameter("hotel"));
                 int restaurantId = Integer.parseInt(request.getParameter("restaurant"));
-                dao.addFacilities(id, vehicleId, staffId, hotelId, restaurantId);
+                dao.addFacilities(new Facility(id, vehicleId, staffId, hotelId, restaurantId));
                 dao.update(new Booking(id, "Ready", null));
                 response.sendRedirect("bookinglist");
+            }
+            if (request.getParameter("facility") != null) {
+                Facility f = dao.getFacilities(id);
+                response.setContentType("text/plain");
+                try (PrintWriter out = response.getWriter()) {
+                    out.print("<b>Vehicle: </b>"+f.getVehicleInfo());
+                    out.print("<br>");
+                    out.print("<b>Tour guide: </b>"+f.getStaffInfo());
+                    out.print("<br>");
+                    out.print("<b>Hotel: </b>"+f.getHotelInfo());
+                    out.print("<br>");
+                    out.print("<b>Restaurant: </b>"+f.getRestaurantInfo());
+                }
             }
         } catch (Exception e) {
             request.setAttribute("error", e.getMessage());

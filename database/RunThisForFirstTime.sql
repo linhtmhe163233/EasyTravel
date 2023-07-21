@@ -278,7 +278,7 @@ values
 insert into bookingDetails(booking_id, hotel_id, restaurant_id, staff_id, vehicle_id)
 values
 (1, 1, 1, 1, 1),
-(5, 2, 3, 2, 3)
+(6, 2, 3, 2, 3)
 
 insert into feedback_threads(content, rating, time, tour_id, tourist_id)
 values
