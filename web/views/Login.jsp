@@ -51,5 +51,6 @@
         </div>
         <script src="js/jquery-3.7.0.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <c:import url="./Layout/Footer.jsp"></c:import>
     </body>
 </html>

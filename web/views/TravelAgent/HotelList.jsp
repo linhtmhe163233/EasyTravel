@@ -111,22 +111,23 @@
                 </div>
             </div>
         </div>
-    </body>
-    <script>
-        function showMess(id){
-            var option = confirm('are you sure to delete');
-            if(option === true){
-              window.location.href  = 'delete?HotelId'+id;
+        <c:import url="../Layout/Footer.jsp"></c:import>
+        </body>
+        <script>
+            function showMess(id) {
+                var option = confirm('are you sure to delete');
+                if (option === true) {
+                    window.location.href = 'delete?HotelId' + id;
+                }
             }
-        }
-    </script>
-    <script src="js/jquery-3.7.0.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/HotelList.js"></script>
-    <script>
-    let message = '${requestScope.message}';
-    if (message !== '') {
-        document.getElementById("add").click();
-    }
+        </script>
+        <script src="js/jquery-3.7.0.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/HotelList.js"></script>
+        <script>
+            let message = '${requestScope.message}';
+            if (message !== '') {
+                document.getElementById("add").click();
+            }
     </script>
 </html>

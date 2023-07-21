@@ -158,6 +158,7 @@
                 <a href="tour?id=${requestScope.tour.id}" class="btn btn-danger">Cancel</a>
             </c:if>
         </form>
+        <c:import url="../Layout/Footer.jsp"></c:import>
     </body>
     <script src="js/AddNewTour.js"></script>
 </html>

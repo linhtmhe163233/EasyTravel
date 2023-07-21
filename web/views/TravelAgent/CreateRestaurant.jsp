@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>EasyTravel | Restaurant</title>
+        <title>Easy Travel | Restaurant</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <style>
             .title{
@@ -21,7 +21,7 @@
                 border-radius: 20px;
                 margin-left: 40%;
             }
-          
+
             input{
                 height: 40px;
                 padding-bottom: 8px;
@@ -91,18 +91,14 @@
                         </tr>
                     </tbody>
                 </table>
-
             </div>
             <div class="text-center">
                 <span style="color: red;">${msg}</span>
             </div>
             <div class="text-center" style="margin-top: 120px;">
-
                 <button class="btn" type="submit">Create</button>
             </div>
-
         </form>
-
-
+        <c:import url="../Layout/Footer.jsp"></c:import>
     </body>
 </html>

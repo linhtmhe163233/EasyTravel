@@ -3,7 +3,7 @@
     Created on : 02-Jul-2023, 18:09:30
     Author     : Ngan Ha
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,6 +12,8 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <c:import url="../Layout/Footer.jsp"></c:import>
+            <h1>Hello World!</h1>
+        <c:import url="../Layout/Footer.jsp"></c:import>
     </body>
 </html>

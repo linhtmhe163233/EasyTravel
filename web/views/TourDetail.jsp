@@ -253,7 +253,7 @@
             </c:forEach>
         </div>
         <br>
-        
+
         <nav class="mt-4" ${page.totalItems==0?'hidden':''}>
             <ul class="pagination justify-content-center">
                 <li class="page-item">
@@ -291,63 +291,63 @@
                 </li>
             </ul>
         </nav>
-       
-    </body>
-    <script src="js/jquery-3.7.0.js" type="text/javascript"></script>
-    <script src="js/bootstrap.min.js" type="text/javascript"></script>
-    <script>
-        (function () {
-            'use strict';
-            window.addEventListener('load', function () {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                let forms = document.getElementsByClassName('needs-validation');
-                // Loop over them and prevent submission
-                let validation = Array.prototype.filter.call(forms, function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
-        })();
-        $('.toast').toast('show');
-        let startDate = $("#startDate")[0];
-        if (startDate) {
-            Date.prototype.addYears = function (years) {
-                let date = new Date(this);
-                date.setYear(date.getFullYear() + years);
-                return date;
-            };
-            Date.prototype.addDays = function (days) {
-                let date = new Date(this);
-                date.setDate(date.getDate() + days);
-                return date;
-            };
-            startDate.min = new Date().addDays(3).toISOString().split("T")[0];
-            startDate.valueAsDate = new Date().addDays(3);
-            startDate.max = new Date('${tour.availableTo}').addDays(3).toISOString().split("T")[0];
-        }
-        if ('${book}'.length !== 0)
-            $('#book').click();
-        $('#onlinePay').hide();
-        $('#payment').on("change", (e) => {
-            if (e.target.value === 'Bank') {
-                $('#onlinePay').show();
-            } else {
-                $('#onlinePay').hide();
+        <c:import url="./Layout/Footer.jsp"></c:import>  
+        </body>
+        <script src="js/jquery-3.7.0.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
+        <script>
+            (function () {
+                'use strict';
+                window.addEventListener('load', function () {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    let forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    let validation = Array.prototype.filter.call(forms, function (form) {
+                        form.addEventListener('submit', function (event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+            $('.toast').toast('show');
+            let startDate = $("#startDate")[0];
+            if (startDate) {
+                Date.prototype.addYears = function (years) {
+                    let date = new Date(this);
+                    date.setYear(date.getFullYear() + years);
+                    return date;
+                };
+                Date.prototype.addDays = function (days) {
+                    let date = new Date(this);
+                    date.setDate(date.getDate() + days);
+                    return date;
+                };
+                startDate.min = new Date().addDays(3).toISOString().split("T")[0];
+                startDate.valueAsDate = new Date().addDays(3);
+                startDate.max = new Date('${tour.availableTo}').addDays(3).toISOString().split("T")[0];
             }
-        });
-        $('#cost').val(Number(${tour.price} *${tour.maxQuantity}).toFixed());
-        $('#tourists_quantity').on("change", (e) => {
-            $('#cost').val(${tour.price} * e.target.value);
-        });
-        if ('${scroll}'.length !== 0) {
-            $('#fb')[0].scrollIntoView({
-                behaviour: "smooth"
+            if ('${book}'.length !== 0)
+                $('#book').click();
+            $('#onlinePay').hide();
+            $('#payment').on("change", (e) => {
+                if (e.target.value === 'Bank') {
+                    $('#onlinePay').show();
+                } else {
+                    $('#onlinePay').hide();
+                }
             });
-        }
+            $('#cost').val(Number(${tour.price} *${tour.maxQuantity}).toFixed());
+            $('#tourists_quantity').on("change", (e) => {
+                $('#cost').val(${tour.price} * e.target.value);
+            });
+            if ('${scroll}'.length !== 0) {
+                $('#fb')[0].scrollIntoView({
+                    behaviour: "smooth"
+                });
+            }
     </script>
 </html>

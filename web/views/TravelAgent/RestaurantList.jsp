@@ -10,13 +10,12 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>EasyTravel | Restaurant</title>
+        <title>Easy Travel | Restaurant</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link href="css/fontawesome.min.css" rel="stylesheet"/>
     </head>
     <body>
         <c:import url="../Layout/Header.jsp"></c:import>
-
         <c:if test="${param['index']==null }">   
             <c:set var = "index" scope = "page" value = "1"/>
         </c:if>
@@ -36,7 +35,6 @@
                 <button type="submit" class="btn btn-primary" >Search</button>
             </div>
         </form>
-
         <div class="mt-5">
             <table  class="table table-hover table-bordered w-75 mx-auto" >
                 <thead>
@@ -47,7 +45,6 @@
                         <th scope="col">Phone Number</th>
                         <th scope="col">Agent Name</th>
                         <th colspan="2">Action</th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -60,12 +57,8 @@
                             <td>${a.getAgentName()}</td>    
                             <td><a href="EditRestau?rid=${a.getId()}" class="btn btn-info btn-sm"> Edit</a></td>
                             <td><a href="DeleteRestau?rid=${a.getId()}" class="btn btn-danger btn-sm"> Delete</a></td>
-
                         </tr>
                     </c:forEach>
-
-
-
                 </tbody>
             </table>
             <div class="pagination-arena" style="margin-left: 45%;">
@@ -85,7 +78,6 @@
                 </ul>
             </div> 
         </div>
-
-
+        <c:import url="../Layout/Footer.jsp"></c:import>
     </body>
 </html>

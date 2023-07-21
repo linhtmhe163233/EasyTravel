@@ -113,37 +113,37 @@
                                         <img src="images/Payment/${payment.qr}" alt="QR" class="img-fluid"
                                              style="max-height: 30rem; max-width: 30rem"/>
                                     </div>
-<!--                                    <button type="button" class="btn btn-danger float-right mr-2 mb-2" data-toggle="modal" 
-                                            data-target="#deletePayment${payment.id}">
-                                        Delete
-                                    </button>
-                                    <div class="modal fade" id="deletePayment${payment.id}" tabindex="-1" role="dialog" 
-                                         aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    You should immediately add another payment method after this action!
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                                        Close
-                                                    </button>
-                                                    <form action="payment" method="post">
-                                                        <input type="hidden" name="id" value="${payment.id}">
-                                                        <button type="submit" class="btn btn-danger" name="delete">
-                                                            Delete
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>-->
+                                    <!--                                    <button type="button" class="btn btn-danger float-right mr-2 mb-2" data-toggle="modal" 
+                                                                                data-target="#deletePayment${payment.id}">
+                                                                            Delete
+                                                                        </button>
+                                                                        <div class="modal fade" id="deletePayment${payment.id}" tabindex="-1" role="dialog" 
+                                                                             aria-hidden="true">
+                                                                            <div class="modal-dialog" role="document">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                            <span aria-hidden="true">&times;</span>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        You should immediately add another payment method after this action!
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                                                            Close
+                                                                                        </button>
+                                                                                        <form action="payment" method="post">
+                                                                                            <input type="hidden" name="id" value="${payment.id}">
+                                                                                            <button type="submit" class="btn btn-danger" name="delete">
+                                                                                                Delete
+                                                                                            </button>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>-->
                                 </div>
                             </div>
                         </c:forEach>
@@ -188,6 +188,7 @@
                 </div>
             </div>
         </c:if>
+        <c:import url="./Layout/Footer.jsp"></c:import>
     </body>
     <script src="js/Profile.js" type="text/javascript"></script>
 </html>

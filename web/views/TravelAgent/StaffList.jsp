@@ -124,7 +124,7 @@
                                 <div class="valid-feedback">Looks good!</div>
                                 <div class="invalid-feedback">Phone number can only contain 10 digits! Ex:0123456789</div>
                                 <%--<c:if test="${message!=null}">--%>
-                                    <div class="text-danger">${message}</div>
+                                <div class="text-danger">${message}</div>
                                 <%--</c:if>--%>
                             </div>
                             <div class="md-form mb-5">
@@ -150,14 +150,15 @@
                 </div>
             </div>
         </div>
-    </body>
-    <script src="js/jquery-3.7.0.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/StaffList.js"></script>
-    <script>
-        let message = '${requestScope.message}';
-        if (message !== '') {
-            document.getElementById("add").click();
-        }
+        <c:import url="../Layout/Footer.jsp"></c:import>
+        </body>
+        <script src="js/jquery-3.7.0.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/StaffList.js"></script>
+        <script>
+            let message = '${requestScope.message}';
+            if (message !== '') {
+                document.getElementById("add").click();
+            }
     </script>
 </html>

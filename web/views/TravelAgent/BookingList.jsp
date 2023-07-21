@@ -321,6 +321,7 @@
                     </li>
                 </ul>
             </nav>
+            <c:import url="../Layout/Footer.jsp"></c:import>
         </body>
         <script>
             (function () {

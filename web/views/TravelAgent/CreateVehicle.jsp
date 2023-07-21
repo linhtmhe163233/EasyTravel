@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>EasyTravel | Vehicles</title>
+        <title>Easy Travel | Vehicles</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <style>
             .title{
@@ -62,12 +62,10 @@
         <div class="title mt-5">
             <h1>Add a vehicle</h1>
         </div>
-
         <form action="create-vehicle" method="post">
             <div class="mt-5">
                 <table class="table">
                     <tbody>
-
                         <tr>
                             <td class="word">Type</td>
                             <td><input type="text" name="type" maxlength="30" required value="${type}"/></td>
@@ -80,23 +78,16 @@
                             <td class="word">Max passenger</td>
                             <td><input type="number" min="1" name="pass" value="${pass}" /></td>
                         </tr>
-                        
-
-
                     </tbody>
                 </table>
-
             </div>
             <div class="text-center">
                 <span style="color: red;">${msg}</span>
             </div>
             <div class="text-center" style="margin-top: 150px;">
-                
                 <button class="btn" type="submit">Create</button>
             </div>
-
         </form>
-
-
+        <c:import url="../Layout/Footer.jsp"></c:import>
     </body>
 </html>

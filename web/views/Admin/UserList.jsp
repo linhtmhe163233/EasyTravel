@@ -111,6 +111,7 @@
         </li>
     </ul>
 </nav>
+<c:import url="../Layout/Footer.jsp"></c:import>
 </body>
 <script src="js/jquery-3.7.0.js"></script>
 <script src="js/bootstrap.min.js"></script>

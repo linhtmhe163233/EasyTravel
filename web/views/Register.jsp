@@ -155,6 +155,7 @@
                 </div>
             </div>
         </c:if>
+        <c:import url="./Layout/Footer.jsp"></c:import>
     </body>
     <script>
         Date.prototype.addYears = function (years) {

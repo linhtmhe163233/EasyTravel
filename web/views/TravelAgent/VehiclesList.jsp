@@ -19,26 +19,26 @@
     </head>
     <body>
         <c:import url="../Layout/Header.jsp"></c:import>
-        <div class="text-center mt-5">
-            <h1>View a list vehicle</h1>
-        </div>
-        <div class="mr-4 mb-4 d-flex flex-row justify-content-end">
-            <button class="btn btn-primary" data-toggle="modal" 
-                    data-target="#modalAddVehicle" id="add">Add</button>
-        </div>
+            <div class="text-center mt-5">
+                <h1>View a list vehicle</h1>
+            </div>
+            <div class="mr-4 mb-4 d-flex flex-row justify-content-end">
+                <button class="btn btn-primary" data-toggle="modal" 
+                        data-target="#modalAddVehicle" id="add">Add</button>
+            </div>
 
 
-        <table class="table table-bordered table-striped w-75 mx-auto">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Driver Name</th>
-                    <th scope="col">Phone Number</th>
-                    <th scope="col">Max Passenger</th>
-                </tr>
-            </thead>
-            <tbody>
+            <table class="table table-bordered table-striped w-75 mx-auto">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Driver Name</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">Max Passenger</th>
+                    </tr>
+                </thead>
+                <tbody>
                 <c:forEach var="vehicle" items="${list}">
                     <tr>
                         <th scope="row">${vehicle.id}</th>
@@ -98,14 +98,15 @@
                 </div>
             </div>
         </div>
-    </body>
-    <script src="js/jquery-3.7.0.js" type="text/javascript"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/VehicleList.js" type="text/javascript"></script>
-    <script>
-        let message = '${requestScope.message}';
-        if (message !== '') {
-            document.getElementById("add").click();
-        }
+        <c:import url="../Layout/Footer.jsp"></c:import>
+        </body>
+        <script src="js/jquery-3.7.0.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/VehicleList.js" type="text/javascript"></script>
+        <script>
+            let message = '${requestScope.message}';
+            if (message !== '') {
+                document.getElementById("add").click();
+            }
     </script>
 </html>

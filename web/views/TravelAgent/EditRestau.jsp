@@ -21,7 +21,7 @@
                 border-radius: 20px;
                 margin-left: 40%;
             }
-          
+
             input{
                 height: 40px;
                 padding-bottom: 8px;
@@ -69,12 +69,12 @@
 
             <form action="EditRestau" method="post">
                 <input type="hidden" name="rid" maxlength="30" required value="${a.getId()}"/>
-                <div class="mt-5">
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <td class="word">Type</td>
-                                <td><input type="text" name="type" maxlength="30" required value="${a.getType()}"/></td>
+            <div class="mt-5">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td class="word">Type</td>
+                            <td><input type="text" name="type" maxlength="30" required value="${a.getType()}"/></td>
                             <td class="word">Phone</td>
                             <td><input type="text"  name="phone" maxlength="10" minlength="10" value="${a.getPhone()}" required/></td>
                         </tr>
@@ -96,6 +96,6 @@
 
         </form>
 
-
+        <c:import url="../Layout/Footer.jsp"></c:import>
     </body>
 </html>

@@ -14,12 +14,12 @@
     </head>
     <body>
         <c:import url="../Layout/Header.jsp"></c:import>
-        <div class="container">
-            <h1 class="text-center">Edit Hotel</h1>
-            <form action="/EasyTravel/edit" method="POST" novalidate id="form" class="needs-validation">
-                 <div class="form-group">
-                    <label for="name">Hotel Id</label>
-                    <input value="${hotel.id}" type="text" id="id" class="form-control" name="id" readonly>                          
+            <div class="container">
+                <h1 class="text-center">Edit Hotel</h1>
+                <form action="/EasyTravel/edit" method="POST" novalidate id="form" class="needs-validation">
+                    <div class="form-group">
+                        <label for="name">Hotel Id</label>
+                        <input value="${hotel.id}" type="text" id="id" class="form-control" name="id" readonly>                          
                 </div>
                 <div class="form-group">
                     <label for="name">Hotel name</label>
@@ -51,12 +51,13 @@
                            pattern="^\s*\p{L}+(\s\p{L}+)*\s*$" value="${hotel.location}">
                     <div class="invalid-feedback">Location must be fewer than 50 letters!</div>
                 </div>
-                 <div class="modal-footer d-flex justify-content-center">
-                            <button class="btn btn-primary" type="submit">Confirm</button>
-                        </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button class="btn btn-primary" type="submit">Confirm</button>
+                </div>
         </div>
-<script src="js/jquery-3.7.0.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/HotelList.js"></script>
+        <script src="js/jquery-3.7.0.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/HotelList.js"></script>
+        <c:import url="../Layout/Footer.jsp"></c:import>
     </body>
 </html>
