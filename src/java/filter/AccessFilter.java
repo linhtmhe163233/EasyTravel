@@ -171,7 +171,7 @@ public class AccessFilter implements Filter {
             return;
         }
         //everyone can access
-        if (Link.all.contains(url) || uri.contains("/images") || uri.contains("/js")|| uri.contains("/css")) {
+        if (Link.all.contains(url) || uri.contains("/images") || uri.contains("/js") || uri.contains("/css")) {
             chain.doFilter(request, response);
             return;
         }
@@ -201,12 +201,15 @@ public class AccessFilter implements Filter {
                 response.sendRedirect("home");
                 return;
             }//admin can access
-            if (user.getRole().equals("Admin")&& !Link.admin.contains(url)) {
+            if (user.getRole().equals("Admin") && !Link.admin.contains(url)) {
                 response.sendRedirect("home");
                 return;
             }
+            chain.doFilter(request, response);
         }
-        chain.doFilter(request, response);
+        if (user == null) {
+            chain.doFilter(request, response);
+        }
 
         doAfterProcessing(request, response);
 

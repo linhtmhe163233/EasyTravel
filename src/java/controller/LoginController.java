@@ -35,7 +35,7 @@ public class LoginController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -64,29 +64,30 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-
-
+        
         try {
             UserDAO dao = new UserDaoImpl();
             User user = dao.checkLogin(username, password);
-            String status = user.getStatus();
-                if (user == null) {
-                    request.setAttribute("mess", "Wrong account or password !!! Please re-enter.");
-                    doGet(request, response);
-
-                } else {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("user", user);
-                    response.sendRedirect(request.getContextPath() + "/home");
-                }
-         
+            if (user == null) {
+                request.setAttribute("mess", "Wrong account or password !!! Please re-enter.");
+                doGet(request, response);
+                
+            } else if (user.getStatus().equals("Banned")) {
+                request.setAttribute("mess", "You are banned due to you recent action, contact admin for more information, "
+                        + "email: xxx@gmail.com");
+                doGet(request, response);
+            } else {
+                HttpSession session = request.getSession();
+                session.setAttribute("user", user);
+                response.sendRedirect(request.getContextPath() + "/home");
+            }
         } catch (Exception ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
 
     /**

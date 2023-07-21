@@ -68,6 +68,7 @@ public class UserDaoImpl extends DBContext implements UserDAO {
         return null;
     }
     
+    @Override
     public boolean checkUserBanned(String username) throws Exception {
         String query = "select status from users where account_name=? and status ='Banned'";
 
@@ -94,6 +95,7 @@ public class UserDaoImpl extends DBContext implements UserDAO {
     
     
 
+    @Override
     public User checkEmail(String email) throws Exception {
         Connection conn = super.getConnection();
         String sql = "SELECT * FROM users WHERE email=?";
@@ -127,6 +129,7 @@ public class UserDaoImpl extends DBContext implements UserDAO {
         return null;
     }
 
+    @Override
     public User checkKey(String key) throws Exception {
         Connection conn = super.getConnection();
         String sql = "SELECT * FROM users WHERE [key]=?";

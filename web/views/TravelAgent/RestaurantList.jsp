@@ -13,6 +13,8 @@
         <title>Easy Travel | Restaurant</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link href="css/fontawesome.min.css" rel="stylesheet"/>
+        <script src="js/jquery-3.7.0.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
     </head>
     <body>
         <c:import url="../Layout/Header.jsp"></c:import>
@@ -36,7 +38,7 @@
             </div>
         </form>
         <div class="mt-5">
-            <table  class="table table-hover table-bordered w-75 mx-auto" >
+            <table class="table table-hover table-bordered w-75 mx-auto" >
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
