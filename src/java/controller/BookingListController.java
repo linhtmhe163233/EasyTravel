@@ -55,8 +55,9 @@ public class BookingListController extends HttpServlet {
             BookingDAO dao = new BookingDAOImpl();
             int totalItems = dao.getTotalItems(agentId, "request");
             String indexStr = request.getParameter("index");
-            if (session.getAttribute("indexStr") != null) {
+            if (session.getAttribute("index") != null) {
                 indexStr = (String) session.getAttribute("index");
+                session.removeAttribute("index");
             }
             int index = 1;
             if (indexStr != null && indexStr.matches("^[0-9]+$")) {

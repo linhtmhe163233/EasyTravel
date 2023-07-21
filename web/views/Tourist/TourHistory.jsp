@@ -43,13 +43,9 @@
                     </div>
                 </div>
             <c:forEach items="${list}" var="booking" varStatus="loop">
-                <c:set var="idx" value="${loop.count+page.itemsPerPage*(page.index-1)}"></c:set>
+                <c:set var="idx" value="${booking.id}"></c:set>
                     <div class="card">
-                        <div class="card-header row" id="heading${idx}" role="button" 
-                         onclick="this.children[0].click()">
-                        <button class="btn collapsed" data-toggle="collapse" data-target="#collapse${idx}" 
-                                aria-expanded="false" aria-controls="collapse${idx}" type="button" hidden="">
-                        </button>
+                        <div class="card-header row click" id="heading${idx}" role="button">
                         <div class="col-1">
                             ${idx}
                         </div>
@@ -65,10 +61,10 @@
                         <div class="col-2">
                             ${booking.touristsQuantity}
                         </div>
-                        <div class="col-2 ${booking.status=='Unpaid'?'text-warning':
-                                            booking.status=='Paid'?'text-info':
-                                            booking.status=='Ready'?'text-primary':
-                                            booking.status=='Done'?'text-success':'text-danger'}">
+                        <div class="col-2 status ${booking.status=='Unpaid'?'text-warning':
+                                                   booking.status=='Paid'?'text-info':
+                                                   booking.status=='Ready'?'text-primary':
+                                                   booking.status=='Done'?'text-success':'text-danger'}">
                                  ${booking.status}
                              </div>
                         </div>
@@ -76,7 +72,7 @@
                             <div class="card-body row">
                                 <div class="col-8">
                                     <b>Note: </b>${booking.note}
-                                    <c:if test="${booking.payment=='Bank' && booking.reason==null}">
+                                    <c:if test="${booking.payment=='Bank' && booking.status=='Unpaid'}">
                                         <br>
                                         <b>Online payment: </b>${booking.bank} - ${booking.code}
                                         <div class="card-body d-flex justify-content-center">
@@ -88,8 +84,9 @@
                                         <br>
                                         <b>Reason for cancel:  </b>${booking.reason}
                                     </c:if>
+                                    <div id="facility${idx}"></div>    
                                 </div>
-                                <div class="col-2">
+                                <div class="col-4 d-flex align-items-end justify-content-end">
                                     <c:if test="${booking.status=='Unpaid'
                                                   ||booking.status=='Paid'
                                                   ||booking.status=='Ready'}">
@@ -98,8 +95,6 @@
                                               Cancel tour
                                           </button>  
                                     </c:if>
-                                </div>
-                                <div class="col-2">
                                     <a href="tour?id=${booking.tourId}" class="btn btn-info">Go to tour</a>
                                 </div>
                             </div>
@@ -209,5 +204,13 @@
                     });
                 }, false);
             })();
+            $('.click').click((e) => {
+                let id = e.currentTarget.id.substr(7);
+                $('#collapse' + id).collapse('toggle');
+                let status = $('#heading' + id).children('.status').text().trim();
+                if (status === 'Ready' || status === 'Done') {
+                    $('#facility' + id).load("handlebooking", {facility: true, id: id});
+                }
+            });
         </script>
     </html>
