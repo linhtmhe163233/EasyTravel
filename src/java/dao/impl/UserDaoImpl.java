@@ -68,29 +68,29 @@ public class UserDaoImpl extends DBContext implements UserDAO {
         return null;
     }
     
-//    public boolean checkUserBanned(String username) throws Exception {
-//        String query = "select status from users where account_name=? and status ='Banned'";
-//
-//        Connection conn = null;
-//        PreparedStatement ps = null;
-//        ResultSet rs = null;
-//
-//        try {
-//            conn = getConnection();
-//            ps = conn.prepareStatement(query);
-//            ps.setString(1, username);
-//        
-//            rs = ps.executeQuery();
-//
-//            return !rs.next();
-//        } catch (SQLException ex) {
-//            throw new Exception("Unable to get data from database");
-//        } finally {
-//            closeRs(rs);
-//            closePs(ps);
-//            closeConnection(conn);
-//        }
-//    }
+    public boolean checkUserBanned(String username) throws Exception {
+        String query = "select status from users where account_name=? and status ='Banned'";
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, username);
+        
+            rs = ps.executeQuery();
+
+            return !rs.next();
+        } catch (SQLException ex) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
+    }
     
     
 
