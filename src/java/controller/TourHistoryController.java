@@ -18,6 +18,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import utils.Pagination;
 
 /**
@@ -25,6 +27,17 @@ import utils.Pagination;
  * @author DucTM
  */
 public class TourHistoryController extends HttpServlet {
+
+    @Override
+    public void init() throws ServletException {
+        try {
+            BookingDAO dao = new BookingDAOImpl();
+            dao.finishTours();
+        } catch (Exception ex) {
+            Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

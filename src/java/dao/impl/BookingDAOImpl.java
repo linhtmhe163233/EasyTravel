@@ -336,12 +336,34 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
                 return new Facility(bookingId, vehicleInfo, staffInfo, hotelInfo, restaurantInfo);
             }
         } catch (Exception e) {
-            throw e;
+            throw new Exception("Unable to get data from database");
         } finally {
             closeRs(rs);
             closePs(ps);
             closeConnection(conn);
         }
         return null;
+    }
+
+    @Override
+    public void finishTours() throws Exception {
+        String query = "update booking "
+                + "set status=? "
+                + "from booking join tours on booking.tour_id=tours.id "
+                + "where DATEADD(day, trip_length, start_date)<GETDATE() and status=?";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, "Done");
+            ps.setString(2, "Ready");
+            ps.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception("Unable to update database");
+        } finally {
+            closePs(ps);
+            closeConnection(conn);
+        }
     }
 }

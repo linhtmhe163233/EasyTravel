@@ -31,4 +31,6 @@ public interface BookingDAO extends BasicDAO<Booking> {
     public void addFacilities(Facility facility) throws Exception;
     
     public Facility getFacilities(int bookingId) throws Exception;
+    
+    public void finishTours() throws Exception;
 }

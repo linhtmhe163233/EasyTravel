@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link href="css/fontawesome.min.css" rel="stylesheet"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>EasyTravel | Staff</title>
+        <title>Easy Travel | Users</title>
     </head>
     <body>
         <c:import url="../Layout/Header.jsp"></c:import>
@@ -32,7 +32,7 @@
             <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Fullname</th>
+                    <th scope="col">Full name</th>
                     <th scope="col">Username</th>
                     <th scope="col">Email</th>
                     <th scope="col">DOB</th>

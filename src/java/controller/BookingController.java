@@ -67,7 +67,7 @@ public class BookingController extends HttpServlet {
             BookingDAO dao = new BookingDAOImpl();
             if (!dao.checkSchedule(touristId, startDate, new Date(startDate.getTime() + tripLength * 24 * 60 * 60 * 1000))) {
                 request.getSession().setAttribute("toast", "New request overlaps with tour's schedule!");
-                response.sendRedirect("tour?id="+tourId);
+                response.sendRedirect("tour?id=" + tourId);
                 return;
             }
             dao.save(booking);
