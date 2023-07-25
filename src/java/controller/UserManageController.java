@@ -69,12 +69,13 @@ public class UserManageController extends HttpServlet {
             if (indexStr != null && indexStr.matches("^[0-9]+$")) {
                 index = Integer.parseInt(indexStr);
             }
-            String search = request.getParameter("search");
+            String search = request.getParameter("search").trim();
             if (search == null) {
                 search = "";
             }
             int totalItems = dao.getTotalItems(search);
             Pagination page = new Pagination(totalItems, 5, index);
+            System.out.println(page.getIndex());
             List<User> list = dao.getPage(search, page);
 
             request.setAttribute("page", page);
