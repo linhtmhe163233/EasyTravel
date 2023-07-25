@@ -72,6 +72,9 @@
                             <div class="card-body row">
                                 <div class="col-8">
                                     <b>Note: </b>${booking.note}
+                                    <br><b>Agent name: </b>${booking.agentName}
+                                    <br><b>Agent phone </b>${booking.agentPhone}
+                                    <br><b>Agent email </b>${booking.agentEmail}
                                     <c:if test="${booking.payment=='Bank' && booking.status=='Unpaid'}">
                                         <br>
                                         <b>Online payment: </b>${booking.bank} - ${booking.code}

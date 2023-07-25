@@ -31,7 +31,34 @@ public class Booking {
     private String bank;
     private String code;
     private String qr;
+    private String agentName;
+    private String agentPhone;
+    private String agentEmail;
 
+    public String getAgentName() {
+        return agentName;
+    }
+
+    public void setAgentName(String agentName) {
+        this.agentName = agentName;
+    }
+
+    public String getAgentPhone() {
+        return agentPhone;
+    }
+
+    public void setAgentPhone(String agentPhone) {
+        this.agentPhone = agentPhone;
+    }
+
+    public String getAgentEmail() {
+        return agentEmail;
+    }
+
+    public void setAgentEmail(String agentEmail) {
+        this.agentEmail = agentEmail;
+    }
+    
     public String getPayment() {
         return payment;
     }
@@ -78,7 +105,8 @@ public class Booking {
 
     //use this when load tour history of tourist
     public Booking(int id, int touristId, int tourId, Timestamp bookTime, Date startDate, int touristsQuantity,
-            String status, String note, String tourName, String reason, String payment, String bank, String code, String qr) {
+            String status, String note, String tourName, String reason, String payment, String bank, String code, String qr,
+            String agentName, String agentPhone, String agentEmail) {
         this.id = id;
         this.touristId = touristId;
         this.tourId = tourId;
@@ -93,6 +121,9 @@ public class Booking {
         this.bank = bank;
         this.code = code;
         this.qr = qr;
+        this.agentName = agentName;
+        this.agentPhone = agentPhone;
+        this.agentEmail = agentEmail;
     }
 
     //use this when create a new booking entry

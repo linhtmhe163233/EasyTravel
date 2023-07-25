@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Easy Travel</title>
+        <title>Easy Travel | Profile</title>
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <script src="js/jquery-3.7.0.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>

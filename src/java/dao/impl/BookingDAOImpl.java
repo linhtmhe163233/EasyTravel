@@ -91,10 +91,12 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
 
     @Override
     public List<Booking> getTourHistory(int touristId, Pagination page) throws Exception {
-        String sql = "select booking.id, tour_id, book_time, start_date, tourists_quantity, booking.status, note, name, reason, payment, bank, code, qr  "
+        String sql = "select booking.id, tour_id, book_time, start_date, tourists_quantity, booking.status, "
+                + "note, name, reason, payment, bank, code, qr, full_name, phone, email "
                 + "from booking join tours "
                 + "on tour_id=tours.id "
                 + "join payment on payment.id=tours.payment_id "
+                + "join users on users.id=tours.agent_id "
                 + "where tourist_id=? "
                 + "order by book_time desc "
                 + "offset ? rows fetch next ? rows only";
@@ -112,6 +114,9 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
         String bank;
         String code;
         String qr;
+        String agentName;
+        String agentPhone;
+        String agentEmail;
         Booking booking = null;
         Connection conn = null;
         PreparedStatement ps = null;
@@ -138,8 +143,11 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
                 bank = rs.getString("bank");
                 code = rs.getString("code");
                 qr = rs.getString("qr");
+                agentName = rs.getString("full_name");
+                agentPhone = rs.getString("phone");
+                agentEmail = rs.getString("email");
                 booking = new Booking(id, touristId, tourId, bookTime, startDate,
-                        touristsQuantity, status, note, tourName, reason, payment, bank, code, qr);
+                        touristsQuantity, status, note, tourName, reason, payment, bank, code, qr, agentName, agentPhone, agentEmail);
                 list.add(booking);
             }
         } catch (Exception e) {
