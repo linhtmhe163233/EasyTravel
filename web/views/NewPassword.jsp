@@ -9,14 +9,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title> Easy Travel | New Password </title>
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jquery-3.7.0.js"></script>
     </head>
     <body>
         <c:import url="./Layout/Header.jsp"></c:import>
-            <form class="w-25 mx-auto" action="newpassword" method="post">
+            <form class="w-25 mx-auto mt-5" action="newpassword" method="post">
                 <div class="form-group">
                     <label for="password">New password<span class="text-danger"> *</span></label>
                     <input type="password" name="password" class="form-control" id="password"  

@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
 import entity.User;
 import java.util.List;
+import utils.Mail;
 
 /**
  *
@@ -75,6 +76,7 @@ public class ProfileController extends HttpServlet {
         String status = acc.getStatus();
         String key = acc.getKey();
         Date dob = Date.valueOf(request.getParameter("dob"));
+//        String emailss = acc.getEmail();
         int id = acc.getId();
         getServletContext().log(username + fullname + password + email + phone + role + status + key + dob + id);
         try {
@@ -86,6 +88,15 @@ public class ProfileController extends HttpServlet {
             if (!dao.isEmailUnique(email, id)) {
                 request.setAttribute("message1", "This email already exists in the list!");
             }
+//            if (!email.equals(acc.getEmail())) {
+//
+//                dao.update(user);
+//                Mail mail = new Mail();
+//
+//                String contextPath = "http://localhost:9999/EasyTravel/"; //request.getContextPath()
+//                mail.sentEmail(email, "Easy Travel verification mail", contextPath + "profile?key=" + key, "link");
+//                request.setAttribute("message1", "Check email");
+//            }
             if (dao.isEmailUnique(email, id) && dao.isPhoneUnique(phone, id)) {
                 dao.update(user);
                 session.removeAttribute("user");

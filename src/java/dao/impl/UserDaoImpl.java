@@ -9,7 +9,6 @@
  */
 package dao.impl;
 
-import dao.BasicDAO;
 import dao.UserDAO;
 import java.sql.Connection;
 import java.sql.Date;
@@ -20,7 +19,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import entity.Hotel;
 import entity.User;
 import utils.Pagination;
 
@@ -34,6 +32,7 @@ public class UserDaoImpl extends DBContext implements UserDAO {
 
     }
 
+    @Override
     public User checkLogin(String username, String password) throws Exception {
         Connection conn = super.getConnection();
         String login = "SELECT * FROM users WHERE account_name=? AND password=?";
@@ -407,6 +406,7 @@ public class UserDaoImpl extends DBContext implements UserDAO {
 //            closeConnection(conn);
 //        }
 //    }
+    @Override
     public int getTotalItems(String search) throws Exception {
         String query = "select count(*) from users where account_name like ? or phone like ? or email like ?";
 

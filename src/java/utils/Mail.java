@@ -50,7 +50,7 @@ public class Mail {
                 message.setContent("<a href='" + content + "'>Click this to verify your mail</a>",
                         "text/html");
             } else if(type.equals("code")) {
-                message.setContent("<p>"+ content.substring(0,6) +"</p>", "text/html");
+                message.setContent("<p> Enter the following code to change your password: </P>"+"<p>"+ content.substring(0,6) +"</p>", "text/html");
             }
 
             Transport.send(message);
