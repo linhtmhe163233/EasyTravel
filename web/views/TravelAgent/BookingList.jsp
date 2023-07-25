@@ -24,6 +24,9 @@
     </head>
     <body>
         <c:import url="../Layout/Header.jsp"></c:import>
+        <c:if test="${requestScope.toast!=null}">
+            <c:import url="../Layout/Toast.jsp"></c:import>
+        </c:if>
             <div id="accordion" class="w-75 mx-auto mt-4" style="min-width: 50rem;">
                 <div class="row card-header font-weight-bold">
                     <div class="col-1">
@@ -146,6 +149,8 @@
                                                           class="needs-validation">
                                                         <input type="hidden" name="id" value="${booking.id}">
                                                         <input type="hidden" name="index" value="${page.index}">
+                                                        <input type="hidden" name="startDate" value="${booking.startDate}">
+                                                        <input type="hidden" name="tourLength" value="${booking.tourLength}">
                                                         <div class="modal-body mx-3">
                                                             <div class="md-form mb-2">
                                                                 <label data-error="wrong" data-success="right" for="vehicle">
@@ -341,6 +346,7 @@
                     });
                 }, false);
             })();
+            $('.toast').toast('show');
             $('.click').click((e) => {
                 let id = e.currentTarget.id.substr(7);
                 $('#collapse' + id).collapse('toggle');

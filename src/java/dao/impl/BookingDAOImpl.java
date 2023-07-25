@@ -255,7 +255,7 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
         String query = "select count(*) from booking join tours on booking.tour_id=tours.id "
                 + "where tourist_id=? and status in ('Unpaid', 'Paid', 'Ready') and "
                 + "((start_date>=? and start_date<=?) or"
-                + "(dateadd(day, trip_length, start_date)>=? and dateadd(day, trip_length, start_date)<=?))";
+                + "(dateadd(day, trip_length, start_date)>? and dateadd(day, trip_length, start_date)<?))";
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -331,7 +331,7 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
             while (rs.next()) {
                 vehicleInfo += rs.getString("vType") + " - " + rs.getString("driver_phone") + " - " + rs.getInt("max_passengers") + " seats";
                 staffInfo += rs.getString("sName") + " - " + rs.getString("sPhone");
-                hotelInfo += rs.getString("hName") + " - " + rs.getString("hPhone") + " - " + rs.getInt("stars");
+                hotelInfo += rs.getString("hName") + " - " + rs.getString("hPhone") + " - " + rs.getInt("stars") + " star(s)";
                 restaurantInfo += rs.getString("rType") + " - " + rs.getString("rPhone");
                 return new Facility(bookingId, vehicleInfo, staffInfo, hotelInfo, restaurantInfo);
             }
@@ -366,4 +366,67 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
             closeConnection(conn);
         }
     }
+
+    @Override
+    public boolean checkVehicle(int vehicleId, Date startDate, int tourLength) throws Exception {
+        String query = "select count(*) from bookingDetails join booking on bookingDetails.booking_id=booking.id "
+                + "join tours on tours.id=booking.tour_id "
+                + "where vehicle_id=? and ((start_date<=? and DATEADD(day, trip_length, start_date)>?) or "
+                + "((start_date<=? and DATEADD(day, trip_length, start_date)>?))) "
+                + "and status=?";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, vehicleId);
+            ps.setDate(2, startDate);
+            ps.setDate(3, startDate);
+            ps.setDate(4, new Date(startDate.getTime() + tourLength * 24 * 60 * 60 * 1000));
+            ps.setDate(5, new Date(startDate.getTime() + tourLength * 24 * 60 * 60 * 1000));
+            ps.setString(6, "Ready");
+            rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt(1) == 0;
+        } catch (Exception e) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
+    }
+
+    @Override
+    public boolean checkStaff(int staffId, Date startDate, int tourLength) throws Exception {
+        String query = "select count(*) from bookingDetails join booking on bookingDetails.booking_id=booking.id "
+                + "join tours on tours.id=booking.tour_id "
+                + "where staff_id=? and ((start_date<=? and DATEADD(day, trip_length, start_date)>?) or "
+                + "((start_date<=? and DATEADD(day, trip_length, start_date)>?))) "
+                + "and status=?";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, staffId);
+            ps.setDate(2, startDate);
+            ps.setDate(3, startDate);
+            ps.setDate(4, new Date(startDate.getTime() + tourLength * 24 * 60 * 60 * 1000));
+            ps.setDate(5, new Date(startDate.getTime() + tourLength * 24 * 60 * 60 * 1000));
+            ps.setString(6, "Ready");
+            rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt(1) == 0;
+        } catch (Exception e) {
+            throw new Exception("Unable to get data from database");
+        } finally {
+            closeRs(rs);
+            closePs(ps);
+            closeConnection(conn);
+        }
+    }
+
 }

@@ -86,6 +86,11 @@ public class BookingListController extends HttpServlet {
             List<Staff> staff = sDao.getAllByAgent(agentId);
             Pagination page = new Pagination(totalItems, 10, index);
             List<Booking> list = dao.getBookingList(agentId, page);
+            String toast=(String)session.getAttribute("toast");
+            if(toast!=null){
+                request.setAttribute("toast", toast);
+                session.removeAttribute("toast");
+            }
             request.setAttribute("list", list);
             request.setAttribute("vehicles", vehicles);
             request.setAttribute("hotels", hotels);

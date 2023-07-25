@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.sql.Date;
 
 /**
  *
@@ -56,42 +57,59 @@ public class HandleBookingController extends HttpServlet {
             String index = request.getParameter("index");
             request.getSession().setAttribute("index", index);
             BookingDAO dao = new BookingDAOImpl();
-            if (request.getParameter("decline") != null) {
-                String reason = request.getParameter("reason").trim();
-                dao.update(new Booking(id, "Declined", reason));
-                response.sendRedirect("bookinglist");
-            }
             if (request.getParameter("cancel") != null) {
                 String reason = request.getParameter("reason").trim();
                 dao.update(new Booking(id, "Canceled", reason));
                 request.getRequestDispatcher("history").forward(request, response);
+                return;
+            }
+            if (request.getParameter("facility") != null) {
+                Facility f = dao.getFacilities(id);
+                response.setContentType("text/plain");
+                try ( PrintWriter out = response.getWriter()) {
+                    out.print("<b>Vehicle: </b>" + f.getVehicleInfo());
+                    out.print("<br>");
+                    out.print("<b>Tour guide: </b>" + f.getStaffInfo());
+                    out.print("<br>");
+                    out.print("<b>Hotel: </b>" + f.getHotelInfo());
+                    out.print("<br>");
+                    out.print("<b>Restaurant: </b>" + f.getRestaurantInfo());
+                }
+                return;
+            }
+            if (request.getParameter("decline") != null) {
+                String reason = request.getParameter("reason").trim();
+                dao.update(new Booking(id, "Declined", reason));
             }
             if (request.getParameter("paid") != null) {
                 dao.update(new Booking(id, "Paid", null));
-                response.sendRedirect("bookinglist");
             }
             if (request.getParameter("process") != null) {
                 int vehicleId = Integer.parseInt(request.getParameter("vehicle"));
                 int staffId = Integer.parseInt(request.getParameter("staff"));
                 int hotelId = Integer.parseInt(request.getParameter("hotel"));
                 int restaurantId = Integer.parseInt(request.getParameter("restaurant"));
-                dao.addFacilities(new Facility(id, vehicleId, staffId, hotelId, restaurantId));
-                dao.update(new Booking(id, "Ready", null));
-                response.sendRedirect("bookinglist");
-            }
-            if (request.getParameter("facility") != null) {
-                Facility f = dao.getFacilities(id);
-                response.setContentType("text/plain");
-                try (PrintWriter out = response.getWriter()) {
-                    out.print("<b>Vehicle: </b>"+f.getVehicleInfo());
-                    out.print("<br>");
-                    out.print("<b>Tour guide: </b>"+f.getStaffInfo());
-                    out.print("<br>");
-                    out.print("<b>Hotel: </b>"+f.getHotelInfo());
-                    out.print("<br>");
-                    out.print("<b>Restaurant: </b>"+f.getRestaurantInfo());
+                Date startDate = Date.valueOf(request.getParameter("startDate"));
+                int tourLength = Integer.parseInt(request.getParameter("tourLength"));
+                boolean check = true;
+                String toast="";
+                if (!dao.checkVehicle(vehicleId, startDate, tourLength)) {
+                    toast+="This vehicle is busy on that period!";
+                    check = false;
+                }
+                if (!dao.checkStaff(staffId, startDate, tourLength)) {
+                    toast+="<br>This staff is busy on that period!";
+                    check = false;
+                }
+                if(!toast.isEmpty()){
+                    request.getSession().setAttribute("toast", toast);
+                }
+                if (check) {
+                    dao.addFacilities(new Facility(id, vehicleId, staffId, hotelId, restaurantId));
+                    dao.update(new Booking(id, "Ready", null));
                 }
             }
+            response.sendRedirect("bookinglist");
         } catch (Exception e) {
             request.setAttribute("error", e.getMessage());
             request.getRequestDispatcher("views/Error.jsp").forward(request, response);

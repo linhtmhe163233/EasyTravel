@@ -5,7 +5,7 @@
 --%>
 
 <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-delay="10000"
-     style="position: absolute; top: 3rem; right: 0;">
+     style="position: absolute; top: 3rem; right: 0; z-index: 100;">
     <div class="toast-header">
         <strong class="mr-auto text-danger">Warning</strong>
         <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">

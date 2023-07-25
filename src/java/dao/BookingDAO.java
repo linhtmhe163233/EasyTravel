@@ -29,8 +29,12 @@ public interface BookingDAO extends BasicDAO<Booking> {
     boolean checkSchedule(int touristId, Date from, Date to) throws Exception;
 
     public void addFacilities(Facility facility) throws Exception;
-    
+
     public Facility getFacilities(int bookingId) throws Exception;
-    
+
     public void finishTours() throws Exception;
+
+    public boolean checkVehicle(int vehicleId, Date startDate, int tourLength) throws Exception;
+
+    public boolean checkStaff(int staffId, Date startDate, int tourLength) throws Exception;
 }
