@@ -16,7 +16,7 @@
     </head>
     <body>
         <c:import url="./Layout/Header.jsp"></c:import>
-            <form class="w-25 mx-auto" action="changepassword" method="post">
+            <form class="w-25 mx-auto mt-5" action="changepassword" method="post">
                 <div class="form-group">
                     <label for="crpassword">Current password<span class="text-danger"> *</span></label>
                     <input type="password" name="crpassword" class="form-control" id="crpassword"  

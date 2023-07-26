@@ -37,7 +37,7 @@ public class ChangepasswordController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-      
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -83,7 +83,6 @@ public class ChangepasswordController extends HttpServlet {
         String oldpassword = acc.getPassword();
         String cfpassword = request.getParameter("cfpassword").trim();
 
-        
         String password = request.getParameter("password").trim();
 
         int id = acc.getId();
@@ -98,16 +97,15 @@ public class ChangepasswordController extends HttpServlet {
 
                 if (cfpassword.equals(password)) {
 
-           
-            try {
-                UserDAO dao = new UserDaoImpl();
+                    try {
+                        UserDAO dao = new UserDaoImpl();
 
-                acc.setPassword(password);
-                dao.update(acc);
-                session.removeAttribute("user");
-                session.setAttribute("user", acc);
-            } catch (Exception ex) {
-            }
+                        acc.setPassword(password);
+                        dao.update(acc);
+                        session.removeAttribute("user");
+                        session.setAttribute("user", acc);
+                    } catch (Exception ex) {
+                    }
                 } else {
                     mess3 = "Confirm the password and the new password is not the same";
                     request.setAttribute("mess3", mess3);
