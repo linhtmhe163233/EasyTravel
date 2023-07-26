@@ -46,6 +46,20 @@ public class ProfileController extends HttpServlet {
             if (!list.isEmpty()) {
                 request.setAttribute("list", list);
             }
+            String key = request.getParameter("key");
+            if (key != null) {
+                HttpSession session = request.getSession();
+                User user = (User) session.getAttribute("user");
+                if (key.equals(user.getKey())) {
+                    user.setKey(String.valueOf(System.currentTimeMillis()) + Math.random() % 1000 + System.currentTimeMillis());
+                    String mail = (String) session.getAttribute("newMail");
+                    session.removeAttribute("newMail");
+                    user.setEmail(mail);
+                    UserDAO uDao = new UserDaoImpl();
+                    uDao.update(user);
+                    session.setAttribute("user", user);
+                }
+            }
         } catch (Exception ex) {
             request.setAttribute("error", ex.getMessage());
             request.getRequestDispatcher("views/Error.jsp").forward(request, response);
@@ -70,37 +84,35 @@ public class ProfileController extends HttpServlet {
         String username = acc.getUsername();
         String fullname = request.getParameter("fullname").trim();
         String password = acc.getPassword();
-        String email = request.getParameter("email").trim();
+        String email = acc.getEmail();
+        String newEmail = request.getParameter("email").trim();
         String phone = request.getParameter("phone").trim();
         String role = acc.getRole();
         String status = acc.getStatus();
         String key = acc.getKey();
         Date dob = Date.valueOf(request.getParameter("dob"));
-//        String emailss = acc.getEmail();
+
         int id = acc.getId();
-        getServletContext().log(username + fullname + password + email + phone + role + status + key + dob + id);
         try {
             UserDAO dao = new UserDaoImpl();
             User user = new User(id, username, password, fullname, dob, email, phone, role, status, key);
             if (!dao.isPhoneUnique(phone, id)) {
                 request.setAttribute("message", "Duplicate phone number");
             }
-            if (!dao.isEmailUnique(email, id)) {
+            if (!dao.isEmailUnique(newEmail, id)) {
                 request.setAttribute("message1", "This email already exists in the list!");
             }
-//            if (!email.equals(acc.getEmail())) {
-//
-//                dao.update(user);
-//                Mail mail = new Mail();
-//
-//                String contextPath = "http://localhost:9999/EasyTravel/"; //request.getContextPath()
-//                mail.sentEmail(email, "Easy Travel verification mail", contextPath + "profile?key=" + key, "link");
-//                request.setAttribute("message1", "Check email");
-//            }
             if (dao.isEmailUnique(email, id) && dao.isPhoneUnique(phone, id)) {
                 dao.update(user);
                 session.removeAttribute("user");
                 session.setAttribute("user", user);
+            }
+            if (!email.equals(newEmail)) {
+                Mail mail = new Mail();
+                String contextPath = "http://localhost:9999/EasyTravel/"; //request.getContextPath()
+                mail.sentEmail(newEmail, "Easy Travel verification mail", contextPath + "profile?key=" + key, "link");
+                request.setAttribute("toast", "Stay sign in and check your new mail to verify");
+                session.setAttribute("newMail", newEmail);
             }
         } catch (Exception ex) {
             request.setAttribute("error", ex.getMessage());

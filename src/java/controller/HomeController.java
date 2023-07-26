@@ -60,7 +60,6 @@ public class HomeController extends HttpServlet {
                 UserDAO dao = new UserDaoImpl();
                 List<User> list = dao.search(key);
                 if (list.isEmpty() || !list.get(0).getStatus().equals("Inactive")) {
-                    request.getRequestDispatcher("views/LandingPage.jsp").forward(request, response);
                 } else {
                     User user = list.get(0);
                     user.setStatus("Active");

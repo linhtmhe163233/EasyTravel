@@ -61,9 +61,9 @@ public class Mail {
     }
 
     public static void main(String[] args) {
-        String toEmail = "linhtmhe163233@fpt.edu.vn";
-        String subject = "Easy Travel verification mail";
-        String link = "http://localhost:9999/EasyTravel/home";
+        String toEmail = "ductmhe173033@fpt.edu.vn";
+        String subject = "test";
+        String link = "http://localhost:9999/EasyTravel/profile";
         new Mail().sentEmail(toEmail, subject, link, "link");
     }
 

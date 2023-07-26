@@ -18,18 +18,21 @@
     </head>
     <body style="min-width: 1100px;">
         <c:import url="./Layout/Header.jsp"></c:import>
-            <h1 class="text-center">My profile</h1>
-            <form action ="profile" method="post">
-                <div class="mx-auto w-50">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="row gutters">
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="fullname">Full Name</label>
-                                        <input type="text" class="form-control"name="fullname" id="fullname" placeholder="Enter full name" value="${user.fullname}"
+        <c:if test="${requestScope.toast!=null}">
+            <c:import url="./Layout/Toast.jsp"></c:import>
+        </c:if>
+        <h1 class="text-center">My profile</h1>
+        <form action ="profile" method="post">
+            <div class="mx-auto w-50">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="fullname">Full Name</label>
+                                    <input type="text" class="form-control"name="fullname" id="fullname" placeholder="Enter full name" value="${user.fullname}"
                                            required pattern="^\s*\p{L}+(\s\p{L}+)*\s*$"
                                            maxlength="80">
                                 </div>
@@ -191,4 +194,7 @@
         <c:import url="./Layout/Footer.jsp"></c:import>
     </body>
     <script src="js/Profile.js" type="text/javascript"></script>
+    <script>
+        $('.toast').toast('show');
+    </script>
 </html>

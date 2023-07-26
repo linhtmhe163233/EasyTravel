@@ -14,7 +14,7 @@
         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     </head>
     <body>
-        <c:import url="./Layout/Footer.jsp"></c:import>
+        <c:import url="./Layout/Header.jsp"></c:import>
         <h1 class="text-center">${error}</h1>
         <div class="d-flex flex-row justify-content-center align-items-center">
             <a href="home" class="btn btn-secondary mr-4">Home</a>

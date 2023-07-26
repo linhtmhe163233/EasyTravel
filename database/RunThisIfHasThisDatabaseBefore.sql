@@ -231,11 +231,11 @@ constraint payment_to_user foreign key(agent_id) references users(id)
 alter table tours
 add payment_id int not null
 
-insert into users(account_name, full_name, password, DOB, email, phone, role, status)
+insert into users(account_name, full_name, password, DOB, email, phone, role, status, [key])
 values 
-('tourist_demo', 'Nguyen Van C', '123456', '2003-01-01', 'ANV123@gmail.com', '0123456780', 'Tourist', 'Active'),
-('agent_demo', 'Nguyen Van B', '123456', '2003-01-01', 'ANV345@gmail.com', '0123456781', 'Travel Agent', 'Active'),
-('admin_demo', 'Nguyen Van A', '123456', '2003-01-01', 'ANV234@gmail.com', '0123456789', 'Admin', 'Active')
+('tourist_demo', 'Nguyen Van C', '123456', '2003-01-01', 'ANV123@gmail.com', '0123456780', 'Tourist', 'Active', '1111111111111111'),
+('agent_demo', 'Nguyen Van B', '123456', '2003-01-01', 'ANV345@gmail.com', '0123456781', 'Travel Agent', 'Active', '2222222222222222'),
+('admin_demo', 'Nguyen Van A', '123456', '2003-01-01', 'ANV234@gmail.com', '0123456789', 'Admin', 'Active', '3333333333333333')
 
 insert into staff(name, DOB, phone, gender, agent_id)
 values 
