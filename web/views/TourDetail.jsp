@@ -189,7 +189,7 @@
             <div class="ml-4 mt-2"><b>Type:</b> ${tour.type}</div>
             <div class="ml-4 mt-2">
                 <b>Price: </b><fmt:formatNumber type="number" maxFractionDigits = "3" 
-                                  value="${tour.price}"></fmt:formatNumber> VND / ${tour.tripLength} days
+                                  value="${tour.price}"></fmt:formatNumber> VND / <b>${tour.tripLength} days</b>
                 </div>
                 <div class="ml-4 mt-2"><b>Available: </b>
                     from ${tour.availableFrom} to ${tour.availableTo}

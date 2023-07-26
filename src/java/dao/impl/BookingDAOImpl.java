@@ -262,8 +262,8 @@ public class BookingDAOImpl extends DBContext implements BookingDAO {
     public boolean checkSchedule(int touristId, Date from, Date to) throws Exception {
         String query = "select count(*) from booking join tours on booking.tour_id=tours.id "
                 + "where tourist_id=? and status in ('Unpaid', 'Paid', 'Ready') and "
-                + "((start_date>=? and start_date<=?) or"
-                + "(dateadd(day, trip_length, start_date)>? and dateadd(day, trip_length, start_date)<?))";
+                + "((start_date>=? and start_date<=?) or "
+                + "(dateadd(day, trip_length-1, start_date)>=? and dateadd(day, trip_length-1, start_date)<=?))";
 
         Connection conn = null;
         PreparedStatement ps = null;
