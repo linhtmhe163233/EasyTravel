@@ -104,6 +104,8 @@ public class ChangepasswordController extends HttpServlet {
                         dao.update(acc);
                         session.removeAttribute("user");
                         session.setAttribute("user", acc);
+                        response.sendRedirect("profile");
+                        return;
                     } catch (Exception ex) {
                     }
                 } else {
